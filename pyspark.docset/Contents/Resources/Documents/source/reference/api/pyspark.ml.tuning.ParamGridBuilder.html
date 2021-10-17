@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>ParamGridBuilder — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="paramgridbuilder">
+<h1>ParamGridBuilder<a class="headerlink" href="#paramgridbuilder" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.tuning.ParamGridBuilder"><a name="//apple_ref/cpp/Class/pyspark.ml.tuning.ParamGridBuilder"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.tuning.</code><code class="sig-name descname">ParamGridBuilder</code><a class="reference internal" href="../../../_modules/pyspark/ml/tuning.html#ParamGridBuilder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.tuning.ParamGridBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builder for a param grid used in grid search-based model selection.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.classification</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">ParamGridBuilder</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">baseOn</span><span class="p">({</span><span class="n">lr</span><span class="o">.</span><span class="n">labelCol</span><span class="p">:</span> <span class="s1">'l'</span><span class="p">})</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">baseOn</span><span class="p">([</span><span class="n">lr</span><span class="o">.</span><span class="n">predictionCol</span><span class="p">,</span> <span class="s1">'p'</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">addGrid</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">regParam</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">addGrid</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">maxIter</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">expected</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="n">lr</span><span class="o">.</span><span class="n">regParam</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">maxIter</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">labelCol</span><span class="p">:</span> <span class="s1">'l'</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">predictionCol</span><span class="p">:</span> <span class="s1">'p'</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="n">lr</span><span class="o">.</span><span class="n">regParam</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">maxIter</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">labelCol</span><span class="p">:</span> <span class="s1">'l'</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">predictionCol</span><span class="p">:</span> <span class="s1">'p'</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="n">lr</span><span class="o">.</span><span class="n">regParam</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">maxIter</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">labelCol</span><span class="p">:</span> <span class="s1">'l'</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">predictionCol</span><span class="p">:</span> <span class="s1">'p'</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="n">lr</span><span class="o">.</span><span class="n">regParam</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">maxIter</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">labelCol</span><span class="p">:</span> <span class="s1">'l'</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">predictionCol</span><span class="p">:</span> <span class="s1">'p'</span><span class="p">}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">all</span><span class="p">([</span><span class="n">m</span> <span class="ow">in</span> <span class="n">expected</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">output</span><span class="p">])</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.tuning.ParamGridBuilder.addGrid"><a name="//apple_ref/cpp/Method/pyspark.ml.tuning.ParamGridBuilder.addGrid"></a>
+<code class="sig-name descname">addGrid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em>, <em class="sig-param"><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/tuning.html#ParamGridBuilder.addGrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.tuning.ParamGridBuilder.addGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the given parameters in this grid to fixed values.</p>
+<p>param must be an instance of Param associated with an instance of Params
+(such as Estimator or Transformer).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.tuning.ParamGridBuilder.baseOn"><a name="//apple_ref/cpp/Method/pyspark.ml.tuning.ParamGridBuilder.baseOn"></a>
+<code class="sig-name descname">baseOn</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/tuning.html#ParamGridBuilder.baseOn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.tuning.ParamGridBuilder.baseOn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the given parameters in this grid to fixed values.
+Accepts either a parameter dictionary or a list of (parameter, value) pairs.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.tuning.ParamGridBuilder.build"><a name="//apple_ref/cpp/Method/pyspark.ml.tuning.ParamGridBuilder.build"></a>
+<code class="sig-name descname">build</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/tuning.html#ParamGridBuilder.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.tuning.ParamGridBuilder.build" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds and returns all combinations of parameters specified
+by the param grid.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

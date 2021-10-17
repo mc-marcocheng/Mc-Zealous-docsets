@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>MinMaxScaler — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="minmaxscaler">
+<h1>MinMaxScaler<a class="headerlink" href="#minmaxscaler" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.feature.MinMaxScaler"><a name="//apple_ref/cpp/Class/pyspark.ml.feature.MinMaxScaler"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.feature.</code><code class="sig-name descname">MinMaxScaler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">max</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">inputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outputCol</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#MinMaxScaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rescale each feature individually to a common range [min, max] linearly using column summary
+statistics, which is also known as min-max normalization or Rescaling. The rescaled value for
+feature E is calculated as,</p>
+<p>Rescaled(e_i) = (e_i - E_min) / (E_max - E_min) * (max - min) + min</p>
+<p>For the case E_max == E_min, Rescaled(e_i) = 0.5 * (max + min)</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since zero values will probably be transformed to non-zero values, output of the
+transformer will be DenseVector even for sparse input.</p>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">0.0</span><span class="p">]),),</span> <span class="p">(</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">2.0</span><span class="p">]),)],</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mmScaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="s2">"scaled"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mmScaler</span><span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">"a"</span><span class="p">)</span>
+<span class="go">MinMaxScaler...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">mmScaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">"scaledOutput"</span><span class="p">)</span>
+<span class="go">MinMaxScalerModel...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">originalMin</span>
+<span class="go">DenseVector([0.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">originalMax</span>
+<span class="go">DenseVector([2.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">+-----+------------+</span>
+<span class="go">|    a|scaledOutput|</span>
+<span class="go">+-----+------------+</span>
+<span class="go">|[0.0]|       [0.0]|</span>
+<span class="go">|[2.0]|       [1.0]|</span>
+<span class="go">+-----+------------+</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">minMaxScalerPath</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/min-max-scaler"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mmScaler</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">minMaxScalerPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedMMScaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">minMaxScalerPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedMMScaler</span><span class="o">.</span><span class="n">getMin</span><span class="p">()</span> <span class="o">==</span> <span class="n">mmScaler</span><span class="o">.</span><span class="n">getMin</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedMMScaler</span><span class="o">.</span><span class="n">getMax</span><span class="p">()</span> <span class="o">==</span> <span class="n">mmScaler</span><span class="o">.</span><span class="n">getMax</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">modelPath</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/min-max-scaler-model"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">modelPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedModel</span> <span class="o">=</span> <span class="n">MinMaxScalerModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">modelPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedModel</span><span class="o">.</span><span class="n">originalMin</span> <span class="o">==</span> <span class="n">model</span><span class="o">.</span><span class="n">originalMin</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedModel</span><span class="o">.</span><span class="n">originalMax</span> <span class="o">==</span> <span class="n">model</span><span class="o">.</span><span class="n">originalMax</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.clear"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.clear"></a>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears a param from the param map if it has been explicitly set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.copy"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.copy"></a>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a copy of this instance with the same uid and some
+extra params. This implementation first calls Params.copy and
+then make a copy of the companion Java pipeline component with
+extra params. So both the Python wrapper and the Java pipeline
+component get copied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Copy of this instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.explainParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.explainParam"></a>
+<code class="sig-name descname">explainParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.explainParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explains a single param and returns its name, doc, and optional
+default value and user-supplied value in a string.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.explainParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.explainParams"></a>
+<code class="sig-name descname">explainParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.explainParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the documentation of all params with their optionally
+default values and user-supplied values.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.extractParamMap"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.extractParamMap"></a>
+<code class="sig-name descname">extractParamMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the embedded default param values and user-supplied
+values, and then merges them with extra values from input into
+a flat param map, where the latter value is used if there exist
+conflicts, i.e., with ordering: default param values &lt;
+user-supplied values &lt; extra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>merged param map</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.fit"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.fit"></a>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the input dataset with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded params. If a list/tuple of
+param maps is given, this calls fit on each param map and returns a list of
+models.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fitted model(s)</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.fitMultiple"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.fitMultiple"></a>
+<code class="sig-name descname">fitMultiple</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">paramMaps</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.fitMultiple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a>.</p></li>
+<li><p><strong>paramMaps</strong> – A Sequence of param maps.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A thread safe iterable which contains one model for each param map. Each
+call to <cite>next(modelIterator)</cite> will return <cite>(index, model)</cite> where model was fit
+using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequential.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.getInputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.getInputCol"></a>
+<code class="sig-name descname">getInputCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.getInputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of inputCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.getMax"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.getMax"></a>
+<code class="sig-name descname">getMax</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.getMax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of max or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.getMin"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.getMin"></a>
+<code class="sig-name descname">getMin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.getMin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of min or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.getOrDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.getOrDefault"></a>
+<code class="sig-name descname">getOrDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a param in the user-supplied param map or its
+default value. Raises an error if neither is set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.getOutputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.getOutputCol"></a>
+<code class="sig-name descname">getOutputCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.getOutputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of outputCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.getParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.getParam"></a>
+<code class="sig-name descname">getParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.getParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a param by its name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.hasDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.hasDefault"></a>
+<code class="sig-name descname">hasDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.hasDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param has a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.hasParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.hasParam"></a>
+<code class="sig-name descname">hasParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.hasParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether this instance contains a param with a given
+(string) name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.isDefined"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.isDefined"></a>
+<code class="sig-name descname">isDefined</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.isDefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user or has
+a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.isSet"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.isSet"></a>
+<code class="sig-name descname">isSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.isSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.load"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.load"></a>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.read"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.read"></a>
+<em class="property">classmethod </em><code class="sig-name descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLReader instance for this class.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.save"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.save"></a>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.set"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.set"></a>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.setInputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.setInputCol"></a>
+<code class="sig-name descname">setInputCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#MinMaxScaler.setInputCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.setInputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.MinMaxScaler.inputCol" title="pyspark.ml.feature.MinMaxScaler.inputCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inputCol</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.setMax"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.setMax"></a>
+<code class="sig-name descname">setMax</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#MinMaxScaler.setMax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.setMax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.MinMaxScaler.max" title="pyspark.ml.feature.MinMaxScaler.max"><code class="xref py py-attr docutils literal notranslate"><span class="pre">max</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.setMin"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.setMin"></a>
+<code class="sig-name descname">setMin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#MinMaxScaler.setMin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.setMin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.MinMaxScaler.min" title="pyspark.ml.feature.MinMaxScaler.min"><code class="xref py py-attr docutils literal notranslate"><span class="pre">min</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.setOutputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.setOutputCol"></a>
+<code class="sig-name descname">setOutputCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#MinMaxScaler.setOutputCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.setOutputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.MinMaxScaler.outputCol" title="pyspark.ml.feature.MinMaxScaler.outputCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">outputCol</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.setParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.setParams"></a>
+<code class="sig-name descname">setParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">min</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">max</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">inputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outputCol</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#MinMaxScaler.setParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets params for this MinMaxScaler.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.MinMaxScaler.write"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.MinMaxScaler.write"></a>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLWriter instance for this ML instance.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.MinMaxScaler.inputCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.MinMaxScaler.inputCol"></a>
+<code class="sig-name descname">inputCol</code><em class="property"> = Param(parent='undefined', name='inputCol', doc='input column name.')</em><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.inputCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.MinMaxScaler.max"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.MinMaxScaler.max"></a>
+<code class="sig-name descname">max</code><em class="property"> = Param(parent='undefined', name='max', doc='Upper bound of the output feature range')</em><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.max" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.MinMaxScaler.min"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.MinMaxScaler.min"></a>
+<code class="sig-name descname">min</code><em class="property"> = Param(parent='undefined', name='min', doc='Lower bound of the output feature range')</em><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.min" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.MinMaxScaler.outputCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.MinMaxScaler.outputCol"></a>
+<code class="sig-name descname">outputCol</code><em class="property"> = Param(parent='undefined', name='outputCol', doc='output column name.')</em><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.outputCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.MinMaxScaler.params"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.MinMaxScaler.params"></a>
+<code class="sig-name descname">params</code><a class="headerlink" href="#pyspark.ml.feature.MinMaxScaler.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all params ordered by name. The default implementation
+uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Summarizer — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="summarizer">
+<h1>Summarizer<a class="headerlink" href="#summarizer" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.stat.Summarizer"><a name="//apple_ref/cpp/Class/pyspark.ml.stat.Summarizer"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.stat.</code><code class="sig-name descname">Summarizer</code><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#Summarizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.Summarizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tools for vectorized statistics on MLlib Vectors.
+The methods in this package provide various statistics for Vectors contained inside DataFrames.
+This class lets users pick the statistics they would like to extract for a given column.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.stat</span> <span class="kn">import</span> <span class="n">Summarizer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">Row</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summarizer</span> <span class="o">=</span> <span class="n">Summarizer</span><span class="o">.</span><span class="n">metrics</span><span class="p">(</span><span class="s2">"mean"</span><span class="p">,</span> <span class="s2">"count"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="n">Row</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)),</span>
+<span class="gp">... </span>                     <span class="n">Row</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))])</span><span class="o">.</span><span class="n">toDF</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">summarizer</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">weight</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+-----------------------------------+</span>
+<span class="go">|aggregate_metrics(features, weight)|</span>
+<span class="go">+-----------------------------------+</span>
+<span class="go">|[[1.0,1.0,1.0], 1]                 |</span>
+<span class="go">+-----------------------------------+</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">summarizer</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">features</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+--------------------------------+</span>
+<span class="go">|aggregate_metrics(features, 1.0)|</span>
+<span class="go">+--------------------------------+</span>
+<span class="go">|[[1.0,1.5,2.0], 2]              |</span>
+<span class="go">+--------------------------------+</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Summarizer</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">weight</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+--------------+</span>
+<span class="go">|mean(features)|</span>
+<span class="go">+--------------+</span>
+<span class="go">|[1.0,1.0,1.0] |</span>
+<span class="go">+--------------+</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Summarizer</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">features</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+--------------+</span>
+<span class="go">|mean(features)|</span>
+<span class="go">+--------------+</span>
+<span class="go">|[1.0,1.5,2.0] |</span>
+<span class="go">+--------------+</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.stat.Summarizer.count"><a name="//apple_ref/cpp/Method/pyspark.ml.stat.Summarizer.count"></a>
+<em class="property">static </em><code class="sig-name descname">count</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">weightCol</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#Summarizer.count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.Summarizer.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a column of count summary</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.stat.Summarizer.max"><a name="//apple_ref/cpp/Method/pyspark.ml.stat.Summarizer.max"></a>
+<em class="property">static </em><code class="sig-name descname">max</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">weightCol</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#Summarizer.max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.Summarizer.max" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a column of max summary</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.stat.Summarizer.mean"><a name="//apple_ref/cpp/Method/pyspark.ml.stat.Summarizer.mean"></a>
+<em class="property">static </em><code class="sig-name descname">mean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">weightCol</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#Summarizer.mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.Summarizer.mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a column of mean summary</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.stat.Summarizer.metrics"><a name="//apple_ref/cpp/Method/pyspark.ml.stat.Summarizer.metrics"></a>
+<em class="property">static </em><code class="sig-name descname">metrics</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">metrics</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#Summarizer.metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.Summarizer.metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of metrics, provides a builder that it turns computes metrics from a column.</p>
+<p>See the documentation of [[Summarizer]] for an example.</p>
+<dl class="simple">
+<dt>The following metrics are accepted (case sensitive):</dt><dd><ul class="simple">
+<li><p>mean: a vector that contains the coefficient-wise mean.</p></li>
+<li><p>sum: a vector that contains the coefficient-wise sum.</p></li>
+<li><p>variance: a vector tha contains the coefficient-wise variance.</p></li>
+<li><p>std: a vector tha contains the coefficient-wise standard deviation.</p></li>
+<li><p>count: the count of all vectors seen.</p></li>
+<li><p>numNonzeros: a vector with the number of non-zeros for each coefficients</p></li>
+<li><p>max: the maximum for each coefficient.</p></li>
+<li><p>min: the minimum for each coefficient.</p></li>
+<li><p>normL2: the Euclidean norm for each coefficient.</p></li>
+<li><p>normL1: the L1 norm of each coefficient (sum of the absolute values).</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>metrics</strong> – metrics that can be provided.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>an object of <a class="reference internal" href="pyspark.ml.stat.SummaryBuilder.html#pyspark.ml.stat.SummaryBuilder" title="pyspark.ml.stat.SummaryBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.stat.SummaryBuilder</span></code></a></p>
+</dd>
+</dl>
+<p>Note: Currently, the performance of this interface is about 2x~3x slower then using the RDD
+interface.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.stat.Summarizer.min"><a name="//apple_ref/cpp/Method/pyspark.ml.stat.Summarizer.min"></a>
+<em class="property">static </em><code class="sig-name descname">min</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">weightCol</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#Summarizer.min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.Summarizer.min" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a column of min summary</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.stat.Summarizer.normL1"><a name="//apple_ref/cpp/Method/pyspark.ml.stat.Summarizer.normL1"></a>
+<em class="property">static </em><code class="sig-name descname">normL1</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">weightCol</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#Summarizer.normL1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.Summarizer.normL1" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a column of normL1 summary</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.stat.Summarizer.normL2"><a name="//apple_ref/cpp/Method/pyspark.ml.stat.Summarizer.normL2"></a>
+<em class="property">static </em><code class="sig-name descname">normL2</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">weightCol</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#Summarizer.normL2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.Summarizer.normL2" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a column of normL2 summary</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.stat.Summarizer.numNonZeros"><a name="//apple_ref/cpp/Method/pyspark.ml.stat.Summarizer.numNonZeros"></a>
+<em class="property">static </em><code class="sig-name descname">numNonZeros</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">weightCol</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#Summarizer.numNonZeros"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.Summarizer.numNonZeros" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a column of numNonZero summary</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.stat.Summarizer.std"><a name="//apple_ref/cpp/Method/pyspark.ml.stat.Summarizer.std"></a>
+<em class="property">static </em><code class="sig-name descname">std</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">weightCol</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#Summarizer.std"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.Summarizer.std" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a column of std summary</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.stat.Summarizer.sum"><a name="//apple_ref/cpp/Method/pyspark.ml.stat.Summarizer.sum"></a>
+<em class="property">static </em><code class="sig-name descname">sum</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">weightCol</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#Summarizer.sum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.Summarizer.sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a column of sum summary</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.stat.Summarizer.variance"><a name="//apple_ref/cpp/Method/pyspark.ml.stat.Summarizer.variance"></a>
+<em class="property">static </em><code class="sig-name descname">variance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">weightCol</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#Summarizer.variance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.Summarizer.variance" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a column of variance summary</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

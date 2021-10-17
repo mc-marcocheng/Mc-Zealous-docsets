@@ -1,0 +1,520 @@
+<!DOCTYPE html><html dir="ltr" lang="en"><head>
+<meta content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com" name="google-signin-client-id"/>
+<meta content="profile email" name="google-signin-scope"/>
+<meta content="TensorFlow" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="#ff6f00" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link crossorigin="use-credentials" href="_pwa/tensorflow/manifest.json" rel="manifest"/>
+<link crossorigin="" href="/www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.googleapis.com" rel="preconnect"/>
+<link href="../../../../../../../main.css" rel="stylesheet"/>
+
+<noscript>
+
+</noscript>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/favicon.png" rel="shortcut icon"/>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/apple-touch-icon-180x180.png" rel="apple-touch-icon"/><link href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/keras/layers/GRU" rel="canonical"/><link href="https://www.tensorflow.org/s/opensearch.xml" rel="search" title="TensorFlow" type="application/opensearchdescription+xml"/>
+<title>tf.compat.v1.keras.layers.GRU &nbsp;|&nbsp; TensorFlow Core v2.1.0</title>
+<meta content="tf.compat.v1.keras.layers.GRU &nbsp;|&nbsp; TensorFlow Core v2.1.0" property="og:title"/>
+<meta content="https://www.tensorflow.org/api_docs/python/tf/compat/v1/keras/layers/GRU" property="og:url"/>
+<meta content="en" property="og:locale"/>
+
+</head>
+<body class="" layout="docs" pending="" theme="tensorflow-theme" type="reference">
+<devsite-progress id="app-progress" type="indeterminate"></devsite-progress>
+<section class="devsite-wrapper"> <devsite-book-nav scrollbars="">
+
+</devsite-book-nav>
+<section id="gc-wrapper">
+<main class="devsite-main-content" has-book-nav="" has-toc="" role="main">
+<devsite-toc class="devsite-nav"></devsite-toc>
+<devsite-content>
+<article class="devsite-article">
+<article class="devsite-article-inner"><style>
+        /* Styles inlined from /site-assets/css/style.css */
+/* override theme */
+table img {
+  max-width: 100%;
+}
+
+/* override var element to differentiate color from comment */
+var, var code, var span, .prettyprint var span {
+  color: #039be5;
+}
+
+/* .devsite-terminal virtualenv prompt */
+.tfo-terminal-venv::before {
+  content: "(venv) $ " !important;
+}
+
+/* .devsite-terminal root prompt */
+.tfo-terminal-root::before {
+  content: "# " !important;
+}
+
+/* .devsite-terminal Windows prompt */
+.tfo-terminal-windows::before {
+  content: "C:\\> " !important;
+}
+
+/* .devsite-terminal Windows prompt w/ virtualenv */
+.tfo-terminal-windows-venv::before {
+  content: "(venv) C:\\> " !important;
+}
+
+.tfo-diff-green-one-level + * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green + * > * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green-list + ul > li:first-of-type {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-red-one-level + * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red + * > * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red-list + ul > li:first-of-type {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+devsite-code .tfo-notebook-code-cell-output {
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(255, 247, 237, 1);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(255, 247, 237, .7);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output {
+  background: rgba(64, 78, 103, 1);  /* medium slate */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(64, 78, 103, .7);  /* medium slate */
+}
+
+/* override default table styles for notebook buttons */
+.devsite-table-wrapper .tfo-notebook-buttons {
+  display: inline-block;
+  margin-left: 3px;
+  width: auto;
+}
+
+.tfo-notebook-buttons td {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.tfo-notebook-buttons a,
+.tfo-notebook-buttons :link,
+.tfo-notebook-buttons :visited {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  color: #202124;
+  padding: 12px 24px;
+  transition: box-shadow 0.2s;
+}
+
+.tfo-notebook-buttons a:hover,
+.tfo-notebook-buttons a:focus {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.tfo-notebook-buttons tr {
+  background: 0;
+  border: 0;
+}
+
+/* on rendered notebook page,
+   remove link to webpage since we're already here */
+.tfo-notebook-buttons:not(.tfo-api) td:first-child {
+  display: none;
+}
+
+.tfo-notebook-buttons td > a {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tfo-notebook-buttons td > a > img {
+  margin-right: 8px;
+}
+
+/* landing pages */
+
+.tfo-landing-row-item-inset-white {
+  background-color: #fff;
+  padding: 32px;
+}
+
+.tfo-landing-row-item-inset-white ol,
+.tfo-landing-row-item-inset-white ul {
+  padding-left: 20px;
+}
+
+/* colab callout button */
+.colab-callout-row devsite-code {
+  border-radius: 8px 8px 0 0;
+  box-shadow: none;
+}
+
+.colab-callout-footer {
+  background: #e3e4e7;
+  border-radius: 0 0 8px 8px;
+  color: #37474f;
+  padding: 20px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer {
+  background: #3f4f66;
+}
+
+
+.colab-callout-footer > .button {
+  margin-top: 4px;
+  color: #ff5c00;
+}
+
+.colab-callout-footer > a > span {
+  padding-top: 10px;
+  vertical-align: middle;
+  color: #37474f;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer > a > span {
+  color: #fff;
+}
+
+a.colab-button {
+  background: rgba(255, 255, 255, .75);
+  border: solid 1px rgba(0, 0, 0, .08);
+  border-bottom-color: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  color: #aaa;
+  display: inline-block;
+  font-size: 11px !important;
+  font-weight: 300;
+  line-height: 16px;
+  padding: 4px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.colab-button:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, .2);
+  color: #666;
+}
+
+a.colab-button span {
+  background: url(/images/colab_logo_button.svg) no-repeat 1px 1px / 20px;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 24px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .tfo-notebook-buttons td {
+    display: block;
+  }
+}
+
+/* guide and tutorials landing page cards and sections */
+
+.tfo-landing-page-card {
+  padding: 16px;
+  box-shadow: 0 0 36px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+/* Page section headings */
+.tfo-landing-page-heading h2, h2.tfo-landing-page-heading {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+/* Item title headings */
+.tfo-landing-page-heading h3, h3.tfo-landing-page-heading,
+.tfo-landing-page-card h3, h3.tfo-landing-page-card {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* List of tutorials notebooks for subsites */
+.tfo-landing-page-resources-ul {
+  padding-left: 15px
+}
+
+.tfo-landing-page-resources-ul > li {
+  margin: 6px 0;
+}
+
+/* Temporary fix to hide product description in header on landing pages */
+devsite-header .devsite-product-description {
+  display: none;
+}
+
+        </style> <div class="devsite-banner devsite-banner-announcement">
+<div class="devsite-banner-message">
+<div class="devsite-banner-message-text">
+            Missed TensorFlow Dev Summit? Check out the video playlist. <a class="button button-primary button-tfo-announcement" href="https://goo.gle/TFDS20AllSessions">Watch recordings</a>
+</div>
+</div>
+</div>
+<div class="devsite-article-meta">
+<ul class="devsite-breadcrumb-list">
+<li class="devsite-breadcrumb-item">
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="1" href="">
+            TensorFlow
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="2" href="api">
+            API
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="3" href="api_docs">
+            TensorFlow Core v2.1.0
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="4" href="api_docs/python/tf">
+            Python
+      
+  </a>
+</li>
+</ul>
+<devsite-page-rating hover-rating-star="0" position="header" selected-rating="0">
+</devsite-page-rating>
+</div>
+<a class="dashingAutolink" name="autolink-610"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/tf.compat.v1.keras.layers.GRU"></a><h1 class="dash-class">tf.compat.v1.keras.layers.GRU</h1>
+<devsite-toc class="devsite-nav" devsite-toc-embedded="">
+</devsite-toc>
+<div class="devsite-article-body clearfix">
+<p></p>
+<!-- DO NOT EDIT! Automatically generated file. -->
+<div itemscope="" itemtype="http://developers.google.com/ReferenceObject">
+<meta content="tf.compat.v1.keras.layers.GRU" itemprop="name"/>
+<meta content="Stable" itemprop="path"/>
+<meta content="__init__" itemprop="property"/>
+<meta content="reset_states" itemprop="property"/>
+</div>
+<!-- Insert buttons and diff -->
+<table align="left" class="tfo-notebook-buttons tfo-api">
+<tbody><tr><td>
+<a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/keras/layers/recurrent.py#L1902-L2175" target="_blank">
+<img src="https://www.tensorflow.org/images/GitHub-Mark-32px.png"/>
+    View source on GitHub
+  </a>
+</td></tr></tbody></table>
+<p>Gated Recurrent Unit - Cho et al. 2014.</p>
+<p>Inherits From: <a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/RNN"><code dir="ltr" translate="no">RNN</code></a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">tf.compat.v1.keras.layers.GRU(
+    units, activation=&#39;tanh&#39;, recurrent_activation=&#39;hard_sigmoid&#39;, use_bias=True,
+    kernel_initializer=&#39;glorot_uniform&#39;, recurrent_initializer=&#39;orthogonal&#39;,
+    bias_initializer=&#39;zeros&#39;, kernel_regularizer=None, recurrent_regularizer=None,
+    bias_regularizer=None, activity_regularizer=None, kernel_constraint=None,
+    recurrent_constraint=None, bias_constraint=None, dropout=0.0,
+    recurrent_dropout=0.0, implementation=1, return_sequences=False,
+    return_state=False, go_backwards=False, stateful=False, unroll=False,
+    reset_after=False, **kwargs
+)
+</code></pre>
+<!-- Placeholder for "Used in" -->
+<p>There are two variants. The default one is based on 1406.1078v3 and
+has reset gate applied to hidden state before matrix multiplication. The
+other one is based on original 1406.1078v1 and has the order reversed.</p>
+<p>The second variant is compatible with CuDNNGRU (GPU-only) and allows
+inference on CPU. Thus it has separate biases for <code dir="ltr" translate="no">kernel</code> and
+<code dir="ltr" translate="no">recurrent_kernel</code>. Use <code dir="ltr" translate="no">&#39;reset_after&#39;=True</code> and
+<code dir="ltr" translate="no">recurrent_activation=&#39;sigmoid&#39;</code>.</p>
+<h4 id="arguments">Arguments:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">units</code></b>: Positive integer, dimensionality of the output space.</li>
+<li><b><code dir="ltr" translate="no">activation</code></b>: Activation function to use.
+Default: hyperbolic tangent (<code dir="ltr" translate="no">tanh</code>).
+If you pass <code dir="ltr" translate="no">None</code>, no activation is applied
+(ie. &#34;linear&#34; activation: <code dir="ltr" translate="no">a(x) = x</code>).</li>
+<li><b><code dir="ltr" translate="no">recurrent_activation</code></b>: Activation function to use
+for the recurrent step.
+Default: hard sigmoid (<code dir="ltr" translate="no">hard_sigmoid</code>).
+If you pass <code dir="ltr" translate="no">None</code>, no activation is applied
+(ie. &#34;linear&#34; activation: <code dir="ltr" translate="no">a(x) = x</code>).</li>
+<li><b><code dir="ltr" translate="no">use_bias</code></b>: Boolean, whether the layer uses a bias vector.</li>
+<li><b><code dir="ltr" translate="no">kernel_initializer</code></b>: Initializer for the <code dir="ltr" translate="no">kernel</code> weights matrix,
+used for the linear transformation of the inputs.</li>
+<li><b><code dir="ltr" translate="no">recurrent_initializer</code></b>: Initializer for the <code dir="ltr" translate="no">recurrent_kernel</code>
+weights matrix, used for the linear transformation of the recurrent state.</li>
+<li><b><code dir="ltr" translate="no">bias_initializer</code></b>: Initializer for the bias vector.</li>
+<li><b><code dir="ltr" translate="no">kernel_regularizer</code></b>: Regularizer function applied to
+the <code dir="ltr" translate="no">kernel</code> weights matrix.</li>
+<li><b><code dir="ltr" translate="no">recurrent_regularizer</code></b>: Regularizer function applied to
+the <code dir="ltr" translate="no">recurrent_kernel</code> weights matrix.</li>
+<li><b><code dir="ltr" translate="no">bias_regularizer</code></b>: Regularizer function applied to the bias vector.</li>
+<li><b><code dir="ltr" translate="no">activity_regularizer</code></b>: Regularizer function applied to
+the output of the layer (its &#34;activation&#34;)..</li>
+<li><b><code dir="ltr" translate="no">kernel_constraint</code></b>: Constraint function applied to
+the <code dir="ltr" translate="no">kernel</code> weights matrix.</li>
+<li><b><code dir="ltr" translate="no">recurrent_constraint</code></b>: Constraint function applied to
+the <code dir="ltr" translate="no">recurrent_kernel</code> weights matrix.</li>
+<li><b><code dir="ltr" translate="no">bias_constraint</code></b>: Constraint function applied to the bias vector.</li>
+<li><b><code dir="ltr" translate="no">dropout</code></b>: Float between 0 and 1.
+Fraction of the units to drop for
+the linear transformation of the inputs.</li>
+<li><b><code dir="ltr" translate="no">recurrent_dropout</code></b>: Float between 0 and 1.
+Fraction of the units to drop for
+the linear transformation of the recurrent state.</li>
+<li><b><code dir="ltr" translate="no">implementation</code></b>: Implementation mode, either 1 or 2.
+Mode 1 will structure its operations as a larger number of
+smaller dot products and additions, whereas mode 2 will
+batch them into fewer, larger operations. These modes will
+have different performance profiles on different hardware and
+for different applications.</li>
+<li><b><code dir="ltr" translate="no">return_sequences</code></b>: Boolean. Whether to return the last output
+in the output sequence, or the full sequence.</li>
+<li><b><code dir="ltr" translate="no">return_state</code></b>: Boolean. Whether to return the last state
+in addition to the output.</li>
+<li><b><code dir="ltr" translate="no">go_backwards</code></b>: Boolean (default False).
+If True, process the input sequence backwards and return the
+reversed sequence.</li>
+<li><b><code dir="ltr" translate="no">stateful</code></b>: Boolean (default False). If True, the last state
+for each sample at index i in a batch will be used as initial
+state for the sample of index i in the following batch.</li>
+<li><b><code dir="ltr" translate="no">unroll</code></b>: Boolean (default False).
+If True, the network will be unrolled,
+else a symbolic loop will be used.
+Unrolling can speed-up a RNN,
+although it tends to be more memory-intensive.
+Unrolling is only suitable for short sequences.</li>
+<li><b><code dir="ltr" translate="no">time_major</code></b>: The shape format of the <code dir="ltr" translate="no">inputs</code> and <code dir="ltr" translate="no">outputs</code> tensors.
+If True, the inputs and outputs will be in shape
+<code dir="ltr" translate="no">(timesteps, batch, ...)</code>, whereas in the False case, it will be
+<code dir="ltr" translate="no">(batch, timesteps, ...)</code>. Using <code dir="ltr" translate="no">time_major = True</code> is a bit more
+efficient because it avoids transposes at the beginning and end of the
+RNN calculation. However, most TensorFlow data is batch-major, so by
+default this function accepts input and emits output in batch-major
+form.</li>
+<li><b><code dir="ltr" translate="no">reset_after</code></b>: GRU convention (whether to apply reset gate after or
+before matrix multiplication). False = &#34;before&#34; (default),
+True = &#34;after&#34; (CuDNN compatible).</li>
+</ul>
+<h4 id="call_arguments">Call arguments:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">inputs</code></b>: A 3D tensor.</li>
+<li><b><code dir="ltr" translate="no">mask</code></b>: Binary tensor of shape <code dir="ltr" translate="no">(samples, timesteps)</code> indicating whether
+a given timestep should be masked.</li>
+<li><b><code dir="ltr" translate="no">training</code></b>: Python boolean indicating whether the layer should behave in
+training mode or in inference mode. This argument is passed to the cell
+when calling it. This is only relevant if <code dir="ltr" translate="no">dropout</code> or
+<code dir="ltr" translate="no">recurrent_dropout</code> is used.</li>
+<li><b><code dir="ltr" translate="no">initial_state</code></b>: List of initial state tensors to be passed to the first
+call of the cell.</li>
+</ul>
+<h4 id="attributes">Attributes:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">activation</code></b></li>
+<li><b><code dir="ltr" translate="no">bias_constraint</code></b></li>
+<li><b><code dir="ltr" translate="no">bias_initializer</code></b></li>
+<li><b><code dir="ltr" translate="no">bias_regularizer</code></b></li>
+<li><b><code dir="ltr" translate="no">dropout</code></b></li>
+<li><b><code dir="ltr" translate="no">implementation</code></b></li>
+<li><b><code dir="ltr" translate="no">kernel_constraint</code></b></li>
+<li><b><code dir="ltr" translate="no">kernel_initializer</code></b></li>
+<li><b><code dir="ltr" translate="no">kernel_regularizer</code></b></li>
+<li><b><code dir="ltr" translate="no">recurrent_activation</code></b></li>
+<li><b><code dir="ltr" translate="no">recurrent_constraint</code></b></li>
+<li><b><code dir="ltr" translate="no">recurrent_dropout</code></b></li>
+<li><b><code dir="ltr" translate="no">recurrent_initializer</code></b></li>
+<li><b><code dir="ltr" translate="no">recurrent_regularizer</code></b></li>
+<li><b><code dir="ltr" translate="no">reset_after</code></b></li>
+<li><b><code dir="ltr" translate="no">states</code></b></li>
+<li><b><code dir="ltr" translate="no">units</code></b></li>
+<li><b><code dir="ltr" translate="no">use_bias</code></b></li>
+</ul>
+<h2 id="methods">Methods</h2>
+<h3 id="reset_states"><code dir="ltr" translate="no">reset_states</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/keras/layers/recurrent.py#L863-L931" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">reset_states(
+    states=None
+)
+</code></pre>
+<p>Reset the recorded states for the stateful RNN layer.</p>
+<p>Can only be used when RNN layer is constructed with <code dir="ltr" translate="no">stateful</code> = <code dir="ltr" translate="no">True</code>.
+Args:
+  states: Numpy arrays that contains the value for the initial state, which
+    will be feed to cell at the first time step. When the value is None,
+    zero filled numpy array will be created based on the cell state size.</p>
+<h4 id="raises">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">AttributeError</code></b>: When the RNN layer is not stateful.</li>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>: When the batch size of the RNN layer is unknown.</li>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>: When the input numpy array is not compatible with the RNN
+layer state, either size wise or dtype wise.</li>
+</ul>
+</div>
+<devsite-page-rating hover-rating-star="0" position="footer" selected-rating="0">
+</devsite-page-rating>
+</article>
+</article>
+
+</devsite-content>
+</main>
+<devsite-footer-promos class="devsite-footer">
+</devsite-footer-promos>
+<devsite-footer-linkboxes class="devsite-footer">
+
+</devsite-footer-linkboxes>
+<devsite-footer-utility class="devsite-footer">
+<div class="devsite-footer-utility nocontent">
+
+</div>
+</devsite-footer-utility>
+</section></section>
+<devsite-sitemask></devsite-sitemask>
+<devsite-snackbar></devsite-snackbar> <devsite-tooltip></devsite-tooltip>
+<devsite-heading-link></devsite-heading-link>
+<devsite-analytics>
+
+
+</devsite-analytics>
+ 
+</body></html>

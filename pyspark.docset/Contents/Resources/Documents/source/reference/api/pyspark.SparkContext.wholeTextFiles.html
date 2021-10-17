@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.SparkContext.wholeTextFiles — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-sparkcontext-wholetextfiles">
+<h1>pyspark.SparkContext.wholeTextFiles<a class="headerlink" href="#pyspark-sparkcontext-wholetextfiles" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.SparkContext.wholeTextFiles"><a name="//apple_ref/cpp/Method/pyspark.SparkContext.wholeTextFiles"></a>
+<code class="sig-prename descclassname">SparkContext.</code><code class="sig-name descname">wholeTextFiles</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">minPartitions</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">use_unicode</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/context.html#SparkContext.wholeTextFiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.SparkContext.wholeTextFiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a directory of text files from HDFS, a local file system
+(available on all nodes), or any  Hadoop-supported file system
+URI. Each file is read as a single record and returned in a
+key-value pair, where the key is the path of each file, the
+value is the content of each file.
+The text files must be encoded as UTF-8.</p>
+<p>If use_unicode is False, the strings will be kept as <cite>str</cite> (encoding
+as <cite>utf-8</cite>), which is faster and smaller than unicode. (Added in
+Spark 1.2)</p>
+<p>For example, if you have the following files:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>hdfs://a-hdfs-path/part-00000
+hdfs://a-hdfs-path/part-00001
+...
+hdfs://a-hdfs-path/part-nnnnn
+</pre></div>
+</div>
+<p>Do <code class="docutils literal notranslate"><span class="pre">rdd</span> <span class="pre">=</span> <span class="pre">sparkContext.wholeTextFiles("hdfs://a-hdfs-path")</span></code>,
+then <code class="docutils literal notranslate"><span class="pre">rdd</span></code> contains:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>(a-hdfs-path/part-00000, its content)
+(a-hdfs-path/part-00001, its content)
+...
+(a-hdfs-path/part-nnnnn, its content)
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Small files are preferred, as each file will be loaded
+fully in memory.</p>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dirPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempdir</span><span class="p">,</span> <span class="s2">"files"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">dirPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirPath</span><span class="p">,</span> <span class="s2">"1.txt"</span><span class="p">),</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file1</span><span class="p">:</span>
+<span class="gp">... </span>   <span class="n">_</span> <span class="o">=</span> <span class="n">file1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"1"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirPath</span><span class="p">,</span> <span class="s2">"2.txt"</span><span class="p">),</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file2</span><span class="p">:</span>
+<span class="gp">... </span>   <span class="n">_</span> <span class="o">=</span> <span class="n">file2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">textFiles</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">wholeTextFiles</span><span class="p">(</span><span class="n">dirPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">textFiles</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+<span class="go">[('.../1.txt', '1'), ('.../2.txt', '2')]</span>
+</pre></div>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

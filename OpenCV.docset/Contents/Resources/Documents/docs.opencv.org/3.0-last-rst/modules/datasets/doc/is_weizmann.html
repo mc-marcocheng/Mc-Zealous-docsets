@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/datasets/doc/is_weizmann.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:34 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Weizmann Segmentation Evaluation Database</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="datasets. Framework for working with different datasets" href="datasets.html" />
+    <link rel="next" title="EPFL Multi-View Stereo" href="msm_epfl.html" />
+    <link rel="prev" title="The Berkeley Segmentation Dataset and Benchmark" href="is_bsds.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="msm_epfl.html" title="EPFL Multi-View Stereo"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="is_bsds.html" title="The Berkeley Segmentation Dataset and Benchmark"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="datasets.html" accesskey="U">datasets. Framework for working with different datasets</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="is_bsds.html"
+                        title="previous chapter">The Berkeley Segmentation Dataset and Benchmark</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="msm_epfl.html"
+                        title="next chapter">EPFL Multi-View Stereo</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="weizmann-segmentation-evaluation-database">
+<h1>Weizmann Segmentation Evaluation Database<a class="headerlink" href="#weizmann-segmentation-evaluation-database" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="IS_weizmann">
+<em class="property">class </em><tt class="descname">IS_weizmann</tt><a class="headerlink" href="#IS_weizmann" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Implements loading dataset:</p>
+<p><span class="target" id="id1">&#8220;Weizmann Segmentation Evaluation Database&#8221;</span>: <a class="reference external" href="http://www.wisdom.weizmann.ac.il/~vision/Seg_Evaluation_DB/">http://www.wisdom.weizmann.ac.il/~vision/Seg_Evaluation_DB/</a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Usage</p>
+<ol class="last arabic simple">
+<li>From link above download dataset files: Weizmann_Seg_DB_1obj.ZIP &amp; Weizmann_Seg_DB_2obj.ZIP.</li>
+<li>Unpack them.</li>
+<li>To load data, for example, for 1 object dataset, run: ./opencv/build/bin/example_datasets_is_weizmann -p=/home/user/path_to_unpacked_folder/1obj/</li>
+</ol>
+</div>
+<p><strong>References:</strong></p>
+<table class="docutils citation" frame="void" id="alpertgbb07" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[AlpertGBB07]</td><td>Sharon Alpert and Meirav Galun and Ronen Basri and Achi Brandt. Image Segmentation by Probabilistic Bottom-Up Aggregation and Cue Integration. 2007</td></tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="msm_epfl.html" title="EPFL Multi-View Stereo"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="is_bsds.html" title="The Berkeley Segmentation Dataset and Benchmark"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="datasets.html" >datasets. Framework for working with different datasets</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/datasets/doc/is_weizmann.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/datasets/doc/is_weizmann.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:34 GMT -->
+</html>

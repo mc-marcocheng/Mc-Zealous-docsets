@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>GeneralizedLinearRegressionTrainingSummary — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="generalizedlinearregressiontrainingsummary">
+<h1>GeneralizedLinearRegressionTrainingSummary<a class="headerlink" href="#generalizedlinearregressiontrainingsummary" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary"><a name="//apple_ref/cpp/Class/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.regression.</code><code class="sig-name descname">GeneralizedLinearRegressionTrainingSummary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">java_obj</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegressionTrainingSummary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generalized linear regression training results.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.residuals"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.residuals"></a>
+<code class="sig-name descname">residuals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">residualsType</span><span class="o">=</span><span class="default_value">'deviance'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.residuals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the residuals of the fitted model by type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>residualsType</strong> – The type of residuals which should be returned.
+Supported options: deviance (default), pearson, working, and response.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.aic"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.aic"></a>
+<code class="sig-name descname">aic</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.aic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Akaike’s “An Information Criterion”(AIC) for the fitted model.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.coefficientStandardErrors"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.coefficientStandardErrors"></a>
+<code class="sig-name descname">coefficientStandardErrors</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.coefficientStandardErrors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Standard error of estimated coefficients and intercept.</p>
+<p>If <a class="reference internal" href="pyspark.ml.regression.GeneralizedLinearRegression.html#pyspark.ml.regression.GeneralizedLinearRegression.fitIntercept" title="pyspark.ml.regression.GeneralizedLinearRegression.fitIntercept"><code class="xref py py-attr docutils literal notranslate"><span class="pre">GeneralizedLinearRegression.fitIntercept</span></code></a> is set to True,
+then the last element returned corresponds to the intercept.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.degreesOfFreedom"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.degreesOfFreedom"></a>
+<code class="sig-name descname">degreesOfFreedom</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.degreesOfFreedom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Degrees of freedom.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.deviance"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.deviance"></a>
+<code class="sig-name descname">deviance</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.deviance" title="Permalink to this definition">¶</a></dt>
+<dd><p>The deviance for the fitted model.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.dispersion"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.dispersion"></a>
+<code class="sig-name descname">dispersion</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.dispersion" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dispersion of the fitted model.
+It is taken as 1.0 for the “binomial” and “poisson” families, and otherwise
+estimated by the residual Pearson’s Chi-Squared statistic (which is defined as
+sum of the squares of the Pearson residuals) divided by the residual degrees of freedom.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.nullDeviance"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.nullDeviance"></a>
+<code class="sig-name descname">nullDeviance</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.nullDeviance" title="Permalink to this definition">¶</a></dt>
+<dd><p>The deviance for the null model.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.numInstances"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.numInstances"></a>
+<code class="sig-name descname">numInstances</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.numInstances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of instances in DataFrame predictions.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.numIterations"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.numIterations"></a>
+<code class="sig-name descname">numIterations</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.numIterations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of training iterations.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.pValues"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.pValues"></a>
+<code class="sig-name descname">pValues</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.pValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Two-sided p-value of estimated coefficients and intercept.</p>
+<p>If <a class="reference internal" href="pyspark.ml.regression.GeneralizedLinearRegression.html#pyspark.ml.regression.GeneralizedLinearRegression.fitIntercept" title="pyspark.ml.regression.GeneralizedLinearRegression.fitIntercept"><code class="xref py py-attr docutils literal notranslate"><span class="pre">GeneralizedLinearRegression.fitIntercept</span></code></a> is set to True,
+then the last element returned corresponds to the intercept.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.predictionCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.predictionCol"></a>
+<code class="sig-name descname">predictionCol</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.predictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field in <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.predictions" title="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.predictions"><code class="xref py py-attr docutils literal notranslate"><span class="pre">predictions</span></code></a> which gives the predicted value of each instance.
+This is set to a new column name if the original model’s <cite>predictionCol</cite> is not set.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.predictions"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.predictions"></a>
+<code class="sig-name descname">predictions</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.predictions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predictions output by the model’s <cite>transform</cite> method.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.rank"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.rank"></a>
+<code class="sig-name descname">rank</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.rank" title="Permalink to this definition">¶</a></dt>
+<dd><p>The numeric rank of the fitted linear model.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.residualDegreeOfFreedom"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.residualDegreeOfFreedom"></a>
+<code class="sig-name descname">residualDegreeOfFreedom</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.residualDegreeOfFreedom" title="Permalink to this definition">¶</a></dt>
+<dd><p>The residual degrees of freedom.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.residualDegreeOfFreedomNull"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.residualDegreeOfFreedomNull"></a>
+<code class="sig-name descname">residualDegreeOfFreedomNull</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.residualDegreeOfFreedomNull" title="Permalink to this definition">¶</a></dt>
+<dd><p>The residual degrees of freedom for the null model.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.solver"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.solver"></a>
+<code class="sig-name descname">solver</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.solver" title="Permalink to this definition">¶</a></dt>
+<dd><p>The numeric solver used for training.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.tValues"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.tValues"></a>
+<code class="sig-name descname">tValues</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegressionTrainingSummary.tValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>T-statistic of estimated coefficients and intercept.</p>
+<p>If <a class="reference internal" href="pyspark.ml.regression.GeneralizedLinearRegression.html#pyspark.ml.regression.GeneralizedLinearRegression.fitIntercept" title="pyspark.ml.regression.GeneralizedLinearRegression.fitIntercept"><code class="xref py py-attr docutils literal notranslate"><span class="pre">GeneralizedLinearRegression.fitIntercept</span></code></a> is set to True,
+then the last element returned corresponds to the intercept.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

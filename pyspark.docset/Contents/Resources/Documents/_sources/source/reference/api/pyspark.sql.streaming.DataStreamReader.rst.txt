@@ -1,0 +1,32 @@
+pyspark.sql.streaming.DataStreamReader
+======================================
+
+.. currentmodule:: pyspark.sql.streaming
+
+.. autoclass:: DataStreamReader
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DataStreamReader.__init__
+      ~DataStreamReader.csv
+      ~DataStreamReader.format
+      ~DataStreamReader.json
+      ~DataStreamReader.load
+      ~DataStreamReader.option
+      ~DataStreamReader.options
+      ~DataStreamReader.orc
+      ~DataStreamReader.parquet
+      ~DataStreamReader.schema
+      ~DataStreamReader.text
+   
+   
+
+   
+   
+   

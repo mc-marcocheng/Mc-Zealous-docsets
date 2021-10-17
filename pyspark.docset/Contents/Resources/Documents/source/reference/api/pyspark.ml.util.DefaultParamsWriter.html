@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>DefaultParamsWriter — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="defaultparamswriter">
+<h1>DefaultParamsWriter<a class="headerlink" href="#defaultparamswriter" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.util.DefaultParamsWriter"><a name="//apple_ref/cpp/Class/pyspark.ml.util.DefaultParamsWriter"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.util.</code><code class="sig-name descname">DefaultParamsWriter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">instance</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/util.html#DefaultParamsWriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.util.DefaultParamsWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specialization of <a class="reference internal" href="pyspark.ml.util.MLWriter.html#pyspark.ml.util.MLWriter" title="pyspark.ml.util.MLWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLWriter</span></code></a> for <code class="xref py py-class docutils literal notranslate"><span class="pre">Params</span></code> types</p>
+<p>Class for writing Estimators and Transformers whose parameters are JSON-serializable.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.util.DefaultParamsWriter.overwrite"><a name="//apple_ref/cpp/Method/pyspark.ml.util.DefaultParamsWriter.overwrite"></a>
+<code class="sig-name descname">overwrite</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.util.DefaultParamsWriter.overwrite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overwrites if the output path already exists.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.util.DefaultParamsWriter.save"><a name="//apple_ref/cpp/Method/pyspark.ml.util.DefaultParamsWriter.save"></a>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.util.DefaultParamsWriter.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the ML instance to the input path.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.util.DefaultParamsWriter.saveImpl"><a name="//apple_ref/cpp/Method/pyspark.ml.util.DefaultParamsWriter.saveImpl"></a>
+<code class="sig-name descname">saveImpl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/util.html#DefaultParamsWriter.saveImpl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.util.DefaultParamsWriter.saveImpl" title="Permalink to this definition">¶</a></dt>
+<dd><p>save() handles overwriting and then calls this method.  Subclasses should override this
+method to implement the actual saving of the instance.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.util.DefaultParamsWriter.saveMetadata"><a name="//apple_ref/cpp/Method/pyspark.ml.util.DefaultParamsWriter.saveMetadata"></a>
+<em class="property">static </em><code class="sig-name descname">saveMetadata</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">instance</span></em>, <em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">sc</span></em>, <em class="sig-param"><span class="n">extraMetadata</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">paramMap</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/util.html#DefaultParamsWriter.saveMetadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.util.DefaultParamsWriter.saveMetadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves metadata + Params to: path + “/metadata”</p>
+<ul class="simple">
+<li><p>class</p></li>
+<li><p>timestamp</p></li>
+<li><p>sparkVersion</p></li>
+<li><p>uid</p></li>
+<li><p>paramMap</p></li>
+<li><p>defaultParamMap (since 2.4.0)</p></li>
+<li><p>(optionally, extra metadata)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extraMetadata</strong> – Extra metadata to be saved at same level as uid, paramMap, etc.</p></li>
+<li><p><strong>paramMap</strong> – If given, this is saved in the “paramMap” field.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.util.DefaultParamsWriter.session"><a name="//apple_ref/cpp/Method/pyspark.ml.util.DefaultParamsWriter.session"></a>
+<code class="sig-name descname">session</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.util.DefaultParamsWriter.session" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the Spark Session to use for saving/loading.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.util.DefaultParamsWriter.sc"><a name="//apple_ref/cpp/Attribute/pyspark.ml.util.DefaultParamsWriter.sc"></a>
+<code class="sig-name descname">sc</code><a class="headerlink" href="#pyspark.ml.util.DefaultParamsWriter.sc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the underlying <cite>SparkContext</cite>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.util.DefaultParamsWriter.sparkSession"><a name="//apple_ref/cpp/Attribute/pyspark.ml.util.DefaultParamsWriter.sparkSession"></a>
+<code class="sig-name descname">sparkSession</code><a class="headerlink" href="#pyspark.ml.util.DefaultParamsWriter.sparkSession" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the user-specified Spark Session or the default.</p>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

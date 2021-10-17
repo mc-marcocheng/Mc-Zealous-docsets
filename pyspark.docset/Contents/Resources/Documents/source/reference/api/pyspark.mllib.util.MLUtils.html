@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>MLUtils — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="mlutils">
+<h1>MLUtils<a class="headerlink" href="#mlutils" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.util.MLUtils"><a name="//apple_ref/cpp/Class/pyspark.mllib.util.MLUtils"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.util.</code><code class="sig-name descname">MLUtils</code><a class="reference internal" href="../../../_modules/pyspark/mllib/util.html#MLUtils"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.util.MLUtils" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper methods to load, save and pre-process data used in MLlib.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.0.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.util.MLUtils.appendBias"><a name="//apple_ref/cpp/Method/pyspark.mllib.util.MLUtils.appendBias"></a>
+<em class="property">static </em><code class="sig-name descname">appendBias</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/util.html#MLUtils.appendBias"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.util.MLUtils.appendBias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new vector with <cite>1.0</cite> (bias) appended to
+the end of the input vector.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.util.MLUtils.convertMatrixColumnsFromML"><a name="//apple_ref/cpp/Method/pyspark.mllib.util.MLUtils.convertMatrixColumnsFromML"></a>
+<em class="property">static </em><code class="sig-name descname">convertMatrixColumnsFromML</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">cols</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/util.html#MLUtils.convertMatrixColumnsFromML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.util.MLUtils.convertMatrixColumnsFromML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts matrix columns in an input DataFrame to the
+<a class="reference internal" href="pyspark.mllib.linalg.Matrix.html#pyspark.mllib.linalg.Matrix" title="pyspark.mllib.linalg.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.mllib.linalg.Matrix</span></code></a> type from the new
+<a class="reference internal" href="pyspark.ml.linalg.Matrix.html#pyspark.ml.linalg.Matrix" title="pyspark.ml.linalg.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.linalg.Matrix</span></code></a> type under the <cite>spark.ml</cite>
+package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset</p></li>
+<li><p><strong>cols</strong> – a list of matrix columns to be converted.
+Old matrix columns will be ignored. If unspecified, all new
+matrix columns will be converted except nested ones.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the input dataset with new matrix columns converted to the
+old matrix type</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyspark</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Matrices</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.mllib.util</span> <span class="kn">import</span> <span class="n">MLUtils</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]),</span>
+<span class="gp">... </span>    <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)))],</span> <span class="p">[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r1</span> <span class="o">=</span> <span class="n">MLUtils</span><span class="o">.</span><span class="n">convertMatrixColumnsFromML</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r1</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">mllib</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">SparseMatrix</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r1</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">mllib</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">DenseMatrix</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r2</span> <span class="o">=</span> <span class="n">MLUtils</span><span class="o">.</span><span class="n">convertMatrixColumnsFromML</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r2</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">mllib</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">SparseMatrix</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r2</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">ml</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">DenseMatrix</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.util.MLUtils.convertMatrixColumnsToML"><a name="//apple_ref/cpp/Method/pyspark.mllib.util.MLUtils.convertMatrixColumnsToML"></a>
+<em class="property">static </em><code class="sig-name descname">convertMatrixColumnsToML</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">cols</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/util.html#MLUtils.convertMatrixColumnsToML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.util.MLUtils.convertMatrixColumnsToML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts matrix columns in an input DataFrame from the
+<a class="reference internal" href="pyspark.mllib.linalg.Matrix.html#pyspark.mllib.linalg.Matrix" title="pyspark.mllib.linalg.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.mllib.linalg.Matrix</span></code></a> type to the new
+<a class="reference internal" href="pyspark.ml.linalg.Matrix.html#pyspark.ml.linalg.Matrix" title="pyspark.ml.linalg.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.linalg.Matrix</span></code></a> type under the <cite>spark.ml</cite>
+package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset</p></li>
+<li><p><strong>cols</strong> – a list of matrix columns to be converted.
+New matrix columns will be ignored. If unspecified, all old
+matrix columns will be converted excepted nested ones.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the input dataset with old matrix columns converted to the
+new matrix type</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyspark</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.mllib.linalg</span> <span class="kn">import</span> <span class="n">Matrices</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.mllib.util</span> <span class="kn">import</span> <span class="n">MLUtils</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]),</span>
+<span class="gp">... </span>    <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)))],</span> <span class="p">[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r1</span> <span class="o">=</span> <span class="n">MLUtils</span><span class="o">.</span><span class="n">convertMatrixColumnsToML</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r1</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">ml</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">SparseMatrix</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r1</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">ml</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">DenseMatrix</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r2</span> <span class="o">=</span> <span class="n">MLUtils</span><span class="o">.</span><span class="n">convertMatrixColumnsToML</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r2</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">ml</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">SparseMatrix</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r2</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">mllib</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">DenseMatrix</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.util.MLUtils.convertVectorColumnsFromML"><a name="//apple_ref/cpp/Method/pyspark.mllib.util.MLUtils.convertVectorColumnsFromML"></a>
+<em class="property">static </em><code class="sig-name descname">convertVectorColumnsFromML</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">cols</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/util.html#MLUtils.convertVectorColumnsFromML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.util.MLUtils.convertVectorColumnsFromML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts vector columns in an input DataFrame to the
+<a class="reference internal" href="pyspark.mllib.linalg.Vector.html#pyspark.mllib.linalg.Vector" title="pyspark.mllib.linalg.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.mllib.linalg.Vector</span></code></a> type from the new
+<a class="reference internal" href="pyspark.ml.linalg.Vector.html#pyspark.ml.linalg.Vector" title="pyspark.ml.linalg.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.linalg.Vector</span></code></a> type under the <cite>spark.ml</cite>
+package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset</p></li>
+<li><p><strong>cols</strong> – a list of vector columns to be converted.
+Old vector columns will be ignored. If unspecified, all new
+vector columns will be converted except nested ones.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the input dataset with new vector columns converted to the
+old vector type</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyspark</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.mllib.util</span> <span class="kn">import</span> <span class="n">MLUtils</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]),</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r1</span> <span class="o">=</span> <span class="n">MLUtils</span><span class="o">.</span><span class="n">convertVectorColumnsFromML</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r1</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">mllib</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">SparseVector</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r1</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">mllib</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">DenseVector</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r2</span> <span class="o">=</span> <span class="n">MLUtils</span><span class="o">.</span><span class="n">convertVectorColumnsFromML</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r2</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">mllib</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">SparseVector</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r2</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">ml</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">DenseVector</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.util.MLUtils.convertVectorColumnsToML"><a name="//apple_ref/cpp/Method/pyspark.mllib.util.MLUtils.convertVectorColumnsToML"></a>
+<em class="property">static </em><code class="sig-name descname">convertVectorColumnsToML</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">cols</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/util.html#MLUtils.convertVectorColumnsToML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.util.MLUtils.convertVectorColumnsToML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts vector columns in an input DataFrame from the
+<a class="reference internal" href="pyspark.mllib.linalg.Vector.html#pyspark.mllib.linalg.Vector" title="pyspark.mllib.linalg.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.mllib.linalg.Vector</span></code></a> type to the new
+<a class="reference internal" href="pyspark.ml.linalg.Vector.html#pyspark.ml.linalg.Vector" title="pyspark.ml.linalg.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.linalg.Vector</span></code></a> type under the <cite>spark.ml</cite>
+package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset</p></li>
+<li><p><strong>cols</strong> – a list of vector columns to be converted.
+New vector columns will be ignored. If unspecified, all old
+vector columns will be converted excepted nested ones.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the input dataset with old vector columns converted to the
+new vector type</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyspark</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.mllib.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.mllib.util</span> <span class="kn">import</span> <span class="n">MLUtils</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]),</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r1</span> <span class="o">=</span> <span class="n">MLUtils</span><span class="o">.</span><span class="n">convertVectorColumnsToML</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r1</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">ml</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">SparseVector</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r1</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">ml</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">DenseVector</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r2</span> <span class="o">=</span> <span class="n">MLUtils</span><span class="o">.</span><span class="n">convertVectorColumnsToML</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r2</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">ml</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">SparseVector</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r2</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">pyspark</span><span class="o">.</span><span class="n">mllib</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">DenseVector</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.util.MLUtils.loadLabeledPoints"><a name="//apple_ref/cpp/Method/pyspark.mllib.util.MLUtils.loadLabeledPoints"></a>
+<em class="property">static </em><code class="sig-name descname">loadLabeledPoints</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sc</span></em>, <em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">minPartitions</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/util.html#MLUtils.loadLabeledPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.util.MLUtils.loadLabeledPoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load labeled points saved using RDD.saveAsTextFile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sc</strong> – Spark context</p></li>
+<li><p><strong>path</strong> – file or directory path in any Hadoop-supported file
+system URI</p></li>
+<li><p><strong>minPartitions</strong> – min number of partitions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>labeled data stored as an RDD of LabeledPoint</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">NamedTemporaryFile</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.mllib.util</span> <span class="kn">import</span> <span class="n">MLUtils</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.mllib.regression</span> <span class="kn">import</span> <span class="n">LabeledPoint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">examples</span> <span class="o">=</span> <span class="p">[</span><span class="n">LabeledPoint</span><span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.23</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">4.56e-7</span><span class="p">)])),</span>
+<span class="gp">... </span>            <span class="n">LabeledPoint</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">1.01</span><span class="p">,</span> <span class="mf">2.02</span><span class="p">,</span> <span class="mf">3.03</span><span class="p">]))]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tempFile</span> <span class="o">=</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tempFile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">examples</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">saveAsTextFile</span><span class="p">(</span><span class="n">tempFile</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">MLUtils</span><span class="o">.</span><span class="n">loadLabeledPoints</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">tempFile</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="go">[LabeledPoint(1.1, (3,[0,2],[-1.23,4.56e-07])), LabeledPoint(0.0, [1.01,2.02,3.03])]</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.util.MLUtils.loadLibSVMFile"><a name="//apple_ref/cpp/Method/pyspark.mllib.util.MLUtils.loadLibSVMFile"></a>
+<em class="property">static </em><code class="sig-name descname">loadLibSVMFile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sc</span></em>, <em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">numFeatures</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">minPartitions</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/util.html#MLUtils.loadLibSVMFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.util.MLUtils.loadLibSVMFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads labeled data in the LIBSVM format into an RDD of
+LabeledPoint. The LIBSVM format is a text-based format used by
+LIBSVM and LIBLINEAR. Each line represents a labeled sparse
+feature vector using the following format:</p>
+<p>label index1:value1 index2:value2 …</p>
+<p>where the indices are one-based and in ascending order. This
+method parses each line into a LabeledPoint, where the feature
+indices are converted to zero-based.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sc</strong> – Spark context</p></li>
+<li><p><strong>path</strong> – file or directory path in any Hadoop-supported file
+system URI</p></li>
+<li><p><strong>numFeatures</strong> – number of features, which will be determined
+from the input data if a nonpositive value
+is given. This is useful when the dataset is
+already split into multiple files and you
+want to load them separately, because some
+features may not present in certain files,
+which leads to inconsistent feature
+dimensions.</p></li>
+<li><p><strong>minPartitions</strong> – min number of partitions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>labeled data stored as an RDD of LabeledPoint</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">NamedTemporaryFile</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.mllib.util</span> <span class="kn">import</span> <span class="n">MLUtils</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.mllib.regression</span> <span class="kn">import</span> <span class="n">LabeledPoint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tempFile</span> <span class="o">=</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">tempFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s2">"+1 1:1.0 3:2.0 5:3.0</span><span class="se">\n</span><span class="s2">-1</span><span class="se">\n</span><span class="s2">-1 2:4.0 4:5.0 6:6.0"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tempFile</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">examples</span> <span class="o">=</span> <span class="n">MLUtils</span><span class="o">.</span><span class="n">loadLibSVMFile</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">tempFile</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tempFile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">examples</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">LabeledPoint(1.0, (6,[0,2,4],[1.0,2.0,3.0]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">examples</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">LabeledPoint(-1.0, (6,[],[]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">examples</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">LabeledPoint(-1.0, (6,[1,3,5],[4.0,5.0,6.0]))</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.util.MLUtils.loadVectors"><a name="//apple_ref/cpp/Method/pyspark.mllib.util.MLUtils.loadVectors"></a>
+<em class="property">static </em><code class="sig-name descname">loadVectors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sc</span></em>, <em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/util.html#MLUtils.loadVectors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.util.MLUtils.loadVectors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads vectors saved using <cite>RDD[Vector].saveAsTextFile</cite>
+with the default number of partitions.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.util.MLUtils.saveAsLibSVMFile"><a name="//apple_ref/cpp/Method/pyspark.mllib.util.MLUtils.saveAsLibSVMFile"></a>
+<em class="property">static </em><code class="sig-name descname">saveAsLibSVMFile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">dir</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/util.html#MLUtils.saveAsLibSVMFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.util.MLUtils.saveAsLibSVMFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save labeled data in LIBSVM format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – an RDD of LabeledPoint to be saved</p></li>
+<li><p><strong>dir</strong> – directory to save the data</p></li>
+</ul>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">NamedTemporaryFile</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">fileinput</span> <span class="kn">import</span> <span class="nb">input</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.mllib.regression</span> <span class="kn">import</span> <span class="n">LabeledPoint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.mllib.util</span> <span class="kn">import</span> <span class="n">MLUtils</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">examples</span> <span class="o">=</span> <span class="p">[</span><span class="n">LabeledPoint</span><span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.23</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">4.56</span><span class="p">)])),</span>
+<span class="gp">... </span>            <span class="n">LabeledPoint</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">1.01</span><span class="p">,</span> <span class="mf">2.02</span><span class="p">,</span> <span class="mf">3.03</span><span class="p">]))]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tempFile</span> <span class="o">=</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tempFile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">MLUtils</span><span class="o">.</span><span class="n">saveAsLibSVMFile</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">examples</span><span class="p">),</span> <span class="n">tempFile</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="n">tempFile</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">"/part-0000*"</span><span class="p">))))</span>
+<span class="go">'0.0 1:1.01 2:2.02 3:3.03\n1.1 1:1.23 3:4.56\n'</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.0.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

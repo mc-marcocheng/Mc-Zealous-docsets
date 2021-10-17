@@ -1,0 +1,456 @@
+<!DOCTYPE html><html dir="ltr" lang="en"><head>
+<meta content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com" name="google-signin-client-id"/>
+<meta content="profile email" name="google-signin-scope"/>
+<meta content="TensorFlow" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="#ff6f00" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link crossorigin="use-credentials" href="_pwa/tensorflow/manifest.json" rel="manifest"/>
+<link crossorigin="" href="/www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.googleapis.com" rel="preconnect"/>
+<link href="../../../../main.css" rel="stylesheet"/>
+
+<noscript>
+
+</noscript>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/favicon.png" rel="shortcut icon"/>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/apple-touch-icon-180x180.png" rel="apple-touch-icon"/><link href="https://www.tensorflow.org/api_docs/python/tf/io/decode_proto" rel="canonical"/><link href="https://www.tensorflow.org/s/opensearch.xml" rel="search" title="TensorFlow" type="application/opensearchdescription+xml"/>
+<title>tf.io.decode_proto &nbsp;|&nbsp; TensorFlow Core v2.1.0</title>
+<meta content="tf.io.decode_proto &nbsp;|&nbsp; TensorFlow Core v2.1.0" property="og:title"/>
+<meta content="https://www.tensorflow.org/api_docs/python/tf/io/decode_proto" property="og:url"/>
+<meta content="en" property="og:locale"/>
+
+</head>
+<body class="" layout="docs" pending="" theme="tensorflow-theme" type="reference">
+<devsite-progress id="app-progress" type="indeterminate"></devsite-progress>
+<section class="devsite-wrapper"> <devsite-book-nav scrollbars="">
+
+</devsite-book-nav>
+<section id="gc-wrapper">
+<main class="devsite-main-content" has-book-nav="" has-toc="" role="main">
+<devsite-toc class="devsite-nav"></devsite-toc>
+<devsite-content>
+<article class="devsite-article">
+<article class="devsite-article-inner"><style>
+        /* Styles inlined from /site-assets/css/style.css */
+/* override theme */
+table img {
+  max-width: 100%;
+}
+
+/* override var element to differentiate color from comment */
+var, var code, var span, .prettyprint var span {
+  color: #039be5;
+}
+
+/* .devsite-terminal virtualenv prompt */
+.tfo-terminal-venv::before {
+  content: "(venv) $ " !important;
+}
+
+/* .devsite-terminal root prompt */
+.tfo-terminal-root::before {
+  content: "# " !important;
+}
+
+/* .devsite-terminal Windows prompt */
+.tfo-terminal-windows::before {
+  content: "C:\\> " !important;
+}
+
+/* .devsite-terminal Windows prompt w/ virtualenv */
+.tfo-terminal-windows-venv::before {
+  content: "(venv) C:\\> " !important;
+}
+
+.tfo-diff-green-one-level + * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green + * > * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green-list + ul > li:first-of-type {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-red-one-level + * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red + * > * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red-list + ul > li:first-of-type {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+devsite-code .tfo-notebook-code-cell-output {
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(255, 247, 237, 1);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(255, 247, 237, .7);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output {
+  background: rgba(64, 78, 103, 1);  /* medium slate */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(64, 78, 103, .7);  /* medium slate */
+}
+
+/* override default table styles for notebook buttons */
+.devsite-table-wrapper .tfo-notebook-buttons {
+  display: inline-block;
+  margin-left: 3px;
+  width: auto;
+}
+
+.tfo-notebook-buttons td {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.tfo-notebook-buttons a,
+.tfo-notebook-buttons :link,
+.tfo-notebook-buttons :visited {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  color: #202124;
+  padding: 12px 24px;
+  transition: box-shadow 0.2s;
+}
+
+.tfo-notebook-buttons a:hover,
+.tfo-notebook-buttons a:focus {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.tfo-notebook-buttons tr {
+  background: 0;
+  border: 0;
+}
+
+/* on rendered notebook page,
+   remove link to webpage since we're already here */
+.tfo-notebook-buttons:not(.tfo-api) td:first-child {
+  display: none;
+}
+
+.tfo-notebook-buttons td > a {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tfo-notebook-buttons td > a > img {
+  margin-right: 8px;
+}
+
+/* landing pages */
+
+.tfo-landing-row-item-inset-white {
+  background-color: #fff;
+  padding: 32px;
+}
+
+.tfo-landing-row-item-inset-white ol,
+.tfo-landing-row-item-inset-white ul {
+  padding-left: 20px;
+}
+
+/* colab callout button */
+.colab-callout-row devsite-code {
+  border-radius: 8px 8px 0 0;
+  box-shadow: none;
+}
+
+.colab-callout-footer {
+  background: #e3e4e7;
+  border-radius: 0 0 8px 8px;
+  color: #37474f;
+  padding: 20px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer {
+  background: #3f4f66;
+}
+
+
+.colab-callout-footer > .button {
+  margin-top: 4px;
+  color: #ff5c00;
+}
+
+.colab-callout-footer > a > span {
+  padding-top: 10px;
+  vertical-align: middle;
+  color: #37474f;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer > a > span {
+  color: #fff;
+}
+
+a.colab-button {
+  background: rgba(255, 255, 255, .75);
+  border: solid 1px rgba(0, 0, 0, .08);
+  border-bottom-color: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  color: #aaa;
+  display: inline-block;
+  font-size: 11px !important;
+  font-weight: 300;
+  line-height: 16px;
+  padding: 4px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.colab-button:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, .2);
+  color: #666;
+}
+
+a.colab-button span {
+  background: url(/images/colab_logo_button.svg) no-repeat 1px 1px / 20px;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 24px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .tfo-notebook-buttons td {
+    display: block;
+  }
+}
+
+/* guide and tutorials landing page cards and sections */
+
+.tfo-landing-page-card {
+  padding: 16px;
+  box-shadow: 0 0 36px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+/* Page section headings */
+.tfo-landing-page-heading h2, h2.tfo-landing-page-heading {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+/* Item title headings */
+.tfo-landing-page-heading h3, h3.tfo-landing-page-heading,
+.tfo-landing-page-card h3, h3.tfo-landing-page-card {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* List of tutorials notebooks for subsites */
+.tfo-landing-page-resources-ul {
+  padding-left: 15px
+}
+
+.tfo-landing-page-resources-ul > li {
+  margin: 6px 0;
+}
+
+/* Temporary fix to hide product description in header on landing pages */
+devsite-header .devsite-product-description {
+  display: none;
+}
+
+        </style> <div class="devsite-banner devsite-banner-announcement">
+<div class="devsite-banner-message">
+<div class="devsite-banner-message-text">
+            Missed TensorFlow Dev Summit? Check out the video playlist. <a class="button button-primary button-tfo-announcement" href="https://goo.gle/TFDS20AllSessions">Watch recordings</a>
+</div>
+</div>
+</div>
+<div class="devsite-article-meta">
+<ul class="devsite-breadcrumb-list">
+<li class="devsite-breadcrumb-item">
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="1" href="">
+            TensorFlow
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="2" href="api">
+            API
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="3" href="api_docs">
+            TensorFlow Core v2.1.0
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="4" href="api_docs/python/tf">
+            Python
+      
+  </a>
+</li>
+</ul>
+<devsite-page-rating hover-rating-star="0" position="header" selected-rating="0">
+</devsite-page-rating>
+</div>
+<a class="dashingAutolink" name="autolink-1526"></a><a class="dashAnchor" name="//apple_ref/cpp/Function/tf.io.decode_proto"></a><h1 class="dash-function">tf.io.decode_proto</h1>
+<devsite-toc class="devsite-nav" devsite-toc-embedded="">
+</devsite-toc>
+<div class="devsite-article-body clearfix">
+<p></p>
+<!-- DO NOT EDIT! Automatically generated file. -->
+<div itemscope="" itemtype="http://developers.google.com/ReferenceObject">
+<meta content="tf.io.decode_proto" itemprop="name"/>
+<meta content="Stable" itemprop="path"/>
+</div>
+<!-- Insert buttons and diff -->
+<table align="left" class="tfo-notebook-buttons tfo-api">
+<tbody><tr><td>
+<a href="versions/r1.15/api_docs/python/tf/io/decode_proto" target="_blank">
+<img src="https://www.tensorflow.org/images/tf_logo_32px.png"/>
+  TensorFlow 1 version</a>
+</td>
+</tr></tbody></table>
+<p>The op extracts fields from a serialized protocol buffers message into tensors.</p>
+<section class="expandable">
+<h4 class="showalways">View aliases</h4>
+<p>
+<b>Compat aliases for migration</b>
+</p><p>See
+<a href="https://www.tensorflow.org/guide/migrate">Migration guide</a> for
+more details.</p>
+<p><a href="api_docs/python/tf/io/decode_proto"><code dir="ltr" translate="no">tf.compat.v1.io.decode_proto</code></a></p>
+</section>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">tf.io.decode_proto(
+    bytes, message_type, field_names, output_types, descriptor_source=&#39;local://&#39;,
+    message_format=&#39;binary&#39;, sanitize=False, name=None
+)
+</code></pre>
+<!-- Placeholder for "Used in" -->
+<p>The <code dir="ltr" translate="no">decode_proto</code> op extracts fields from a serialized protocol buffers
+message into tensors.  The fields in <code dir="ltr" translate="no">field_names</code> are decoded and converted
+to the corresponding <code dir="ltr" translate="no">output_types</code> if possible.</p>
+<p>A <code dir="ltr" translate="no">message_type</code> name must be provided to give context for the field names.
+The actual message descriptor can be looked up either in the linked-in
+descriptor pool or a filename provided by the caller using the
+<code dir="ltr" translate="no">descriptor_source</code> attribute.</p>
+<p>Each output tensor is a dense tensor. This means that it is padded to hold
+the largest number of repeated elements seen in the input minibatch. (The
+shape is also padded by one to prevent zero-sized dimensions). The actual
+repeat counts for each example in the minibatch can be found in the <code dir="ltr" translate="no">sizes</code>
+output. In many cases the output of <code dir="ltr" translate="no">decode_proto</code> is fed immediately into
+tf.squeeze if missing values are not a concern. When using tf.squeeze, always
+pass the squeeze dimension explicitly to avoid surprises.</p>
+<p>For the most part, the mapping between Proto field types and TensorFlow dtypes
+is straightforward. However, there are a few special cases:</p>
+<ul>
+<li><p>A proto field that contains a submessage or group can only be converted
+to <code dir="ltr" translate="no">DT_STRING</code> (the serialized submessage). This is to reduce the complexity
+of the API. The resulting string can be used as input to another instance of
+the decode_proto op.</p></li>
+<li><p>TensorFlow lacks support for unsigned integers. The ops represent uint64
+types as a <code dir="ltr" translate="no">DT_INT64</code> with the same twos-complement bit pattern (the obvious
+way). Unsigned int32 values can be represented exactly by specifying type
+<code dir="ltr" translate="no">DT_INT64</code>, or using twos-complement if the caller specifies <code dir="ltr" translate="no">DT_INT32</code> in
+the <code dir="ltr" translate="no">output_types</code> attribute.</p></li>
+</ul>
+<p>Both binary and text proto serializations are supported, and can be
+chosen using the <code dir="ltr" translate="no">format</code> attribute.</p>
+<p>The <code dir="ltr" translate="no">descriptor_source</code> attribute selects the source of protocol
+descriptors to consult when looking up <code dir="ltr" translate="no">message_type</code>. This may be:</p>
+<ul>
+<li><p>An empty string  or &#34;local://&#34;, in which case protocol descriptors are
+created for C++ (not Python) proto definitions linked to the binary.</p></li>
+<li><p>A file, in which case protocol descriptors are created from the file,
+which is expected to contain a <code dir="ltr" translate="no">FileDescriptorSet</code> serialized as a string.
+NOTE: You can build a <code dir="ltr" translate="no">descriptor_source</code> file using the <code dir="ltr" translate="no">--descriptor_set_out</code>
+and <code dir="ltr" translate="no">--include_imports</code> options to the protocol compiler <code dir="ltr" translate="no">protoc</code>.</p></li>
+<li><p>A &#34;bytes://<bytes>&#34;, in which protocol descriptors are created from <code dir="ltr" translate="no">&lt;bytes&gt;</code>,
+which is expected to be a <code dir="ltr" translate="no">FileDescriptorSet</code> serialized as a string.</bytes></p></li>
+</ul>
+<h4 id="args">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">bytes</code></b>: A <code dir="ltr" translate="no">Tensor</code> of type <code dir="ltr" translate="no">string</code>.
+Tensor of serialized protos with shape <code dir="ltr" translate="no">batch_shape</code>.</li>
+<li><b><code dir="ltr" translate="no">message_type</code></b>: A <code dir="ltr" translate="no">string</code>. Name of the proto message type to decode.</li>
+<li><b><code dir="ltr" translate="no">field_names</code></b>: A list of <code dir="ltr" translate="no">strings</code>.
+List of strings containing proto field names. An extension field can be decoded
+by using its full name, e.g. EXT_PACKAGE.EXT_FIELD_NAME.</li>
+<li><b><code dir="ltr" translate="no">output_types</code></b>: A list of <code dir="ltr" translate="no">tf.DTypes</code>.
+List of TF types to use for the respective field in field_names.</li>
+<li><b><code dir="ltr" translate="no">descriptor_source</code></b>: An optional <code dir="ltr" translate="no">string</code>. Defaults to <code dir="ltr" translate="no">&#34;local://&#34;</code>.
+Either the special value <code dir="ltr" translate="no">local://</code> or a path to a file containing
+a serialized <code dir="ltr" translate="no">FileDescriptorSet</code>.</li>
+<li><b><code dir="ltr" translate="no">message_format</code></b>: An optional <code dir="ltr" translate="no">string</code>. Defaults to <code dir="ltr" translate="no">&#34;binary&#34;</code>.
+Either <code dir="ltr" translate="no">binary</code> or <code dir="ltr" translate="no">text</code>.</li>
+<li><b><code dir="ltr" translate="no">sanitize</code></b>: An optional <code dir="ltr" translate="no">bool</code>. Defaults to <code dir="ltr" translate="no">False</code>.
+Whether to sanitize the result or not.</li>
+<li><b><code dir="ltr" translate="no">name</code></b>: A name for the operation (optional).</li>
+</ul>
+<h4 id="returns">Returns:</h4>
+<p>A tuple of <code dir="ltr" translate="no">Tensor</code> objects (sizes, values).</p>
+<ul>
+<li><b><code dir="ltr" translate="no">sizes</code></b>: A <code dir="ltr" translate="no">Tensor</code> of type <code dir="ltr" translate="no">int32</code>.</li>
+<li><b><code dir="ltr" translate="no">values</code></b>: A list of <code dir="ltr" translate="no">Tensor</code> objects of type <code dir="ltr" translate="no">output_types</code>.</li>
+</ul>
+</div>
+<devsite-page-rating hover-rating-star="0" position="footer" selected-rating="0">
+</devsite-page-rating>
+</article>
+</article>
+
+</devsite-content>
+</main>
+<devsite-footer-promos class="devsite-footer">
+</devsite-footer-promos>
+<devsite-footer-linkboxes class="devsite-footer">
+
+</devsite-footer-linkboxes>
+<devsite-footer-utility class="devsite-footer">
+<div class="devsite-footer-utility nocontent">
+
+</div>
+</devsite-footer-utility>
+</section></section>
+<devsite-sitemask></devsite-sitemask>
+<devsite-snackbar></devsite-snackbar> <devsite-tooltip></devsite-tooltip>
+<devsite-heading-link></devsite-heading-link>
+<devsite-analytics>
+
+
+</devsite-analytics>
+ 
+</body></html>

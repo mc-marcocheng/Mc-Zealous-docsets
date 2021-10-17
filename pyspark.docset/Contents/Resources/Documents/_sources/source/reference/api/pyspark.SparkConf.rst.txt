@@ -1,0 +1,33 @@
+pyspark.SparkConf
+=================
+
+.. currentmodule:: pyspark
+
+.. autoclass:: SparkConf
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SparkConf.__init__
+      ~SparkConf.contains
+      ~SparkConf.get
+      ~SparkConf.getAll
+      ~SparkConf.set
+      ~SparkConf.setAll
+      ~SparkConf.setAppName
+      ~SparkConf.setExecutorEnv
+      ~SparkConf.setIfMissing
+      ~SparkConf.setMaster
+      ~SparkConf.setSparkHome
+      ~SparkConf.toDebugString
+   
+   
+
+   
+   
+   

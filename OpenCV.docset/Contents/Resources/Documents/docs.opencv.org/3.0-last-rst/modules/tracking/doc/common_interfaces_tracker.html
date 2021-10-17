@@ -1,0 +1,508 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/tracking/doc/common_interfaces_tracker.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:44 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Common Interfaces of Tracker</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="tracking. Tracking API" href="tracking.html" />
+    <link rel="next" title="Common Interfaces of TrackerSampler" href="common_interfaces_tracker_sampler.html" />
+    <link rel="prev" title="Tracker Algorithms" href="tracker_algorithms.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="common_interfaces_tracker_sampler.html" title="Common Interfaces of TrackerSampler"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tracker_algorithms.html" title="Tracker Algorithms"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="tracking.html" accesskey="U">tracking. Tracking API</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Common Interfaces of Tracker</a><ul>
+<li><a class="reference internal" href="#tracker-algorithm">Tracker : Algorithm</a></li>
+<li><a class="reference internal" href="#tracker-init">Tracker::init</a></li>
+<li><a class="reference internal" href="#tracker-update">Tracker::update</a></li>
+<li><a class="reference internal" href="#tracker-create">Tracker::create</a></li>
+<li><a class="reference internal" href="#creating-own-tracker">Creating Own Tracker</a><ul>
+<li><a class="reference internal" href="#trackersampler">TrackerSampler</a></li>
+<li><a class="reference internal" href="#trackerfeatureset">TrackerFeatureSet</a></li>
+<li><a class="reference internal" href="#trackermodel">TrackerModel</a></li>
+<li><a class="reference internal" href="#try-it">Try it</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tracker_algorithms.html"
+                        title="previous chapter">Tracker Algorithms</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="common_interfaces_tracker_sampler.html"
+                        title="next chapter">Common Interfaces of TrackerSampler</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="common-interfaces-of-tracker">
+<h1>Common Interfaces of Tracker<a class="headerlink" href="#common-interfaces-of-tracker" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tracker-algorithm">
+<h2>Tracker : Algorithm<a class="headerlink" href="#tracker-algorithm" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Tracker">
+<em class="property">class </em><tt class="descname">Tracker</tt><a class="headerlink" href="#Tracker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Base abstract class for the long-term tracker:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">Tracker</span> <span class="o">:</span> <span class="k">public</span> <span class="k">virtual</span> <span class="n">Algorithm</span>
+<span class="p">{</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">Tracker</span><span class="p">();</span>
+
+  <span class="kt">bool</span> <span class="nf">init</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="k">const</span> <span class="n">Rect2d</span><span class="o">&amp;</span> <span class="n">boundingBox</span> <span class="p">);</span>
+
+  <span class="kt">bool</span> <span class="nf">update</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="n">Rect2d</span><span class="o">&amp;</span> <span class="n">boundingBox</span> <span class="p">);</span>
+
+  <span class="k">static</span> <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">Tracker</span><span class="o">&gt;</span> <span class="n">create</span><span class="p">(</span> <span class="k">const</span> <span class="n">String</span><span class="o">&amp;</span> <span class="n">trackerType</span> <span class="p">);</span>
+
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tracker-init">
+<h2>Tracker::init<a class="headerlink" href="#tracker-init" title="Permalink to this headline">¶</a></h2>
+<p>Initialize the tracker with a know bounding box that surrounding the target</p>
+<dl class="function">
+<dt id="bool Tracker::init(const Mat&amp; image, const Rect2d&amp; boundingBox)">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">Tracker::</tt><tt class="descname">init</tt><big>(</big>const Mat&amp; <strong>image</strong>, const Rect2d&amp; <strong>boundingBox</strong><big>)</big><a class="headerlink" href="#bool Tracker::init(const Mat& image, const Rect2d& boundingBox)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>image</strong> &#8211; The initial frame</li>
+<li><strong>boundingBox</strong> &#8211; The initial boundig box</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if initialization went succesfully, false otherwise</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="tracker-update">
+<h2>Tracker::update<a class="headerlink" href="#tracker-update" title="Permalink to this headline">¶</a></h2>
+<p>Update the tracker, find the new most likely bounding box for the target</p>
+<dl class="function">
+<dt id="bool Tracker::update(const Mat&amp; image, Rect2d&amp; boundingBox)">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">Tracker::</tt><tt class="descname">update</tt><big>(</big>const Mat&amp; <strong>image</strong>, Rect2d&amp; <strong>boundingBox</strong><big>)</big><a class="headerlink" href="#bool Tracker::update(const Mat& image, Rect2d& boundingBox)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>image</strong> &#8211; The current frame</li>
+<li><strong>boundingBox</strong> &#8211; The boundig box that represent the new target location, if true was returned, not modified otherwise</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True means that target was located and false means that tracker cannot locate target in current frame. Note, that latter <em>does not</em> imply that tracker has failed, maybe target is indeed missing from the frame (say, out of sight)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="tracker-create">
+<h2>Tracker::create<a class="headerlink" href="#tracker-create" title="Permalink to this headline">¶</a></h2>
+<p>Creates a tracker by its name.</p>
+<dl class="function">
+<dt id="static Ptr&lt;Tracker&gt; Tracker::create(const String&amp; trackerType)">
+<strong>C++:</strong><tt class="descname"> </tt><em class="property">static</em> Ptr&lt;Tracker&gt; <tt class="descclassname">Tracker::</tt><tt class="descname">create</tt><big>(</big>const String&amp; <strong>trackerType</strong><big>)</big><a class="headerlink" href="#static Ptr<Tracker> Tracker::create(const String& trackerType)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>trackerType</strong> &#8211; Tracker type</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The following detector types are supported:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&quot;MIL&quot;</span></tt> &#8211; <a class="reference internal" href="tracker_algorithms.html#TrackerMIL" title="class TrackerMIL"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerMIL</span></tt></a></li>
+<li><tt class="docutils literal"><span class="pre">&quot;BOOSTING&quot;</span></tt> &#8211; <a class="reference internal" href="tracker_algorithms.html#TrackerBoosting" title="class TrackerBoosting"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerBoosting</span></tt></a></li>
+</ul>
+</div>
+<div class="section" id="creating-own-tracker">
+<h2>Creating Own Tracker<a class="headerlink" href="#creating-own-tracker" title="Permalink to this headline">¶</a></h2>
+<p>If you want create a new tracker, here&#8217;s what you have to do. First, decide on the name of the class for the tracker (to meet the existing style,
+we suggest something with prefix &#8220;tracker&#8221;, e.g. trackerMIL, trackerBoosting) &#8211; we shall refer to this choice as to &#8220;classname&#8221; in subsequent. Also,
+you should decide upon the name of the tracker, is it will be known to user (the current style suggests using all capitals, say MIL or BOOSTING) &#8211;
+we&#8217;ll call it a &#8220;name&#8221;.</p>
+<ul>
+<li><p class="first">Declare your tracker in <tt class="docutils literal"><span class="pre">include/opencv2/tracking/tracker.hpp</span></tt>.
+Your tracker should inherit from <a class="reference internal" href="#Tracker" title="class Tracker"><tt class="xref ocv ocv-class docutils literal"><span class="pre">Tracker</span></tt></a> (please, see the example below). You should declare the specialized <tt class="docutils literal"><span class="pre">Param</span></tt>
+structure, where you probably will want to put the data, needed to initialize your tracker. Also don&#8217;t forget to put the
+BOILERPLATE_CODE(name,classname) macro inside the class declaration. That macro will generate static <tt class="docutils literal"><span class="pre">createTracker()</span></tt> function, which
+we&#8217;ll talk about later. You should get something similar to</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerMIL</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Tracker</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="k">struct</span> <span class="n">CV_EXPORTS</span> <span class="n">Params</span>
+  <span class="p">{</span>
+    <span class="n">Params</span><span class="p">();</span>
+    <span class="c1">//parameters for sampler</span>
+    <span class="kt">float</span> <span class="n">samplerInitInRadius</span><span class="p">;</span>      <span class="c1">// radius for gathering positive instances during init</span>
+    <span class="kt">int</span> <span class="n">samplerInitMaxNegNum</span><span class="p">;</span>  <span class="c1">// # negative samples to use during init</span>
+    <span class="kt">float</span> <span class="n">samplerSearchWinSize</span><span class="p">;</span>  <span class="c1">// size of search window</span>
+    <span class="kt">float</span> <span class="n">samplerTrackInRadius</span><span class="p">;</span>  <span class="c1">// radius for gathering positive instances during tracking</span>
+    <span class="kt">int</span> <span class="n">samplerTrackMaxPosNum</span><span class="p">;</span>      <span class="c1">// # positive samples to use during tracking</span>
+    <span class="kt">int</span> <span class="n">samplerTrackMaxNegNum</span><span class="p">;</span>      <span class="c1">// # negative samples to use during tracking</span>
+    <span class="kt">int</span> <span class="n">featureSetNumFeatures</span><span class="p">;</span>  <span class="c1">// #features</span>
+
+    <span class="kt">void</span> <span class="nf">read</span><span class="p">(</span> <span class="k">const</span> <span class="n">FileNode</span><span class="o">&amp;</span> <span class="n">fn</span> <span class="p">);</span>
+    <span class="kt">void</span> <span class="n">write</span><span class="p">(</span> <span class="n">FileStorage</span><span class="o">&amp;</span> <span class="n">fs</span> <span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="p">};</span>
+</pre></div>
+</div>
+<p>of course, you can also add any additional methods of your choice. It should be pointed out, however, that it is not expected to have a constructor
+declared, as creation should be done via the corresponding <tt class="docutils literal"><span class="pre">createTracker()</span></tt> method.</p>
+</li>
+<li><p class="first">In <tt class="docutils literal"><span class="pre">src/tracker.cpp</span></tt> file add BOILERPLATE_CODE(name,classname) line to the body of <tt class="docutils literal"><span class="pre">Tracker::create()</span></tt> method you will find there, like</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">Ptr</span><span class="o">&lt;</span><span class="n">Tracker</span><span class="o">&gt;</span> <span class="n">Tracker</span><span class="o">::</span><span class="n">create</span><span class="p">(</span> <span class="k">const</span> <span class="n">String</span><span class="o">&amp;</span> <span class="n">trackerType</span> <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">BOILERPLATE_CODE</span><span class="p">(</span><span class="s">&quot;BOOSTING&quot;</span><span class="p">,</span><span class="n">TrackerBoosting</span><span class="p">);</span>
+  <span class="n">BOILERPLATE_CODE</span><span class="p">(</span><span class="s">&quot;MIL&quot;</span><span class="p">,</span><span class="n">TrackerMIL</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">Tracker</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Finally, you should implement the function with signature</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">Ptr</span><span class="o">&lt;</span><span class="n">classname</span><span class="o">&gt;</span> <span class="n">classname</span><span class="o">::</span><span class="n">createTracker</span><span class="p">(</span><span class="k">const</span> <span class="n">classname</span><span class="o">::</span><span class="n">Params</span> <span class="o">&amp;</span><span class="n">parameters</span><span class="p">){</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>That function can (and probably will) return a pointer to some derived class of &#8220;classname&#8221;, which will probably have a real constructor.</p>
+</li>
+</ul>
+<p>Every tracker has three component <a class="reference internal" href="common_interfaces_tracker_sampler.html#TrackerSampler" title="class TrackerSampler"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerSampler</span></tt></a>, <a class="reference internal" href="common_interfaces_tracker_feature_set.html#TrackerFeatureSet" title="class TrackerFeatureSet"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerFeatureSet</span></tt></a> and <a class="reference internal" href="common_interfaces_tracker_model.html#TrackerModel" title="class TrackerModel"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerModel</span></tt></a>.
+The first two are instantiated from Tracker base class, instead the last component is abstract, so you must implement your TrackerModel.</p>
+<div class="section" id="trackersampler">
+<h3>TrackerSampler<a class="headerlink" href="#trackersampler" title="Permalink to this headline">¶</a></h3>
+<p>TrackerSampler is already instantiated, but you should define the sampling algorithm and add the classes (or single class) to TrackerSampler.
+You can choose one of the ready implementation as TrackerSamplerCSC or you can implement your sampling method, in this case
+the class must inherit  <a class="reference internal" href="common_interfaces_tracker_sampler.html#TrackerSamplerAlgorithm" title="class TrackerSamplerAlgorithm"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerSamplerAlgorithm</span></tt></a>. Fill the samplingImpl method that writes the result in &#8220;sample&#8221; output argument.</p>
+<p>Example of creating specialized TrackerSamplerAlgorithm <tt class="docutils literal"><span class="pre">TrackerSamplerCSC</span></tt> :</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerSamplerCSC</span> <span class="o">:</span> <span class="k">public</span> <span class="n">TrackerSamplerAlgorithm</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="n">TrackerSamplerCSC</span><span class="p">(</span> <span class="k">const</span> <span class="n">TrackerSamplerCSC</span><span class="o">::</span><span class="n">Params</span> <span class="o">&amp;</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">TrackerSamplerCSC</span><span class="o">::</span><span class="n">Params</span><span class="p">()</span> <span class="p">);</span>
+  <span class="o">~</span><span class="n">TrackerSamplerCSC</span><span class="p">();</span>
+  <span class="p">...</span>
+
+ <span class="nl">protected:</span>
+  <span class="kt">bool</span> <span class="n">samplingImpl</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="n">Rect</span> <span class="n">boundingBox</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat</span><span class="o">&gt;&amp;</span> <span class="n">sample</span> <span class="p">);</span>
+  <span class="p">...</span>
+
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Example of adding TrackerSamplerAlgorithm to TrackerSampler :</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">//sampler is the TrackerSampler</span>
+<span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerSamplerAlgorithm</span><span class="o">&gt;</span> <span class="n">CSCSampler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TrackerSamplerCSC</span><span class="p">(</span> <span class="n">CSCparameters</span> <span class="p">);</span>
+<span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="n">sampler</span><span class="o">-&gt;</span><span class="n">addTrackerSamplerAlgorithm</span><span class="p">(</span> <span class="n">CSCSampler</span> <span class="p">)</span> <span class="p">)</span>
+ <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+
+<span class="c1">//or add CSC sampler with default parameters</span>
+<span class="c1">//sampler-&gt;addTrackerSamplerAlgorithm( &quot;CSC&quot; );</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="common_interfaces_tracker_sampler.html#TrackerSamplerCSC" title="class TrackerSamplerCSC"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerSamplerCSC</span></tt></a>, <a class="reference internal" href="common_interfaces_tracker_sampler.html#TrackerSamplerAlgorithm" title="class TrackerSamplerAlgorithm"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerSamplerAlgorithm</span></tt></a></p>
+</div>
+</div>
+<div class="section" id="trackerfeatureset">
+<h3>TrackerFeatureSet<a class="headerlink" href="#trackerfeatureset" title="Permalink to this headline">¶</a></h3>
+<p>TrackerFeatureSet is already instantiated (as first) , but you should define what kinds of features you&#8217;ll use in your tracker.
+You can use multiple feature types, so you can add a ready implementation as <a class="reference internal" href="common_interfaces_tracker_feature_set.html#TrackerFeatureHAAR" title="class TrackerFeatureHAAR"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerFeatureHAAR</span></tt></a> in your TrackerFeatureSet or develop your own implementation.
+In this case, in the computeImpl method put the code that extract the features and
+in the selection method optionally put the code for the refinement and selection of the features.</p>
+<p>Example of creating specialized TrackerFeature <tt class="docutils literal"><span class="pre">TrackerFeatureHAAR</span></tt> :</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerFeatureHAAR</span> <span class="o">:</span> <span class="k">public</span> <span class="n">TrackerFeature</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="n">TrackerFeatureHAAR</span><span class="p">(</span> <span class="k">const</span> <span class="n">TrackerFeatureHAAR</span><span class="o">::</span><span class="n">Params</span> <span class="o">&amp;</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">TrackerFeatureHAAR</span><span class="o">::</span><span class="n">Params</span><span class="p">()</span> <span class="p">);</span>
+  <span class="o">~</span><span class="n">TrackerFeatureHAAR</span><span class="p">();</span>
+  <span class="kt">void</span> <span class="nf">selection</span><span class="p">(</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">response</span><span class="p">,</span> <span class="kt">int</span> <span class="n">npoints</span> <span class="p">);</span>
+  <span class="p">...</span>
+
+ <span class="nl">protected:</span>
+  <span class="kt">bool</span> <span class="n">computeImpl</span><span class="p">(</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat</span><span class="o">&gt;&amp;</span> <span class="n">images</span><span class="p">,</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">response</span> <span class="p">);</span>
+  <span class="p">...</span>
+
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Example of adding TrackerFeature to TrackerFeatureSet :</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">//featureSet is the TrackerFeatureSet</span>
+<span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerFeature</span><span class="o">&gt;</span> <span class="n">trackerFeature</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TrackerFeatureHAAR</span><span class="p">(</span> <span class="n">HAARparameters</span> <span class="p">);</span>
+<span class="n">featureSet</span><span class="o">-&gt;</span><span class="n">addTrackerFeature</span><span class="p">(</span> <span class="n">trackerFeature</span> <span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#TrackerFeatureHAAR" title="class TrackerFeatureHAAR"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerFeatureHAAR</span></tt></a>, <a class="reference internal" href="common_interfaces_tracker_feature_set.html#TrackerFeatureSet" title="class TrackerFeatureSet"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerFeatureSet</span></tt></a></p>
+</div>
+</div>
+<div class="section" id="trackermodel">
+<h3>TrackerModel<a class="headerlink" href="#trackermodel" title="Permalink to this headline">¶</a></h3>
+<p>TrackerModel is abstract, so in your implementation you must develop your TrackerModel that inherit from <a class="reference internal" href="common_interfaces_tracker_model.html#TrackerModel" title="class TrackerModel"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerModel</span></tt></a>.
+Fill the method for the estimation of the state &#8220;modelEstimationImpl&#8221;, that estimates the most likely target location,
+see <a class="reference internal" href="tracking.html#aam" id="id1">[AAM]</a> table I (ME) for further information. Fill &#8220;modelUpdateImpl&#8221; in order to update the model, see <a class="reference internal" href="tracking.html#aam" id="id2">[AAM]</a> table I (MU).
+In this class you can use the <a class="reference internal" href="common_interfaces_tracker_model.html#c.ConfidenceMap" title="ConfidenceMap"><tt class="xref c c-type docutils literal"><span class="pre">ConfidenceMap</span></tt></a> and <a class="reference internal" href="common_interfaces_tracker_model.html#c.Trajectory" title="Trajectory"><tt class="xref c c-type docutils literal"><span class="pre">Trajectory</span></tt></a> to storing the model. The first represents the model on the all
+possible candidate states and the second represents the list of all estimated states.</p>
+<p>Example of creating specialized TrackerModel <tt class="docutils literal"><span class="pre">TrackerMILModel</span></tt> :</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">TrackerMILModel</span> <span class="o">:</span> <span class="k">public</span> <span class="n">TrackerModel</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="n">TrackerMILModel</span><span class="p">(</span> <span class="k">const</span> <span class="n">Rect</span><span class="o">&amp;</span> <span class="n">boundingBox</span> <span class="p">);</span>
+  <span class="o">~</span><span class="n">TrackerMILModel</span><span class="p">();</span>
+  <span class="p">...</span>
+
+ <span class="nl">protected:</span>
+  <span class="kt">void</span> <span class="n">modelEstimationImpl</span><span class="p">(</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat</span><span class="o">&gt;&amp;</span> <span class="n">responses</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">modelUpdateImpl</span><span class="p">();</span>
+  <span class="p">...</span>
+
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>And add it in your Tracker :</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="kt">bool</span> <span class="n">TrackerMIL</span><span class="o">::</span><span class="n">initImpl</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="k">const</span> <span class="n">Rect2d</span><span class="o">&amp;</span> <span class="n">boundingBox</span> <span class="p">)</span>
+<span class="p">{</span>
+  <span class="p">...</span>
+  <span class="c1">//model is the general TrackerModel field od the general Tracker</span>
+  <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TrackerMILModel</span><span class="p">(</span> <span class="n">boundingBox</span> <span class="p">);</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In the last step you should define the TrackerStateEstimator based on your implementation or you can use one of ready class as <a class="reference internal" href="common_interfaces_tracker_model.html#TrackerStateEstimatorMILBoosting" title="class TrackerStateEstimatorMILBoosting"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerStateEstimatorMILBoosting</span></tt></a>.
+It represent the statistical part of the model that estimates the most likely target state.</p>
+<p>Example of creating specialized TrackerStateEstimator <tt class="docutils literal"><span class="pre">TrackerStateEstimatorMILBoosting</span></tt> :</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerStateEstimatorMILBoosting</span> <span class="o">:</span> <span class="k">public</span> <span class="n">TrackerStateEstimator</span>
+<span class="p">{</span>
+ <span class="k">class</span> <span class="nc">TrackerMILTargetState</span> <span class="o">:</span> <span class="k">public</span> <span class="n">TrackerTargetState</span>
+ <span class="p">{</span>
+ <span class="p">...</span>
+ <span class="p">};</span>
+
+ <span class="nl">public:</span>
+  <span class="n">TrackerStateEstimatorMILBoosting</span><span class="p">(</span> <span class="kt">int</span> <span class="n">nFeatures</span> <span class="o">=</span> <span class="mi">250</span> <span class="p">);</span>
+  <span class="o">~</span><span class="n">TrackerStateEstimatorMILBoosting</span><span class="p">();</span>
+  <span class="p">...</span>
+
+ <span class="nl">protected:</span>
+  <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerTargetState</span><span class="o">&gt;</span> <span class="n">estimateImpl</span><span class="p">(</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ConfidenceMap</span><span class="o">&gt;&amp;</span> <span class="n">confidenceMaps</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">updateImpl</span><span class="p">(</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ConfidenceMap</span><span class="o">&gt;&amp;</span> <span class="n">confidenceMaps</span> <span class="p">);</span>
+  <span class="p">...</span>
+
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>And add it in your TrackerModel :</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">//model is the TrackerModel of your Tracker</span>
+<span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerStateEstimatorMILBoosting</span><span class="o">&gt;</span> <span class="n">stateEstimator</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TrackerStateEstimatorMILBoosting</span><span class="p">(</span> <span class="n">params</span><span class="p">.</span><span class="n">featureSetNumFeatures</span> <span class="p">);</span>
+<span class="n">model</span><span class="o">-&gt;</span><span class="n">setTrackerStateEstimator</span><span class="p">(</span> <span class="n">stateEstimator</span> <span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="common_interfaces_tracker_model.html#TrackerModel" title="class TrackerModel"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerModel</span></tt></a>, <a class="reference internal" href="common_interfaces_tracker_model.html#TrackerStateEstimatorMILBoosting" title="class TrackerStateEstimatorMILBoosting"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerStateEstimatorMILBoosting</span></tt></a>, <a class="reference internal" href="common_interfaces_tracker_model.html#TrackerTargetState" title="class TrackerTargetState"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerTargetState</span></tt></a></p>
+</div>
+<p>During this step, you should define your TrackerTargetState based on your implementation. <a class="reference internal" href="common_interfaces_tracker_model.html#TrackerTargetState" title="class TrackerTargetState"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerTargetState</span></tt></a> base class has only the bounding box (upper-left position, width and height), you can
+enrich it adding scale factor, target rotation, etc.</p>
+<p>Example of creating specialized TrackerTargetState <tt class="docutils literal"><span class="pre">TrackerMILTargetState</span></tt> :</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">TrackerMILTargetState</span> <span class="o">:</span> <span class="k">public</span> <span class="n">TrackerTargetState</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="n">TrackerMILTargetState</span><span class="p">(</span> <span class="k">const</span> <span class="n">Point2f</span><span class="o">&amp;</span> <span class="n">position</span><span class="p">,</span> <span class="kt">int</span> <span class="n">targetWidth</span><span class="p">,</span> <span class="kt">int</span> <span class="n">targetHeight</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">foreground</span><span class="p">,</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">features</span> <span class="p">);</span>
+  <span class="o">~</span><span class="n">TrackerMILTargetState</span><span class="p">();</span>
+  <span class="p">...</span>
+
+ <span class="nl">private:</span>
+  <span class="kt">bool</span> <span class="n">isTarget</span><span class="p">;</span>
+  <span class="n">Mat</span> <span class="n">targetFeatures</span><span class="p">;</span>
+  <span class="p">...</span>
+
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="try-it">
+<h3>Try it<a class="headerlink" href="#try-it" title="Permalink to this headline">¶</a></h3>
+<p>To try your tracker you can use the demo at <a class="reference external" href="https://github.com/lenlen/opencv/blob/tracking_api/samples/cpp/tracker.cpp">https://github.com/lenlen/opencv/blob/tracking_api/samples/cpp/tracker.cpp</a>.</p>
+<p>The first argument is the name of the tracker and the second is a video source.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="common_interfaces_tracker_sampler.html" title="Common Interfaces of TrackerSampler"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tracker_algorithms.html" title="Tracker Algorithms"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="tracking.html" >tracking. Tracking API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/tracking/doc/common_interfaces_tracker.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/tracking/doc/common_interfaces_tracker.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:44 GMT -->
+</html>

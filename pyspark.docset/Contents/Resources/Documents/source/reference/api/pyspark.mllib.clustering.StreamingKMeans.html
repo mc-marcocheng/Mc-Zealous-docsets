@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>StreamingKMeans — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="streamingkmeans">
+<h1>StreamingKMeans<a class="headerlink" href="#streamingkmeans" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.clustering.StreamingKMeans"><a name="//apple_ref/cpp/Class/pyspark.mllib.clustering.StreamingKMeans"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.clustering.</code><code class="sig-name descname">StreamingKMeans</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">decayFactor</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">timeUnit</span><span class="o">=</span><span class="default_value">'batches'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/clustering.html#StreamingKMeans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.clustering.StreamingKMeans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides methods to set k, decayFactor, timeUnit to configure the
+KMeans algorithm for fitting and predicting on incoming dstreams.
+More details on how the centroids are updated are provided under the
+docs of StreamingKMeansModel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> – Number of clusters.
+(default: 2)</p></li>
+<li><p><strong>decayFactor</strong> – Forgetfulness of the previous centroids.
+(default: 1.0)</p></li>
+<li><p><strong>timeUnit</strong> – Can be “batches” or “points”. If points, then the decay factor is
+raised to the power of number of new points and if batches, then
+decay factor will be used as is.
+(default: “batches”)</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.clustering.StreamingKMeans.latestModel"><a name="//apple_ref/cpp/Method/pyspark.mllib.clustering.StreamingKMeans.latestModel"></a>
+<code class="sig-name descname">latestModel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/clustering.html#StreamingKMeans.latestModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.clustering.StreamingKMeans.latestModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the latest model</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.clustering.StreamingKMeans.predictOn"><a name="//apple_ref/cpp/Method/pyspark.mllib.clustering.StreamingKMeans.predictOn"></a>
+<code class="sig-name descname">predictOn</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dstream</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/clustering.html#StreamingKMeans.predictOn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.clustering.StreamingKMeans.predictOn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make predictions on a dstream.
+Returns a transformed dstream object</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.clustering.StreamingKMeans.predictOnValues"><a name="//apple_ref/cpp/Method/pyspark.mllib.clustering.StreamingKMeans.predictOnValues"></a>
+<code class="sig-name descname">predictOnValues</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dstream</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/clustering.html#StreamingKMeans.predictOnValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.clustering.StreamingKMeans.predictOnValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make predictions on a keyed dstream.
+Returns a transformed dstream object.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.clustering.StreamingKMeans.setDecayFactor"><a name="//apple_ref/cpp/Method/pyspark.mllib.clustering.StreamingKMeans.setDecayFactor"></a>
+<code class="sig-name descname">setDecayFactor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">decayFactor</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/clustering.html#StreamingKMeans.setDecayFactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.clustering.StreamingKMeans.setDecayFactor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set decay factor.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.clustering.StreamingKMeans.setHalfLife"><a name="//apple_ref/cpp/Method/pyspark.mllib.clustering.StreamingKMeans.setHalfLife"></a>
+<code class="sig-name descname">setHalfLife</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">halfLife</span></em>, <em class="sig-param"><span class="n">timeUnit</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/clustering.html#StreamingKMeans.setHalfLife"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.clustering.StreamingKMeans.setHalfLife" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set number of batches after which the centroids of that
+particular batch has half the weightage.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.clustering.StreamingKMeans.setInitialCenters"><a name="//apple_ref/cpp/Method/pyspark.mllib.clustering.StreamingKMeans.setInitialCenters"></a>
+<code class="sig-name descname">setInitialCenters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">centers</span></em>, <em class="sig-param"><span class="n">weights</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/clustering.html#StreamingKMeans.setInitialCenters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.clustering.StreamingKMeans.setInitialCenters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set initial centers. Should be set before calling trainOn.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.clustering.StreamingKMeans.setK"><a name="//apple_ref/cpp/Method/pyspark.mllib.clustering.StreamingKMeans.setK"></a>
+<code class="sig-name descname">setK</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/clustering.html#StreamingKMeans.setK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.clustering.StreamingKMeans.setK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set number of clusters.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.clustering.StreamingKMeans.setRandomCenters"><a name="//apple_ref/cpp/Method/pyspark.mllib.clustering.StreamingKMeans.setRandomCenters"></a>
+<code class="sig-name descname">setRandomCenters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dim</span></em>, <em class="sig-param"><span class="n">weight</span></em>, <em class="sig-param"><span class="n">seed</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/clustering.html#StreamingKMeans.setRandomCenters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.clustering.StreamingKMeans.setRandomCenters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the initial centres to be random samples from
+a gaussian population with constant weights.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.clustering.StreamingKMeans.trainOn"><a name="//apple_ref/cpp/Method/pyspark.mllib.clustering.StreamingKMeans.trainOn"></a>
+<code class="sig-name descname">trainOn</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dstream</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/clustering.html#StreamingKMeans.trainOn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.clustering.StreamingKMeans.trainOn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train the model on the incoming dstream.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

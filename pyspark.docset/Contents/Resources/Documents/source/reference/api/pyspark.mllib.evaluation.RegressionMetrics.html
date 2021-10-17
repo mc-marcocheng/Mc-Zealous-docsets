@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>RegressionMetrics — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="regressionmetrics">
+<h1>RegressionMetrics<a class="headerlink" href="#regressionmetrics" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.evaluation.RegressionMetrics"><a name="//apple_ref/cpp/Class/pyspark.mllib.evaluation.RegressionMetrics"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.evaluation.</code><code class="sig-name descname">RegressionMetrics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predictionAndObservations</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/evaluation.html#RegressionMetrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.evaluation.RegressionMetrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluator for regression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>predictionAndObservations</strong> – an RDD of prediction, observation and optional weight.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">predictionAndObservations</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span> <span class="o">=</span> <span class="n">RegressionMetrics</span><span class="p">(</span><span class="n">predictionAndObservations</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">explainedVariance</span>
+<span class="go">8.859...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">meanAbsoluteError</span>
+<span class="go">0.5...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">meanSquaredError</span>
+<span class="go">0.37...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">rootMeanSquaredError</span>
+<span class="go">0.61...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">r2</span>
+<span class="go">0.94...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">predictionAndObservationsWithOptWeight</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">),</span> <span class="p">(</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span> <span class="o">=</span> <span class="n">RegressionMetrics</span><span class="p">(</span><span class="n">predictionAndObservationsWithOptWeight</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">rootMeanSquaredError</span>
+<span class="go">0.68...</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.evaluation.RegressionMetrics.call"><a name="//apple_ref/cpp/Method/pyspark.mllib.evaluation.RegressionMetrics.call"></a>
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">a</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.evaluation.RegressionMetrics.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call method of java_model</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.mllib.evaluation.RegressionMetrics.explainedVariance"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.evaluation.RegressionMetrics.explainedVariance"></a>
+<code class="sig-name descname">explainedVariance</code><a class="headerlink" href="#pyspark.mllib.evaluation.RegressionMetrics.explainedVariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the explained variance regression score.
+explainedVariance = <span class="math notranslate nohighlight">\(1 - \frac{variance(y - \hat{y})}{variance(y)}\)</span></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.evaluation.RegressionMetrics.meanAbsoluteError"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.evaluation.RegressionMetrics.meanAbsoluteError"></a>
+<code class="sig-name descname">meanAbsoluteError</code><a class="headerlink" href="#pyspark.mllib.evaluation.RegressionMetrics.meanAbsoluteError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the mean absolute error, which is a risk function corresponding to the
+expected value of the absolute error loss or l1-norm loss.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.evaluation.RegressionMetrics.meanSquaredError"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.evaluation.RegressionMetrics.meanSquaredError"></a>
+<code class="sig-name descname">meanSquaredError</code><a class="headerlink" href="#pyspark.mllib.evaluation.RegressionMetrics.meanSquaredError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the mean squared error, which is a risk function corresponding to the
+expected value of the squared error loss or quadratic loss.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.evaluation.RegressionMetrics.r2"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.evaluation.RegressionMetrics.r2"></a>
+<code class="sig-name descname">r2</code><a class="headerlink" href="#pyspark.mllib.evaluation.RegressionMetrics.r2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns R^2^, the coefficient of determination.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.evaluation.RegressionMetrics.rootMeanSquaredError"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.evaluation.RegressionMetrics.rootMeanSquaredError"></a>
+<code class="sig-name descname">rootMeanSquaredError</code><a class="headerlink" href="#pyspark.mllib.evaluation.RegressionMetrics.rootMeanSquaredError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the root mean squared error, which is defined as the square root of
+the mean squared error.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

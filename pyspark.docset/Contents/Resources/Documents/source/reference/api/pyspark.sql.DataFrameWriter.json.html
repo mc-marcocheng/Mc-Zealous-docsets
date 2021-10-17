@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.sql.DataFrameWriter.json — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-sql-dataframewriter-json">
+<h1>pyspark.sql.DataFrameWriter.json<a class="headerlink" href="#pyspark-sql-dataframewriter-json" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.sql.DataFrameWriter.json"><a name="//apple_ref/cpp/Method/pyspark.sql.DataFrameWriter.json"></a>
+<code class="sig-prename descclassname">DataFrameWriter.</code><code class="sig-name descname">json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">compression</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dateFormat</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">timestampFormat</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lineSep</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ignoreNullFields</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/sql/readwriter.html#DataFrameWriter.json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.sql.DataFrameWriter.json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the content of the <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></a> in JSON format
+(<a class="reference external" href="http://jsonlines.org/">JSON Lines text format or newline-delimited JSON</a>) at the
+specified path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – the path in any Hadoop supported file system</p></li>
+<li><p><strong>mode</strong> – <p>specifies the behavior of the save operation when data already exists.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">append</span></code>: Append contents of this <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></a> to existing data.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">overwrite</span></code>: Overwrite existing data.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ignore</span></code>: Silently ignore this operation if data already exists.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">error</span></code> or <code class="docutils literal notranslate"><span class="pre">errorifexists</span></code> (default case): Throw an exception if data already                 exists.</p></li>
+</ul>
+</p></li>
+<li><p><strong>compression</strong> – compression codec to use when saving to file. This can be one of the
+known case-insensitive shorten names (none, bzip2, gzip, lz4,
+snappy and deflate).</p></li>
+<li><p><strong>dateFormat</strong> – sets the string that indicates a date format. Custom date formats
+follow the formats at <a href="#id1"><span class="problematic" id="id2">`datetime pattern`_</span></a>.
+This applies to date type. If None is set, it uses the
+default value, <code class="docutils literal notranslate"><span class="pre">yyyy-MM-dd</span></code>.</p></li>
+<li><p><strong>timestampFormat</strong> – sets the string that indicates a timestamp format.
+Custom date formats follow the formats at <a href="#id3"><span class="problematic" id="id4">`datetime pattern`_</span></a>.
+This applies to timestamp type. If None is set, it uses the
+default value, <code class="docutils literal notranslate"><span class="pre">yyyy-MM-dd'T'HH:mm:ss[.SSS][XXX]</span></code>.</p></li>
+<li><p><strong>encoding</strong> – specifies encoding (charset) of saved json files. If None is set,
+the default UTF-8 charset will be used.</p></li>
+<li><p><strong>lineSep</strong> – defines the line separator that should be used for writing. If None is
+set, it uses the default value, <code class="docutils literal notranslate"><span class="pre">\n</span></code>.</p></li>
+<li><p><strong>ignoreNullFields</strong> – Whether to ignore null fields when generating JSON objects.
+If None is set, it uses the default value, <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(),</span> <span class="s1">'data'</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.</span></p>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

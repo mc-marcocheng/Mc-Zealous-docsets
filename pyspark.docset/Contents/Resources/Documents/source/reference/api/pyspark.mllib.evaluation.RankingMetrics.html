@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>RankingMetrics — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="rankingmetrics">
+<h1>RankingMetrics<a class="headerlink" href="#rankingmetrics" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.evaluation.RankingMetrics"><a name="//apple_ref/cpp/Class/pyspark.mllib.evaluation.RankingMetrics"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.evaluation.</code><code class="sig-name descname">RankingMetrics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predictionAndLabels</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/evaluation.html#RankingMetrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.evaluation.RankingMetrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluator for ranking algorithms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>predictionAndLabels</strong> – an RDD of (predicted ranking,
+ground truth set) pairs.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">predictionAndLabels</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span>
+<span class="gp">... </span>    <span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span>
+<span class="gp">... </span>    <span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[])])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span> <span class="o">=</span> <span class="n">RankingMetrics</span><span class="p">(</span><span class="n">predictionAndLabels</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">precisionAt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">0.33...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">precisionAt</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">0.26...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">precisionAt</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="go">0.17...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">meanAveragePrecision</span>
+<span class="go">0.35...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">meanAveragePrecisionAt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">0.3333333333333333...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">meanAveragePrecisionAt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0.25...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">ndcgAt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">0.33...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">ndcgAt</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">0.48...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">recallAt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">0.06...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">recallAt</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">0.35...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">recallAt</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="go">0.66...</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.evaluation.RankingMetrics.call"><a name="//apple_ref/cpp/Method/pyspark.mllib.evaluation.RankingMetrics.call"></a>
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">a</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.evaluation.RankingMetrics.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call method of java_model</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.evaluation.RankingMetrics.meanAveragePrecisionAt"><a name="//apple_ref/cpp/Method/pyspark.mllib.evaluation.RankingMetrics.meanAveragePrecisionAt"></a>
+<code class="sig-name descname">meanAveragePrecisionAt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/evaluation.html#RankingMetrics.meanAveragePrecisionAt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.evaluation.RankingMetrics.meanAveragePrecisionAt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the mean average precision (MAP) at first k ranking of all the queries.
+If a query has an empty ground truth set, the average precision will be zero and
+a log warining is generated.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.evaluation.RankingMetrics.ndcgAt"><a name="//apple_ref/cpp/Method/pyspark.mllib.evaluation.RankingMetrics.ndcgAt"></a>
+<code class="sig-name descname">ndcgAt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/evaluation.html#RankingMetrics.ndcgAt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.evaluation.RankingMetrics.ndcgAt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the average NDCG value of all the queries, truncated at ranking position k.
+The discounted cumulative gain at position k is computed as:
+sum,,i=1,,^k^ (2^{relevance of ‘’i’’th item}^ - 1) / log(i + 1),
+and the NDCG is obtained by dividing the DCG value on the ground truth set.
+In the current implementation, the relevance value is binary.
+If a query has an empty ground truth set, zero will be used as NDCG together with
+a log warning.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.evaluation.RankingMetrics.precisionAt"><a name="//apple_ref/cpp/Method/pyspark.mllib.evaluation.RankingMetrics.precisionAt"></a>
+<code class="sig-name descname">precisionAt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/evaluation.html#RankingMetrics.precisionAt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.evaluation.RankingMetrics.precisionAt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the average precision of all the queries, truncated at ranking position k.</p>
+<p>If for a query, the ranking algorithm returns n (n &lt; k) results, the precision value
+will be computed as #(relevant items retrieved) / k. This formula also applies when
+the size of the ground truth set is less than k.</p>
+<p>If a query has an empty ground truth set, zero will be used as precision together
+with a log warning.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.evaluation.RankingMetrics.recallAt"><a name="//apple_ref/cpp/Method/pyspark.mllib.evaluation.RankingMetrics.recallAt"></a>
+<code class="sig-name descname">recallAt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/evaluation.html#RankingMetrics.recallAt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.evaluation.RankingMetrics.recallAt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the average recall of all the queries, truncated at ranking position k.</p>
+<p>If for a query, the ranking algorithm returns n results, the recall value
+will be computed as #(relevant items retrieved) / #(ground truth set).
+This formula also applies when the size of the ground truth set is less than k.</p>
+<p>If a query has an empty ground truth set, zero will be used as recall together
+with a log warning.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.mllib.evaluation.RankingMetrics.meanAveragePrecision"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.evaluation.RankingMetrics.meanAveragePrecision"></a>
+<code class="sig-name descname">meanAveragePrecision</code><a class="headerlink" href="#pyspark.mllib.evaluation.RankingMetrics.meanAveragePrecision" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the mean average precision (MAP) of all the queries.
+If a query has an empty ground truth set, the average precision will be zero and
+a log warining is generated.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

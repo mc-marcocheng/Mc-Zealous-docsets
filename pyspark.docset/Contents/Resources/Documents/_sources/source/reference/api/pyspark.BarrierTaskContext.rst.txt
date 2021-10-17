@@ -1,0 +1,32 @@
+pyspark.BarrierTaskContext
+==========================
+
+.. currentmodule:: pyspark
+
+.. autoclass:: BarrierTaskContext
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BarrierTaskContext.__init__
+      ~BarrierTaskContext.allGather
+      ~BarrierTaskContext.attemptNumber
+      ~BarrierTaskContext.barrier
+      ~BarrierTaskContext.get
+      ~BarrierTaskContext.getLocalProperty
+      ~BarrierTaskContext.getTaskInfos
+      ~BarrierTaskContext.partitionId
+      ~BarrierTaskContext.resources
+      ~BarrierTaskContext.stageId
+      ~BarrierTaskContext.taskAttemptId
+   
+   
+
+   
+   
+   

@@ -1,0 +1,524 @@
+<!DOCTYPE html><html dir="ltr" lang="en"><head>
+<meta content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com" name="google-signin-client-id"/>
+<meta content="profile email" name="google-signin-scope"/>
+<meta content="TensorFlow" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="#ff6f00" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link crossorigin="use-credentials" href="_pwa/tensorflow/manifest.json" rel="manifest"/>
+<link crossorigin="" href="/www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.googleapis.com" rel="preconnect"/>
+<link href="../../../main.css" rel="stylesheet"/>
+
+<noscript>
+
+</noscript>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/favicon.png" rel="shortcut icon"/>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/apple-touch-icon-180x180.png" rel="apple-touch-icon"/><link href="https://www.tensorflow.org/api_docs/python/tf/while_loop" rel="canonical"/><link href="https://www.tensorflow.org/s/opensearch.xml" rel="search" title="TensorFlow" type="application/opensearchdescription+xml"/>
+<title>tf.while_loop &nbsp;|&nbsp; TensorFlow Core v2.1.0</title>
+<meta content="tf.while_loop &nbsp;|&nbsp; TensorFlow Core v2.1.0" property="og:title"/>
+<meta content="https://www.tensorflow.org/api_docs/python/tf/while_loop" property="og:url"/>
+<meta content="en" property="og:locale"/>
+
+</head>
+<body class="" layout="docs" pending="" theme="tensorflow-theme" type="reference">
+<devsite-progress id="app-progress" type="indeterminate"></devsite-progress>
+<section class="devsite-wrapper"> <devsite-book-nav scrollbars="">
+
+</devsite-book-nav>
+<section id="gc-wrapper">
+<main class="devsite-main-content" has-book-nav="" has-toc="" role="main">
+<devsite-toc class="devsite-nav"></devsite-toc>
+<devsite-content>
+<article class="devsite-article">
+<article class="devsite-article-inner"><style>
+        /* Styles inlined from /site-assets/css/style.css */
+/* override theme */
+table img {
+  max-width: 100%;
+}
+
+/* override var element to differentiate color from comment */
+var, var code, var span, .prettyprint var span {
+  color: #039be5;
+}
+
+/* .devsite-terminal virtualenv prompt */
+.tfo-terminal-venv::before {
+  content: "(venv) $ " !important;
+}
+
+/* .devsite-terminal root prompt */
+.tfo-terminal-root::before {
+  content: "# " !important;
+}
+
+/* .devsite-terminal Windows prompt */
+.tfo-terminal-windows::before {
+  content: "C:\\> " !important;
+}
+
+/* .devsite-terminal Windows prompt w/ virtualenv */
+.tfo-terminal-windows-venv::before {
+  content: "(venv) C:\\> " !important;
+}
+
+.tfo-diff-green-one-level + * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green + * > * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green-list + ul > li:first-of-type {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-red-one-level + * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red + * > * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red-list + ul > li:first-of-type {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+devsite-code .tfo-notebook-code-cell-output {
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(255, 247, 237, 1);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(255, 247, 237, .7);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output {
+  background: rgba(64, 78, 103, 1);  /* medium slate */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(64, 78, 103, .7);  /* medium slate */
+}
+
+/* override default table styles for notebook buttons */
+.devsite-table-wrapper .tfo-notebook-buttons {
+  display: inline-block;
+  margin-left: 3px;
+  width: auto;
+}
+
+.tfo-notebook-buttons td {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.tfo-notebook-buttons a,
+.tfo-notebook-buttons :link,
+.tfo-notebook-buttons :visited {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  color: #202124;
+  padding: 12px 24px;
+  transition: box-shadow 0.2s;
+}
+
+.tfo-notebook-buttons a:hover,
+.tfo-notebook-buttons a:focus {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.tfo-notebook-buttons tr {
+  background: 0;
+  border: 0;
+}
+
+/* on rendered notebook page,
+   remove link to webpage since we're already here */
+.tfo-notebook-buttons:not(.tfo-api) td:first-child {
+  display: none;
+}
+
+.tfo-notebook-buttons td > a {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tfo-notebook-buttons td > a > img {
+  margin-right: 8px;
+}
+
+/* landing pages */
+
+.tfo-landing-row-item-inset-white {
+  background-color: #fff;
+  padding: 32px;
+}
+
+.tfo-landing-row-item-inset-white ol,
+.tfo-landing-row-item-inset-white ul {
+  padding-left: 20px;
+}
+
+/* colab callout button */
+.colab-callout-row devsite-code {
+  border-radius: 8px 8px 0 0;
+  box-shadow: none;
+}
+
+.colab-callout-footer {
+  background: #e3e4e7;
+  border-radius: 0 0 8px 8px;
+  color: #37474f;
+  padding: 20px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer {
+  background: #3f4f66;
+}
+
+
+.colab-callout-footer > .button {
+  margin-top: 4px;
+  color: #ff5c00;
+}
+
+.colab-callout-footer > a > span {
+  padding-top: 10px;
+  vertical-align: middle;
+  color: #37474f;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer > a > span {
+  color: #fff;
+}
+
+a.colab-button {
+  background: rgba(255, 255, 255, .75);
+  border: solid 1px rgba(0, 0, 0, .08);
+  border-bottom-color: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  color: #aaa;
+  display: inline-block;
+  font-size: 11px !important;
+  font-weight: 300;
+  line-height: 16px;
+  padding: 4px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.colab-button:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, .2);
+  color: #666;
+}
+
+a.colab-button span {
+  background: url(/images/colab_logo_button.svg) no-repeat 1px 1px / 20px;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 24px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .tfo-notebook-buttons td {
+    display: block;
+  }
+}
+
+/* guide and tutorials landing page cards and sections */
+
+.tfo-landing-page-card {
+  padding: 16px;
+  box-shadow: 0 0 36px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+/* Page section headings */
+.tfo-landing-page-heading h2, h2.tfo-landing-page-heading {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+/* Item title headings */
+.tfo-landing-page-heading h3, h3.tfo-landing-page-heading,
+.tfo-landing-page-card h3, h3.tfo-landing-page-card {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* List of tutorials notebooks for subsites */
+.tfo-landing-page-resources-ul {
+  padding-left: 15px
+}
+
+.tfo-landing-page-resources-ul > li {
+  margin: 6px 0;
+}
+
+/* Temporary fix to hide product description in header on landing pages */
+devsite-header .devsite-product-description {
+  display: none;
+}
+
+        </style> <div class="devsite-banner devsite-banner-announcement">
+<div class="devsite-banner-message">
+<div class="devsite-banner-message-text">
+            Missed TensorFlow Dev Summit? Check out the video playlist. <a class="button button-primary button-tfo-announcement" href="https://goo.gle/TFDS20AllSessions">Watch recordings</a>
+</div>
+</div>
+</div>
+<div class="devsite-article-meta">
+<ul class="devsite-breadcrumb-list">
+<li class="devsite-breadcrumb-item">
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="1" href="">
+            TensorFlow
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="2" href="api">
+            API
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="3" href="api_docs">
+            TensorFlow Core v2.1.0
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="4" href="api_docs/python/tf">
+            Python
+      
+  </a>
+</li>
+</ul>
+<devsite-page-rating hover-rating-star="0" position="header" selected-rating="0">
+</devsite-page-rating>
+</div>
+<a class="dashingAutolink" name="autolink-2723"></a><a class="dashAnchor" name="//apple_ref/cpp/Function/tf.while_loop"></a><h1 class="dash-function">tf.while_loop</h1>
+<devsite-toc class="devsite-nav" devsite-toc-embedded="">
+</devsite-toc>
+<div class="devsite-article-body clearfix">
+<p></p>
+<!-- DO NOT EDIT! Automatically generated file. -->
+<div itemscope="" itemtype="http://developers.google.com/ReferenceObject">
+<meta content="tf.while_loop" itemprop="name"/>
+<meta content="Stable" itemprop="path"/>
+</div>
+<p><devsite-nav-buttons name="version" param="reset">
+<button default="" value="stable">See Stable</button>
+<button value="nightly">See Nightly</button>
+</devsite-nav-buttons></p>
+<!-- Stable -->
+<table align="left" class="tfo-notebook-buttons tfo-api">
+<tbody><tr><td>
+<a href="versions/r1.15/api_docs/python/tf/while_loop" target="_blank">
+<img src="https://www.tensorflow.org/images/tf_logo_32px.png"/>
+  TensorFlow 1 version</a>
+</td>
+<td>
+<a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/control_flow_ops.py#L2302-L2478" target="_blank">
+<img src="https://www.tensorflow.org/images/GitHub-Mark-32px.png"/>
+    View source on GitHub
+  </a>
+</td></tr></tbody></table>
+<p>Repeat <code dir="ltr" translate="no">body</code> while the condition <code dir="ltr" translate="no">cond</code> is true.</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">tf.while_loop(
+    cond, body, loop_vars, shape_invariants=None, parallel_iterations=10,
+    back_prop=True, swap_memory=False, maximum_iterations=None, name=None
+)
+</code></pre>
+<!-- Placeholder for "Used in" -->
+<p><code dir="ltr" translate="no">cond</code> is a callable returning a boolean scalar tensor. <code dir="ltr" translate="no">body</code> is a callable
+returning a (possibly nested) tuple, namedtuple or list of tensors of the same
+arity (length and structure) and types as <code dir="ltr" translate="no">loop_vars</code>. <code dir="ltr" translate="no">loop_vars</code> is a
+(possibly nested) tuple, namedtuple or list of tensors that is passed to both
+<code dir="ltr" translate="no">cond</code> and <code dir="ltr" translate="no">body</code>. <code dir="ltr" translate="no">cond</code> and <code dir="ltr" translate="no">body</code> both take as many arguments as there are
+<code dir="ltr" translate="no">loop_vars</code>.</p>
+<p>In addition to regular Tensors or IndexedSlices, the body may accept and
+return TensorArray objects.  The flows of the TensorArray objects will
+be appropriately forwarded between loops and during gradient calculations.</p>
+<p>Note that <code dir="ltr" translate="no">while_loop</code> calls <code dir="ltr" translate="no">cond</code> and <code dir="ltr" translate="no">body</code> <em>exactly once</em> (inside the
+call to <code dir="ltr" translate="no">while_loop</code>, and not at all during <code dir="ltr" translate="no">Session.run()</code>). <code dir="ltr" translate="no">while_loop</code>
+stitches together the graph fragments created during the <code dir="ltr" translate="no">cond</code> and <code dir="ltr" translate="no">body</code>
+calls with some additional graph nodes to create the graph flow that
+repeats <code dir="ltr" translate="no">body</code> until <code dir="ltr" translate="no">cond</code> returns false.</p>
+<p>For correctness, <a href="https://www.tensorflow.org/api_docs/python/tf/while_loop"><code dir="ltr" translate="no">tf.while_loop()</code></a> strictly enforces shape invariants for
+the loop variables. A shape invariant is a (possibly partial) shape that
+is unchanged across the iterations of the loop. An error will be raised
+if the shape of a loop variable after an iteration is determined to be more
+general than or incompatible with its shape invariant. For example, a shape
+of [11, None] is more general than a shape of [11, 17], and [11, 21] is not
+compatible with [11, 17]. By default (if the argument <code dir="ltr" translate="no">shape_invariants</code> is
+not specified), it is assumed that the initial shape of each tensor in
+<code dir="ltr" translate="no">loop_vars</code> is the same in every iteration. The <code dir="ltr" translate="no">shape_invariants</code> argument
+allows the caller to specify a less specific shape invariant for each loop
+variable, which is needed if the shape varies between iterations. The
+<a href="https://www.tensorflow.org/api_docs/python/tf/Tensor#set_shape"><code dir="ltr" translate="no">tf.Tensor.set_shape</code></a>
+function may also be used in the <code dir="ltr" translate="no">body</code> function to indicate that
+the output loop variable has a particular shape. The shape invariant for
+SparseTensor and IndexedSlices are treated specially as follows:</p>
+<p>a) If a loop variable is a SparseTensor, the shape invariant must be
+TensorShape([r]) where r is the rank of the dense tensor represented
+by the sparse tensor. It means the shapes of the three tensors of the
+SparseTensor are ([None], [None, r], [r]). NOTE: The shape invariant here
+is the shape of the SparseTensor.dense_shape property. It must be the shape of
+a vector.</p>
+<p>b) If a loop variable is an IndexedSlices, the shape invariant must be
+a shape invariant of the values tensor of the IndexedSlices. It means
+the shapes of the three tensors of the IndexedSlices are (shape, [shape[0]],
+[shape.ndims]).</p>
+<p><code dir="ltr" translate="no">while_loop</code> implements non-strict semantics, enabling multiple iterations
+to run in parallel. The maximum number of parallel iterations can be
+controlled by <code dir="ltr" translate="no">parallel_iterations</code>, which gives users some control over
+memory consumption and execution order. For correct programs, <code dir="ltr" translate="no">while_loop</code>
+should return the same result for any parallel_iterations &gt; 0.</p>
+<p>For training, TensorFlow stores the tensors that are produced in the
+forward inference and are needed in back propagation. These tensors are a
+main source of memory consumption and often cause OOM errors when training
+on GPUs. When the flag swap_memory is true, we swap out these tensors from
+GPU to CPU. This for example allows us to train RNN models with very long
+sequences and large batches.</p>
+<h4 id="args_2">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">cond</code></b>: A callable that represents the termination condition of the loop.</li>
+<li><b><code dir="ltr" translate="no">body</code></b>: A callable that represents the loop body.</li>
+<li><b><code dir="ltr" translate="no">loop_vars</code></b>: A (possibly nested) tuple, namedtuple or list of numpy array,
+<code dir="ltr" translate="no">Tensor</code>, and <code dir="ltr" translate="no">TensorArray</code> objects.</li>
+<li><b><code dir="ltr" translate="no">shape_invariants</code></b>: The shape invariants for the loop variables.</li>
+<li><b><code dir="ltr" translate="no">parallel_iterations</code></b>: The number of iterations allowed to run in parallel. It
+must be a positive integer.</li>
+<li><b><code dir="ltr" translate="no">back_prop</code></b>: Whether backprop is enabled for this while loop.</li>
+<li><b><code dir="ltr" translate="no">swap_memory</code></b>: Whether GPU-CPU memory swap is enabled for this loop.</li>
+<li><b><code dir="ltr" translate="no">maximum_iterations</code></b>: Optional maximum number of iterations of the while loop
+to run.  If provided, the <code dir="ltr" translate="no">cond</code> output is AND-ed with an additional
+condition ensuring the number of iterations executed is no greater than
+<code dir="ltr" translate="no">maximum_iterations</code>.</li>
+<li><b><code dir="ltr" translate="no">name</code></b>: Optional name prefix for the returned tensors.</li>
+</ul>
+<h4 id="returns_2">Returns:</h4>
+<p>The output tensors for the loop variables after the loop. The return value
+  has the same structure as <code dir="ltr" translate="no">loop_vars</code>.</p>
+<h4 id="raises_2">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">TypeError</code></b>: if <code dir="ltr" translate="no">cond</code> or <code dir="ltr" translate="no">body</code> is not callable.</li>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>: if <code dir="ltr" translate="no">loop_vars</code> is empty.</li>
+</ul>
+<h4 id="example_2">Example:</h4>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">i = tf.constant(0)
+c = lambda i: tf.less(i, 10)
+b = lambda i: tf.add(i, 1)
+r = tf.while_loop(c, b, [i])
+</code></pre>
+<p>Example with nesting and a namedtuple:</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">import collections
+Pair = collections.namedtuple(&#39;Pair&#39;, &#39;j, k&#39;)
+ijk_0 = (tf.constant(0), Pair(tf.constant(1), tf.constant(2)))
+c = lambda i, p: i &lt; 10
+b = lambda i, p: (i + 1, Pair((p.j + p.k), (p.j - p.k)))
+ijk_final = tf.while_loop(c, b, ijk_0)
+</code></pre>
+<p>Example using shape_invariants:</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">i0 = tf.constant(0)
+m0 = tf.ones([2, 2])
+c = lambda i, m: i &lt; 10
+b = lambda i, m: [i+1, tf.concat([m, m], axis=0)]
+tf.while_loop(
+    c, b, loop_vars=[i0, m0],
+    shape_invariants=[i0.get_shape(), tf.TensorShape([None, 2])])
+</code></pre>
+<p>Example which demonstrates non-strict semantics: In the following
+example, the final value of the counter <code dir="ltr" translate="no">i</code> does not depend on <code dir="ltr" translate="no">x</code>. So
+the <code dir="ltr" translate="no">while_loop</code> can increment the counter parallel to updates of <code dir="ltr" translate="no">x</code>.
+However, because the loop counter at one loop iteration depends
+on the value at the previous iteration, the loop counter itself cannot
+be incremented in parallel. Hence if we just want the final value of the
+counter (which we print on the line <code dir="ltr" translate="no">print(sess.run(i))</code>), then
+<code dir="ltr" translate="no">x</code> will never be incremented, but the counter will be updated on a
+single thread. Conversely, if we want the value of the output (which we
+print on the line <code dir="ltr" translate="no">print(sess.run(out).shape)</code>), then the counter may be
+incremented on its own thread, while <code dir="ltr" translate="no">x</code> can be incremented in
+parallel on a separate thread. In the extreme case, it is conceivable
+that the thread incrementing the counter runs until completion before
+<code dir="ltr" translate="no">x</code> is incremented even a single time. The only thing that can never
+happen is that the thread updating <code dir="ltr" translate="no">x</code> can never get ahead of the
+counter thread because the thread incrementing <code dir="ltr" translate="no">x</code> depends on the value
+of the counter.</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">import tensorflow as tf
+
+n = 10000
+x = tf.constant(list(range(n)))
+c = lambda i, x: i &lt; n
+b = lambda i, x: (tf.compat.v1.Print(i + 1, [i]), tf.compat.v1.Print(x + 1,
+[i], &#34;x:&#34;))
+i, out = tf.while_loop(c, b, (0, x))
+with tf.compat.v1.Session() as sess:
+    print(sess.run(i))  # prints [0] ... [9999]
+
+    # The following line may increment the counter and x in parallel.
+    # The counter thread may get ahead of the other thread, but not the
+    # other way around. So you may see things like
+    # [9996] x:[9987]
+    # meaning that the counter thread is on iteration 9996,
+    # while the other thread is on iteration 9987
+    print(sess.run(out).shape)
+</code></pre>
+</div>
+<devsite-page-rating hover-rating-star="0" position="footer" selected-rating="0">
+</devsite-page-rating>
+</article>
+</article>
+
+</devsite-content>
+</main>
+<devsite-footer-promos class="devsite-footer">
+</devsite-footer-promos>
+<devsite-footer-linkboxes class="devsite-footer">
+
+</devsite-footer-linkboxes>
+<devsite-footer-utility class="devsite-footer">
+<div class="devsite-footer-utility nocontent">
+
+</div>
+</devsite-footer-utility>
+</section></section>
+<devsite-sitemask></devsite-sitemask>
+<devsite-snackbar></devsite-snackbar> <devsite-tooltip></devsite-tooltip>
+<devsite-heading-link></devsite-heading-link>
+<devsite-analytics>
+
+
+</devsite-analytics>
+ 
+</body></html>

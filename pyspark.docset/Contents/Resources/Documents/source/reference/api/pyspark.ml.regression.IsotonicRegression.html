@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>IsotonicRegression — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="isotonicregression">
+<h1>IsotonicRegression<a class="headerlink" href="#isotonicregression" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.regression.IsotonicRegression"><a name="//apple_ref/cpp/Class/pyspark.ml.regression.IsotonicRegression"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.regression.</code><code class="sig-name descname">IsotonicRegression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">featuresCol</span><span class="o">=</span><span class="default_value">'features'</span></em>, <em class="sig-param"><span class="n">labelCol</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">predictionCol</span><span class="o">=</span><span class="default_value">'prediction'</span></em>, <em class="sig-param"><span class="n">weightCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">isotonic</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">featureIndex</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#IsotonicRegression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Currently implemented using parallelized pool adjacent violators algorithm.
+Only univariate (single feature) algorithm supported.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[]))],</span> <span class="p">[</span><span class="s2">"label"</span><span class="p">,</span> <span class="s2">"features"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ir</span> <span class="o">=</span> <span class="n">IsotonicRegression</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ir</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">setFeaturesCol</span><span class="p">(</span><span class="s2">"features"</span><span class="p">)</span>
+<span class="go">IsotonicRegressionModel...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">numFeatures</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test0</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">),)],</span> <span class="p">[</span><span class="s2">"features"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test0</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">prediction</span>
+<span class="go">0.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test0</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">getFeatureIndex</span><span class="p">()])</span>
+<span class="go">0.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">boundaries</span>
+<span class="go">DenseVector([0.0, 1.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ir_path</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/ir"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ir</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">ir_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ir2</span> <span class="o">=</span> <span class="n">IsotonicRegression</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ir_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ir2</span><span class="o">.</span><span class="n">getIsotonic</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model_path</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/ir_model"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model2</span> <span class="o">=</span> <span class="n">IsotonicRegressionModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">boundaries</span> <span class="o">==</span> <span class="n">model2</span><span class="o">.</span><span class="n">boundaries</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">predictions</span> <span class="o">==</span> <span class="n">model2</span><span class="o">.</span><span class="n">predictions</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.clear"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.clear"></a>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears a param from the param map if it has been explicitly set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.copy"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.copy"></a>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a copy of this instance with the same uid and some
+extra params. This implementation first calls Params.copy and
+then make a copy of the companion Java pipeline component with
+extra params. So both the Python wrapper and the Java pipeline
+component get copied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Copy of this instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.explainParam"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.explainParam"></a>
+<code class="sig-name descname">explainParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.explainParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explains a single param and returns its name, doc, and optional
+default value and user-supplied value in a string.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.explainParams"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.explainParams"></a>
+<code class="sig-name descname">explainParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.explainParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the documentation of all params with their optionally
+default values and user-supplied values.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.extractParamMap"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.extractParamMap"></a>
+<code class="sig-name descname">extractParamMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the embedded default param values and user-supplied
+values, and then merges them with extra values from input into
+a flat param map, where the latter value is used if there exist
+conflicts, i.e., with ordering: default param values &lt;
+user-supplied values &lt; extra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>merged param map</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.fit"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.fit"></a>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the input dataset with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded params. If a list/tuple of
+param maps is given, this calls fit on each param map and returns a list of
+models.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fitted model(s)</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.fitMultiple"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.fitMultiple"></a>
+<code class="sig-name descname">fitMultiple</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">paramMaps</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.fitMultiple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a>.</p></li>
+<li><p><strong>paramMaps</strong> – A Sequence of param maps.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A thread safe iterable which contains one model for each param map. Each
+call to <cite>next(modelIterator)</cite> will return <cite>(index, model)</cite> where model was fit
+using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequential.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.getFeatureIndex"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.getFeatureIndex"></a>
+<code class="sig-name descname">getFeatureIndex</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.getFeatureIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of featureIndex or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.getFeaturesCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.getFeaturesCol"></a>
+<code class="sig-name descname">getFeaturesCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.getFeaturesCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of featuresCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.getIsotonic"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.getIsotonic"></a>
+<code class="sig-name descname">getIsotonic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.getIsotonic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of isotonic or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.getLabelCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.getLabelCol"></a>
+<code class="sig-name descname">getLabelCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.getLabelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of labelCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.getOrDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.getOrDefault"></a>
+<code class="sig-name descname">getOrDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a param in the user-supplied param map or its
+default value. Raises an error if neither is set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.getParam"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.getParam"></a>
+<code class="sig-name descname">getParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.getParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a param by its name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.getPredictionCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.getPredictionCol"></a>
+<code class="sig-name descname">getPredictionCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.getPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of predictionCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.getWeightCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.getWeightCol"></a>
+<code class="sig-name descname">getWeightCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.getWeightCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of weightCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.hasDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.hasDefault"></a>
+<code class="sig-name descname">hasDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.hasDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param has a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.hasParam"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.hasParam"></a>
+<code class="sig-name descname">hasParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.hasParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether this instance contains a param with a given
+(string) name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.isDefined"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.isDefined"></a>
+<code class="sig-name descname">isDefined</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.isDefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user or has
+a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.isSet"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.isSet"></a>
+<code class="sig-name descname">isSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.isSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.load"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.load"></a>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.read"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.read"></a>
+<em class="property">classmethod </em><code class="sig-name descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLReader instance for this class.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.save"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.save"></a>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.set"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.set"></a>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.setFeatureIndex"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.setFeatureIndex"></a>
+<code class="sig-name descname">setFeatureIndex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#IsotonicRegression.setFeatureIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.setFeatureIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.IsotonicRegression.featureIndex" title="pyspark.ml.regression.IsotonicRegression.featureIndex"><code class="xref py py-attr docutils literal notranslate"><span class="pre">featureIndex</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.setFeaturesCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.setFeaturesCol"></a>
+<code class="sig-name descname">setFeaturesCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#IsotonicRegression.setFeaturesCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.setFeaturesCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.IsotonicRegression.featuresCol" title="pyspark.ml.regression.IsotonicRegression.featuresCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">featuresCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.setIsotonic"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.setIsotonic"></a>
+<code class="sig-name descname">setIsotonic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#IsotonicRegression.setIsotonic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.setIsotonic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.IsotonicRegression.isotonic" title="pyspark.ml.regression.IsotonicRegression.isotonic"><code class="xref py py-attr docutils literal notranslate"><span class="pre">isotonic</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.setLabelCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.setLabelCol"></a>
+<code class="sig-name descname">setLabelCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#IsotonicRegression.setLabelCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.setLabelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.IsotonicRegression.labelCol" title="pyspark.ml.regression.IsotonicRegression.labelCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">labelCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.setParams"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.setParams"></a>
+<code class="sig-name descname">setParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">featuresCol</span><span class="o">=</span><span class="default_value">'features'</span></em>, <em class="sig-param"><span class="n">labelCol</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">predictionCol</span><span class="o">=</span><span class="default_value">'prediction'</span></em>, <em class="sig-param"><span class="n">weightCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">isotonic</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">featureIndex</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#IsotonicRegression.setParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>setParams(self, featuresCol=”features”, labelCol=”label”, predictionCol=”prediction”,                  weightCol=None, isotonic=True, featureIndex=0):
+Set the params for IsotonicRegression.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.setPredictionCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.setPredictionCol"></a>
+<code class="sig-name descname">setPredictionCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#IsotonicRegression.setPredictionCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.setPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.IsotonicRegression.predictionCol" title="pyspark.ml.regression.IsotonicRegression.predictionCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">predictionCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.setWeightCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.setWeightCol"></a>
+<code class="sig-name descname">setWeightCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#IsotonicRegression.setWeightCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.setWeightCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.IsotonicRegression.weightCol" title="pyspark.ml.regression.IsotonicRegression.weightCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">weightCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.IsotonicRegression.write"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.IsotonicRegression.write"></a>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLWriter instance for this ML instance.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.IsotonicRegression.featureIndex"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.IsotonicRegression.featureIndex"></a>
+<code class="sig-name descname">featureIndex</code><em class="property"> = Param(parent='undefined', name='featureIndex', doc='The index of the feature if featuresCol is a vector column, no effect otherwise.')</em><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.featureIndex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.IsotonicRegression.featuresCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.IsotonicRegression.featuresCol"></a>
+<code class="sig-name descname">featuresCol</code><em class="property"> = Param(parent='undefined', name='featuresCol', doc='features column name.')</em><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.featuresCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.IsotonicRegression.isotonic"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.IsotonicRegression.isotonic"></a>
+<code class="sig-name descname">isotonic</code><em class="property"> = Param(parent='undefined', name='isotonic', doc='whether the output sequence should be isotonic/increasing (true) orantitonic/decreasing (false).')</em><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.isotonic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.IsotonicRegression.labelCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.IsotonicRegression.labelCol"></a>
+<code class="sig-name descname">labelCol</code><em class="property"> = Param(parent='undefined', name='labelCol', doc='label column name.')</em><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.labelCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.IsotonicRegression.params"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.IsotonicRegression.params"></a>
+<code class="sig-name descname">params</code><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all params ordered by name. The default implementation
+uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.IsotonicRegression.predictionCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.IsotonicRegression.predictionCol"></a>
+<code class="sig-name descname">predictionCol</code><em class="property"> = Param(parent='undefined', name='predictionCol', doc='prediction column name.')</em><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.predictionCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.IsotonicRegression.weightCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.IsotonicRegression.weightCol"></a>
+<code class="sig-name descname">weightCol</code><em class="property"> = Param(parent='undefined', name='weightCol', doc='weight column name. If this is not set or empty, we treat all instance weights as 1.0.')</em><a class="headerlink" href="#pyspark.ml.regression.IsotonicRegression.weightCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

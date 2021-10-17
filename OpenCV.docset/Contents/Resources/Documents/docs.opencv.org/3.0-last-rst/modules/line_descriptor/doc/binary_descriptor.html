@@ -1,0 +1,518 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/line_descriptor/doc/binary_descriptor.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:25 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>BinaryDescriptor Class</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="Binary descriptors for lines extracted from an image" href="line_descriptor.html" />
+    <link rel="next" title="Line Segments Detector" href="LSDDetector.html" />
+    <link rel="prev" title="Binary descriptors for lines extracted from an image" href="line_descriptor.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="LSDDetector.html" title="Line Segments Detector"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="line_descriptor.html" title="Binary descriptors for lines extracted from an image"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="line_descriptor.html" accesskey="U">Binary descriptors for lines extracted from an image</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">BinaryDescriptor Class</a><ul>
+<li><a class="reference internal" href="#binarydescriptor-params">BinaryDescriptor::Params</a></li>
+<li><a class="reference internal" href="#binarydescriptor-binarydescriptor">BinaryDescriptor::BinaryDescriptor</a></li>
+<li><a class="reference internal" href="#binarydescriptor-getnumofoctaves">BinaryDescriptor::getNumOfOctaves</a></li>
+<li><a class="reference internal" href="#binarydescriptor-setnumofoctaves">BinaryDescriptor::setNumOfOctaves</a></li>
+<li><a class="reference internal" href="#binarydescriptor-getwidthofband">BinaryDescriptor::getWidthOfBand</a></li>
+<li><a class="reference internal" href="#binarydescriptor-setwidthofband">BinaryDescriptor::setWidthOfBand</a></li>
+<li><a class="reference internal" href="#binarydescriptor-getreductionratio">BinaryDescriptor::getReductionRatio</a></li>
+<li><a class="reference internal" href="#binarydescriptor-setreductionratio">BinaryDescriptor::setReductionRatio</a></li>
+<li><a class="reference internal" href="#binarydescriptor-createbinarydescriptor">BinaryDescriptor::createBinaryDescriptor</a></li>
+<li><a class="reference internal" href="#binarydescriptor-operator">BinaryDescriptor::operator()</a></li>
+<li><a class="reference internal" href="#binarydescriptor-read">BinaryDescriptor::read</a></li>
+<li><a class="reference internal" href="#binarydescriptor-write">BinaryDescriptor::write</a></li>
+<li><a class="reference internal" href="#binarydescriptor-defaultnorm">BinaryDescriptor::defaultNorm</a></li>
+<li><a class="reference internal" href="#binarydescriptor-descriptortype">BinaryDescriptor::descriptorType</a></li>
+<li><a class="reference internal" href="#binarydescriptor-descriptorsize">BinaryDescriptor::descriptorSize</a></li>
+<li><a class="reference internal" href="#binarydescriptor-detect">BinaryDescriptor::detect</a></li>
+<li><a class="reference internal" href="#binarydescriptor-compute">BinaryDescriptor::compute</a></li>
+<li><a class="reference internal" href="#related-pages">Related pages</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="line_descriptor.html"
+                        title="previous chapter">Binary descriptors for lines extracted from an image</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="LSDDetector.html"
+                        title="next chapter">Line Segments Detector</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="binarydescriptor-class">
+<span id="binary-descriptor"></span><h1>BinaryDescriptor Class<a class="headerlink" href="#binarydescriptor-class" title="Permalink to this headline">¶</a></h1>
+<p>BinaryDescriptor Class implements both functionalities for detection of lines and computation of their binary descriptor. Class&#8217; interface is mainly based on the ones of classical detectors and extractors, such as Feature2d&#8217;s <a class="reference external" href="http://docs.opencv.org/modules/features2d/doc/common_interfaces_of_feature_detectors.html?highlight=featuredetector#featuredetector">FeatureDetector</a> and <a class="reference external" href="http://docs.opencv.org/modules/features2d/doc/common_interfaces_of_descriptor_extractors.html?highlight=extractor#DescriptorExtractor:publicAlgorithm">DescriptorExtractor</a>.
+Retrieved information about lines is stored in <em>KeyLine</em> objects.</p>
+<div class="section" id="binarydescriptor-params">
+<h2>BinaryDescriptor::Params<a class="headerlink" href="#binarydescriptor-params" title="Permalink to this headline">¶</a></h2>
+<dl class="struct">
+<dt id="BinaryDescriptor::Params">
+<em class="property">struct </em><tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">Params</tt><a class="headerlink" href="#BinaryDescriptor::Params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>List of BinaryDescriptor parameters:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">CV_EXPORTS_W_SIMPLE</span> <span class="n">Params</span><span class="p">{</span>
+        <span class="n">CV_WRAP</span> <span class="n">Params</span><span class="p">();</span>
+
+        <span class="cm">/* the number of image octaves (default = 1) */</span>
+        <span class="n">CV_PROP_RW</span> <span class="kt">int</span>  <span class="n">numOfOctave_</span><span class="p">;</span>
+
+        <span class="cm">/* the width of band; (default = 7) */</span>
+        <span class="n">CV_PROP_RW</span> <span class="kt">int</span>  <span class="n">widthOfBand_</span><span class="p">;</span>
+
+        <span class="cm">/* image&#39;s reduction ratio in construction of Gaussian pyramids (default = 2) */</span>
+        <span class="n">CV_PROP_RW</span> <span class="kt">int</span> <span class="n">reductionRatio</span><span class="p">;</span>
+
+        <span class="cm">/* read parameters from a FileNode object and store them (struct function) */</span>
+        <span class="kt">void</span> <span class="nf">read</span><span class="p">(</span> <span class="k">const</span> <span class="n">FileNode</span><span class="o">&amp;</span> <span class="n">fn</span> <span class="p">);</span>
+
+        <span class="cm">/* store parameters to a FileStorage object (struct function) */</span>
+        <span class="kt">void</span> <span class="n">write</span><span class="p">(</span> <span class="n">FileStorage</span><span class="o">&amp;</span> <span class="n">fs</span> <span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+    <span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="binarydescriptor-binarydescriptor">
+<h2>BinaryDescriptor::BinaryDescriptor<a class="headerlink" href="#binarydescriptor-binarydescriptor" title="Permalink to this headline">¶</a></h2>
+<p>Constructor</p>
+<dl class="function">
+<dt id="bool BinaryDescriptor::BinaryDescriptor(const BinaryDescriptor::Params &amp;parameters)">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">BinaryDescriptor</tt><big>(</big>const BinaryDescriptor::Params&amp; <strong>parameters</strong>=BinaryDescriptor::Params() <big>)</big><a class="headerlink" href="#bool BinaryDescriptor::BinaryDescriptor(const BinaryDescriptor::Params &parameters)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parameters</strong> &#8211; configuration parameters <a class="reference internal" href="#BinaryDescriptor::Params" title="struct BinaryDescriptor::Params"><tt class="xref ocv ocv-struct docutils literal"><span class="pre">BinaryDescriptor::Params</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>If no argument is provided, constructor sets default values (see comments in the code snippet in previous section). Default values are strongly reccomended.</p>
+</div>
+<div class="section" id="binarydescriptor-getnumofoctaves">
+<h2>BinaryDescriptor::getNumOfOctaves<a class="headerlink" href="#binarydescriptor-getnumofoctaves" title="Permalink to this headline">¶</a></h2>
+<p>Get current number of octaves</p>
+<dl class="function">
+<dt id="int BinaryDescriptor::getNumOfOctaves()">
+<strong>C++:</strong><tt class="descname"> </tt>int <tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">getNumOfOctaves</tt><big>(</big><big>)</big><a class="headerlink" href="#int BinaryDescriptor::getNumOfOctaves()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="binarydescriptor-setnumofoctaves">
+<h2>BinaryDescriptor::setNumOfOctaves<a class="headerlink" href="#binarydescriptor-setnumofoctaves" title="Permalink to this headline">¶</a></h2>
+<p>Set number of octaves</p>
+<dl class="function">
+<dt id="void BinaryDescriptor::setNumOfOctaves(int octaves)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">setNumOfOctaves</tt><big>(</big>int <strong>octaves</strong><big>)</big><a class="headerlink" href="#void BinaryDescriptor::setNumOfOctaves(int octaves)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>octaves</strong> &#8211; number of octaves</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="binarydescriptor-getwidthofband">
+<h2>BinaryDescriptor::getWidthOfBand<a class="headerlink" href="#binarydescriptor-getwidthofband" title="Permalink to this headline">¶</a></h2>
+<p>Get current width of bands</p>
+<dl class="function">
+<dt id="int BinaryDescriptor::getWidthOfBand()">
+<strong>C++:</strong><tt class="descname"> </tt>int <tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">getWidthOfBand</tt><big>(</big><big>)</big><a class="headerlink" href="#int BinaryDescriptor::getWidthOfBand()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="binarydescriptor-setwidthofband">
+<h2>BinaryDescriptor::setWidthOfBand<a class="headerlink" href="#binarydescriptor-setwidthofband" title="Permalink to this headline">¶</a></h2>
+<p>Set width of bands</p>
+<dl class="function">
+<dt id="void BinaryDescriptor::setWidthOfBand(int width)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">setWidthOfBand</tt><big>(</big>int <strong>width</strong><big>)</big><a class="headerlink" href="#void BinaryDescriptor::setWidthOfBand(int width)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>width</strong> &#8211; width of bands</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="binarydescriptor-getreductionratio">
+<h2>BinaryDescriptor::getReductionRatio<a class="headerlink" href="#binarydescriptor-getreductionratio" title="Permalink to this headline">¶</a></h2>
+<p>Get current reduction ratio (used in Gaussian pyramids)</p>
+<dl class="function">
+<dt id="int BinaryDescriptor::getReductionRatio()">
+<strong>C++:</strong><tt class="descname"> </tt>int <tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">getReductionRatio</tt><big>(</big><big>)</big><a class="headerlink" href="#int BinaryDescriptor::getReductionRatio()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="binarydescriptor-setreductionratio">
+<h2>BinaryDescriptor::setReductionRatio<a class="headerlink" href="#binarydescriptor-setreductionratio" title="Permalink to this headline">¶</a></h2>
+<p>Set reduction ratio (used in Gaussian pyramids)</p>
+<dl class="function">
+<dt id="void BinaryDescriptor::setReductionRatio(int rRatio)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">setReductionRatio</tt><big>(</big>int <strong>rRatio</strong><big>)</big><a class="headerlink" href="#void BinaryDescriptor::setReductionRatio(int rRatio)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rRatio</strong> &#8211; reduction ratio</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="binarydescriptor-createbinarydescriptor">
+<h2>BinaryDescriptor::createBinaryDescriptor<a class="headerlink" href="#binarydescriptor-createbinarydescriptor" title="Permalink to this headline">¶</a></h2>
+<p>Create a BinaryDescriptor object with default parameters (or with the ones provided) and return a smart pointer to it</p>
+<dl class="function">
+<dt id="Ptr&lt;BinaryDescriptor&gt; BinaryDescriptor::createBinaryDescriptor()">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;BinaryDescriptor&gt; <tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">createBinaryDescriptor</tt><big>(</big><big>)</big><a class="headerlink" href="#Ptr<BinaryDescriptor> BinaryDescriptor::createBinaryDescriptor()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Ptr&lt;BinaryDescriptor&gt; BinaryDescriptor::createBinaryDescriptor(Params parameters)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;BinaryDescriptor&gt; <tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">createBinaryDescriptor</tt><big>(</big>Params <strong>parameters</strong><big>)</big><a class="headerlink" href="#Ptr<BinaryDescriptor> BinaryDescriptor::createBinaryDescriptor(Params parameters)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="binarydescriptor-operator">
+<h2>BinaryDescriptor::operator()<a class="headerlink" href="#binarydescriptor-operator" title="Permalink to this headline">¶</a></h2>
+<p>Define operator &#8216;()&#8217; to perform detection of KeyLines and computation of descriptors in a row.</p>
+<dl class="function">
+<dt id="void BinaryDescriptor::operator()(InputArray image, InputArray mask, vector&lt;KeyLine&gt;&amp; keylines, OutputArray descriptors, bool useProvidedKeyLines, bool returnFloatDescr) const">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">operator()</tt><big>(</big>InputArray <strong>image</strong>, InputArray <strong>mask</strong>, vector&lt;KeyLine&gt;&amp; <strong>keylines</strong>, OutputArray <strong>descriptors</strong>, bool <strong>useProvidedKeyLines</strong>=false, bool <strong>returnFloatDescr</strong><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#void BinaryDescriptor::operator()(InputArray image, InputArray mask, vector<KeyLine>& keylines, OutputArray descriptors, bool useProvidedKeyLines, bool returnFloatDescr) const" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> &#8211; input image</li>
+<li><strong>mask</strong> &#8211; mask matrix to select which lines in KeyLines must be accepted among the ones extracted (used when <em>keylines</em> is not empty)</li>
+<li><strong>keylines</strong> &#8211; vector that contains input lines (when filled, the detection part will be skipped and input lines will be passed as input to the algorithm computing descriptors)</li>
+<li><strong>descriptors</strong> &#8211; matrix that will store final descriptors</li>
+<li><strong>useProvidedKeyLines</strong> &#8211; flag (when set to true, detection phase will be skipped and only computation of descriptors will be executed, using lines provided in <em>keylines</em>)</li>
+<li><strong>returnFloatDescr</strong> &#8211; flag (when set to true, original non-binary descriptors are returned)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="binarydescriptor-read">
+<h2>BinaryDescriptor::read<a class="headerlink" href="#binarydescriptor-read" title="Permalink to this headline">¶</a></h2>
+<p>Read parameters from a FileNode object and store them</p>
+<dl class="function">
+<dt id="void BinaryDescriptor::read(const FileNode&amp; fn)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">read</tt><big>(</big>const FileNode&amp; <strong>fn</strong><big>)</big><a class="headerlink" href="#void BinaryDescriptor::read(const FileNode& fn)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fn</strong> &#8211; source FileNode file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="binarydescriptor-write">
+<h2>BinaryDescriptor::write<a class="headerlink" href="#binarydescriptor-write" title="Permalink to this headline">¶</a></h2>
+<p>Store parameters to a FileStorage object</p>
+<dl class="function">
+<dt id="void BinaryDescriptor::write(FileStorage&amp; fs) const">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">write</tt><big>(</big>FileStorage&amp; <strong>fs</strong><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#void BinaryDescriptor::write(FileStorage& fs) const" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fs</strong> &#8211; output FileStorage file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="binarydescriptor-defaultnorm">
+<h2>BinaryDescriptor::defaultNorm<a class="headerlink" href="#binarydescriptor-defaultnorm" title="Permalink to this headline">¶</a></h2>
+<p>Return norm mode</p>
+<dl class="function">
+<dt id="int BinaryDescriptor::defaultNorm() const">
+<strong>C++:</strong><tt class="descname"> </tt>int <tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">defaultNorm</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#int BinaryDescriptor::defaultNorm() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="binarydescriptor-descriptortype">
+<h2>BinaryDescriptor::descriptorType<a class="headerlink" href="#binarydescriptor-descriptortype" title="Permalink to this headline">¶</a></h2>
+<p>Return data type</p>
+<dl class="function">
+<dt id="int BinaryDescriptor::descriptorType() const">
+<strong>C++:</strong><tt class="descname"> </tt>int <tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">descriptorType</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#int BinaryDescriptor::descriptorType() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="binarydescriptor-descriptorsize">
+<h2>BinaryDescriptor::descriptorSize<a class="headerlink" href="#binarydescriptor-descriptorsize" title="Permalink to this headline">¶</a></h2>
+<p>Return descriptor size</p>
+<dl class="function">
+<dt id="int BinaryDescriptor::descriptorSize() const">
+<strong>C++:</strong><tt class="descname"> </tt>int <tt class="descclassname">BinaryDescriptor::</tt><tt class="descname">descriptorSize</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#int BinaryDescriptor::descriptorSize() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="binarydescriptor-detect">
+<h2>BinaryDescriptor::detect<a class="headerlink" href="#binarydescriptor-detect" title="Permalink to this headline">¶</a></h2>
+<p>Requires line detection (for one or more images)</p>
+<dl class="function">
+<dt id="void detect(const Mat&amp; image, vector&lt;KeyLine&gt;&amp; keylines, Mat&amp; mask)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">detect</tt><big>(</big>const Mat&amp; <strong>image</strong>, vector&lt;KeyLine&gt;&amp; <strong>keylines</strong>, Mat&amp; <strong>mask</strong>=Mat() <big>)</big><a class="headerlink" href="#void detect(const Mat& image, vector<KeyLine>& keylines, Mat& mask)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="void detect(const vector&lt;Mat&gt;&amp; images, vector&lt;vector&lt;KeyLine&gt; &gt;&amp; keylines, vector&lt;Mat&gt;&amp; masks) const">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">detect</tt><big>(</big>const vector&lt;Mat&gt;&amp; <strong>images</strong>, vector&lt;vector&lt;KeyLine&gt;&gt;&amp; <strong>keylines</strong>, vector&lt;Mat&gt;&amp; <strong>masks</strong>=vector&lt;Mat&gt;() <big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#void detect(const vector<Mat>& images, vector<vector<KeyLine> >& keylines, vector<Mat>& masks) const" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> &#8211; input image</li>
+<li><strong>images</strong> &#8211; input images</li>
+<li><strong>keylines</strong> &#8211; vector or set of vectors that will store extracted lines for one or more images</li>
+<li><strong>mask</strong> &#8211; mask matrix to detect only KeyLines of interest</li>
+<li><strong>masks</strong> &#8211; vector of mask matrices to detect only KeyLines of interest from each input image</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="binarydescriptor-compute">
+<h2>BinaryDescriptor::compute<a class="headerlink" href="#binarydescriptor-compute" title="Permalink to this headline">¶</a></h2>
+<p>Requires descriptors computation (for one or more images)</p>
+<dl class="function">
+<dt id="void compute(const Mat&amp; image, vector&lt;KeyLine&gt;&amp; keylines, Mat&amp; descriptors, bool returnFloatDescr) const">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">compute</tt><big>(</big>const Mat&amp; <strong>image</strong>, vector&lt;KeyLine&gt;&amp; <strong>keylines</strong>, Mat&amp; <strong>descriptors</strong>, bool <strong>returnFloatDescr</strong><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#void compute(const Mat& image, vector<KeyLine>& keylines, Mat& descriptors, bool returnFloatDescr) const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="void compute(const vector&lt;Mat&gt;&amp; images, vector&lt;vector&lt;KeyLine&gt; &gt;&amp; keylines, vector&lt;Mat&gt;&amp; descriptors, bool returnFloatDescr) const">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">compute</tt><big>(</big>const vector&lt;Mat&gt;&amp; <strong>images</strong>, vector&lt;vector&lt;KeyLine&gt;&gt;&amp; <strong>keylines</strong>, vector&lt;Mat&gt;&amp; <strong>descriptors</strong>, bool <strong>returnFloatDescr</strong><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#void compute(const vector<Mat>& images, vector<vector<KeyLine> >& keylines, vector<Mat>& descriptors, bool returnFloatDescr) const" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> &#8211; input image</li>
+<li><strong>images</strong> &#8211; input images</li>
+<li><strong>keylines</strong> &#8211; vector or set of vectors containing lines for which descriptors must be computed</li>
+<li><strong>mask</strong> &#8211; mask to select for which lines, among the ones provided in input, descriptors must be computed</li>
+<li><strong>masks</strong> &#8211; set of masks to select for which lines, among the ones provided in input, descriptors must be computed</li>
+<li><strong>returnFloatDescr</strong> &#8211; flag (when set to true, original non-binary descriptors are returned)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="related-pages">
+<h2>Related pages<a class="headerlink" href="#related-pages" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="line_descriptor.html#line-descriptor"><em>Binary descriptors for lines extracted from an image</em></a></li>
+<li><a class="reference internal" href="matching.html#matching"><em>Matching with binary descriptors</em></a></li>
+<li><a class="reference internal" href="drawing_functions.html#drawing"><em>Drawing Functions for Keylines and Matches</em></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="LSDDetector.html" title="Line Segments Detector"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="line_descriptor.html" title="Binary descriptors for lines extracted from an image"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="line_descriptor.html" >Binary descriptors for lines extracted from an image</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/line_descriptor/doc/binary_descriptor.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/line_descriptor/doc/binary_descriptor.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:25 GMT -->
+</html>

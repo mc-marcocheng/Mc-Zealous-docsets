@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/doc/tutorials/introduction/linux_install/linux_install.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 07:05:10 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installation in Linux</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../../index.html" />
+    <link rel="up" title="Introduction to OpenCV" href="../table_of_content_introduction/table_of_content_introduction.html" />
+    <link rel="next" title="Using OpenCV with gcc and CMake" href="../linux_gcc_cmake/linux_gcc_cmake.html" />
+    <link rel="prev" title="Introduction to OpenCV" href="../table_of_content_introduction/table_of_content_introduction.html" />
+    <link href='../../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../linux_gcc_cmake/linux_gcc_cmake.html" title="Using OpenCV with gcc and CMake"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../table_of_content_introduction/table_of_content_introduction.html" title="Introduction to OpenCV"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../tutorials.html" >OpenCV Tutorials</a> &raquo;</li>
+          <li><a href="../table_of_content_introduction/table_of_content_introduction.html" accesskey="U">Introduction to OpenCV</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation in Linux</a><ul>
+<li><a class="reference internal" href="#required-packages">Required Packages</a></li>
+<li><a class="reference internal" href="#getting-opencv-source-code">Getting OpenCV Source Code</a><ul>
+<li><a class="reference internal" href="#getting-the-latest-stable-opencv-version">Getting the Latest Stable OpenCV Version</a></li>
+<li><a class="reference internal" href="#getting-the-cutting-edge-opencv-from-the-git-repository">Getting the Cutting-edge OpenCV from the Git Repository</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-opencv-from-source-using-cmake">Building OpenCV from Source Using CMake</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../table_of_content_introduction/table_of_content_introduction.html"
+                        title="previous chapter">Introduction to OpenCV</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../linux_gcc_cmake/linux_gcc_cmake.html"
+                        title="next chapter">Using OpenCV with gcc and CMake</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installation-in-linux">
+<span id="linux-installation"></span><h1>Installation in Linux<a class="headerlink" href="#installation-in-linux" title="Permalink to this headline">¶</a></h1>
+<p>These steps have been tested for Ubuntu 10.04 but should work with other distros as well.</p>
+<div class="section" id="required-packages">
+<h2>Required Packages<a class="headerlink" href="#required-packages" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>GCC 4.4.x or later</li>
+<li>CMake 2.8.7 or higher</li>
+<li>Git</li>
+<li>GTK+2.x or higher, including headers (libgtk2.0-dev)</li>
+<li>pkg-config</li>
+<li>Python 2.6 or later and Numpy 1.5 or later with developer packages (python-dev, python-numpy)</li>
+<li>ffmpeg or libav development packages: libavcodec-dev, libavformat-dev, libswscale-dev</li>
+<li>[optional] libtbb2 libtbb-dev</li>
+<li>[optional] libdc1394 2.x</li>
+<li>[optional] libjpeg-dev, libpng-dev, libtiff-dev, libjasper-dev, libdc1394-22-dev</li>
+</ul>
+<p>The packages can be installed using a terminal and the following commands or by using Synaptic Manager:</p>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span class="o">[</span>compiler<span class="o">]</span> sudo apt-get install build-essential
+<span class="o">[</span>required<span class="o">]</span> sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+<span class="o">[</span>optional<span class="o">]</span> sudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="getting-opencv-source-code">
+<h2>Getting OpenCV Source Code<a class="headerlink" href="#getting-opencv-source-code" title="Permalink to this headline">¶</a></h2>
+<p>You can use the latest stable OpenCV version or you can grab the latest snapshot from our <a class="reference external" href="https://github.com/Itseez/opencv.git">Git repository</a>.</p>
+<div class="section" id="getting-the-latest-stable-opencv-version">
+<h3>Getting the Latest Stable OpenCV Version<a class="headerlink" href="#getting-the-latest-stable-opencv-version" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Go to our <a class="reference external" href="http://opencv.org/downloads.html">downloads page</a>.</li>
+<li>Download the source archive and unpack it.</li>
+</ul>
+</div>
+<div class="section" id="getting-the-cutting-edge-opencv-from-the-git-repository">
+<h3>Getting the Cutting-edge OpenCV from the Git Repository<a class="headerlink" href="#getting-the-cutting-edge-opencv-from-the-git-repository" title="Permalink to this headline">¶</a></h3>
+<p>Launch Git client and clone <a class="reference external" href="http://github.com/itseez/opencv">OpenCV repository</a>.
+If you need modules from <a class="reference external" href="http://github.com/itseez/opencv_contrib">OpenCV contrib repository</a> then clone it too.</p>
+<p>For example</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/&lt;my_working_directory&gt;
+git clone https://github.com/Itseez/opencv.git
+git clone https://github.com/Itseez/opencv_contrib.git
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="building-opencv-from-source-using-cmake">
+<h2>Building OpenCV from Source Using CMake<a class="headerlink" href="#building-opencv-from-source-using-cmake" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Create a temporary directory, which we denote as &lt;cmake_build_dir&gt;, where you want to put the generated Makefiles, project files as well the object files and output binaries and enter there.</p>
+<p>For example</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/opencv
+mkdir build
+<span class="nb">cd </span>build
+</pre></div>
+</div>
+</li>
+<li><p class="first">Configuring. Run
+cmake [&lt;some optional parameters&gt;] &lt;path to the OpenCV source directory&gt;</p>
+<p>For example</p>
+<div class="highlight-bash"><div class="highlight"><pre>cmake -D <span class="nv">CMAKE_BUILD_TYPE</span><span class="o">=</span>Release -D <span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">=</span>/usr/local ..
+</pre></div>
+</div>
+<p>or cmake-gui</p>
+<ul class="simple">
+<li>set full path to OpenCV source code, e.g. /home/user/opencv</li>
+<li>set full path to &lt;cmake_build_dir&gt;, e.g. /home/user/opencv/build</li>
+<li>set optional parameters</li>
+<li>run: “Configure”</li>
+<li>run: “Generate”</li>
+</ul>
+</li>
+<li><p class="first">Description of some parameters</p>
+<ul class="simple">
+<li>build type: CMAKE_BUILD_TYPE=Release\Debug</li>
+<li>to build with modules from opencv_contrib set OPENCV_EXTRA_MODULES_PATH to &lt;path to opencv_contrib/modules/&gt;</li>
+<li>set BUILD_DOCS for building documents</li>
+<li>set BUILD_EXAMPLES to build all examples</li>
+</ul>
+</li>
+<li><p class="first">[optional] Building python. Set the following python parameters:</p>
+<ul class="simple">
+<li>PYTHON2(3)_EXECUTABLE = &lt;path to python&gt;</li>
+<li>PYTHON_INCLUDE_DIR = /usr/include/python&lt;version&gt;</li>
+<li>PYTHON_INCLUDE_DIR2 = /usr/include/x86_64-linux-gnu/python&lt;version&gt;</li>
+<li>PYTHON_LIBRARY = /usr/lib/x86_64-linux-gnu/libpython&lt;version&gt;.so</li>
+<li>PYTHON2(3)_NUMPY_INCLUDE_DIRS = /usr/lib/python&lt;version&gt;/dist-packages/numpy/core/include/</li>
+</ul>
+</li>
+<li><p class="first">[optional] Building java.</p>
+<ul class="simple">
+<li>Unset parameter: BUILD_SHARED_LIBS</li>
+<li>It is useful also to unset BUILD_EXAMPLES, BUILD_TESTS, BUILD_PERF_TESTS - as they all will be statically linked with OpenCV and can take a lot of memory.</li>
+</ul>
+</li>
+<li><p class="first">Build. From build directory execute make, recomend to do it in several threads</p>
+<p>For example</p>
+<div class="highlight-bash"><div class="highlight"><pre>make -j7 <span class="c"># runs 7 jobs in parallel</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">[optional] Building documents. Enter &lt;cmake_build_dir/doc/&gt; and run make with target &#8220;html_docs&#8221;</p>
+<p>For example</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/opencv/build/doc/
+make -j7 html_docs
+</pre></div>
+</div>
+</li>
+<li><p class="first">To install libraries, from build directory execute</p>
+<div class="highlight-bash"><div class="highlight"><pre>sudo make install
+</pre></div>
+</div>
+</li>
+<li><p class="first">[optional] Running tests</p>
+<ul class="simple">
+<li>Get the required test data from <a class="reference external" href="https://github.com/Itseez/opencv_extra">OpenCV extra repository</a>.</li>
+</ul>
+<p>For example</p>
+<div class="highlight-bash"><div class="highlight"><pre>git clone https://github.com/Itseez/opencv_extra.git
+</pre></div>
+</div>
+<ul class="simple">
+<li>set OPENCV_TEST_DATA_PATH environment variable to &lt;path to opencv_extra/testdata&gt;.</li>
+<li>execute tests from build directory.</li>
+</ul>
+<p>For example</p>
+<div class="highlight-bash"><div class="highlight"><pre>&lt;cmake_build_dir&gt;/bin/opencv_test_core
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the size of the created library is a critical issue (like in case of an Android build) you can use the <tt class="docutils literal"><span class="pre">install/strip</span></tt> command to get the smallest size as possible. The <em>stripped</em> version appears to be twice as small. However, we do not recommend using this unless those extra megabytes do really matter.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../linux_gcc_cmake/linux_gcc_cmake.html" title="Using OpenCV with gcc and CMake"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../table_of_content_introduction/table_of_content_introduction.html" title="Introduction to OpenCV"
+             >previous</a> |</li>
+        <li><a href="../../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../tutorials.html" >OpenCV Tutorials</a> &raquo;</li>
+          <li><a href="../table_of_content_introduction/table_of_content_introduction.html" >Introduction to OpenCV</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../../_sources/doc/tutorials/introduction/linux_install/linux_install.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/doc/tutorials/introduction/linux_install/linux_install.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 07:05:10 GMT -->
+</html>

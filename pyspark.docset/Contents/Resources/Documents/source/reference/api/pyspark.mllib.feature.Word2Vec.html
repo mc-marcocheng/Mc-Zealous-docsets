@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Word2Vec — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="word2vec">
+<h1>Word2Vec<a class="headerlink" href="#word2vec" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.feature.Word2Vec"><a name="//apple_ref/cpp/Class/pyspark.mllib.feature.Word2Vec"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.feature.</code><code class="sig-name descname">Word2Vec</code><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#Word2Vec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.Word2Vec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Word2Vec creates vector representation of words in a text corpus.
+The algorithm first constructs a vocabulary from the corpus
+and then learns vector representation of words in the vocabulary.
+The vector representation can be used as features in
+natural language processing and machine learning algorithms.</p>
+<p>We used skip-gram model in our implementation and hierarchical
+softmax method to train the model. The variable names in the
+implementation matches the original C implementation.</p>
+<p>For original C implementation,
+see <a class="reference external" href="https://code.google.com/p/word2vec/">https://code.google.com/p/word2vec/</a>
+For research papers, see
+Efficient Estimation of Word Representations in Vector Space
+and Distributed Representations of Words and Phrases and their
+Compositionality.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sentence</span> <span class="o">=</span> <span class="s2">"a b "</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">+</span> <span class="s2">"a c "</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">localDoc</span> <span class="o">=</span> <span class="p">[</span><span class="n">sentence</span><span class="p">,</span> <span class="n">sentence</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">doc</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">localDoc</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">line</span><span class="p">:</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">Word2Vec</span><span class="p">()</span><span class="o">.</span><span class="n">setVectorSize</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">setSeed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Querying for synonyms of a word will not return that word:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">syms</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">findSynonyms</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">syms</span><span class="p">]</span>
+<span class="go">['b', 'c']</span>
+</pre></div>
+</div>
+<p>But querying for synonyms of a vector may return the word whose
+representation is that vector:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s2">"a"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">syms</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">findSynonyms</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">syms</span><span class="p">]</span>
+<span class="go">['a', 'b']</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">tempfile</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sameModel</span> <span class="o">=</span> <span class="n">Word2VecModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s2">"a"</span><span class="p">)</span> <span class="o">==</span> <span class="n">sameModel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s2">"a"</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">syms</span> <span class="o">=</span> <span class="n">sameModel</span><span class="o">.</span><span class="n">findSynonyms</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">syms</span><span class="p">]</span>
+<span class="go">['b', 'c']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">rmtree</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">rmtree</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.Word2Vec.fit"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.Word2Vec.fit"></a>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#Word2Vec.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.Word2Vec.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the vector representation of each word in vocabulary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – training data. RDD of list of string</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Word2VecModel instance</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.Word2Vec.setLearningRate"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.Word2Vec.setLearningRate"></a>
+<code class="sig-name descname">setLearningRate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">learningRate</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#Word2Vec.setLearningRate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.Word2Vec.setLearningRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets initial learning rate (default: 0.025).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.Word2Vec.setMinCount"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.Word2Vec.setMinCount"></a>
+<code class="sig-name descname">setMinCount</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">minCount</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#Word2Vec.setMinCount"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.Word2Vec.setMinCount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets minCount, the minimum number of times a token must appear
+to be included in the word2vec model’s vocabulary (default: 5).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.Word2Vec.setNumIterations"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.Word2Vec.setNumIterations"></a>
+<code class="sig-name descname">setNumIterations</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">numIterations</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#Word2Vec.setNumIterations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.Word2Vec.setNumIterations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets number of iterations (default: 1), which should be smaller
+than or equal to number of partitions.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.Word2Vec.setNumPartitions"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.Word2Vec.setNumPartitions"></a>
+<code class="sig-name descname">setNumPartitions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">numPartitions</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#Word2Vec.setNumPartitions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.Word2Vec.setNumPartitions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets number of partitions (default: 1). Use a small number for
+accuracy.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.Word2Vec.setSeed"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.Word2Vec.setSeed"></a>
+<code class="sig-name descname">setSeed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">seed</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#Word2Vec.setSeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.Word2Vec.setSeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets random seed.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.Word2Vec.setVectorSize"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.Word2Vec.setVectorSize"></a>
+<code class="sig-name descname">setVectorSize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vectorSize</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#Word2Vec.setVectorSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.Word2Vec.setVectorSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets vector size (default: 100).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.Word2Vec.setWindowSize"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.Word2Vec.setWindowSize"></a>
+<code class="sig-name descname">setWindowSize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">windowSize</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#Word2Vec.setWindowSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.Word2Vec.setWindowSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets window size (default: 5).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

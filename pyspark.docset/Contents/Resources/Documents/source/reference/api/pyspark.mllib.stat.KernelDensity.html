@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KernelDensity — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="kerneldensity">
+<h1>KernelDensity<a class="headerlink" href="#kerneldensity" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.stat.KernelDensity"><a name="//apple_ref/cpp/Class/pyspark.mllib.stat.KernelDensity"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.stat.</code><code class="sig-name descname">KernelDensity</code><a class="reference internal" href="../../../_modules/pyspark/mllib/stat/KernelDensity.html#KernelDensity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.stat.KernelDensity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate probability density at required points given an RDD of samples
+from the population.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kd</span> <span class="o">=</span> <span class="n">KernelDensity</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sample</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kd</span><span class="o">.</span><span class="n">setSample</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kd</span><span class="o">.</span><span class="n">estimate</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="go">array([ 0.12938758,  0.12938758])</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.stat.KernelDensity.estimate"><a name="//apple_ref/cpp/Method/pyspark.mllib.stat.KernelDensity.estimate"></a>
+<code class="sig-name descname">estimate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">points</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/stat/KernelDensity.html#KernelDensity.estimate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.stat.KernelDensity.estimate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the probability density at points</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.stat.KernelDensity.setBandwidth"><a name="//apple_ref/cpp/Method/pyspark.mllib.stat.KernelDensity.setBandwidth"></a>
+<code class="sig-name descname">setBandwidth</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bandwidth</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/stat/KernelDensity.html#KernelDensity.setBandwidth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.stat.KernelDensity.setBandwidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set bandwidth of each sample. Defaults to 1.0</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.stat.KernelDensity.setSample"><a name="//apple_ref/cpp/Method/pyspark.mllib.stat.KernelDensity.setSample"></a>
+<code class="sig-name descname">setSample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/stat/KernelDensity.html#KernelDensity.setSample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.stat.KernelDensity.setSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set sample points from the population. Should be a RDD</p>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

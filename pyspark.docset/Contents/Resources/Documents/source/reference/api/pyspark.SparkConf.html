@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.SparkConf — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-sparkconf">
+<h1>pyspark.SparkConf<a class="headerlink" href="#pyspark-sparkconf" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.SparkConf"><a name="//apple_ref/cpp/Class/pyspark.SparkConf"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.</code><code class="sig-name descname">SparkConf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">loadDefaults</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">_jvm</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">_jconf</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/conf.html#SparkConf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.SparkConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configuration for a Spark application. Used to set various Spark
+parameters as key-value pairs.</p>
+<p>Most of the time, you would create a SparkConf object with
+<code class="docutils literal notranslate"><span class="pre">SparkConf()</span></code>, which will load values from <cite>spark.*</cite> Java system
+properties as well. In this case, any parameters you set directly on
+the <a class="reference internal" href="#pyspark.SparkConf" title="pyspark.SparkConf"><code class="xref py py-class docutils literal notranslate"><span class="pre">SparkConf</span></code></a> object take priority over system properties.</p>
+<p>For unit tests, you can also call <code class="docutils literal notranslate"><span class="pre">SparkConf(false)</span></code> to skip
+loading external settings and get the same configuration no matter
+what the system properties are.</p>
+<p>All setter methods in this class support chaining. For example,
+you can write <code class="docutils literal notranslate"><span class="pre">conf.setMaster("local").setAppName("My</span> <span class="pre">app")</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Once a SparkConf object is passed to Spark, it is cloned
+and can no longer be modified by the user.</p>
+</div>
+<dl class="py method">
+<dt id="pyspark.SparkConf.__init__"><a name="//apple_ref/cpp/Method/pyspark.SparkConf.__init__"></a>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">loadDefaults</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">_jvm</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">_jconf</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/conf.html#SparkConf.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.SparkConf.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new Spark configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>loadDefaults</strong> – whether to load values from Java system
+properties (True by default)</p></li>
+<li><p><strong>_jvm</strong> – internal parameter used to pass a handle to the
+Java VM; does not need to be set by users</p></li>
+<li><p><strong>_jconf</strong> – Optionally pass in an existing SparkConf handle
+to use its parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<p class="rubric">Methods</p>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

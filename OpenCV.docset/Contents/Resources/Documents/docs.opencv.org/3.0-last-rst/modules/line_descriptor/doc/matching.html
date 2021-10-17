@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/line_descriptor/doc/matching.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:25 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Matching with binary descriptors</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="Binary descriptors for lines extracted from an image" href="line_descriptor.html" />
+    <link rel="next" title="Drawing Functions for Keylines and Matches" href="drawing_functions.html" />
+    <link rel="prev" title="Line Segments Detector" href="LSDDetector.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="drawing_functions.html" title="Drawing Functions for Keylines and Matches"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="LSDDetector.html" title="Line Segments Detector"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="line_descriptor.html" accesskey="U">Binary descriptors for lines extracted from an image</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Matching with binary descriptors</a><ul>
+<li><a class="reference internal" href="#multi-index-hashing">Multi-Index Hashing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#binarydescriptormatcher-class">BinaryDescriptorMatcher Class</a><ul>
+<li><a class="reference internal" href="#binarydescriptormatcher-binarydescriptormatcher">BinaryDescriptorMatcher::BinaryDescriptorMatcher</a></li>
+<li><a class="reference internal" href="#binarydescriptormatcher-createbinarydescriptormatcher">BinaryDescriptorMatcher::createBinaryDescriptorMatcher</a></li>
+<li><a class="reference internal" href="#binarydescriptormatcher-add">BinaryDescriptorMatcher::add</a></li>
+<li><a class="reference internal" href="#binarydescriptormatcher-train">BinaryDescriptorMatcher::train</a></li>
+<li><a class="reference internal" href="#binarydescriptormatcher-clear">BinaryDescriptorMatcher::clear</a></li>
+<li><a class="reference internal" href="#binarydescriptormatcher-match">BinaryDescriptorMatcher::match</a></li>
+<li><a class="reference internal" href="#binarydescriptormatcher-knnmatch">BinaryDescriptorMatcher::knnMatch</a></li>
+<li><a class="reference internal" href="#binarydescriptormatcher-radiusmatch">BinaryDescriptorMatcher::radiusMatch</a></li>
+<li><a class="reference internal" href="#related-pages">Related pages</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="LSDDetector.html"
+                        title="previous chapter">Line Segments Detector</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="drawing_functions.html"
+                        title="next chapter">Drawing Functions for Keylines and Matches</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="matching-with-binary-descriptors">
+<span id="matching"></span><h1>Matching with binary descriptors<a class="headerlink" href="#matching-with-binary-descriptors" title="Permalink to this headline">¶</a></h1>
+<p>Once descriptors have been extracted from an image (both they represent lines and points), it becomes interesting to be able to match a descriptor with another one extracted from a different image and representing the same line or point, seen from a differente perspective or on a different scale.
+In reaching such goal, the main headache is designing an efficient search algorithm to associate a query descriptor to one extracted from a dataset.
+In the following, a matching modality based on <em>Multi-Index Hashing (MiHashing)</em> will be described.</p>
+<div class="section" id="multi-index-hashing">
+<h2>Multi-Index Hashing<a class="headerlink" href="#multi-index-hashing" title="Permalink to this headline">¶</a></h2>
+<p>The theory described in this section is based on <a class="reference internal" href="#mih" id="id1">[MIH]</a>.
+Given a dataset populated with binary codes, each code is indexed <em>m</em> times into <em>m</em> different hash tables, according to <em>m</em> substrings it has been divided into. Thus, given a query code, all the entries close to it at least in one substring are returned by search as <em>neighbor candidates</em>. Returned entries are then checked for validity by verifying that their full codes are not distant (in Hamming space) more than <em>r</em> bits from query code.
+In details, each binary code <strong>h</strong> composed of <em>b</em> bits is divided into <em>m</em> disjoint substrings <img class="math" src="../../../_images/math/d26ce8b62fe6ef46abb38a1f1b7528586789c441.png" alt="\mathbf{h}^{(1)}, ..., \mathbf{h}^{(m)}"/>, each with length <img class="math" src="../../../_images/math/f966988632477cd26c038edfc7fa6e27cff43d52.png" alt="\lfloor b/m \rfloor"/> or <img class="math" src="../../../_images/math/11b82b0a7501586d0cfdc2735a03cec3f4a71619.png" alt="\lceil b/m \rceil"/> bits. Formally, when two codes <strong>h</strong> and <strong>g</strong> differ by at the most <em>r</em> bits, in at the least one of their <em>m</em> substrings they differ by at the most <img class="math" src="../../../_images/math/c71e920fd3715dc4533817b7bd779c15cd32e631.png" alt="\lfloor r/m \rfloor"/> bits. In particular, when <img class="math" src="../../../_images/math/fd3686bfee305ac84d912844cd0b2b3a507aafdf.png" alt="||\mathbf{h}-\mathbf{g}||_H \le r"/> (where <img class="math" src="../../../_images/math/acf7823af470ed949e13c3ccbbedd56212533d63.png" alt="||.||_H"/> is the Hamming norm), there must exist a substring <em>k</em> (with <img class="math" src="../../../_images/math/c9a46c5cd6be3f96ea1ce77cf71a609918c63d19.png" alt="1 \le k \le m"/>) such that</p>
+<div class="math">
+<p><img src="../../../_images/math/74d8d4ebac136c60b1bf9e2d8dd89b35240bbb3e.png" alt="||\mathbf{h}^{(k)} - \mathbf{g}^{(k)}||_H \le \left\lfloor \frac{r}{m} \right\rfloor ."/></p>
+</div><p>That means that if Hamming distance between each of the <em>m</em> substring is strictly greater than <img class="math" src="../../../_images/math/c71e920fd3715dc4533817b7bd779c15cd32e631.png" alt="\lfloor r/m \rfloor"/>, then <img class="math" src="../../../_images/math/56cb8c13107da653b07f22ec5b41f7c5bc7b79f6.png" alt="||\mathbf{h}-\mathbf{g}||_H"/> must be larger that <em>r</em> and that is a contradiction.
+If the codes in dataset are divided into <em>m</em> substrings, then <em>m</em> tables will be built. Given a query <strong>q</strong> with substrings <img class="math" src="../../../_images/math/d3186d1abf06b99860b0c9ca0d9b0a6e98f0ae24.png" alt="\{\mathbf{q}^{(i)}\}^m_{i=1}"/>, <em>i</em>-th hash table is searched for entries distant at the most <img class="math" src="../../../_images/math/c71e920fd3715dc4533817b7bd779c15cd32e631.png" alt="\lfloor r/m \rfloor"/> from <img class="math" src="../../../_images/math/5bbc52931c6afae43ef096c1c9e8f4678fa21c1f.png" alt="\mathbf{q}^{(i)}"/> and a set of candidates <img class="math" src="../../../_images/math/4584f39ef1fdb59bd0077b97bae2f7f8b4320012.png" alt="\mathcal{N}_i(\mathbf{q})"/> is obtained.
+The union of sets <img class="math" src="../../../_images/math/3eabd1e894a663d19c69cd528f12ae7469b0f204.png" alt="\mathcal{N}(\mathbf{q}) = \bigcup_i \mathcal{N}_i(\mathbf{q})"/> is a superset of the <em>r</em>-neighbors of <strong>q</strong>. Then, last step of algorithm is computing the Hamming distance between <strong>q</strong> and each element in <img class="math" src="../../../_images/math/e13684c64dd444aa084a6de7fb0a68ee92863863.png" alt="\mathcal{N}(\mathbf{q})"/>, deleting the codes that are distant more that <em>r</em> from <strong>q</strong>.</p>
+</div>
+</div>
+<div class="section" id="binarydescriptormatcher-class">
+<h1>BinaryDescriptorMatcher Class<a class="headerlink" href="#binarydescriptormatcher-class" title="Permalink to this headline">¶</a></h1>
+<p>BinaryDescriptorMatcher Class furnishes all functionalities for querying a dataset provided by user or internal to class (that user must, anyway, populate) on the model of Feature2d&#8217;s <a class="reference external" href="http://docs.opencv.org/modules/features2d/doc/common_interfaces_of_descriptor_matchers.html?highlight=bfmatcher#descriptormatcher">DescriptorMatcher</a>.</p>
+<div class="section" id="binarydescriptormatcher-binarydescriptormatcher">
+<h2>BinaryDescriptorMatcher::BinaryDescriptorMatcher<a class="headerlink" href="#binarydescriptormatcher-binarydescriptormatcher" title="Permalink to this headline">¶</a></h2>
+<p>Constructor.</p>
+<dl class="function">
+<dt id="BinaryDescriptorMatcher::BinaryDescriptorMatcher()">
+<strong>C++:</strong><tt class="descname"> </tt> <tt class="descclassname">BinaryDescriptorMatcher::</tt><tt class="descname">BinaryDescriptorMatcher</tt><big>(</big><big>)</big><a class="headerlink" href="#BinaryDescriptorMatcher::BinaryDescriptorMatcher()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>The BinaryDescriptorMatcher constructed is able to store and manage 256-bits long entries.</p>
+</div>
+<div class="section" id="binarydescriptormatcher-createbinarydescriptormatcher">
+<h2>BinaryDescriptorMatcher::createBinaryDescriptorMatcher<a class="headerlink" href="#binarydescriptormatcher-createbinarydescriptormatcher" title="Permalink to this headline">¶</a></h2>
+<p>Create a BinaryDescriptorMatcher object and return a smart pointer to it.</p>
+<dl class="function">
+<dt id="Ptr&lt;BinaryDescriptorMatcher&gt; BinaryDescriptorMatcher::createBinaryDescriptorMatcher()">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;BinaryDescriptorMatcher&gt; <tt class="descclassname">BinaryDescriptorMatcher::</tt><tt class="descname">createBinaryDescriptorMatcher</tt><big>(</big><big>)</big><a class="headerlink" href="#Ptr<BinaryDescriptorMatcher> BinaryDescriptorMatcher::createBinaryDescriptorMatcher()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="binarydescriptormatcher-add">
+<h2>BinaryDescriptorMatcher::add<a class="headerlink" href="#binarydescriptormatcher-add" title="Permalink to this headline">¶</a></h2>
+<p>Store locally new descriptors to be inserted in dataset, without updating dataset.</p>
+<dl class="function">
+<dt id="void BinaryDescriptorMatcher::add(const std::vector&lt;Mat&gt;&amp; descriptors)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">BinaryDescriptorMatcher::</tt><tt class="descname">add</tt><big>(</big>const std::vector&lt;Mat&gt;&amp; <strong>descriptors</strong><big>)</big><a class="headerlink" href="#void BinaryDescriptorMatcher::add(const std::vector<Mat>& descriptors)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>descriptors</strong> &#8211; matrices containing descriptors to be inserted into dataset</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Each matrix <em>i</em> in <strong>descriptors</strong> should contain descriptors relative to lines extracted from <em>i</em>-th image.</p>
+</div>
+</div>
+<div class="section" id="binarydescriptormatcher-train">
+<h2>BinaryDescriptorMatcher::train<a class="headerlink" href="#binarydescriptormatcher-train" title="Permalink to this headline">¶</a></h2>
+<p>Update dataset by inserting into it all descriptors that were stored locally by <em>add</em> function.</p>
+<dl class="function">
+<dt id="void BinaryDescriptorMatcher::train()">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">BinaryDescriptorMatcher::</tt><tt class="descname">train</tt><big>(</big><big>)</big><a class="headerlink" href="#void BinaryDescriptorMatcher::train()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Every time this function is invoked, current dataset is deleted and locally stored descriptors are inserted into dataset. The locally stored copy of just inserted descriptors is then removed.</p>
+</div>
+</div>
+<div class="section" id="binarydescriptormatcher-clear">
+<h2>BinaryDescriptorMatcher::clear<a class="headerlink" href="#binarydescriptormatcher-clear" title="Permalink to this headline">¶</a></h2>
+<p>Clear dataset and internal data</p>
+<dl class="function">
+<dt id="void BinaryDescriptorMatcher::clear()">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">BinaryDescriptorMatcher::</tt><tt class="descname">clear</tt><big>(</big><big>)</big><a class="headerlink" href="#void BinaryDescriptorMatcher::clear()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="binarydescriptormatcher-match">
+<h2>BinaryDescriptorMatcher::match<a class="headerlink" href="#binarydescriptormatcher-match" title="Permalink to this headline">¶</a></h2>
+<p>For every input query descriptor, retrieve the best matching one from a dataset provided from user or from the one internal to class</p>
+<dl class="function">
+<dt id="void BinaryDescriptorMatcher::match(const Mat&amp; queryDescriptors, const Mat&amp; trainDescriptors, std::vector&lt;DMatch&gt;&amp; matches, const Mat&amp; mask) const">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">BinaryDescriptorMatcher::</tt><tt class="descname">match</tt><big>(</big>const Mat&amp; <strong>queryDescriptors</strong>, const Mat&amp; <strong>trainDescriptors</strong>, std::vector&lt;DMatch&gt;&amp; <strong>matches</strong>, const Mat&amp; <strong>mask</strong>=Mat() <big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#void BinaryDescriptorMatcher::match(const Mat& queryDescriptors, const Mat& trainDescriptors, std::vector<DMatch>& matches, const Mat& mask) const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="void BinaryDescriptorMatcher::match(const Mat&amp; queryDescriptors, std::vector&lt;DMatch&gt;&amp; matches, const std::vector&lt;Mat&gt;&amp; masks)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">BinaryDescriptorMatcher::</tt><tt class="descname">match</tt><big>(</big>const Mat&amp; <strong>queryDescriptors</strong>, std::vector&lt;DMatch&gt;&amp; <strong>matches</strong>, const std::vector&lt;Mat&gt;&amp; <strong>masks</strong>=std::vector&lt;Mat&gt;() <big>)</big><a class="headerlink" href="#void BinaryDescriptorMatcher::match(const Mat& queryDescriptors, std::vector<DMatch>& matches, const std::vector<Mat>& masks)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>queryDescriptors</strong> &#8211; query descriptors</li>
+<li><strong>trainDescriptors</strong> &#8211; dataset of descriptors furnished by user</li>
+<li><strong>matches</strong> &#8211; vector to host retrieved matches</li>
+<li><strong>mask</strong> &#8211; mask to select which input descriptors must be matched to one in dataset</li>
+<li><strong>masks</strong> &#8211; vector of masks to select which input descriptors must be matched to one in dataset (the <em>i</em>-th mask in vector indicates whether each input query can be matched with descriptors in dataset relative to <em>i</em>-th image)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="binarydescriptormatcher-knnmatch">
+<h2>BinaryDescriptorMatcher::knnMatch<a class="headerlink" href="#binarydescriptormatcher-knnmatch" title="Permalink to this headline">¶</a></h2>
+<p>For every input query descriptor, retrieve the best <em>k</em> matching ones from a dataset provided from user or from the one internal to class</p>
+<dl class="function">
+<dt id="void BinaryDescriptorMatcher::knnMatch(const Mat&amp; queryDescriptors, const Mat&amp; trainDescriptors, std::vector&lt;std::vector&lt;DMatch&gt; &gt;&amp; matches, int k, const Mat&amp; mask, bool compactResult) const">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">BinaryDescriptorMatcher::</tt><tt class="descname">knnMatch</tt><big>(</big>const Mat&amp; <strong>queryDescriptors</strong>, const Mat&amp; <strong>trainDescriptors</strong>, std::vector&lt;std::vector&lt;DMatch&gt;&gt;&amp; <strong>matches</strong>, int <strong>k</strong>, const Mat&amp; <strong>mask</strong>=Mat(), bool <strong>compactResult</strong>=false <big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#void BinaryDescriptorMatcher::knnMatch(const Mat& queryDescriptors, const Mat& trainDescriptors, std::vector<std::vector<DMatch> >& matches, int k, const Mat& mask, bool compactResult) const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="void BinaryDescriptorMatcher::knnMatch(const Mat&amp; queryDescriptors, std::vector&lt;std::vector&lt;DMatch&gt; &gt;&amp; matches, int k, const std::vector&lt;Mat&gt;&amp; masks, bool compactResult)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">BinaryDescriptorMatcher::</tt><tt class="descname">knnMatch</tt><big>(</big>const Mat&amp; <strong>queryDescriptors</strong>, std::vector&lt;std::vector&lt;DMatch&gt;&gt;&amp; <strong>matches</strong>, int <strong>k</strong>, const std::vector&lt;Mat&gt;&amp; <strong>masks</strong>=std::vector&lt;Mat&gt;(), bool <strong>compactResult</strong>=false <big>)</big><a class="headerlink" href="#void BinaryDescriptorMatcher::knnMatch(const Mat& queryDescriptors, std::vector<std::vector<DMatch> >& matches, int k, const std::vector<Mat>& masks, bool compactResult)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>queryDescriptors</strong> &#8211; query descriptors</li>
+<li><strong>trainDescriptors</strong> &#8211; dataset of descriptors furnished by user</li>
+<li><strong>matches</strong> &#8211; vector to host retrieved matches</li>
+<li><strong>k</strong> &#8211; number of the closest descriptors to be returned for every input query</li>
+<li><strong>mask</strong> &#8211; mask to select which input descriptors must be matched to ones in dataset</li>
+<li><strong>masks</strong> &#8211; vector of masks to select which input descriptors must be matched to ones in dataset (the <em>i</em>-th mask in vector indicates whether each input query can be matched with descriptors in dataset relative to <em>i</em>-th image)</li>
+<li><strong>compactResult</strong> &#8211; flag to obtain a compact result (if true, a vector that doesn&#8217;t contain any matches for a given query is not inserted in final result)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="binarydescriptormatcher-radiusmatch">
+<h2>BinaryDescriptorMatcher::radiusMatch<a class="headerlink" href="#binarydescriptormatcher-radiusmatch" title="Permalink to this headline">¶</a></h2>
+<p>For every input query descriptor, retrieve, from a dataset provided from user or from the one internal to class, all the descriptors that are not further than <em>maxDist</em> from input query</p>
+<dl class="function">
+<dt id="void BinaryDescriptorMatcher::radiusMatch(const Mat&amp; queryDescriptors, const Mat&amp; trainDescriptors, std::vector&lt;std::vector&lt;DMatch&gt; &gt;&amp; matches, float maxDistance, const Mat&amp; mask, bool compactResult) const">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">BinaryDescriptorMatcher::</tt><tt class="descname">radiusMatch</tt><big>(</big>const Mat&amp; <strong>queryDescriptors</strong>, const Mat&amp; <strong>trainDescriptors</strong>, std::vector&lt;std::vector&lt;DMatch&gt;&gt;&amp; <strong>matches</strong>, float <strong>maxDistance</strong>, const Mat&amp; <strong>mask</strong>=Mat(), bool <strong>compactResult</strong>=false <big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#void BinaryDescriptorMatcher::radiusMatch(const Mat& queryDescriptors, const Mat& trainDescriptors, std::vector<std::vector<DMatch> >& matches, float maxDistance, const Mat& mask, bool compactResult) const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="void BinaryDescriptorMatcher::radiusMatch(const Mat&amp; queryDescriptors, std::vector&lt;std::vector&lt;DMatch&gt; &gt;&amp; matches, float maxDistance, const std::vector&lt;Mat&gt;&amp; masks, bool compactResult)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">BinaryDescriptorMatcher::</tt><tt class="descname">radiusMatch</tt><big>(</big>const Mat&amp; <strong>queryDescriptors</strong>, std::vector&lt;std::vector&lt;DMatch&gt;&gt;&amp; <strong>matches</strong>, float <strong>maxDistance</strong>, const std::vector&lt;Mat&gt;&amp; <strong>masks</strong>=std::vector&lt;Mat&gt;(), bool <strong>compactResult</strong>=false <big>)</big><a class="headerlink" href="#void BinaryDescriptorMatcher::radiusMatch(const Mat& queryDescriptors, std::vector<std::vector<DMatch> >& matches, float maxDistance, const std::vector<Mat>& masks, bool compactResult)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>queryDescriptors</strong> &#8211; query descriptors</li>
+<li><strong>trainDescriptors</strong> &#8211; dataset of descriptors furnished by user</li>
+<li><strong>matches</strong> &#8211; vector to host retrieved matches</li>
+<li><strong>maxDist</strong> &#8211; search radius</li>
+<li><strong>mask</strong> &#8211; mask to select which input descriptors must be matched to ones in dataset</li>
+<li><strong>masks</strong> &#8211; vector of masks to select which input descriptors must be matched to ones in dataset (the <em>i</em>-th mask in vector indicates whether each input query can be matched with descriptors in dataset relative to <em>i</em>-th image)</li>
+<li><strong>compactResult</strong> &#8211; flag to obtain a compact result (if true, a vector that doesn&#8217;t contain any matches for a given query is not inserted in final result)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="related-pages">
+<h2>Related pages<a class="headerlink" href="#related-pages" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="line_descriptor.html#line-descriptor"><em>Binary descriptors for lines extracted from an image</em></a></li>
+<li><a class="reference internal" href="binary_descriptor.html#binary-descriptor"><em>BinaryDescriptor Class</em></a></li>
+<li><a class="reference internal" href="drawing_functions.html#drawing"><em>Drawing Functions for Keylines and Matches</em></a></li>
+</ul>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<table class="docutils citation" frame="void" id="mih" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[MIH]</a></td><td>Norouzi, Mohammad, Ali Punjani, and David J. Fleet. <em>Fast search in hamming space with multi-index hashing</em>, Computer Vision and Pattern Recognition (CVPR), 2012 IEEE Conference on. IEEE, 2012.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="drawing_functions.html" title="Drawing Functions for Keylines and Matches"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="LSDDetector.html" title="Line Segments Detector"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="line_descriptor.html" >Binary descriptors for lines extracted from an image</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/line_descriptor/doc/matching.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/line_descriptor/doc/matching.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:25 GMT -->
+</html>

@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>BinaryLogisticRegressionTrainingSummary — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="binarylogisticregressiontrainingsummary">
+<h1>BinaryLogisticRegressionTrainingSummary<a class="headerlink" href="#binarylogisticregressiontrainingsummary" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary"><a name="//apple_ref/cpp/Class/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.classification.</code><code class="sig-name descname">BinaryLogisticRegressionTrainingSummary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">java_obj</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/classification.html#BinaryLogisticRegressionTrainingSummary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary Logistic regression training results for a given model.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.fMeasureByLabel"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.fMeasureByLabel"></a>
+<code class="sig-name descname">fMeasureByLabel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">beta</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.fMeasureByLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns f-measure for each label (category).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.weightedFMeasure"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.weightedFMeasure"></a>
+<code class="sig-name descname">weightedFMeasure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">beta</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.weightedFMeasure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted averaged f-measure.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.accuracy"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.accuracy"></a>
+<code class="sig-name descname">accuracy</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.accuracy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns accuracy.
+(equals to the total number of correctly classified instances
+out of the total number of instances.)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.areaUnderROC"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.areaUnderROC"></a>
+<code class="sig-name descname">areaUnderROC</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.areaUnderROC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the area under the receiver operating characteristic
+(ROC) curve.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This ignores instance weights (setting all to 1.0) from
+<cite>LogisticRegression.weightCol</cite>. This will change in later Spark
+versions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.fMeasureByThreshold"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.fMeasureByThreshold"></a>
+<code class="sig-name descname">fMeasureByThreshold</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.fMeasureByThreshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dataframe with two fields (threshold, F-Measure) curve
+with beta = 1.0.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This ignores instance weights (setting all to 1.0) from
+<cite>LogisticRegression.weightCol</cite>. This will change in later Spark
+versions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.falsePositiveRateByLabel"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.falsePositiveRateByLabel"></a>
+<code class="sig-name descname">falsePositiveRateByLabel</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.falsePositiveRateByLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns false positive rate for each label (category).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.featuresCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.featuresCol"></a>
+<code class="sig-name descname">featuresCol</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.featuresCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field in “predictions” which gives the features of each instance
+as a vector.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.labelCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.labelCol"></a>
+<code class="sig-name descname">labelCol</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.labelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field in “predictions” which gives the true label of each
+instance.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.labels"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.labels"></a>
+<code class="sig-name descname">labels</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the sequence of labels in ascending order. This order matches the order used
+in metrics which are specified as arrays over labels, e.g., truePositiveRateByLabel.</p>
+<p>Note: In most cases, it will be values {0.0, 1.0, …, numClasses-1}, However, if the
+training set is missing a label, then all of the arrays over labels
+(e.g., from truePositiveRateByLabel) will be of length numClasses-1 instead of the
+expected numClasses.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.objectiveHistory"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.objectiveHistory"></a>
+<code class="sig-name descname">objectiveHistory</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.objectiveHistory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Objective function (scaled loss + regularization) at each
+iteration.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.pr"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.pr"></a>
+<code class="sig-name descname">pr</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.pr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the precision-recall curve, which is a Dataframe
+containing two fields recall, precision with (0.0, 1.0) prepended
+to it.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This ignores instance weights (setting all to 1.0) from
+<cite>LogisticRegression.weightCol</cite>. This will change in later Spark
+versions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.precisionByLabel"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.precisionByLabel"></a>
+<code class="sig-name descname">precisionByLabel</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.precisionByLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns precision for each label (category).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.precisionByThreshold"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.precisionByThreshold"></a>
+<code class="sig-name descname">precisionByThreshold</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.precisionByThreshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dataframe with two fields (threshold, precision) curve.
+Every possible probability obtained in transforming the dataset
+are used as thresholds used in calculating the precision.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This ignores instance weights (setting all to 1.0) from
+<cite>LogisticRegression.weightCol</cite>. This will change in later Spark
+versions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.predictionCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.predictionCol"></a>
+<code class="sig-name descname">predictionCol</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.predictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field in “predictions” which gives the prediction of each class.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.predictions"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.predictions"></a>
+<code class="sig-name descname">predictions</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.predictions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dataframe outputted by the model’s <cite>transform</cite> method.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.probabilityCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.probabilityCol"></a>
+<code class="sig-name descname">probabilityCol</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.probabilityCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field in “predictions” which gives the probability
+of each class as a vector.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.recallByLabel"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.recallByLabel"></a>
+<code class="sig-name descname">recallByLabel</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.recallByLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns recall for each label (category).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.recallByThreshold"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.recallByThreshold"></a>
+<code class="sig-name descname">recallByThreshold</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.recallByThreshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dataframe with two fields (threshold, recall) curve.
+Every possible probability obtained in transforming the dataset
+are used as thresholds used in calculating the recall.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This ignores instance weights (setting all to 1.0) from
+<cite>LogisticRegression.weightCol</cite>. This will change in later Spark
+versions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.roc"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.roc"></a>
+<code class="sig-name descname">roc</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.roc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the receiver operating characteristic (ROC) curve,
+which is a Dataframe having two fields (FPR, TPR) with
+(0.0, 0.0) prepended and (1.0, 1.0) appended to it.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="http://en.wikipedia.org/wiki/Receiver_operating_characteristic">Wikipedia reference</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This ignores instance weights (setting all to 1.0) from
+<cite>LogisticRegression.weightCol</cite>. This will change in later Spark
+versions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.totalIterations"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.totalIterations"></a>
+<code class="sig-name descname">totalIterations</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.totalIterations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of training iterations until termination.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.truePositiveRateByLabel"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.truePositiveRateByLabel"></a>
+<code class="sig-name descname">truePositiveRateByLabel</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.truePositiveRateByLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true positive rate for each label (category).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.weightedFalsePositiveRate"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.weightedFalsePositiveRate"></a>
+<code class="sig-name descname">weightedFalsePositiveRate</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.weightedFalsePositiveRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted false positive rate.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.weightedPrecision"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.weightedPrecision"></a>
+<code class="sig-name descname">weightedPrecision</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.weightedPrecision" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted averaged precision.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.weightedRecall"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.weightedRecall"></a>
+<code class="sig-name descname">weightedRecall</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.weightedRecall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted averaged recall.
+(equals to precision, recall and f-measure)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.weightedTruePositiveRate"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.weightedTruePositiveRate"></a>
+<code class="sig-name descname">weightedTruePositiveRate</code><a class="headerlink" href="#pyspark.ml.classification.BinaryLogisticRegressionTrainingSummary.weightedTruePositiveRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted true positive rate.
+(equals to precision, recall and f-measure)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

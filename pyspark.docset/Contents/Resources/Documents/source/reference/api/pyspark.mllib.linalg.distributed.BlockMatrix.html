@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>BlockMatrix — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="blockmatrix">
+<h1>BlockMatrix<a class="headerlink" href="#blockmatrix" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix"><a name="//apple_ref/cpp/Class/pyspark.mllib.linalg.distributed.BlockMatrix"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.linalg.distributed.</code><code class="sig-name descname">BlockMatrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">blocks</span></em>, <em class="sig-param"><span class="n">rowsPerBlock</span></em>, <em class="sig-param"><span class="n">colsPerBlock</span></em>, <em class="sig-param"><span class="n">numRows</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">numCols</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#BlockMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a distributed matrix in blocks of local matrices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>blocks</strong> – An RDD of sub-matrix blocks
+((blockRowIndex, blockColIndex), sub-matrix) that
+form this distributed matrix. If multiple blocks
+with the same index exist, the results for
+operations like add and multiply will be
+unpredictable.</p></li>
+<li><p><strong>rowsPerBlock</strong> – Number of rows that make up each block.
+The blocks forming the final rows are not
+required to have the given number of rows.</p></li>
+<li><p><strong>colsPerBlock</strong> – Number of columns that make up each block.
+The blocks forming the final columns are not
+required to have the given number of columns.</p></li>
+<li><p><strong>numRows</strong> – Number of rows of this matrix. If the supplied
+value is less than or equal to zero, the number
+of rows will be calculated when <cite>numRows</cite> is
+invoked.</p></li>
+<li><p><strong>numCols</strong> – Number of columns of this matrix. If the supplied
+value is less than or equal to zero, the number
+of columns will be calculated when <cite>numCols</cite> is
+invoked.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.add"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.BlockMatrix.add"></a>
+<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#BlockMatrix.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds two block matrices together. The matrices must have the
+same size and matching <cite>rowsPerBlock</cite> and <cite>colsPerBlock</cite> values.
+If one of the sub matrix blocks that are being added is a
+SparseMatrix, the resulting sub matrix block will also be a
+SparseMatrix, even if it is being added to a DenseMatrix. If
+two dense sub matrix blocks are added, the output block will
+also be a DenseMatrix.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dm1</span> <span class="o">=</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm2</span> <span class="o">=</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span> <span class="o">=</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blocks1</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dm1</span><span class="p">),</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dm2</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blocks2</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dm1</span><span class="p">),</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dm2</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blocks3</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">sm</span><span class="p">),</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dm2</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat1</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat2</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat3</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">mat2</span><span class="p">)</span><span class="o">.</span><span class="n">toLocalMatrix</span><span class="p">()</span>
+<span class="go">DenseMatrix(6, 2, [2.0, 4.0, 6.0, 14.0, 16.0, 18.0, 8.0, 10.0, 12.0, 20.0, 22.0, 24.0], 0)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">mat3</span><span class="p">)</span><span class="o">.</span><span class="n">toLocalMatrix</span><span class="p">()</span>
+<span class="go">DenseMatrix(6, 2, [8.0, 2.0, 3.0, 14.0, 16.0, 18.0, 4.0, 16.0, 18.0, 20.0, 22.0, 24.0], 0)</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.cache"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.BlockMatrix.cache"></a>
+<code class="sig-name descname">cache</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#BlockMatrix.cache"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Caches the underlying RDD.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.multiply"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.BlockMatrix.multiply"></a>
+<code class="sig-name descname">multiply</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#BlockMatrix.multiply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.multiply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Left multiplies this BlockMatrix by <cite>other</cite>, another
+BlockMatrix. The <cite>colsPerBlock</cite> of this matrix must equal the
+<cite>rowsPerBlock</cite> of <cite>other</cite>. If <cite>other</cite> contains any SparseMatrix
+blocks, they will have to be converted to DenseMatrix blocks.
+The output BlockMatrix will only consist of DenseMatrix blocks.
+This may cause some performance issues until support for
+multiplying two sparse matrices is added.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dm1</span> <span class="o">=</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm2</span> <span class="o">=</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm3</span> <span class="o">=</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm4</span> <span class="o">=</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span> <span class="o">=</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blocks1</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dm1</span><span class="p">),</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dm2</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blocks2</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dm3</span><span class="p">),</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dm4</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blocks3</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">sm</span><span class="p">),</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dm4</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat1</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat2</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat3</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat1</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">mat2</span><span class="p">)</span><span class="o">.</span><span class="n">toLocalMatrix</span><span class="p">()</span>
+<span class="go">DenseMatrix(2, 2, [242.0, 272.0, 350.0, 398.0], 0)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat1</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">mat3</span><span class="p">)</span><span class="o">.</span><span class="n">toLocalMatrix</span><span class="p">()</span>
+<span class="go">DenseMatrix(2, 2, [227.0, 258.0, 394.0, 450.0], 0)</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.numCols"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.BlockMatrix.numCols"></a>
+<code class="sig-name descname">numCols</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#BlockMatrix.numCols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.numCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or compute the number of cols.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blocks</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])),</span>
+<span class="gp">... </span>                         <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]))])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">numCols</span><span class="p">())</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">numCols</span><span class="p">())</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.numRows"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.BlockMatrix.numRows"></a>
+<code class="sig-name descname">numRows</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#BlockMatrix.numRows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.numRows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or compute the number of rows.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blocks</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])),</span>
+<span class="gp">... </span>                         <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]))])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">numRows</span><span class="p">())</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">numRows</span><span class="p">())</span>
+<span class="go">7</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.persist"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.BlockMatrix.persist"></a>
+<code class="sig-name descname">persist</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">storageLevel</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#BlockMatrix.persist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.persist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Persists the underlying RDD with the specified storage level.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.subtract"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.BlockMatrix.subtract"></a>
+<code class="sig-name descname">subtract</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#BlockMatrix.subtract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.subtract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subtracts the given block matrix <cite>other</cite> from this block matrix:
+<cite>this - other</cite>. The matrices must have the same size and
+matching <cite>rowsPerBlock</cite> and <cite>colsPerBlock</cite> values.  If one of
+the sub matrix blocks that are being subtracted is a
+SparseMatrix, the resulting sub matrix block will also be a
+SparseMatrix, even if it is being subtracted from a DenseMatrix.
+If two dense sub matrix blocks are subtracted, the output block
+will also be a DenseMatrix.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dm1</span> <span class="o">=</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dm2</span> <span class="o">=</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span> <span class="o">=</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blocks1</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dm1</span><span class="p">),</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dm2</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blocks2</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dm2</span><span class="p">),</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dm1</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blocks3</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">sm</span><span class="p">),</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dm2</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat1</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat2</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat3</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat1</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">mat2</span><span class="p">)</span><span class="o">.</span><span class="n">toLocalMatrix</span><span class="p">()</span>
+<span class="go">DenseMatrix(6, 2, [-4.0, -7.0, -4.0, 4.0, 7.0, 4.0, -6.0, -5.0, -10.0, 6.0, 5.0, 10.0], 0)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat2</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">mat3</span><span class="p">)</span><span class="o">.</span><span class="n">toLocalMatrix</span><span class="p">()</span>
+<span class="go">DenseMatrix(6, 2, [6.0, 8.0, 9.0, -4.0, -7.0, -4.0, 10.0, 9.0, 9.0, -6.0, -5.0, -10.0], 0)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.toCoordinateMatrix"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.BlockMatrix.toCoordinateMatrix"></a>
+<code class="sig-name descname">toCoordinateMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#BlockMatrix.toCoordinateMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.toCoordinateMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert this matrix to a CoordinateMatrix.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blocks</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])),</span>
+<span class="gp">... </span>                         <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]))])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">toCoordinateMatrix</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span><span class="o">.</span><span class="n">entries</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">[MatrixEntry(0, 0, 1.0), MatrixEntry(0, 1, 2.0), MatrixEntry(1, 0, 7.0)]</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.toIndexedRowMatrix"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.BlockMatrix.toIndexedRowMatrix"></a>
+<code class="sig-name descname">toIndexedRowMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#BlockMatrix.toIndexedRowMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.toIndexedRowMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert this matrix to an IndexedRowMatrix.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blocks</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])),</span>
+<span class="gp">... </span>                         <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]))])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">toIndexedRowMatrix</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># This BlockMatrix will have 6 effective rows, due to</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># having two sub-matrix blocks stacked, each with 3 rows.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The ensuing IndexedRowMatrix will also have 6 rows.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">numRows</span><span class="p">())</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># This BlockMatrix will have 2 effective columns, due to</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># having two sub-matrix blocks stacked, each with 2 columns.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The ensuing IndexedRowMatrix will also have 2 columns.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">numCols</span><span class="p">())</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.toLocalMatrix"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.BlockMatrix.toLocalMatrix"></a>
+<code class="sig-name descname">toLocalMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#BlockMatrix.toLocalMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.toLocalMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect the distributed matrix on the driver as a DenseMatrix.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blocks</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])),</span>
+<span class="gp">... </span>                         <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]))])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">toLocalMatrix</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># This BlockMatrix will have 6 effective rows, due to</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># having two sub-matrix blocks stacked, each with 3 rows.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The ensuing DenseMatrix will also have 6 rows.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">numRows</span><span class="p">)</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># This BlockMatrix will have 2 effective columns, due to</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># having two sub-matrix blocks stacked, each with 2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># columns. The ensuing DenseMatrix will also have 2 columns.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">numCols</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.transpose"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.BlockMatrix.transpose"></a>
+<code class="sig-name descname">transpose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#BlockMatrix.transpose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.transpose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transpose this BlockMatrix. Returns a new BlockMatrix
+instance sharing the same underlying data. Is a lazy operation.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blocks</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])),</span>
+<span class="gp">... </span>                         <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]))])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat_transposed</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat_transposed</span><span class="o">.</span><span class="n">toLocalMatrix</span><span class="p">()</span>
+<span class="go">DenseMatrix(2, 6, [1.0, 4.0, 2.0, 5.0, 3.0, 6.0, 7.0, 10.0, 8.0, 11.0, 9.0, 12.0], 0)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.validate"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.BlockMatrix.validate"></a>
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#BlockMatrix.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates the block matrix info against the matrix data (<cite>blocks</cite>)
+and throws an exception if any error is found.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.blocks"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.linalg.distributed.BlockMatrix.blocks"></a>
+<code class="sig-name descname">blocks</code><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.blocks" title="Permalink to this definition">¶</a></dt>
+<dd><p>The RDD of sub-matrix blocks
+((blockRowIndex, blockColIndex), sub-matrix) that form this
+distributed matrix.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])),</span>
+<span class="gp">... </span>                    <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]))]),</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blocks</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">blocks</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blocks</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="go">((0, 0), DenseMatrix(3, 2, [1.0, 2.0, 3.0, 4.0, 5.0, 6.0], 0))</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.colsPerBlock"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.linalg.distributed.BlockMatrix.colsPerBlock"></a>
+<code class="sig-name descname">colsPerBlock</code><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.colsPerBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of columns that make up each block.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blocks</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])),</span>
+<span class="gp">... </span>                         <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]))])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span><span class="o">.</span><span class="n">colsPerBlock</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.numColBlocks"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.linalg.distributed.BlockMatrix.numColBlocks"></a>
+<code class="sig-name descname">numColBlocks</code><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.numColBlocks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of columns of blocks in the BlockMatrix.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blocks</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])),</span>
+<span class="gp">... </span>                         <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]))])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span><span class="o">.</span><span class="n">numColBlocks</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.numRowBlocks"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.linalg.distributed.BlockMatrix.numRowBlocks"></a>
+<code class="sig-name descname">numRowBlocks</code><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.numRowBlocks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of rows of blocks in the BlockMatrix.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blocks</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])),</span>
+<span class="gp">... </span>                         <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]))])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span><span class="o">.</span><span class="n">numRowBlocks</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.linalg.distributed.BlockMatrix.rowsPerBlock"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.linalg.distributed.BlockMatrix.rowsPerBlock"></a>
+<code class="sig-name descname">rowsPerBlock</code><a class="headerlink" href="#pyspark.mllib.linalg.distributed.BlockMatrix.rowsPerBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of rows that make up each block.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blocks</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])),</span>
+<span class="gp">... </span>                         <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]))])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span><span class="o">.</span><span class="n">rowsPerBlock</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

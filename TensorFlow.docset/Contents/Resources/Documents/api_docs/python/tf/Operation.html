@@ -1,0 +1,508 @@
+<!DOCTYPE html><html dir="ltr" lang="en"><head>
+<meta content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com" name="google-signin-client-id"/>
+<meta content="profile email" name="google-signin-scope"/>
+<meta content="TensorFlow" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="#ff6f00" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link crossorigin="use-credentials" href="_pwa/tensorflow/manifest.json" rel="manifest"/>
+<link crossorigin="" href="/www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.googleapis.com" rel="preconnect"/>
+<link href="../../../main.css" rel="stylesheet"/>
+
+<noscript>
+
+</noscript>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/favicon.png" rel="shortcut icon"/>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/apple-touch-icon-180x180.png" rel="apple-touch-icon"/><link href="https://www.tensorflow.org/api_docs/python/tf/Operation" rel="canonical"/><link href="https://www.tensorflow.org/s/opensearch.xml" rel="search" title="TensorFlow" type="application/opensearchdescription+xml"/>
+<title>tf.Operation &nbsp;|&nbsp; TensorFlow Core v2.1.0</title>
+<meta content="tf.Operation &nbsp;|&nbsp; TensorFlow Core v2.1.0" property="og:title"/>
+<meta content="https://www.tensorflow.org/api_docs/python/tf/Operation" property="og:url"/>
+<meta content="en" property="og:locale"/>
+
+</head>
+<body class="" layout="docs" pending="" theme="tensorflow-theme" type="reference">
+<devsite-progress id="app-progress" type="indeterminate"></devsite-progress>
+<section class="devsite-wrapper"> <devsite-book-nav scrollbars="">
+
+</devsite-book-nav>
+<section id="gc-wrapper">
+<main class="devsite-main-content" has-book-nav="" has-toc="" role="main">
+<devsite-toc class="devsite-nav"></devsite-toc>
+<devsite-content>
+<article class="devsite-article">
+<article class="devsite-article-inner"><style>
+        /* Styles inlined from /site-assets/css/style.css */
+/* override theme */
+table img {
+  max-width: 100%;
+}
+
+/* override var element to differentiate color from comment */
+var, var code, var span, .prettyprint var span {
+  color: #039be5;
+}
+
+/* .devsite-terminal virtualenv prompt */
+.tfo-terminal-venv::before {
+  content: "(venv) $ " !important;
+}
+
+/* .devsite-terminal root prompt */
+.tfo-terminal-root::before {
+  content: "# " !important;
+}
+
+/* .devsite-terminal Windows prompt */
+.tfo-terminal-windows::before {
+  content: "C:\\> " !important;
+}
+
+/* .devsite-terminal Windows prompt w/ virtualenv */
+.tfo-terminal-windows-venv::before {
+  content: "(venv) C:\\> " !important;
+}
+
+.tfo-diff-green-one-level + * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green + * > * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green-list + ul > li:first-of-type {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-red-one-level + * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red + * > * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red-list + ul > li:first-of-type {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+devsite-code .tfo-notebook-code-cell-output {
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(255, 247, 237, 1);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(255, 247, 237, .7);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output {
+  background: rgba(64, 78, 103, 1);  /* medium slate */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(64, 78, 103, .7);  /* medium slate */
+}
+
+/* override default table styles for notebook buttons */
+.devsite-table-wrapper .tfo-notebook-buttons {
+  display: inline-block;
+  margin-left: 3px;
+  width: auto;
+}
+
+.tfo-notebook-buttons td {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.tfo-notebook-buttons a,
+.tfo-notebook-buttons :link,
+.tfo-notebook-buttons :visited {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  color: #202124;
+  padding: 12px 24px;
+  transition: box-shadow 0.2s;
+}
+
+.tfo-notebook-buttons a:hover,
+.tfo-notebook-buttons a:focus {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.tfo-notebook-buttons tr {
+  background: 0;
+  border: 0;
+}
+
+/* on rendered notebook page,
+   remove link to webpage since we're already here */
+.tfo-notebook-buttons:not(.tfo-api) td:first-child {
+  display: none;
+}
+
+.tfo-notebook-buttons td > a {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tfo-notebook-buttons td > a > img {
+  margin-right: 8px;
+}
+
+/* landing pages */
+
+.tfo-landing-row-item-inset-white {
+  background-color: #fff;
+  padding: 32px;
+}
+
+.tfo-landing-row-item-inset-white ol,
+.tfo-landing-row-item-inset-white ul {
+  padding-left: 20px;
+}
+
+/* colab callout button */
+.colab-callout-row devsite-code {
+  border-radius: 8px 8px 0 0;
+  box-shadow: none;
+}
+
+.colab-callout-footer {
+  background: #e3e4e7;
+  border-radius: 0 0 8px 8px;
+  color: #37474f;
+  padding: 20px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer {
+  background: #3f4f66;
+}
+
+
+.colab-callout-footer > .button {
+  margin-top: 4px;
+  color: #ff5c00;
+}
+
+.colab-callout-footer > a > span {
+  padding-top: 10px;
+  vertical-align: middle;
+  color: #37474f;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer > a > span {
+  color: #fff;
+}
+
+a.colab-button {
+  background: rgba(255, 255, 255, .75);
+  border: solid 1px rgba(0, 0, 0, .08);
+  border-bottom-color: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  color: #aaa;
+  display: inline-block;
+  font-size: 11px !important;
+  font-weight: 300;
+  line-height: 16px;
+  padding: 4px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.colab-button:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, .2);
+  color: #666;
+}
+
+a.colab-button span {
+  background: url(/images/colab_logo_button.svg) no-repeat 1px 1px / 20px;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 24px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .tfo-notebook-buttons td {
+    display: block;
+  }
+}
+
+/* guide and tutorials landing page cards and sections */
+
+.tfo-landing-page-card {
+  padding: 16px;
+  box-shadow: 0 0 36px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+/* Page section headings */
+.tfo-landing-page-heading h2, h2.tfo-landing-page-heading {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+/* Item title headings */
+.tfo-landing-page-heading h3, h3.tfo-landing-page-heading,
+.tfo-landing-page-card h3, h3.tfo-landing-page-card {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* List of tutorials notebooks for subsites */
+.tfo-landing-page-resources-ul {
+  padding-left: 15px
+}
+
+.tfo-landing-page-resources-ul > li {
+  margin: 6px 0;
+}
+
+/* Temporary fix to hide product description in header on landing pages */
+devsite-header .devsite-product-description {
+  display: none;
+}
+
+        </style> <div class="devsite-banner devsite-banner-announcement">
+<div class="devsite-banner-message">
+<div class="devsite-banner-message-text">
+            Missed TensorFlow Dev Summit? Check out the video playlist. <a class="button button-primary button-tfo-announcement" href="https://goo.gle/TFDS20AllSessions">Watch recordings</a>
+</div>
+</div>
+</div>
+<div class="devsite-article-meta">
+<ul class="devsite-breadcrumb-list">
+<li class="devsite-breadcrumb-item">
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="1" href="">
+            TensorFlow
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="2" href="api">
+            API
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="3" href="api_docs">
+            TensorFlow Core v2.1.0
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="4" href="api_docs/python/tf">
+            Python
+      
+  </a>
+</li>
+</ul>
+<devsite-page-rating hover-rating-star="0" position="header" selected-rating="0">
+</devsite-page-rating>
+</div>
+<a class="dashingAutolink" name="autolink-10"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/tf.Operation"></a><h1 class="dash-class">tf.Operation</h1>
+<devsite-toc class="devsite-nav" devsite-toc-embedded="">
+</devsite-toc>
+<div class="devsite-article-body clearfix">
+<p></p>
+<!-- DO NOT EDIT! Automatically generated file. -->
+<div itemscope="" itemtype="http://developers.google.com/ReferenceObject">
+<meta content="tf.Operation" itemprop="name"/>
+<meta content="Stable" itemprop="path"/>
+<meta content="__init__" itemprop="property"/>
+<meta content="colocation_groups" itemprop="property"/>
+<meta content="get_attr" itemprop="property"/>
+<meta content="run" itemprop="property"/>
+<meta content="values" itemprop="property"/>
+</div>
+<!-- Insert buttons and diff -->
+<table align="left" class="tfo-notebook-buttons tfo-api">
+<tbody><tr><td>
+<a href="versions/r1.15/api_docs/python/tf/Operation" target="_blank">
+<img src="https://www.tensorflow.org/images/tf_logo_32px.png"/>
+  TensorFlow 1 version</a>
+</td>
+<td>
+<a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/framework/ops.py#L1628-L2391" target="_blank">
+<img src="https://www.tensorflow.org/images/GitHub-Mark-32px.png"/>
+    View source on GitHub
+  </a>
+</td></tr></tbody></table>
+<p>Represents a graph node that performs computation on tensors.</p>
+<section class="expandable">
+<h4 class="showalways">View aliases</h4>
+<p>
+<b>Compat aliases for migration</b>
+</p><p>See
+<a href="https://www.tensorflow.org/guide/migrate">Migration guide</a> for
+more details.</p>
+<p><a href="api_docs/python/tf/Operation"><code dir="ltr" translate="no">tf.compat.v1.Operation</code></a></p>
+</section>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">tf.Operation(
+    node_def, g, inputs=None, output_types=None, control_inputs=None,
+    input_types=None, original_op=None, op_def=None
+)
+</code></pre>
+<!-- Placeholder for "Used in" -->
+<p>An <code dir="ltr" translate="no">Operation</code> is a node in a <a href="https://www.tensorflow.org/api_docs/python/tf/Graph"><code dir="ltr" translate="no">tf.Graph</code></a> that takes zero or more <code dir="ltr" translate="no">Tensor</code>
+objects as input, and produces zero or more <code dir="ltr" translate="no">Tensor</code> objects as output.
+Objects of type <code dir="ltr" translate="no">Operation</code> are created by calling a Python op constructor
+(such as <a href="https://www.tensorflow.org/api_docs/python/tf/linalg/matmul"><code dir="ltr" translate="no">tf.matmul</code></a>) within a <a href="https://www.tensorflow.org/api_docs/python/tf/function"><code dir="ltr" translate="no">tf.function</code></a> or under a <a href="https://www.tensorflow.org/api_docs/python/tf/Graph#as_default"><code dir="ltr" translate="no">tf.Graph.as_default</code></a>
+context manager.</p>
+<p>For example, within a <a href="https://www.tensorflow.org/api_docs/python/tf/function"><code dir="ltr" translate="no">tf.function</code></a>, <code dir="ltr" translate="no">c = tf.matmul(a, b)</code> creates an
+<code dir="ltr" translate="no">Operation</code> of type &#34;MatMul&#34; that takes tensors <code dir="ltr" translate="no">a</code> and <code dir="ltr" translate="no">b</code> as input, and
+produces <code dir="ltr" translate="no">c</code> as output.</p>
+<p>If a <a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/Session"><code dir="ltr" translate="no">tf.compat.v1.Session</code></a> is used, an <code dir="ltr" translate="no">Operation</code> of a <a href="https://www.tensorflow.org/api_docs/python/tf/Graph"><code dir="ltr" translate="no">tf.Graph</code></a> can be
+executed by passing it to <code dir="ltr" translate="no">tf.Session.run</code>. <code dir="ltr" translate="no">op.run()</code> is a shortcut for
+calling <code dir="ltr" translate="no">tf.compat.v1.get_default_session().run(op)</code>.</p>
+<h4 id="args">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">node_def</code></b>: <code dir="ltr" translate="no">node_def_pb2.NodeDef</code>.  <code dir="ltr" translate="no">NodeDef</code> for the <code dir="ltr" translate="no">Operation</code>. Used for
+attributes of <code dir="ltr" translate="no">node_def_pb2.NodeDef</code>, typically <code dir="ltr" translate="no">name</code>, <code dir="ltr" translate="no">op</code>, and
+<code dir="ltr" translate="no">device</code>.  The <code dir="ltr" translate="no">input</code> attribute is irrelevant here as it will be
+computed when generating the model.</li>
+<li><b><code dir="ltr" translate="no">g</code></b>: <code dir="ltr" translate="no">Graph</code>. The parent graph.</li>
+<li><b><code dir="ltr" translate="no">inputs</code></b>: list of <code dir="ltr" translate="no">Tensor</code> objects. The inputs to this <code dir="ltr" translate="no">Operation</code>.</li>
+<li><b><code dir="ltr" translate="no">output_types</code></b>: list of <code dir="ltr" translate="no">DType</code> objects.  List of the types of the <code dir="ltr" translate="no">Tensors</code>
+computed by this operation.  The length of this list indicates the
+number of output endpoints of the <code dir="ltr" translate="no">Operation</code>.</li>
+<li><b><code dir="ltr" translate="no">control_inputs</code></b>: list of operations or tensors from which to have a control
+dependency.</li>
+<li><b><code dir="ltr" translate="no">input_types</code></b>: List of <code dir="ltr" translate="no">DType</code> objects representing the types of the tensors
+accepted by the <code dir="ltr" translate="no">Operation</code>.  By default uses <code dir="ltr" translate="no">[x.dtype.base_dtype for x
+in inputs]</code>.  Operations that expect reference-typed inputs must specify
+these explicitly.</li>
+<li><b><code dir="ltr" translate="no">original_op</code></b>: Optional. Used to associate the new <code dir="ltr" translate="no">Operation</code> with an
+existing <code dir="ltr" translate="no">Operation</code> (for example, a replica with the op that was
+replicated).</li>
+<li><b><code dir="ltr" translate="no">op_def</code></b>: Optional. The <code dir="ltr" translate="no">op_def_pb2.OpDef</code> proto that describes the op type
+that this <code dir="ltr" translate="no">Operation</code> represents.</li>
+</ul>
+<h4 id="attributes">Attributes:</h4>
+<ul>
+<li><p><b><code dir="ltr" translate="no">control_inputs</code></b>:   The <code dir="ltr" translate="no">Operation</code> objects on which this op has a control dependency.</p>
+<p>Before this op is executed, TensorFlow will ensure that the
+operations in <code dir="ltr" translate="no">self.control_inputs</code> have finished executing. This
+mechanism can be used to run ops sequentially for performance
+reasons, or to ensure that the side effects of an op are observed
+in the correct order.</p></li>
+<li><p><b><code dir="ltr" translate="no">device</code></b>:   The name of the device to which this op has been assigned, if any.</p></li>
+<li><p><b><code dir="ltr" translate="no">graph</code></b>:   The <code dir="ltr" translate="no">Graph</code> that contains this operation.</p></li>
+<li><p><b><code dir="ltr" translate="no">inputs</code></b>:   The sequence of <code dir="ltr" translate="no">Tensor</code> objects representing the data inputs of this op.</p></li>
+<li><p><b><code dir="ltr" translate="no">name</code></b>:   The full name of this operation.</p></li>
+<li><p><b><code dir="ltr" translate="no">node_def</code></b>:   Returns the <code dir="ltr" translate="no">NodeDef</code> representation of this operation.</p></li>
+<li><p><b><code dir="ltr" translate="no">op_def</code></b>:   Returns the <code dir="ltr" translate="no">OpDef</code> proto that represents the type of this op.</p></li>
+<li><p><b><code dir="ltr" translate="no">outputs</code></b>:   The list of <code dir="ltr" translate="no">Tensor</code> objects representing the outputs of this op.</p></li>
+<li><p><b><code dir="ltr" translate="no">traceback</code></b>:   Returns the call stack from when this operation was constructed.</p></li>
+<li><p><b><code dir="ltr" translate="no">type</code></b>:   The type of the op (e.g. <code dir="ltr" translate="no">&#34;MatMul&#34;</code>).</p></li>
+</ul>
+<h4 id="raises">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">TypeError</code></b>: if control inputs are not Operations or Tensors,
+or if <code dir="ltr" translate="no">node_def</code> is not a <code dir="ltr" translate="no">NodeDef</code>,
+or if <code dir="ltr" translate="no">g</code> is not a <code dir="ltr" translate="no">Graph</code>,
+or if <code dir="ltr" translate="no">inputs</code> are not tensors,
+or if <code dir="ltr" translate="no">inputs</code> and <code dir="ltr" translate="no">input_types</code> are incompatible.</li>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>: if the <code dir="ltr" translate="no">node_def</code> name is not valid.</li>
+</ul>
+<h2 id="methods">Methods</h2>
+<h3 id="colocation_groups"><code dir="ltr" translate="no">colocation_groups</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/framework/ops.py#L1859-L1876" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">colocation_groups()
+</code></pre>
+<p>Returns the list of colocation groups of the op.</p>
+<h3 id="get_attr"><code dir="ltr" translate="no">get_attr</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/framework/ops.py#L2311-L2348" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">get_attr(
+    name
+)
+</code></pre>
+<p>Returns the value of the attr of this op with the given <code dir="ltr" translate="no">name</code>.</p>
+<h4 id="args_2">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>: The name of the attr to fetch.</li>
+</ul>
+<h4 id="returns">Returns:</h4>
+<p>The value of the attr, as a Python object.</p>
+<h4 id="raises_2">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>: If this op does not have an attr with the given <code dir="ltr" translate="no">name</code>.</li>
+</ul>
+<h3 id="run"><code dir="ltr" translate="no">run</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/framework/ops.py#L2375-L2391" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">run(
+    feed_dict=None, session=None
+)
+</code></pre>
+<p>Runs this operation in a <code dir="ltr" translate="no">Session</code>.</p>
+<p>Calling this method will execute all preceding operations that
+produce the inputs needed for this operation.</p>
+<p><em>N.B.</em> Before invoking <a href="https://www.tensorflow.org/api_docs/python/tf/Operation#run"><code dir="ltr" translate="no">Operation.run()</code></a>, its graph must have been
+launched in a session, and either a default session must be
+available, or <code dir="ltr" translate="no">session</code> must be specified explicitly.</p>
+<h4 id="args_3">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">feed_dict</code></b>: A dictionary that maps <code dir="ltr" translate="no">Tensor</code> objects to feed values. See
+<code dir="ltr" translate="no">tf.Session.run</code> for a description of the valid feed values.</li>
+<li><b><code dir="ltr" translate="no">session</code></b>: (Optional.) The <code dir="ltr" translate="no">Session</code> to be used to run to this operation. If
+none, the default session will be used.</li>
+</ul>
+<h3 id="values"><code dir="ltr" translate="no">values</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/framework/ops.py#L1878-L1880" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">values()
+</code></pre>
+<p>DEPRECATED: Use outputs.</p>
+</div>
+<devsite-page-rating hover-rating-star="0" position="footer" selected-rating="0">
+</devsite-page-rating>
+</article>
+</article>
+
+</devsite-content>
+</main>
+<devsite-footer-promos class="devsite-footer">
+</devsite-footer-promos>
+<devsite-footer-linkboxes class="devsite-footer">
+
+</devsite-footer-linkboxes>
+<devsite-footer-utility class="devsite-footer">
+<div class="devsite-footer-utility nocontent">
+
+</div>
+</devsite-footer-utility>
+</section></section>
+<devsite-sitemask></devsite-sitemask>
+<devsite-snackbar></devsite-snackbar> <devsite-tooltip></devsite-tooltip>
+<devsite-heading-link></devsite-heading-link>
+<devsite-analytics>
+
+
+</devsite-analytics>
+ 
+</body></html>

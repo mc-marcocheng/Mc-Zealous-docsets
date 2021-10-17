@@ -1,0 +1,44 @@
+pyspark.streaming.StreamingContext
+==================================
+
+.. currentmodule:: pyspark.streaming
+
+.. autoclass:: StreamingContext
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~StreamingContext.__init__
+      ~StreamingContext.addStreamingListener
+      ~StreamingContext.awaitTermination
+      ~StreamingContext.awaitTerminationOrTimeout
+      ~StreamingContext.binaryRecordsStream
+      ~StreamingContext.checkpoint
+      ~StreamingContext.getActive
+      ~StreamingContext.getActiveOrCreate
+      ~StreamingContext.getOrCreate
+      ~StreamingContext.queueStream
+      ~StreamingContext.remember
+      ~StreamingContext.socketTextStream
+      ~StreamingContext.start
+      ~StreamingContext.stop
+      ~StreamingContext.textFileStream
+      ~StreamingContext.transform
+      ~StreamingContext.union
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~StreamingContext.sparkContext
+   
+   

@@ -1,0 +1,31 @@
+pyspark.resource.ExecutorResourceRequest
+========================================
+
+.. currentmodule:: pyspark.resource
+
+.. autoclass:: ExecutorResourceRequest
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ExecutorResourceRequest.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ExecutorResourceRequest.amount
+      ~ExecutorResourceRequest.discoveryScript
+      ~ExecutorResourceRequest.resourceName
+      ~ExecutorResourceRequest.vendor
+   
+   

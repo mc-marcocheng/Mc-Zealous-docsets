@@ -1,0 +1,624 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/xobjdetect/doc/integral_channel_features.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:21 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Integral Channel Features Detector</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="xobjdetect. Extended object detection." href="xobjdetect.html" />
+    <link rel="next" title="xphoto. Additional photo processing algorithms" href="../../xphoto/doc/xphoto.html" />
+    <link rel="prev" title="xobjdetect. Extended object detection." href="xobjdetect.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../xphoto/doc/xphoto.html" title="xphoto. Additional photo processing algorithms"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="xobjdetect.html" title="xobjdetect. Extended object detection."
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="xobjdetect.html" accesskey="U">xobjdetect. Extended object detection.</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Integral Channel Features Detector</a><ul>
+<li><a class="reference internal" href="#computechannels">computeChannels</a></li>
+<li><a class="reference internal" href="#featureevaluator">FeatureEvaluator</a></li>
+<li><a class="reference internal" href="#featureevaluator-setchannels">FeatureEvaluator::setChannels</a></li>
+<li><a class="reference internal" href="#featureevaluator-setposition">FeatureEvaluator::setPosition</a></li>
+<li><a class="reference internal" href="#featureevaluator-evaluate">FeatureEvaluator::evaluate</a></li>
+<li><a class="reference internal" href="#featureevaluator-evaluateall">FeatureEvaluator::evaluateAll</a></li>
+<li><a class="reference internal" href="#generatefeatures">generateFeatures</a></li>
+<li><a class="reference internal" href="#createfeatureevaluator">createFeatureEvaluator</a></li>
+<li><a class="reference internal" href="#waldboostparams">WaldBoostParams</a></li>
+<li><a class="reference internal" href="#waldboost">WaldBoost</a></li>
+<li><a class="reference internal" href="#waldboost-train">WaldBoost::train</a></li>
+<li><a class="reference internal" href="#waldboost-predict">WaldBoost::predict</a></li>
+<li><a class="reference internal" href="#waldboost-write">WaldBoost::write</a></li>
+<li><a class="reference internal" href="#waldboost-read">WaldBoost::read</a></li>
+<li><a class="reference internal" href="#createwaldboost">createWaldBoost</a></li>
+<li><a class="reference internal" href="#icfdetectorparams">ICFDetectorParams</a></li>
+<li><a class="reference internal" href="#icfdetector">ICFDetector</a></li>
+<li><a class="reference internal" href="#icfdetector-train">ICFDetector::train</a></li>
+<li><a class="reference internal" href="#icfdetector-detect">ICFDetector::detect</a></li>
+<li><a class="reference internal" href="#icfdetector-write">ICFDetector::write</a></li>
+<li><a class="reference internal" href="#icfdetector-read">ICFDetector::read</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="xobjdetect.html"
+                        title="previous chapter">xobjdetect. Extended object detection.</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../xphoto/doc/xphoto.html"
+                        title="next chapter">xphoto. Additional photo processing algorithms</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="integral-channel-features-detector">
+<h1>Integral Channel Features Detector<a class="headerlink" href="#integral-channel-features-detector" title="Permalink to this headline">¶</a></h1>
+<p>This section describes classes for object detection using WaldBoost and Integral
+Channel Features from <a class="reference internal" href="#sochman05" id="id1">[Šochman05]</a> and <a class="reference internal" href="#dollar09" id="id2">[Dollár09]</a>.</p>
+<div class="section" id="computechannels">
+<h2>computeChannels<a class="headerlink" href="#computechannels" title="Permalink to this headline">¶</a></h2>
+<p>Compute channels for integral channel features evaluation</p>
+<dl class="function">
+<dt id="void computeChannels(InputArray image, vector&lt;Mat&gt;&amp; channels)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">computeChannels</tt><big>(</big>InputArray <strong>image</strong>, vector&lt;Mat&gt;&amp; <strong>channels</strong><big>)</big><a class="headerlink" href="#void computeChannels(InputArray image, vector<Mat>& channels)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> &#8211; image for which channels should be computed</li>
+<li><strong>channels</strong> &#8211; output array for computed channels</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="featureevaluator">
+<h2>FeatureEvaluator<a class="headerlink" href="#featureevaluator" title="Permalink to this headline">¶</a></h2>
+<p>Feature evaluation interface</p>
+<dl class="class">
+<dt id="FeatureEvaluator : public Algorithm">
+<em class="property">class </em><tt class="descname">FeatureEvaluator</tt> : <em class="property">public</em> <tt class="descname">Algorithm</tt><a class="headerlink" href="#FeatureEvaluator : public Algorithm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="featureevaluator-setchannels">
+<h2>FeatureEvaluator::setChannels<a class="headerlink" href="#featureevaluator-setchannels" title="Permalink to this headline">¶</a></h2>
+<p>Set channels for feature evaluation</p>
+<dl class="function">
+<dt id="void FeatureEvaluator::setChannels(InputArrayOfArrays channels)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">FeatureEvaluator::</tt><tt class="descname">setChannels</tt><big>(</big>InputArrayOfArrays <strong>channels</strong><big>)</big><a class="headerlink" href="#void FeatureEvaluator::setChannels(InputArrayOfArrays channels)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>channels</strong> &#8211; array of channels to be set</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="featureevaluator-setposition">
+<h2>FeatureEvaluator::setPosition<a class="headerlink" href="#featureevaluator-setposition" title="Permalink to this headline">¶</a></h2>
+<p>Set window position to sample features with shift. By default position is (0, 0).</p>
+<dl class="function">
+<dt id="void FeatureEvaluator::setPosition(Size position)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">FeatureEvaluator::</tt><tt class="descname">setPosition</tt><big>(</big>Size <strong>position</strong><big>)</big><a class="headerlink" href="#void FeatureEvaluator::setPosition(Size position)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>position</strong> &#8211; position to be set</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="featureevaluator-evaluate">
+<h2>FeatureEvaluator::evaluate<a class="headerlink" href="#featureevaluator-evaluate" title="Permalink to this headline">¶</a></h2>
+<p>Evaluate feature value with given index for current channels and window position.</p>
+<dl class="function">
+<dt id="int FeatureEvaluator::evaluate(size_t feature_ind) const">
+<strong>C++:</strong><tt class="descname"> </tt>int <tt class="descclassname">FeatureEvaluator::</tt><tt class="descname">evaluate</tt><big>(</big>size_t <strong>feature_ind</strong><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#int FeatureEvaluator::evaluate(size_t feature_ind) const" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>feature_ind</strong> &#8211; index of feature to be evaluated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="featureevaluator-evaluateall">
+<h2>FeatureEvaluator::evaluateAll<a class="headerlink" href="#featureevaluator-evaluateall" title="Permalink to this headline">¶</a></h2>
+<p>Evaluate all features for current channels and window position.</p>
+<dl class="function">
+<dt id="void FeatureEvaluator::evaluateAll(OutputArray feature_values)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">FeatureEvaluator::</tt><tt class="descname">evaluateAll</tt><big>(</big>OutputArray <strong>feature_values</strong><big>)</big><a class="headerlink" href="#void FeatureEvaluator::evaluateAll(OutputArray feature_values)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>feature_values</strong> &#8211; matrix-column of evaluated feature values</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="generatefeatures">
+<h2>generateFeatures<a class="headerlink" href="#generatefeatures" title="Permalink to this headline">¶</a></h2>
+<p>Generate integral features. Returns vector of features.</p>
+<dl class="function">
+<dt id="vector&lt;vector&lt;int&gt; &gt; generateFeatures(Size window_size, const string&amp; type, int count, int channel_count)">
+<strong>C++:</strong><tt class="descname"> </tt>vector&lt;vector&lt;int&gt;&gt; <tt class="descname">generateFeatures</tt><big>(</big>Size <strong>window_size</strong>, const string&amp; <strong>type</strong>, int <strong>count</strong>=INT_MAX, int <strong>channel_count</strong>=10<big>)</big><a class="headerlink" href="#vector<vector<int> > generateFeatures(Size window_size, const string& type, int count, int channel_count)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>window_size</strong> &#8211; size of window in which features should be evaluated</li>
+<li><strong>type</strong> &#8211; feature type. Can be &#8220;icf&#8221; or &#8220;acf&#8221;</li>
+<li><strong>count</strong> &#8211; number of features to generate.</li>
+<li><strong>channel_count</strong> &#8211; number of feature channels</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="createfeatureevaluator">
+<h2>createFeatureEvaluator<a class="headerlink" href="#createfeatureevaluator" title="Permalink to this headline">¶</a></h2>
+<p>Construct feature evaluator.</p>
+<dl class="function">
+<dt id="Ptr&lt;FeatureEvaluator&gt; createFeatureEvaluator(const vector&lt;vector&lt;int&gt;&gt;&amp; features, const string&amp; type)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;FeatureEvaluator&gt; <tt class="descname">createFeatureEvaluator</tt><big>(</big>const vector&lt;vector&lt;int&gt;&gt;&amp; <strong>features</strong>, const string&amp; <strong>type</strong><big>)</big><a class="headerlink" href="#Ptr<FeatureEvaluator> createFeatureEvaluator(const vector<vector<int>>& features, const string& type)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>features</strong> &#8211; features for evaluation</li>
+<li><strong>type</strong> &#8211; feature type. Can be &#8220;icf&#8221; or &#8220;acf&#8221;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="waldboostparams">
+<h2>WaldBoostParams<a class="headerlink" href="#waldboostparams" title="Permalink to this headline">¶</a></h2>
+<p>Parameters for WaldBoost. weak_count — number of weak learners, alpha — cascade
+thresholding param.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">CV_EXPORTS</span> <span class="n">WaldBoostParams</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">weak_count</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">alpha</span><span class="p">;</span>
+
+    <span class="n">WaldBoostParams</span><span class="p">()</span><span class="o">:</span> <span class="n">weak_count</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">alpha</span><span class="p">(</span><span class="mf">0.02f</span><span class="p">)</span>
+    <span class="p">{}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="waldboost">
+<h2>WaldBoost<a class="headerlink" href="#waldboost" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="WaldBoost : public Algorithm">
+<em class="property">class </em><tt class="descname">WaldBoost</tt> : <em class="property">public</em> <tt class="descname">Algorithm</tt><a class="headerlink" href="#WaldBoost : public Algorithm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="waldboost-train">
+<h2>WaldBoost::train<a class="headerlink" href="#waldboost-train" title="Permalink to this headline">¶</a></h2>
+<p>Train WaldBoost cascade for given data. Returns feature indices chosen for
+cascade. Feature enumeration starts from 0.</p>
+<dl class="function">
+<dt id="vector&lt;int&gt; WaldBoost::train(const Mat&amp; data, const Mat&amp; labels)">
+<strong>C++:</strong><tt class="descname"> </tt>vector&lt;int&gt; <tt class="descclassname">WaldBoost::</tt><tt class="descname">train</tt><big>(</big>const Mat&amp; <strong>data</strong>, const Mat&amp; <strong>labels</strong><big>)</big><a class="headerlink" href="#vector<int> WaldBoost::train(const Mat& data, const Mat& labels)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> &#8211; matrix of feature values, size M x N, one feature per row</li>
+<li><strong>labels</strong> &#8211; matrix of samples class labels, size 1 x N. Labels can be from {-1, +1}</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="waldboost-predict">
+<h2>WaldBoost::predict<a class="headerlink" href="#waldboost-predict" title="Permalink to this headline">¶</a></h2>
+<p>Predict objects class given object that can compute object features. Returns
+unnormed confidence value — measure of confidence that object is from class +1.</p>
+<dl class="function">
+<dt id="float WaldBoost::predict(const Ptr&lt;FeatureEvaluator&gt;&amp; feature_evaluator) const">
+<strong>C++:</strong><tt class="descname"> </tt>float <tt class="descclassname">WaldBoost::</tt><tt class="descname">predict</tt><big>(</big>const Ptr&lt;FeatureEvaluator&gt;&amp; <strong>feature_evaluator</strong><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#float WaldBoost::predict(const Ptr<FeatureEvaluator>& feature_evaluator) const" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>feature_evaluator</strong> &#8211; object that can compute features by demand</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="waldboost-write">
+<h2>WaldBoost::write<a class="headerlink" href="#waldboost-write" title="Permalink to this headline">¶</a></h2>
+<p>Write WaldBoost to FileStorage</p>
+<dl class="function">
+<dt id="void WaldBoost::write(FileStorage&amp; fs)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">WaldBoost::</tt><tt class="descname">write</tt><big>(</big>FileStorage&amp; <strong>fs</strong><big>)</big><a class="headerlink" href="#void WaldBoost::write(FileStorage& fs)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fs</strong> &#8211; FileStorage for output</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="waldboost-read">
+<h2>WaldBoost::read<a class="headerlink" href="#waldboost-read" title="Permalink to this headline">¶</a></h2>
+<p>Write WaldBoost to FileNode</p>
+<dl class="function">
+<dt id="void WaldBoost::read(const FileNode&amp; node)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">WaldBoost::</tt><tt class="descname">read</tt><big>(</big>const FileNode&amp; <strong>node</strong><big>)</big><a class="headerlink" href="#void WaldBoost::read(const FileNode& node)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>node</strong> &#8211; FileNode for reading</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="createwaldboost">
+<h2>createWaldBoost<a class="headerlink" href="#createwaldboost" title="Permalink to this headline">¶</a></h2>
+<p>Construct WaldBoost object.</p>
+<dl class="function">
+<dt id="Ptr&lt;WaldBoost&gt; createWaldBoost(const WaldBoostParams&amp; params)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;WaldBoost&gt; <tt class="descname">createWaldBoost</tt><big>(</big>const WaldBoostParams&amp; <strong>params</strong>=WaldBoostParams()<big>)</big><a class="headerlink" href="#Ptr<WaldBoost> createWaldBoost(const WaldBoostParams& params)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="icfdetectorparams">
+<h2>ICFDetectorParams<a class="headerlink" href="#icfdetectorparams" title="Permalink to this headline">¶</a></h2>
+<p>Params for ICFDetector training.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">CV_EXPORTS</span> <span class="n">ICFDetectorParams</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">feature_count</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">weak_count</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">model_n_rows</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">model_n_cols</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">bg_per_image</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">features_type</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">alpha</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="n">is_grayscale</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="n">use_fast_log</span><span class="p">;</span>
+
+    <span class="n">ICFDetectorParams</span><span class="p">()</span><span class="o">:</span> <span class="n">feature_count</span><span class="p">(</span><span class="n">UINT_MAX</span><span class="p">),</span> <span class="n">weak_count</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+        <span class="n">model_n_rows</span><span class="p">(</span><span class="mi">56</span><span class="p">),</span> <span class="n">model_n_cols</span><span class="p">(</span><span class="mi">56</span><span class="p">),</span> <span class="n">bg_per_image</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+        <span class="n">alpha</span><span class="p">(</span><span class="mf">0.02</span><span class="p">),</span> <span class="n">is_grayscale</span><span class="p">(</span><span class="nb">false</span><span class="p">),</span> <span class="n">use_fast_log</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+    <span class="p">{}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="icfdetector">
+<h2>ICFDetector<a class="headerlink" href="#icfdetector" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ICFDetector">
+<em class="property">class </em><tt class="descname">ICFDetector</tt><a class="headerlink" href="#ICFDetector" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="icfdetector-train">
+<h2>ICFDetector::train<a class="headerlink" href="#icfdetector-train" title="Permalink to this headline">¶</a></h2>
+<p>Train detector.</p>
+<dl class="function">
+<dt id="void ICFDetector::train(const std::vector&lt;String&gt;&amp; pos_filenames, const std::vector&lt;String&gt;&amp; bg_filenames, ICFDetectorParams params)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">ICFDetector::</tt><tt class="descname">train</tt><big>(</big>const std::vector&lt;String&gt;&amp; <strong>pos_filenames</strong>, const std::vector&lt;String&gt;&amp; <strong>bg_filenames</strong>, ICFDetectorParams <strong>params</strong>=ICFDetectorParams()<big>)</big><a class="headerlink" href="#void ICFDetector::train(const std::vector<String>& pos_filenames, const std::vector<String>& bg_filenames, ICFDetectorParams params)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pos_path</strong> &#8211; path to folder with images of objects (wildcards like <tt class="docutils literal"><span class="pre">/my/path/*.png</span></tt> are allowed)</li>
+<li><strong>bg_path</strong> &#8211; path to folder with background images</li>
+<li><strong>params</strong> &#8211; parameters for detector training</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="icfdetector-detect">
+<h2>ICFDetector::detect<a class="headerlink" href="#icfdetector-detect" title="Permalink to this headline">¶</a></h2>
+<p>Detect objects on image.</p>
+<dl class="function">
+<dt id="void ICFDetector::detect(const Mat&amp; image, vector&lt;Rect&gt;&amp; objects, float scaleFactor, Size minSize, Size maxSize, float threshold, int slidingStep, std::vector&lt;float&gt;&amp; values)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">ICFDetector::</tt><tt class="descname">detect</tt><big>(</big>const Mat&amp; <strong>image</strong>, vector&lt;Rect&gt;&amp; <strong>objects</strong>, float <strong>scaleFactor</strong>, Size <strong>minSize</strong>, Size <strong>maxSize</strong>, float <strong>threshold</strong>, int <strong>slidingStep</strong>, std::vector&lt;float&gt;&amp; <strong>values</strong><big>)</big><a class="headerlink" href="#void ICFDetector::detect(const Mat& image, vector<Rect>& objects, float scaleFactor, Size minSize, Size maxSize, float threshold, int slidingStep, std::vector<float>& values)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="detect(const Mat&amp; img, std::vector&lt;Rect&gt;&amp; objects, float minScaleFactor, float maxScaleFactor, float factorStep, float threshold, int slidingStep, std::vector&lt;float&gt;&amp; values)">
+<strong>C++:</strong><tt class="descname"> </tt> <tt class="descname">detect</tt><big>(</big>const Mat&amp; <strong>img</strong>, std::vector&lt;Rect&gt;&amp; <strong>objects</strong>, float <strong>minScaleFactor</strong>, float <strong>maxScaleFactor</strong>, float <strong>factorStep</strong>, float <strong>threshold</strong>, int <strong>slidingStep</strong>, std::vector&lt;float&gt;&amp; <strong>values</strong><big>)</big><a class="headerlink" href="#detect(const Mat& img, std::vector<Rect>& objects, float minScaleFactor, float maxScaleFactor, float factorStep, float threshold, int slidingStep, std::vector<float>& values)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> &#8211; image for detection</li>
+<li><strong>objects</strong> &#8211; output array of bounding boxes</li>
+<li><strong>scaleFactor</strong> &#8211; scale between layers in detection pyramid</li>
+<li><strong>minSize</strong> &#8211; min size of objects in pixels</li>
+<li><strong>maxSize</strong> &#8211; max size of objects in pixels</li>
+<li><strong>minScaleFactor</strong> &#8211; min factor by which the image will be resized</li>
+<li><strong>maxScaleFactor</strong> &#8211; max factor by which the image will be resized</li>
+<li><strong>factorStep</strong> &#8211; scaling factor is incremented each pyramid layer according to this parameter</li>
+<li><strong>slidingStep</strong> &#8211; sliding window step</li>
+<li><strong>values</strong> &#8211; output vector with values of positive samples</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="icfdetector-write">
+<h2>ICFDetector::write<a class="headerlink" href="#icfdetector-write" title="Permalink to this headline">¶</a></h2>
+<p>Write detector to FileStorage.</p>
+<dl class="function">
+<dt id="void ICFDetector::write(FileStorage&amp; fs) const">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">ICFDetector::</tt><tt class="descname">write</tt><big>(</big>FileStorage&amp; <strong>fs</strong><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#void ICFDetector::write(FileStorage& fs) const" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fs</strong> &#8211; FileStorage for output</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="icfdetector-read">
+<h2>ICFDetector::read<a class="headerlink" href="#icfdetector-read" title="Permalink to this headline">¶</a></h2>
+<p>Write ICFDetector to FileNode</p>
+<dl class="function">
+<dt id="void ICFDetector::read(const FileNode&amp; node)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">ICFDetector::</tt><tt class="descname">read</tt><big>(</big>const FileNode&amp; <strong>node</strong><big>)</big><a class="headerlink" href="#void ICFDetector::read(const FileNode& node)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>node</strong> &#8211; FileNode for reading</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<table class="docutils citation" frame="void" id="sochman05" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[Šochman05]</a></td><td><ol class="first last upperalpha simple" start="10">
+<li>Šochman and J. Matas. WaldBoost – Learning for Time Constrained Sequential Detection&#8221;, CVPR, 2005. The paper is available <a class="reference external" href="https://dspace.cvut.cz/bitstream/handle/10467/9494/2005-Waldboost-learning-for-time-constrained-sequential-detection.pdf?sequence=1">online</a>.</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="dollar09" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[Dollár09]</a></td><td><ol class="first last upperalpha simple" start="16">
+<li>Dollár, Z. Tu, P. Perona and S. Belongie. &#8220;Integral Channel Features&#8221;, BMCV 2009. The paper is available <a class="reference external" href="http://vision.ucsd.edu/~pdollar/files/papers/DollarBMVC09ChnFtrs.pdf">online</a>.</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../xphoto/doc/xphoto.html" title="xphoto. Additional photo processing algorithms"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="xobjdetect.html" title="xobjdetect. Extended object detection."
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="xobjdetect.html" >xobjdetect. Extended object detection.</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/xobjdetect/doc/integral_channel_features.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/xobjdetect/doc/integral_channel_features.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:21 GMT -->
+</html>

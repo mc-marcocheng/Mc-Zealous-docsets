@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.SparkContext.setJobGroup — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-sparkcontext-setjobgroup">
+<h1>pyspark.SparkContext.setJobGroup<a class="headerlink" href="#pyspark-sparkcontext-setjobgroup" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.SparkContext.setJobGroup"><a name="//apple_ref/cpp/Method/pyspark.SparkContext.setJobGroup"></a>
+<code class="sig-prename descclassname">SparkContext.</code><code class="sig-name descname">setJobGroup</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">groupId</span></em>, <em class="sig-param"><span class="n">description</span></em>, <em class="sig-param"><span class="n">interruptOnCancel</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/context.html#SparkContext.setJobGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.SparkContext.setJobGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assigns a group ID to all the jobs started by this thread until the group ID is set to a
+different value or cleared.</p>
+<p>Often, a unit of execution in an application consists of multiple Spark actions or jobs.
+Application programmers can use this method to group all those jobs together and give a
+group description. Once set, the Spark web UI will associate such jobs with this group.</p>
+<p>The application can use <a class="reference internal" href="pyspark.SparkContext.cancelJobGroup.html#pyspark.SparkContext.cancelJobGroup" title="pyspark.SparkContext.cancelJobGroup"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SparkContext.cancelJobGroup()</span></code></a> to cancel all
+running jobs in this group.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">threading</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="s2">"Not Set"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">map_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">sleep</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Task should have been cancelled"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">start_job</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">global</span> <span class="n">result</span>
+<span class="gp">... </span>    <span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">sc</span><span class="o">.</span><span class="n">setJobGroup</span><span class="p">(</span><span class="s2">"job_to_cancel"</span><span class="p">,</span> <span class="s2">"some description"</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="n">result</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">map_func</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">result</span> <span class="o">=</span> <span class="s2">"Cancelled"</span>
+<span class="gp">... </span>    <span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">stop_job</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">sc</span><span class="o">.</span><span class="n">cancelJobGroup</span><span class="p">(</span><span class="s2">"job_to_cancel"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">suppress</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">suppress</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">start_job</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,))</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">suppress</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">stop_job</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">suppress</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="go">Cancelled</span>
+</pre></div>
+</div>
+<p>If interruptOnCancel is set to true for the job group, then job cancellation will result
+in Thread.interrupt() being called on the job’s executor threads. This is useful to help
+ensure that the tasks are actually stopped in a timely manner, but is off by default due
+to HDFS-1208, where HDFS may respond to Thread.interrupt() by marking nodes as dead.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently, setting a group ID (set to local properties) with multiple threads
+does not properly work. Internally threads on PVM and JVM are not synced, and JVM
+thread can be reused for multiple threads on PVM, which fails to isolate local
+properties for each thread on PVM.</p>
+<p>To work around this, you can set <cite>PYSPARK_PIN_THREAD</cite> to
+<cite>‘true’</cite> (see SPARK-22340). However, note that it cannot inherit the local properties
+from the parent thread although it isolates each thread on PVM and JVM with its own
+local properties.</p>
+<p>To work around this, you should manually copy and set the local
+properties from the parent thread to the child thread when you create another thread.</p>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

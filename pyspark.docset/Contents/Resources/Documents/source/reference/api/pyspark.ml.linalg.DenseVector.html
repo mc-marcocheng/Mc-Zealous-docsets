@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>DenseVector — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="densevector">
+<h1>DenseVector<a class="headerlink" href="#densevector" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.linalg.DenseVector"><a name="//apple_ref/cpp/Class/pyspark.ml.linalg.DenseVector"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.linalg.</code><code class="sig-name descname">DenseVector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ar</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/linalg.html#DenseVector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.linalg.DenseVector" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dense vector represented by a value array. We use numpy array for
+storage and arithmetics will be delegated to the underlying numpy
+array.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">+</span> <span class="n">u</span>
+<span class="go">DenseVector([4.0, 6.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">2</span> <span class="o">-</span> <span class="n">v</span>
+<span class="go">DenseVector([1.0, 0.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="go">DenseVector([0.5, 1.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">*</span> <span class="n">u</span>
+<span class="go">DenseVector([3.0, 8.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">/</span> <span class="n">v</span>
+<span class="go">DenseVector([3.0, 2.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">%</span> <span class="mi">2</span>
+<span class="go">DenseVector([1.0, 0.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">-</span><span class="n">v</span>
+<span class="go">DenseVector([-1.0, -2.0])</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.linalg.DenseVector.dot"><a name="//apple_ref/cpp/Method/pyspark.ml.linalg.DenseVector.dot"></a>
+<code class="sig-name descname">dot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/linalg.html#DenseVector.dot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.linalg.DenseVector.dot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the dot product of two Vectors. We support
+(Numpy array, list, SparseVector, or SciPy sparse)
+and a target NumPy array that is either 1- or 2-dimensional.
+Equivalent to calling numpy.dot of the two vectors.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dense</span> <span class="o">=</span> <span class="n">DenseVector</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">'d'</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dense</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dense</span><span class="p">)</span>
+<span class="go">5.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dense</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">SparseVector</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]))</span>
+<span class="go">4.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dense</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">5.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dense</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="go">5.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dense</span><span class="o">.</span><span class="n">dot</span><span class="p">([</span><span class="mf">1.</span><span class="p">,])</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="o">...</span>
+<span class="gr">AssertionError</span>: <span class="n">dimension mismatch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dense</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">'F'</span><span class="p">))</span>
+<span class="go">array([  5.,  11.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dense</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">],</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">'F'</span><span class="p">))</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="o">...</span>
+<span class="gr">AssertionError</span>: <span class="n">dimension mismatch</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.linalg.DenseVector.norm"><a name="//apple_ref/cpp/Method/pyspark.ml.linalg.DenseVector.norm"></a>
+<code class="sig-name descname">norm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/linalg.html#DenseVector.norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.linalg.DenseVector.norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the norm of a DenseVector.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">3.7...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">6.0</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.linalg.DenseVector.numNonzeros"><a name="//apple_ref/cpp/Method/pyspark.ml.linalg.DenseVector.numNonzeros"></a>
+<code class="sig-name descname">numNonzeros</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/linalg.html#DenseVector.numNonzeros"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.linalg.DenseVector.numNonzeros" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of nonzero elements. This scans all active values and count non zeros</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.linalg.DenseVector.squared_distance"><a name="//apple_ref/cpp/Method/pyspark.ml.linalg.DenseVector.squared_distance"></a>
+<code class="sig-name descname">squared_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/linalg.html#DenseVector.squared_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.linalg.DenseVector.squared_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Squared distance of two Vectors.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dense1</span> <span class="o">=</span> <span class="n">DenseVector</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">'d'</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dense1</span><span class="o">.</span><span class="n">squared_distance</span><span class="p">(</span><span class="n">dense1</span><span class="p">)</span>
+<span class="go">0.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dense2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dense1</span><span class="o">.</span><span class="n">squared_distance</span><span class="p">(</span><span class="n">dense2</span><span class="p">)</span>
+<span class="go">2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dense3</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dense1</span><span class="o">.</span><span class="n">squared_distance</span><span class="p">(</span><span class="n">dense3</span><span class="p">)</span>
+<span class="go">2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sparse1</span> <span class="o">=</span> <span class="n">SparseVector</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dense1</span><span class="o">.</span><span class="n">squared_distance</span><span class="p">(</span><span class="n">sparse1</span><span class="p">)</span>
+<span class="go">2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dense1</span><span class="o">.</span><span class="n">squared_distance</span><span class="p">([</span><span class="mf">1.</span><span class="p">,])</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="o">...</span>
+<span class="gr">AssertionError</span>: <span class="n">dimension mismatch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dense1</span><span class="o">.</span><span class="n">squared_distance</span><span class="p">(</span><span class="n">SparseVector</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,],</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,]))</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="o">...</span>
+<span class="gr">AssertionError</span>: <span class="n">dimension mismatch</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.linalg.DenseVector.toArray"><a name="//apple_ref/cpp/Method/pyspark.ml.linalg.DenseVector.toArray"></a>
+<code class="sig-name descname">toArray</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/linalg.html#DenseVector.toArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.linalg.DenseVector.toArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the underlying numpy.ndarray</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.linalg.DenseVector.values"><a name="//apple_ref/cpp/Attribute/pyspark.ml.linalg.DenseVector.values"></a>
+<code class="sig-name descname">values</code><a class="headerlink" href="#pyspark.ml.linalg.DenseVector.values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the underlying numpy.ndarray</p>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

@@ -1,0 +1,693 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/tracking/doc/common_interfaces_tracker_feature_set.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:45 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Common Interfaces of TrackerFeatureSet</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="tracking. Tracking API" href="tracking.html" />
+    <link rel="next" title="Common Interfaces of TrackerModel" href="common_interfaces_tracker_model.html" />
+    <link rel="prev" title="Common Interfaces of TrackerSampler" href="common_interfaces_tracker_sampler.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="common_interfaces_tracker_model.html" title="Common Interfaces of TrackerModel"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="common_interfaces_tracker_sampler.html" title="Common Interfaces of TrackerSampler"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="tracking.html" accesskey="U">tracking. Tracking API</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Common Interfaces of TrackerFeatureSet</a><ul>
+<li><a class="reference internal" href="#trackerfeatureset">TrackerFeatureSet</a></li>
+<li><a class="reference internal" href="#trackerfeatureset-extraction">TrackerFeatureSet::extraction</a></li>
+<li><a class="reference internal" href="#trackerfeatureset-selection">TrackerFeatureSet::selection</a></li>
+<li><a class="reference internal" href="#trackerfeatureset-removeoutliers">TrackerFeatureSet::removeOutliers</a></li>
+<li><a class="reference internal" href="#trackerfeatureset-addtrackerfeature">TrackerFeatureSet::addTrackerFeature</a></li>
+<li><a class="reference internal" href="#trackerfeatureset-gettrackerfeature">TrackerFeatureSet::getTrackerFeature</a></li>
+<li><a class="reference internal" href="#trackerfeatureset-getresponses">TrackerFeatureSet::getResponses</a></li>
+<li><a class="reference internal" href="#trackerfeature">TrackerFeature</a></li>
+<li><a class="reference internal" href="#trackerfeature-create">TrackerFeature::create</a></li>
+<li><a class="reference internal" href="#trackerfeature-compute">TrackerFeature::compute</a></li>
+<li><a class="reference internal" href="#trackerfeature-selection">TrackerFeature::selection</a></li>
+<li><a class="reference internal" href="#trackerfeature-getclassname">TrackerFeature::getClassName</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#specialized-trackerfeature">Specialized TrackerFeature</a><ul>
+<li><a class="reference internal" href="#trackerfeaturehaar-trackerfeature">TrackerFeatureHAAR : TrackerFeature</a></li>
+<li><a class="reference internal" href="#trackerfeaturehaar-params">TrackerFeatureHAAR::Params</a></li>
+<li><a class="reference internal" href="#trackerfeaturehaar-trackerfeaturehaar">TrackerFeatureHAAR::TrackerFeatureHAAR</a></li>
+<li><a class="reference internal" href="#trackerfeaturehaar-selection">TrackerFeatureHAAR::selection</a></li>
+<li><a class="reference internal" href="#trackerfeaturehaar-extractselected">TrackerFeatureHAAR::extractSelected</a></li>
+<li><a class="reference internal" href="#trackerfeaturehaar-getmeansigmapairs">TrackerFeatureHAAR::getMeanSigmaPairs</a></li>
+<li><a class="reference internal" href="#trackerfeaturehaar-swapfeature">TrackerFeatureHAAR::swapFeature</a></li>
+<li><a class="reference internal" href="#trackerfeaturehaar-getfeatureat">TrackerFeatureHAAR::getFeatureAt</a></li>
+<li><a class="reference internal" href="#trackerfeaturehog">TrackerFeatureHOG</a></li>
+<li><a class="reference internal" href="#trackerfeaturelbp">TrackerFeatureLBP</a></li>
+<li><a class="reference internal" href="#trackerfeaturefeature2d">TrackerFeatureFeature2d</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="common_interfaces_tracker_sampler.html"
+                        title="previous chapter">Common Interfaces of TrackerSampler</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="common_interfaces_tracker_model.html"
+                        title="next chapter">Common Interfaces of TrackerModel</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="common-interfaces-of-trackerfeatureset">
+<h1>Common Interfaces of TrackerFeatureSet<a class="headerlink" href="#common-interfaces-of-trackerfeatureset" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="trackerfeatureset">
+<h2>TrackerFeatureSet<a class="headerlink" href="#trackerfeatureset" title="Permalink to this headline">¶</a></h2>
+<p>Class that manages the extraction and selection of features</p>
+<p><a class="reference internal" href="tracking.html#aam" id="id1">[AAM]</a> Feature Extraction and Feature Set Refinement (Feature Processing and Feature Selection). See table I and section III C
+<a class="reference internal" href="tracking.html#amvot" id="id2">[AMVOT]</a> Appearance modelling -&gt; Visual representation (Table II, section 3.1 - 3.2)</p>
+<dl class="class">
+<dt id="TrackerFeatureSet">
+<em class="property">class </em><tt class="descname">TrackerFeatureSet</tt><a class="headerlink" href="#TrackerFeatureSet" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>TrackerFeatureSet class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerFeatureSet</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+
+  <span class="n">TrackerFeatureSet</span><span class="p">();</span>
+  <span class="o">~</span><span class="n">TrackerFeatureSet</span><span class="p">();</span>
+
+  <span class="kt">void</span> <span class="nf">extraction</span><span class="p">(</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat</span><span class="o">&gt;&amp;</span> <span class="n">images</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">selection</span><span class="p">();</span>
+  <span class="kt">void</span> <span class="nf">removeOutliers</span><span class="p">();</span>
+
+  <span class="kt">bool</span> <span class="nf">addTrackerFeature</span><span class="p">(</span> <span class="n">String</span> <span class="n">trackerFeatureType</span> <span class="p">);</span>
+  <span class="kt">bool</span> <span class="nf">addTrackerFeature</span><span class="p">(</span> <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerFeature</span><span class="o">&gt;&amp;</span> <span class="n">feature</span> <span class="p">);</span>
+
+  <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerFeature</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="o">&gt;&amp;</span> <span class="n">getTrackerFeature</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat</span><span class="o">&gt;&amp;</span> <span class="n">getResponses</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>TrackerFeatureSet is an aggregation of <a class="reference internal" href="#TrackerFeature" title="class TrackerFeature"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerFeature</span></tt></a></p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#TrackerFeature" title="class TrackerFeature"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerFeature</span></tt></a></p>
+</div>
+</div>
+<div class="section" id="trackerfeatureset-extraction">
+<h2>TrackerFeatureSet::extraction<a class="headerlink" href="#trackerfeatureset-extraction" title="Permalink to this headline">¶</a></h2>
+<p>Extract features from the images collection</p>
+<dl class="function">
+<dt id="void TrackerFeatureSet::extraction(const std::vector&lt;Mat&gt;&amp; images)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerFeatureSet::</tt><tt class="descname">extraction</tt><big>(</big>const std::vector&lt;Mat&gt;&amp; <strong>images</strong><big>)</big><a class="headerlink" href="#void TrackerFeatureSet::extraction(const std::vector<Mat>& images)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>images</strong> &#8211; The input images</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerfeatureset-selection">
+<h2>TrackerFeatureSet::selection<a class="headerlink" href="#trackerfeatureset-selection" title="Permalink to this headline">¶</a></h2>
+<p>Identify most effective features for all feature types (optional)</p>
+<dl class="function">
+<dt id="void TrackerFeatureSet::selection()">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerFeatureSet::</tt><tt class="descname">selection</tt><big>(</big><big>)</big><a class="headerlink" href="#void TrackerFeatureSet::selection()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackerfeatureset-removeoutliers">
+<h2>TrackerFeatureSet::removeOutliers<a class="headerlink" href="#trackerfeatureset-removeoutliers" title="Permalink to this headline">¶</a></h2>
+<p>Remove outliers for all feature types (optional)</p>
+<dl class="function">
+<dt id="void TrackerFeatureSet::removeOutliers()">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerFeatureSet::</tt><tt class="descname">removeOutliers</tt><big>(</big><big>)</big><a class="headerlink" href="#void TrackerFeatureSet::removeOutliers()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackerfeatureset-addtrackerfeature">
+<h2>TrackerFeatureSet::addTrackerFeature<a class="headerlink" href="#trackerfeatureset-addtrackerfeature" title="Permalink to this headline">¶</a></h2>
+<p>Add TrackerFeature in the collection. Return true if TrackerFeature is added, false otherwise</p>
+<dl class="function">
+<dt id="bool TrackerFeatureSet::addTrackerFeature(String trackerFeatureType)">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">TrackerFeatureSet::</tt><tt class="descname">addTrackerFeature</tt><big>(</big>String <strong>trackerFeatureType</strong><big>)</big><a class="headerlink" href="#bool TrackerFeatureSet::addTrackerFeature(String trackerFeatureType)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>trackerFeatureType</strong> &#8211; The TrackerFeature name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="bool TrackerFeatureSet::addTrackerFeature(Ptr&lt;TrackerFeature&gt;&amp; feature)">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">TrackerFeatureSet::</tt><tt class="descname">addTrackerFeature</tt><big>(</big>Ptr&lt;TrackerFeature&gt;&amp; <strong>feature</strong><big>)</big><a class="headerlink" href="#bool TrackerFeatureSet::addTrackerFeature(Ptr<TrackerFeature>& feature)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>feature</strong> &#8211; The TrackerFeature class</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The modes available now:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&quot;HAAR&quot;</span></tt> &#8211; Haar Feature-based</li>
+</ul>
+<p>The modes that will be available soon:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&quot;HOG&quot;</span></tt> &#8211; Histogram of Oriented Gradients features</li>
+<li><tt class="docutils literal"><span class="pre">&quot;LBP&quot;</span></tt> &#8211; Local Binary Pattern features</li>
+<li><tt class="docutils literal"><span class="pre">&quot;FEATURE2D&quot;</span></tt> &#8211; All types of Feature2D</li>
+</ul>
+<p>Example <tt class="docutils literal"><span class="pre">TrackerFeatureSet::addTrackerFeature</span></tt> :</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">//sample usage:</span>
+
+<span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerFeature</span><span class="o">&gt;</span> <span class="n">trackerFeature</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TrackerFeatureHAAR</span><span class="p">(</span> <span class="n">HAARparameters</span> <span class="p">);</span>
+<span class="n">featureSet</span><span class="o">-&gt;</span><span class="n">addTrackerFeature</span><span class="p">(</span> <span class="n">trackerFeature</span> <span class="p">);</span>
+
+<span class="c1">//or add CSC sampler with default parameters</span>
+<span class="c1">//featureSet-&gt;addTrackerFeature( &quot;HAAR&quot; );</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you use the second method, you must initialize the TrackerFeature</p>
+</div>
+</div>
+<div class="section" id="trackerfeatureset-gettrackerfeature">
+<h2>TrackerFeatureSet::getTrackerFeature<a class="headerlink" href="#trackerfeatureset-gettrackerfeature" title="Permalink to this headline">¶</a></h2>
+<p>Get the TrackerFeature collection (TrackerFeature name, TrackerFeature pointer)</p>
+<dl class="function">
+<dt id="const std::vector&lt;std::pair&lt;String, Ptr&lt;TrackerFeature&gt; &gt; &gt;&amp; TrackerFeatureSet::getTrackerFeature() const">
+<strong>C++:</strong><tt class="descname"> </tt>const std::vector&lt;std::pair&lt;String, Ptr&lt;TrackerFeature&gt;&gt;&gt;&amp; <tt class="descclassname">TrackerFeatureSet::</tt><tt class="descname">getTrackerFeature</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#const std::vector<std::pair<String, Ptr<TrackerFeature> > >& TrackerFeatureSet::getTrackerFeature() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackerfeatureset-getresponses">
+<h2>TrackerFeatureSet::getResponses<a class="headerlink" href="#trackerfeatureset-getresponses" title="Permalink to this headline">¶</a></h2>
+<p>Get the responses</p>
+<dl class="function">
+<dt id="const std::vector&lt;Mat&gt;&amp; TrackerFeatureSet::getResponses() const">
+<strong>C++:</strong><tt class="descname"> </tt>const std::vector&lt;Mat&gt;&amp; <tt class="descclassname">TrackerFeatureSet::</tt><tt class="descname">getResponses</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#const std::vector<Mat>& TrackerFeatureSet::getResponses() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Be sure to call extraction before getResponses</p>
+</div>
+<p>Example <tt class="docutils literal"><span class="pre">TrackerFeatureSet::getResponses</span></tt> :</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">//get the patches from sampler</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat</span><span class="o">&gt;</span> <span class="n">detectSamples</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">-&gt;</span><span class="n">getSamples</span><span class="p">();</span>
+
+<span class="k">if</span><span class="p">(</span> <span class="n">detectSamples</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="p">)</span>
+   <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+
+<span class="c1">//features extraction</span>
+<span class="n">featureSet</span><span class="o">-&gt;</span><span class="n">extraction</span><span class="p">(</span> <span class="n">detectSamples</span> <span class="p">);</span>
+
+<span class="c1">//get responses</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat</span><span class="o">&gt;</span> <span class="n">response</span> <span class="o">=</span> <span class="n">featureSet</span><span class="o">-&gt;</span><span class="n">getResponses</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackerfeature">
+<h2>TrackerFeature<a class="headerlink" href="#trackerfeature" title="Permalink to this headline">¶</a></h2>
+<p>Abstract base class for TrackerFeature that represents the feature.</p>
+<dl class="class">
+<dt id="TrackerFeature">
+<em class="property">class </em><tt class="descname">TrackerFeature</tt><a class="headerlink" href="#TrackerFeature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>TrackerFeature class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerFeature</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">TrackerFeature</span><span class="p">();</span>
+
+  <span class="k">static</span> <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerFeature</span><span class="o">&gt;</span> <span class="n">create</span><span class="p">(</span> <span class="k">const</span> <span class="n">String</span><span class="o">&amp;</span> <span class="n">trackerFeatureType</span> <span class="p">);</span>
+
+  <span class="kt">void</span> <span class="nf">compute</span><span class="p">(</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat</span><span class="o">&gt;&amp;</span> <span class="n">images</span><span class="p">,</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">response</span> <span class="p">);</span>
+
+  <span class="k">virtual</span> <span class="kt">void</span> <span class="n">selection</span><span class="p">(</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">response</span><span class="p">,</span> <span class="kt">int</span> <span class="n">npoints</span> <span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="n">String</span> <span class="n">getClassName</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackerfeature-create">
+<h2>TrackerFeature::create<a class="headerlink" href="#trackerfeature-create" title="Permalink to this headline">¶</a></h2>
+<p>Create TrackerFeature by tracker feature type</p>
+<dl class="function">
+<dt id="static Ptr&lt;TrackerFeature&gt; TrackerFeature::create(const String&amp; trackerFeatureType)">
+<strong>C++:</strong><tt class="descname"> </tt><em class="property">static</em> Ptr&lt;TrackerFeature&gt; <tt class="descclassname">TrackerFeature::</tt><tt class="descname">create</tt><big>(</big>const String&amp; <strong>trackerFeatureType</strong><big>)</big><a class="headerlink" href="#static Ptr<TrackerFeature> TrackerFeature::create(const String& trackerFeatureType)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>trackerFeatureType</strong> &#8211; The TrackerFeature name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The modes available now:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&quot;HAAR&quot;</span></tt> &#8211; Haar Feature-based</li>
+</ul>
+<p>The modes that will be available soon:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&quot;HOG&quot;</span></tt> &#8211; Histogram of Oriented Gradients features</li>
+<li><tt class="docutils literal"><span class="pre">&quot;LBP&quot;</span></tt> &#8211; Local Binary Pattern features</li>
+<li><tt class="docutils literal"><span class="pre">&quot;FEATURE2D&quot;</span></tt> &#8211; All types of Feature2D</li>
+</ul>
+</div>
+<div class="section" id="trackerfeature-compute">
+<h2>TrackerFeature::compute<a class="headerlink" href="#trackerfeature-compute" title="Permalink to this headline">¶</a></h2>
+<p>Compute the features in the images collection</p>
+<dl class="function">
+<dt id="void TrackerFeature::compute(const std::vector&lt;Mat&gt;&amp; images, Mat&amp; response)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerFeature::</tt><tt class="descname">compute</tt><big>(</big>const std::vector&lt;Mat&gt;&amp; <strong>images</strong>, Mat&amp; <strong>response</strong><big>)</big><a class="headerlink" href="#void TrackerFeature::compute(const std::vector<Mat>& images, Mat& response)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>images</strong> &#8211; The images</li>
+<li><strong>response</strong> &#8211; The output response</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerfeature-selection">
+<h2>TrackerFeature::selection<a class="headerlink" href="#trackerfeature-selection" title="Permalink to this headline">¶</a></h2>
+<p>Identify most effective features</p>
+<dl class="function">
+<dt id="void TrackerFeature::selection(Mat&amp; response, int npoints)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerFeature::</tt><tt class="descname">selection</tt><big>(</big>Mat&amp; <strong>response</strong>, int <strong>npoints</strong><big>)</big><a class="headerlink" href="#void TrackerFeature::selection(Mat& response, int npoints)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>response</strong> &#8211; Collection of response for the specific TrackerFeature</li>
+<li><strong>npoints</strong> &#8211; Max number of features</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method modifies the response parameter</p>
+</div>
+</div>
+<div class="section" id="trackerfeature-getclassname">
+<h2>TrackerFeature::getClassName<a class="headerlink" href="#trackerfeature-getclassname" title="Permalink to this headline">¶</a></h2>
+<p>Get the name of the specific TrackerFeature</p>
+<dl class="function">
+<dt id="String TrackerFeature::getClassName() const">
+<strong>C++:</strong><tt class="descname"> </tt>String <tt class="descclassname">TrackerFeature::</tt><tt class="descname">getClassName</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#String TrackerFeature::getClassName() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+<div class="section" id="specialized-trackerfeature">
+<h1>Specialized TrackerFeature<a class="headerlink" href="#specialized-trackerfeature" title="Permalink to this headline">¶</a></h1>
+<p>In <a class="reference internal" href="tracking.html#aam" id="id3">[AAM]</a> table I and section III C are described the most known features type. At moment only <a class="reference internal" href="#TrackerFeatureHAAR" title="class TrackerFeatureHAAR"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerFeatureHAAR</span></tt></a> is implemented.</p>
+<div class="section" id="trackerfeaturehaar-trackerfeature">
+<h2>TrackerFeatureHAAR : TrackerFeature<a class="headerlink" href="#trackerfeaturehaar-trackerfeature" title="Permalink to this headline">¶</a></h2>
+<p>TrackerFeature based on HAAR features, used by TrackerMIL and many others algorithms</p>
+<dl class="class">
+<dt id="TrackerFeatureHAAR">
+<em class="property">class </em><tt class="descname">TrackerFeatureHAAR</tt><a class="headerlink" href="#TrackerFeatureHAAR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>TrackerFeatureHAAR class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerFeatureHAAR</span> <span class="o">:</span> <span class="n">TrackerFeature</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+
+  <span class="n">TrackerFeatureHAAR</span><span class="p">(</span> <span class="k">const</span> <span class="n">TrackerFeatureHAAR</span><span class="o">::</span><span class="n">Params</span> <span class="o">&amp;</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">TrackerFeatureHAAR</span><span class="o">::</span><span class="n">Params</span><span class="p">()</span> <span class="p">);</span>
+  <span class="o">~</span><span class="n">TrackerFeatureHAAR</span><span class="p">();</span>
+
+  <span class="kt">void</span> <span class="nf">selection</span><span class="p">(</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">response</span><span class="p">,</span> <span class="kt">int</span> <span class="n">npoints</span> <span class="p">);</span>
+  <span class="kt">bool</span> <span class="nf">extractSelected</span><span class="p">(</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">selFeatures</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat</span><span class="o">&gt;&amp;</span> <span class="n">images</span><span class="p">,</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">response</span> <span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span> <span class="o">&gt;&amp;</span> <span class="n">getMeanSigmaPairs</span><span class="p">();</span>
+  <span class="kt">bool</span> <span class="nf">swapFeature</span><span class="p">(</span> <span class="kt">int</span> <span class="n">source</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span> <span class="p">);</span>
+  <span class="kt">bool</span> <span class="nf">swapFeature</span><span class="p">(</span> <span class="kt">int</span> <span class="n">id</span><span class="p">,</span> <span class="n">CvHaarEvaluator</span><span class="o">::</span><span class="n">FeatureHaar</span><span class="o">&amp;</span> <span class="n">feature</span> <span class="p">);</span>
+  <span class="n">CvHaarEvaluator</span><span class="o">::</span><span class="n">FeatureHaar</span><span class="o">&amp;</span> <span class="n">getFeatureAt</span><span class="p">(</span> <span class="kt">int</span> <span class="n">id</span> <span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">HAAR features implementation is copied from apps/traincascade and modified according to MIL implementation</p>
+</div>
+</div>
+<div class="section" id="trackerfeaturehaar-params">
+<h2>TrackerFeatureHAAR::Params<a class="headerlink" href="#trackerfeaturehaar-params" title="Permalink to this headline">¶</a></h2>
+<dl class="struct">
+<dt id="TrackerFeatureHAAR::Params">
+<em class="property">struct </em><tt class="descclassname">TrackerFeatureHAAR::</tt><tt class="descname">Params</tt><a class="headerlink" href="#TrackerFeatureHAAR::Params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>List of TrackerFeatureHAAR parameters:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">CV_EXPORTS</span> <span class="n">Params</span>
+<span class="p">{</span>
+ <span class="n">Params</span><span class="p">();</span>
+ <span class="kt">int</span> <span class="n">numFeatures</span><span class="p">;</span> <span class="c1">// # of rects</span>
+ <span class="n">Size</span> <span class="n">rectSize</span><span class="p">;</span>   <span class="c1">// rect size</span>
+ <span class="kt">bool</span> <span class="n">isIntegral</span><span class="p">;</span>  <span class="c1">// true if input images are integral, false otherwise</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackerfeaturehaar-trackerfeaturehaar">
+<h2>TrackerFeatureHAAR::TrackerFeatureHAAR<a class="headerlink" href="#trackerfeaturehaar-trackerfeaturehaar" title="Permalink to this headline">¶</a></h2>
+<p>Constructor</p>
+<dl class="function">
+<dt id="TrackerFeatureHAAR::TrackerFeatureHAAR(const TrackerFeatureHAAR::Params &amp;parameters)">
+<strong>C++:</strong><tt class="descname"> </tt> <tt class="descclassname">TrackerFeatureHAAR::</tt><tt class="descname">TrackerFeatureHAAR</tt><big>(</big>const TrackerFeatureHAAR::Params&amp; <strong>parameters</strong>=TrackerFeatureHAAR::Params() <big>)</big><a class="headerlink" href="#TrackerFeatureHAAR::TrackerFeatureHAAR(const TrackerFeatureHAAR::Params &parameters)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parameters</strong> &#8211; TrackerFeatureHAAR parameters <a class="reference internal" href="#TrackerFeatureHAAR::Params" title="struct TrackerFeatureHAAR::Params"><tt class="xref ocv ocv-struct docutils literal"><span class="pre">TrackerFeatureHAAR::Params</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerfeaturehaar-selection">
+<h2>TrackerFeatureHAAR::selection<a class="headerlink" href="#trackerfeaturehaar-selection" title="Permalink to this headline">¶</a></h2>
+<p>Identify most effective features</p>
+<dl class="function">
+<dt id="void TrackerFeatureHAAR::selection(Mat&amp; response, int npoints)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerFeatureHAAR::</tt><tt class="descname">selection</tt><big>(</big>Mat&amp; <strong>response</strong>, int <strong>npoints</strong><big>)</big><a class="headerlink" href="#void TrackerFeatureHAAR::selection(Mat& response, int npoints)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>response</strong> &#8211; Collection of response for the specific TrackerFeature</li>
+<li><strong>npoints</strong> &#8211; Max number of features</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method modifies the response parameter</p>
+</div>
+</div>
+<div class="section" id="trackerfeaturehaar-extractselected">
+<h2>TrackerFeatureHAAR::extractSelected<a class="headerlink" href="#trackerfeaturehaar-extractselected" title="Permalink to this headline">¶</a></h2>
+<p>Compute the features only for the selected indices in the images collection</p>
+<dl class="function">
+<dt id="bool TrackerFeatureHAAR::extractSelected(const std::vector&lt;int&gt; selFeatures, const std::vector&lt;Mat&gt;&amp; images, Mat&amp; response)">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">TrackerFeatureHAAR::</tt><tt class="descname">extractSelected</tt><big>(</big>const std::vector&lt;int&gt; <strong>selFeatures</strong>, const std::vector&lt;Mat&gt;&amp; <strong>images</strong>, Mat&amp; <strong>response</strong><big>)</big><a class="headerlink" href="#bool TrackerFeatureHAAR::extractSelected(const std::vector<int> selFeatures, const std::vector<Mat>& images, Mat& response)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>selFeatures</strong> &#8211; indices of selected features</li>
+<li><strong>images</strong> &#8211; The images</li>
+<li><strong>response</strong> &#8211; Collection of response for the specific TrackerFeature</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerfeaturehaar-getmeansigmapairs">
+<h2>TrackerFeatureHAAR::getMeanSigmaPairs<a class="headerlink" href="#trackerfeaturehaar-getmeansigmapairs" title="Permalink to this headline">¶</a></h2>
+<p>Get the list of mean/sigma. Return the list of mean/sigma</p>
+<dl class="function">
+<dt id="std::vector&lt;std::pair&lt;float, float&gt; &gt;&amp; TrackerFeatureHAAR::getMeanSigmaPairs()">
+<strong>C++:</strong><tt class="descname"> </tt>std::vector&lt;std::pair&lt;float, float&gt;&gt;&amp; <tt class="descclassname">TrackerFeatureHAAR::</tt><tt class="descname">getMeanSigmaPairs</tt><big>(</big><big>)</big><a class="headerlink" href="#std::vector<std::pair<float, float> >& TrackerFeatureHAAR::getMeanSigmaPairs()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackerfeaturehaar-swapfeature">
+<h2>TrackerFeatureHAAR::swapFeature<a class="headerlink" href="#trackerfeaturehaar-swapfeature" title="Permalink to this headline">¶</a></h2>
+<p>Swap the feature in position source with the feature in position target</p>
+<dl class="function">
+<dt id="bool TrackerFeatureHAAR::swapFeature(int source, int target)">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">TrackerFeatureHAAR::</tt><tt class="descname">swapFeature</tt><big>(</big>int <strong>source</strong>, int <strong>target</strong><big>)</big><a class="headerlink" href="#bool TrackerFeatureHAAR::swapFeature(int source, int target)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>source</strong> &#8211; The source position</li>
+<li><strong>target</strong> &#8211; The target position</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Swap the feature in position id with the feature input</p>
+<dl class="function">
+<dt id="bool TrackerFeatureHAAR::swapFeature(int id, CvHaarEvaluator::FeatureHaar&amp; feature)">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">TrackerFeatureHAAR::</tt><tt class="descname">swapFeature</tt><big>(</big>int <strong>id</strong>, CvHaarEvaluator::FeatureHaar&amp; <strong>feature</strong><big>)</big><a class="headerlink" href="#bool TrackerFeatureHAAR::swapFeature(int id, CvHaarEvaluator::FeatureHaar& feature)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> &#8211; The position</li>
+<li><strong>feature</strong> &#8211; The feature</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerfeaturehaar-getfeatureat">
+<h2>TrackerFeatureHAAR::getFeatureAt<a class="headerlink" href="#trackerfeaturehaar-getfeatureat" title="Permalink to this headline">¶</a></h2>
+<p>Get the feature in position id</p>
+<dl class="function">
+<dt id="CvHaarEvaluator::FeatureHaar&amp; TrackerFeatureHAAR::getFeatureAt(int id)">
+<strong>C++:</strong><tt class="descname"> </tt>CvHaarEvaluator::FeatureHaar&amp; <tt class="descclassname">TrackerFeatureHAAR::</tt><tt class="descname">getFeatureAt</tt><big>(</big>int <strong>id</strong><big>)</big><a class="headerlink" href="#CvHaarEvaluator::FeatureHaar& TrackerFeatureHAAR::getFeatureAt(int id)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> &#8211; The position</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerfeaturehog">
+<h2>TrackerFeatureHOG<a class="headerlink" href="#trackerfeaturehog" title="Permalink to this headline">¶</a></h2>
+<p>TODO To be implemented</p>
+</div>
+<div class="section" id="trackerfeaturelbp">
+<h2>TrackerFeatureLBP<a class="headerlink" href="#trackerfeaturelbp" title="Permalink to this headline">¶</a></h2>
+<p>TODO To be implemented</p>
+</div>
+<div class="section" id="trackerfeaturefeature2d">
+<h2>TrackerFeatureFeature2d<a class="headerlink" href="#trackerfeaturefeature2d" title="Permalink to this headline">¶</a></h2>
+<p>TODO To be implemented</p>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="common_interfaces_tracker_model.html" title="Common Interfaces of TrackerModel"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="common_interfaces_tracker_sampler.html" title="Common Interfaces of TrackerSampler"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="tracking.html" >tracking. Tracking API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/tracking/doc/common_interfaces_tracker_feature_set.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/tracking/doc/common_interfaces_tracker_feature_set.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:45 GMT -->
+</html>

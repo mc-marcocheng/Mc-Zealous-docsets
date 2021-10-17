@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>GradientBoostedTreesModel — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="gradientboostedtreesmodel">
+<h1>GradientBoostedTreesModel<a class="headerlink" href="#gradientboostedtreesmodel" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.tree.GradientBoostedTreesModel"><a name="//apple_ref/cpp/Class/pyspark.mllib.tree.GradientBoostedTreesModel"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.tree.</code><code class="sig-name descname">GradientBoostedTreesModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">java_model</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/tree.html#GradientBoostedTreesModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.tree.GradientBoostedTreesModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a gradient-boosted tree model.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.tree.GradientBoostedTreesModel.call"><a name="//apple_ref/cpp/Method/pyspark.mllib.tree.GradientBoostedTreesModel.call"></a>
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">a</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.tree.GradientBoostedTreesModel.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call method of java_model</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.tree.GradientBoostedTreesModel.load"><a name="//apple_ref/cpp/Method/pyspark.mllib.tree.GradientBoostedTreesModel.load"></a>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sc</span></em>, <em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.tree.GradientBoostedTreesModel.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a model from the given path.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.tree.GradientBoostedTreesModel.numTrees"><a name="//apple_ref/cpp/Method/pyspark.mllib.tree.GradientBoostedTreesModel.numTrees"></a>
+<code class="sig-name descname">numTrees</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.tree.GradientBoostedTreesModel.numTrees" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of trees in ensemble.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.tree.GradientBoostedTreesModel.predict"><a name="//apple_ref/cpp/Method/pyspark.mllib.tree.GradientBoostedTreesModel.predict"></a>
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.tree.GradientBoostedTreesModel.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict values for a single data point or an RDD of points using
+the model trained.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In Python, predict cannot currently be used within an RDD
+transformation or action.
+Call predict directly on the RDD instead.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.tree.GradientBoostedTreesModel.save"><a name="//apple_ref/cpp/Method/pyspark.mllib.tree.GradientBoostedTreesModel.save"></a>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sc</span></em>, <em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.tree.GradientBoostedTreesModel.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save this model to the given path.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.tree.GradientBoostedTreesModel.toDebugString"><a name="//apple_ref/cpp/Method/pyspark.mllib.tree.GradientBoostedTreesModel.toDebugString"></a>
+<code class="sig-name descname">toDebugString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.tree.GradientBoostedTreesModel.toDebugString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Full model</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.tree.GradientBoostedTreesModel.totalNumNodes"><a name="//apple_ref/cpp/Method/pyspark.mllib.tree.GradientBoostedTreesModel.totalNumNodes"></a>
+<code class="sig-name descname">totalNumNodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.tree.GradientBoostedTreesModel.totalNumNodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get total number of nodes, summed over all trees in the ensemble.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

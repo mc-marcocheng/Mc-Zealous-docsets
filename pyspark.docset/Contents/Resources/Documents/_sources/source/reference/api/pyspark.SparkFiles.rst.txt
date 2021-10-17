@@ -1,0 +1,24 @@
+pyspark.SparkFiles
+==================
+
+.. currentmodule:: pyspark
+
+.. autoclass:: SparkFiles
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SparkFiles.__init__
+      ~SparkFiles.get
+      ~SparkFiles.getRootDirectory
+   
+   
+
+   
+   
+   

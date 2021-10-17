@@ -1,0 +1,12 @@
+:mod:`sklearn.covariance`.GraphicalLassoCV
+=================================================
+
+.. currentmodule:: sklearn.covariance
+
+.. autoclass:: GraphicalLassoCV
+
+.. include:: sklearn.covariance.GraphicalLassoCV.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

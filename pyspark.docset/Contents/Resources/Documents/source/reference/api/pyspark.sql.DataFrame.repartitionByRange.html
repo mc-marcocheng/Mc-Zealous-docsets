@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.sql.DataFrame.repartitionByRange — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-sql-dataframe-repartitionbyrange">
+<h1>pyspark.sql.DataFrame.repartitionByRange<a class="headerlink" href="#pyspark-sql-dataframe-repartitionbyrange" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.sql.DataFrame.repartitionByRange"><a name="//apple_ref/cpp/Method/pyspark.sql.DataFrame.repartitionByRange"></a>
+<code class="sig-prename descclassname">DataFrame.</code><code class="sig-name descname">repartitionByRange</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">numPartitions</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">cols</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/sql/dataframe.html#DataFrame.repartitionByRange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.sql.DataFrame.repartitionByRange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></a> partitioned by the given partitioning expressions. The
+resulting <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></a> is range partitioned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>numPartitions</strong> – can be an int to specify the target number of partitions or a Column.
+If it is a Column, it will be used as the first partitioning column. If not specified,
+the default number of partitions is used.</p>
+</dd>
+</dl>
+<p>At least one partition-by expression must be specified.
+When no explicit sort order is specified, “ascending nulls first” is assumed.</p>
+<p>Note that due to performance reasons this method uses sampling to estimate the ranges.
+Hence, the output may not be consistent, since sampling can return different values.
+The sample size can be controlled by the config
+<cite>spark.sql.execution.rangeExchange.sampleSizePerPartition</cite>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">repartitionByRange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">"age"</span><span class="p">)</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">getNumPartitions</span><span class="p">()</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">+---+-----+</span>
+<span class="go">|age| name|</span>
+<span class="go">+---+-----+</span>
+<span class="go">|  2|Alice|</span>
+<span class="go">|  5|  Bob|</span>
+<span class="go">+---+-----+</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">repartitionByRange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"age"</span><span class="p">)</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">getNumPartitions</span><span class="p">()</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">repartitionByRange</span><span class="p">(</span><span class="s2">"age"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">+---+-----+</span>
+<span class="go">|age| name|</span>
+<span class="go">+---+-----+</span>
+<span class="go">|  2|Alice|</span>
+<span class="go">|  5|  Bob|</span>
+<span class="go">+---+-----+</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

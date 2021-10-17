@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.streaming.StreamingContext.socketTextStream — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-streaming-streamingcontext-sockettextstream">
+<h1>pyspark.streaming.StreamingContext.socketTextStream<a class="headerlink" href="#pyspark-streaming-streamingcontext-sockettextstream" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.streaming.StreamingContext.socketTextStream"><a name="//apple_ref/cpp/Method/pyspark.streaming.StreamingContext.socketTextStream"></a>
+<code class="sig-prename descclassname">StreamingContext.</code><code class="sig-name descname">socketTextStream</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">hostname</span></em>, <em class="sig-param"><span class="n">port</span></em>, <em class="sig-param"><span class="n">storageLevel</span><span class="o">=</span><span class="default_value">StorageLevel(True, True, False, False, 2)</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/streaming/context.html#StreamingContext.socketTextStream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.streaming.StreamingContext.socketTextStream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an input from TCP source hostname:port. Data is received using
+a TCP socket and receive byte is interpreted as UTF8 encoded <code class="docutils literal notranslate"><span class="pre">\n</span></code> delimited
+lines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hostname</strong> – Hostname to connect to for receiving data</p></li>
+<li><p><strong>port</strong> – Port to connect to for receiving data</p></li>
+<li><p><strong>storageLevel</strong> – Storage level to use for storing the received objects</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

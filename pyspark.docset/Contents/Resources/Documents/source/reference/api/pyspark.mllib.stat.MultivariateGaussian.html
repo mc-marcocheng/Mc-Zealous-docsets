@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>MultivariateGaussian — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="multivariategaussian">
+<h1>MultivariateGaussian<a class="headerlink" href="#multivariategaussian" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.stat.MultivariateGaussian"><a name="//apple_ref/cpp/Class/pyspark.mllib.stat.MultivariateGaussian"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.stat.</code><code class="sig-name descname">MultivariateGaussian</code><a class="reference internal" href="../../../_modules/pyspark/mllib/stat/distribution.html#MultivariateGaussian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.stat.MultivariateGaussian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a (mu, sigma) tuple</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">MultivariateGaussian</span><span class="p">(</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">]),</span><span class="n">DenseMatrix</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">mu</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">toArray</span><span class="p">())</span>
+<span class="go">(DenseVector([11.0, 12.0]), array([[ 1., 5.],[ 3., 2.]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="go">(DenseVector([11.0, 12.0]), array([[ 1., 5.],[ 3., 2.]]))</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.stat.MultivariateGaussian.count"><a name="//apple_ref/cpp/Method/pyspark.mllib.stat.MultivariateGaussian.count"></a>
+<code class="sig-name descname">count</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span> → integer – return number of occurrences of value<a class="headerlink" href="#pyspark.mllib.stat.MultivariateGaussian.count" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.stat.MultivariateGaussian.index"><a name="//apple_ref/cpp/Method/pyspark.mllib.stat.MultivariateGaussian.index"></a>
+<code class="sig-name descname">index</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="optional">[</span>, <em class="sig-param">start</em><span class="optional">[</span>, <em class="sig-param">stop</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> → integer – return first index of value.<a class="headerlink" href="#pyspark.mllib.stat.MultivariateGaussian.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raises ValueError if the value is not present.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.mllib.stat.MultivariateGaussian.mu"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.stat.MultivariateGaussian.mu"></a>
+<code class="sig-name descname">mu</code><a class="headerlink" href="#pyspark.mllib.stat.MultivariateGaussian.mu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.stat.MultivariateGaussian.sigma"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.stat.MultivariateGaussian.sigma"></a>
+<code class="sig-name descname">sigma</code><a class="headerlink" href="#pyspark.mllib.stat.MultivariateGaussian.sigma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

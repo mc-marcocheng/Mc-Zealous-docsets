@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>StreamingLogisticRegressionWithSGD — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="streaminglogisticregressionwithsgd">
+<h1>StreamingLogisticRegressionWithSGD<a class="headerlink" href="#streaminglogisticregressionwithsgd" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.classification.StreamingLogisticRegressionWithSGD"><a name="//apple_ref/cpp/Class/pyspark.mllib.classification.StreamingLogisticRegressionWithSGD"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.classification.</code><code class="sig-name descname">StreamingLogisticRegressionWithSGD</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stepSize</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">numIterations</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">miniBatchFraction</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">regParam</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">convergenceTol</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/classification.html#StreamingLogisticRegressionWithSGD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.classification.StreamingLogisticRegressionWithSGD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train or predict a logistic regression model on streaming data.
+Training uses Stochastic Gradient Descent to update the model based on
+each new batch of incoming data from a DStream.</p>
+<p>Each batch of data is assumed to be an RDD of LabeledPoints.
+The number of data points per batch can vary, but the number
+of features must be constant. An initial weight
+vector must be provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stepSize</strong> – Step size for each iteration of gradient descent.
+(default: 0.1)</p></li>
+<li><p><strong>numIterations</strong> – Number of iterations run for each batch of data.
+(default: 50)</p></li>
+<li><p><strong>miniBatchFraction</strong> – Fraction of each batch of data to use for updates.
+(default: 1.0)</p></li>
+<li><p><strong>regParam</strong> – L2 Regularization parameter.
+(default: 0.0)</p></li>
+<li><p><strong>convergenceTol</strong> – Value used to determine when to terminate iterations.
+(default: 0.001)</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.classification.StreamingLogisticRegressionWithSGD.latestModel"><a name="//apple_ref/cpp/Method/pyspark.mllib.classification.StreamingLogisticRegressionWithSGD.latestModel"></a>
+<code class="sig-name descname">latestModel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.classification.StreamingLogisticRegressionWithSGD.latestModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the latest model.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.classification.StreamingLogisticRegressionWithSGD.predictOn"><a name="//apple_ref/cpp/Method/pyspark.mllib.classification.StreamingLogisticRegressionWithSGD.predictOn"></a>
+<code class="sig-name descname">predictOn</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dstream</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.classification.StreamingLogisticRegressionWithSGD.predictOn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the model to make predictions on batches of data from a
+DStream.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>DStream containing predictions.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.classification.StreamingLogisticRegressionWithSGD.predictOnValues"><a name="//apple_ref/cpp/Method/pyspark.mllib.classification.StreamingLogisticRegressionWithSGD.predictOnValues"></a>
+<code class="sig-name descname">predictOnValues</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dstream</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.classification.StreamingLogisticRegressionWithSGD.predictOnValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the model to make predictions on the values of a DStream and
+carry over its keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>DStream containing the input keys and the predictions as values.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.classification.StreamingLogisticRegressionWithSGD.setInitialWeights"><a name="//apple_ref/cpp/Method/pyspark.mllib.classification.StreamingLogisticRegressionWithSGD.setInitialWeights"></a>
+<code class="sig-name descname">setInitialWeights</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">initialWeights</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/classification.html#StreamingLogisticRegressionWithSGD.setInitialWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.classification.StreamingLogisticRegressionWithSGD.setInitialWeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the initial value of weights.</p>
+<p>This must be set before running trainOn and predictOn.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.classification.StreamingLogisticRegressionWithSGD.trainOn"><a name="//apple_ref/cpp/Method/pyspark.mllib.classification.StreamingLogisticRegressionWithSGD.trainOn"></a>
+<code class="sig-name descname">trainOn</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dstream</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/classification.html#StreamingLogisticRegressionWithSGD.trainOn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.classification.StreamingLogisticRegressionWithSGD.trainOn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train the model on the incoming dstream.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

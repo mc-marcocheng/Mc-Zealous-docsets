@@ -1,0 +1,29 @@
+pyspark.resource.ResourceInformation
+====================================
+
+.. currentmodule:: pyspark.resource
+
+.. autoclass:: ResourceInformation
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ResourceInformation.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ResourceInformation.addresses
+      ~ResourceInformation.name
+   
+   

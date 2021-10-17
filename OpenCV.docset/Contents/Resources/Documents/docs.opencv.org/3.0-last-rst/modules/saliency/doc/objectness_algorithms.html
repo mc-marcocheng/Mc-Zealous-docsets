@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/saliency/doc/objectness_algorithms.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:37 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Objectness Algorithms</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="Saliency API" href="saliency.html" />
+    <link rel="next" title="surface_matching. Surface Matching" href="../../surface_matching/doc/surface_matching.html" />
+    <link rel="prev" title="Motion Saliency Algorithms" href="motion_saliency_algorithms.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../surface_matching/doc/surface_matching.html" title="surface_matching. Surface Matching"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="motion_saliency_algorithms.html" title="Motion Saliency Algorithms"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="saliency.html" accesskey="U">Saliency API</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Objectness Algorithms</a><ul>
+<li><a class="reference internal" href="#objectnessbing">ObjectnessBING</a></li>
+<li><a class="reference internal" href="#objectnessbing-objectnessbing">ObjectnessBING::ObjectnessBING</a></li>
+<li><a class="reference internal" href="#objectnessbing-getobjectnessvalues">ObjectnessBING::getobjectnessValues</a></li>
+<li><a class="reference internal" href="#objectnessbing-settrainingpath">ObjectnessBING::setTrainingPath</a></li>
+<li><a class="reference internal" href="#objectnessbing-setbbresdir">ObjectnessBING::setBBResDir</a></li>
+<li><a class="reference internal" href="#objectnessbing-computesaliencyimpl">ObjectnessBING::computeSaliencyImpl</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="motion_saliency_algorithms.html"
+                        title="previous chapter">Motion Saliency Algorithms</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../surface_matching/doc/surface_matching.html"
+                        title="next chapter">surface_matching. Surface Matching</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="objectness-algorithms">
+<h1>Objectness Algorithms<a class="headerlink" href="#objectness-algorithms" title="Permalink to this headline">¶</a></h1>
+<p>Objectness is usually represented as a value which reflects how likely an image window covers an object of any category. Algorithms belonging to this category, avoid making decisions early on, by proposing a small number of category-independent proposals, that are expected to cover all objects in an image. Being able to perceive objects before identifying them is closely related to bottom up visual attention (saliency)</p>
+<p>Presently, the Binarized normed gradients algorithm <a class="reference internal" href="#bing" id="id1">[BING]</a> has been implemented.</p>
+<table class="docutils citation" frame="void" id="bing" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[BING]</a></td><td>Cheng, Ming-Ming, et al. &#8220;BING: Binarized normed gradients for objectness estimation at 300fps.&#8221; IEEE CVPR. 2014.</td></tr>
+</tbody>
+</table>
+<div class="section" id="objectnessbing">
+<h2>ObjectnessBING<a class="headerlink" href="#objectnessbing" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ObjectnessBING">
+<em class="property">class </em><tt class="descname">ObjectnessBING</tt><a class="headerlink" href="#ObjectnessBING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Implementation of BING from <a class="reference internal" href="saliency_categories.html#Objectness" title="class Objectness"><tt class="xref ocv ocv-class docutils literal"><span class="pre">Objectness</span></tt></a>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS</span> <span class="n">ObjectnessBING</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Objectness</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+
+  <span class="n">ObjectnessBING</span><span class="p">();</span>
+  <span class="o">~</span><span class="n">ObjectnessBING</span><span class="p">();</span>
+
+  <span class="kt">void</span> <span class="nf">read</span><span class="p">();</span>
+  <span class="kt">void</span> <span class="n">write</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+  <span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">getobjectnessValues</span><span class="p">();</span>
+  <span class="kt">void</span> <span class="nf">setTrainingPath</span><span class="p">(</span> <span class="n">string</span> <span class="n">trainingPath</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">setBBResDir</span><span class="p">(</span> <span class="n">string</span> <span class="n">resultsDir</span> <span class="p">);</span>
+
+<span class="nl">protected:</span>
+  <span class="kt">bool</span> <span class="nf">computeSaliencyImpl</span><span class="p">(</span> <span class="k">const</span> <span class="n">InputArray</span> <span class="n">src</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">dst</span> <span class="p">);</span>
+
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="objectnessbing-objectnessbing">
+<h2>ObjectnessBING::ObjectnessBING<a class="headerlink" href="#objectnessbing-objectnessbing" title="Permalink to this headline">¶</a></h2>
+<p>Constructor</p>
+<dl class="function">
+<dt id="ObjectnessBING::ObjectnessBING()">
+<strong>C++:</strong><tt class="descname"> </tt> <tt class="descclassname">ObjectnessBING::</tt><tt class="descname">ObjectnessBING</tt><big>(</big><big>)</big><a class="headerlink" href="#ObjectnessBING::ObjectnessBING()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="objectnessbing-getobjectnessvalues">
+<h2>ObjectnessBING::getobjectnessValues<a class="headerlink" href="#objectnessbing-getobjectnessvalues" title="Permalink to this headline">¶</a></h2>
+<p>Return the list of the rectangles&#8217; objectness value, in the same order as the  <em>vector&lt;Vec4i&gt; objectnessBoundingBox</em> returned by the algorithm (in computeSaliencyImpl function).
+The bigger value these scores are, it is more likely to be an object window.</p>
+<dl class="function">
+<dt id="vector&lt;float&gt; ObjectnessBING::getobjectnessValues()">
+<strong>C++:</strong><tt class="descname"> </tt>vector&lt;float&gt; <tt class="descclassname">ObjectnessBING::</tt><tt class="descname">getobjectnessValues</tt><big>(</big><big>)</big><a class="headerlink" href="#vector<float> ObjectnessBING::getobjectnessValues()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="objectnessbing-settrainingpath">
+<h2>ObjectnessBING::setTrainingPath<a class="headerlink" href="#objectnessbing-settrainingpath" title="Permalink to this headline">¶</a></h2>
+<p>This is a utility function that allows to set the correct path from which the algorithm will load the trained model.</p>
+<dl class="function">
+<dt id="void ObjectnessBING::setTrainingPath(string trainingPath)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">ObjectnessBING::</tt><tt class="descname">setTrainingPath</tt><big>(</big>string <strong>trainingPath</strong><big>)</big><a class="headerlink" href="#void ObjectnessBING::setTrainingPath(string trainingPath)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>trainingPath</strong> &#8211; trained model path</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="objectnessbing-setbbresdir">
+<h2>ObjectnessBING::setBBResDir<a class="headerlink" href="#objectnessbing-setbbresdir" title="Permalink to this headline">¶</a></h2>
+<p>This is a utility function that allows to set an arbitrary path in which the algorithm will save the optional results
+(ie writing on file the total number and the list of rectangles returned by objectess, one for each row).</p>
+<dl class="function">
+<dt id="void ObjectnessBING::setBBResDir(string resultsDir)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">ObjectnessBING::</tt><tt class="descname">setBBResDir</tt><big>(</big>string <strong>resultsDir</strong><big>)</big><a class="headerlink" href="#void ObjectnessBING::setBBResDir(string resultsDir)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>setBBResDir</strong> &#8211; results&#8217; folder path</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="objectnessbing-computesaliencyimpl">
+<h2>ObjectnessBING::computeSaliencyImpl<a class="headerlink" href="#objectnessbing-computesaliencyimpl" title="Permalink to this headline">¶</a></h2>
+<p>Performs all the operations and calls all internal functions necessary for the accomplishment of the Binarized normed gradients algorithm.</p>
+<dl class="function">
+<dt id="bool ObjectnessBING::computeSaliencyImpl(const InputArray image, OutputArray objectnessBoundingBox)">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">ObjectnessBING::</tt><tt class="descname">computeSaliencyImpl</tt><big>(</big>const InputArray <strong>image</strong>, OutputArray <strong>objectnessBoundingBox</strong><big>)</big><a class="headerlink" href="#bool ObjectnessBING::computeSaliencyImpl(const InputArray image, OutputArray objectnessBoundingBox)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> &#8211; input image. According to the needs of this specialized algorithm, the param image is a single <em>Mat</em></li>
+<li><strong>saliencyMap</strong> &#8211; objectness Bounding Box vector. According to the result given by this specialized  algorithm, the objectnessBoundingBox is a <em>vector&lt;Vec4i&gt;</em>.
+Each bounding box is represented by a <em>Vec4i</em> for (minX, minY, maxX, maxY).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../surface_matching/doc/surface_matching.html" title="surface_matching. Surface Matching"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="motion_saliency_algorithms.html" title="Motion Saliency Algorithms"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="saliency.html" >Saliency API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/saliency/doc/objectness_algorithms.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/saliency/doc/objectness_algorithms.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:37 GMT -->
+</html>

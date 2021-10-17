@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>LinearRegressionTrainingSummary — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="linearregressiontrainingsummary">
+<h1>LinearRegressionTrainingSummary<a class="headerlink" href="#linearregressiontrainingsummary" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary"><a name="//apple_ref/cpp/Class/pyspark.ml.regression.LinearRegressionTrainingSummary"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.regression.</code><code class="sig-name descname">LinearRegressionTrainingSummary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">java_obj</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#LinearRegressionTrainingSummary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Linear regression training results. Currently, the training summary ignores the
+training weights except for the objective trace.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+<p class="rubric">Attributes</p>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.coefficientStandardErrors"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.coefficientStandardErrors"></a>
+<code class="sig-name descname">coefficientStandardErrors</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.coefficientStandardErrors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Standard error of estimated coefficients and intercept.
+This value is only available when using the “normal” solver.</p>
+<p>If <a class="reference internal" href="pyspark.ml.regression.LinearRegression.html#pyspark.ml.regression.LinearRegression.fitIntercept" title="pyspark.ml.regression.LinearRegression.fitIntercept"><code class="xref py py-attr docutils literal notranslate"><span class="pre">LinearRegression.fitIntercept</span></code></a> is set to True,
+then the last element returned corresponds to the intercept.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pyspark.ml.regression.LinearRegression.html#pyspark.ml.regression.LinearRegression.solver" title="pyspark.ml.regression.LinearRegression.solver"><code class="xref py py-attr docutils literal notranslate"><span class="pre">LinearRegression.solver</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.degreesOfFreedom"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.degreesOfFreedom"></a>
+<code class="sig-name descname">degreesOfFreedom</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.degreesOfFreedom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Degrees of freedom.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.devianceResiduals"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.devianceResiduals"></a>
+<code class="sig-name descname">devianceResiduals</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.devianceResiduals" title="Permalink to this definition">¶</a></dt>
+<dd><p>The weighted residuals, the usual residuals rescaled by the
+square root of the instance weights.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.explainedVariance"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.explainedVariance"></a>
+<code class="sig-name descname">explainedVariance</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.explainedVariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the explained variance regression score.
+explainedVariance = <span class="math notranslate nohighlight">\(1 - \frac{variance(y - \hat{y})}{variance(y)}\)</span></p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="http://en.wikipedia.org/wiki/Explained_variation">Wikipedia explain variation</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This ignores instance weights (setting all to 1.0) from
+<cite>LinearRegression.weightCol</cite>. This will change in later Spark
+versions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.featuresCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.featuresCol"></a>
+<code class="sig-name descname">featuresCol</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.featuresCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field in “predictions” which gives the features of each instance
+as a vector.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.labelCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.labelCol"></a>
+<code class="sig-name descname">labelCol</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.labelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field in “predictions” which gives the true label of each
+instance.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.meanAbsoluteError"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.meanAbsoluteError"></a>
+<code class="sig-name descname">meanAbsoluteError</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.meanAbsoluteError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the mean absolute error, which is a risk function
+corresponding to the expected value of the absolute error
+loss or l1-norm loss.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This ignores instance weights (setting all to 1.0) from
+<cite>LinearRegression.weightCol</cite>. This will change in later Spark
+versions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.meanSquaredError"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.meanSquaredError"></a>
+<code class="sig-name descname">meanSquaredError</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.meanSquaredError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the mean squared error, which is a risk function
+corresponding to the expected value of the squared error
+loss or quadratic loss.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This ignores instance weights (setting all to 1.0) from
+<cite>LinearRegression.weightCol</cite>. This will change in later Spark
+versions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.numInstances"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.numInstances"></a>
+<code class="sig-name descname">numInstances</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.numInstances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of instances in DataFrame predictions</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.objectiveHistory"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.objectiveHistory"></a>
+<code class="sig-name descname">objectiveHistory</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.objectiveHistory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Objective function (scaled loss + regularization) at each
+iteration.
+This value is only available when using the “l-bfgs” solver.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pyspark.ml.regression.LinearRegression.html#pyspark.ml.regression.LinearRegression.solver" title="pyspark.ml.regression.LinearRegression.solver"><code class="xref py py-attr docutils literal notranslate"><span class="pre">LinearRegression.solver</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.pValues"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.pValues"></a>
+<code class="sig-name descname">pValues</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.pValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Two-sided p-value of estimated coefficients and intercept.
+This value is only available when using the “normal” solver.</p>
+<p>If <a class="reference internal" href="pyspark.ml.regression.LinearRegression.html#pyspark.ml.regression.LinearRegression.fitIntercept" title="pyspark.ml.regression.LinearRegression.fitIntercept"><code class="xref py py-attr docutils literal notranslate"><span class="pre">LinearRegression.fitIntercept</span></code></a> is set to True,
+then the last element returned corresponds to the intercept.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pyspark.ml.regression.LinearRegression.html#pyspark.ml.regression.LinearRegression.solver" title="pyspark.ml.regression.LinearRegression.solver"><code class="xref py py-attr docutils literal notranslate"><span class="pre">LinearRegression.solver</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.predictionCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.predictionCol"></a>
+<code class="sig-name descname">predictionCol</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.predictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field in “predictions” which gives the predicted value of
+the label at each instance.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.predictions"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.predictions"></a>
+<code class="sig-name descname">predictions</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.predictions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dataframe outputted by the model’s <cite>transform</cite> method.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.r2"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.r2"></a>
+<code class="sig-name descname">r2</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.r2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns R^2, the coefficient of determination.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="http://en.wikipedia.org/wiki/Coefficient_of_determination">Wikipedia coefficient of determination</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This ignores instance weights (setting all to 1.0) from
+<cite>LinearRegression.weightCol</cite>. This will change in later Spark
+versions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.r2adj"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.r2adj"></a>
+<code class="sig-name descname">r2adj</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.r2adj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns Adjusted R^2, the adjusted coefficient of determination.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Coefficient_of_determination#Adjusted_R2">Wikipedia coefficient of determination, Adjusted R^2</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This ignores instance weights (setting all to 1.0) from
+<cite>LinearRegression.weightCol</cite>. This will change in later Spark versions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.residuals"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.residuals"></a>
+<code class="sig-name descname">residuals</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.residuals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Residuals (label - predicted value)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.rootMeanSquaredError"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.rootMeanSquaredError"></a>
+<code class="sig-name descname">rootMeanSquaredError</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.rootMeanSquaredError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the root mean squared error, which is defined as the
+square root of the mean squared error.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This ignores instance weights (setting all to 1.0) from
+<cite>LinearRegression.weightCol</cite>. This will change in later Spark
+versions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.tValues"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.tValues"></a>
+<code class="sig-name descname">tValues</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.tValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>T-statistic of estimated coefficients and intercept.
+This value is only available when using the “normal” solver.</p>
+<p>If <a class="reference internal" href="pyspark.ml.regression.LinearRegression.html#pyspark.ml.regression.LinearRegression.fitIntercept" title="pyspark.ml.regression.LinearRegression.fitIntercept"><code class="xref py py-attr docutils literal notranslate"><span class="pre">LinearRegression.fitIntercept</span></code></a> is set to True,
+then the last element returned corresponds to the intercept.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pyspark.ml.regression.LinearRegression.html#pyspark.ml.regression.LinearRegression.solver" title="pyspark.ml.regression.LinearRegression.solver"><code class="xref py py-attr docutils literal notranslate"><span class="pre">LinearRegression.solver</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.LinearRegressionTrainingSummary.totalIterations"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.LinearRegressionTrainingSummary.totalIterations"></a>
+<code class="sig-name descname">totalIterations</code><a class="headerlink" href="#pyspark.ml.regression.LinearRegressionTrainingSummary.totalIterations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of training iterations until termination.
+This value is only available when using the “l-bfgs” solver.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pyspark.ml.regression.LinearRegression.html#pyspark.ml.regression.LinearRegression.solver" title="pyspark.ml.regression.LinearRegression.solver"><code class="xref py py-attr docutils literal notranslate"><span class="pre">LinearRegression.solver</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

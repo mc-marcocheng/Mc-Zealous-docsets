@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.RDD.histogram — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-rdd-histogram">
+<h1>pyspark.RDD.histogram<a class="headerlink" href="#pyspark-rdd-histogram" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.RDD.histogram"><a name="//apple_ref/cpp/Method/pyspark.RDD.histogram"></a>
+<code class="sig-prename descclassname">RDD.</code><code class="sig-name descname">histogram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">buckets</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/rdd.html#RDD.histogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.RDD.histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a histogram using the provided buckets. The buckets
+are all open to the right except for the last which is closed.
+e.g. [1,10,20,50] means the buckets are [1,10) [10,20) [20,50],
+which means 1&lt;=x&lt;10, 10&lt;=x&lt;20, 20&lt;=x&lt;=50. And on the input of 1
+and 50 we would have a histogram of 1,0,1.</p>
+<p>If your histogram is evenly spaced (e.g. [0, 10, 20, 30]),
+this can be switched from an O(log n) inseration to O(1) per
+element (where n is the number of buckets).</p>
+<p>Buckets must be sorted, not contain any duplicates, and have
+at least two elements.</p>
+<p>If <cite>buckets</cite> is a number, it will generate buckets which are
+evenly spaced between the minimum and maximum of the RDD. For
+example, if the min value is 0 and the max is 100, given <cite>buckets</cite>
+as 2, the resulting buckets will be [0,50) [50,100]. <cite>buckets</cite> must
+be at least 1. An exception is raised if the RDD contains infinity.
+If the elements in the RDD do not vary (max == min), a single bucket
+will be used.</p>
+<p>The return value is a tuple of buckets and histogram.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rdd</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">51</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdd</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">([0, 25, 50], [25, 26])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdd</span><span class="o">.</span><span class="n">histogram</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">])</span>
+<span class="go">([0, 5, 25, 50], [5, 20, 26])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdd</span><span class="o">.</span><span class="n">histogram</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">60</span><span class="p">])</span>  <span class="c1"># evenly spaced buckets</span>
+<span class="go">([0, 15, 30, 45, 60], [15, 15, 15, 6])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdd</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="s2">"ab"</span><span class="p">,</span> <span class="s2">"ac"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"bd"</span><span class="p">,</span> <span class="s2">"ef"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdd</span><span class="o">.</span><span class="n">histogram</span><span class="p">((</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"c"</span><span class="p">))</span>
+<span class="go">(('a', 'b', 'c'), [2, 2])</span>
+</pre></div>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/face/doc/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:14 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FaceRecognizer - Face Recognition with OpenCV</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="face. Face Recognition" href="face.html" />
+    <link rel="next" title="FaceRecognizer" href="facerec_api.html" />
+    <link rel="prev" title="face. Face Recognition" href="face.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="facerec_api.html" title="FaceRecognizer"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="face.html" title="face. Face Recognition"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="face.html" accesskey="U">face. Face Recognition</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">FaceRecognizer - Face Recognition with OpenCV</a><ul>
+<li><a class="reference internal" href="#contents">Contents</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="face.html"
+                        title="previous chapter">face. Face Recognition</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="facerec_api.html"
+                        title="next chapter">FaceRecognizer</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="facerecognizer-face-recognition-with-opencv">
+<h1>FaceRecognizer - Face Recognition with OpenCV<a class="headerlink" href="#facerecognizer-face-recognition-with-opencv" title="Permalink to this headline">¶</a></h1>
+<p>OpenCV 2.4 now comes with the very new <a class="reference internal" href="facerec_api.html#FaceRecognizer : public Algorithm" title="class FaceRecognizer : public Algorithm"><tt class="xref ocv ocv-class docutils literal"><span class="pre">FaceRecognizer</span></tt></a> class for face recognition. This documentation is going to explain you <a class="reference internal" href="facerec_api.html"><em>the API</em></a> in detail and it will give you a lot of help to get started (full source code examples). <a class="reference internal" href="facerec_tutorial.html"><em>Face Recognition with OpenCV</em></a> is the definite guide to the new <a class="reference internal" href="facerec_api.html#FaceRecognizer : public Algorithm" title="class FaceRecognizer : public Algorithm"><tt class="xref ocv ocv-class docutils literal"><span class="pre">FaceRecognizer</span></tt></a>. There&#8217;s also a <a class="reference internal" href="tutorial/facerec_gender_classification.html"><em>tutorial on gender classification</em></a>, a <a class="reference internal" href="tutorial/facerec_video_recognition.html"><em>tutorial for face recognition in videos</em></a> and it&#8217;s shown <a class="reference internal" href="tutorial/facerec_save_load.html"><em>how to load &amp; save your results</em></a>.</p>
+<p>These documents are the help I have wished for, when I was working myself into face recognition. I hope you also think the new <a class="reference internal" href="facerec_api.html#FaceRecognizer : public Algorithm" title="class FaceRecognizer : public Algorithm"><tt class="xref ocv ocv-class docutils literal"><span class="pre">FaceRecognizer</span></tt></a> is a useful addition to OpenCV.</p>
+<p>Please issue any feature requests and/or bugs on the official OpenCV bug tracker at:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://code.opencv.org/projects/opencv/issues">http://code.opencv.org/projects/opencv/issues</a></li>
+</ul>
+</div></blockquote>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="facerec_api.html">FaceRecognizer API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facerec_tutorial.html">Guide to Face Recognition with OpenCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/facerec_gender_classification.html">Tutorial on Gender Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/facerec_video_recognition.html">Tutorial on Face Recognition in Videos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/facerec_save_load.html">Tutorial On Saving &amp; Loading a FaceRecognizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facerec_changelog.html">Changelog</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../../../genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="../../../py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="../../../search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="facerec_api.html" title="FaceRecognizer"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="face.html" title="face. Face Recognition"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="face.html" >face. Face Recognition</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/face/doc/index.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/face/doc/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:14 GMT -->
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/tracking/doc/tracking.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:57:51 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>tracking. Tracking API</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="OpenCV API Reference" href="../../refman.html" />
+    <link rel="next" title="General diagram" href="uml/package.html" />
+    <link rel="prev" title="Scene Text Recognition" href="../../text/doc/ocr.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="uml/package.html" title="General diagram"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../../text/doc/ocr.html" title="Scene Text Recognition"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" accesskey="U">OpenCV API Reference</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">tracking. Tracking API</a><ul>
+<li><a class="reference internal" href="#long-term-optical-tracking-api">Long-term optical tracking API</a></li>
+<li><a class="reference internal" href="#uml-design">UML design:</a></li>
+<li><a class="reference internal" href="#tracker-classes">Tracker classes:</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../../text/doc/ocr.html"
+                        title="previous chapter">Scene Text Recognition</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="uml/package.html"
+                        title="next chapter">General diagram</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tracking-tracking-api">
+<h1>tracking. Tracking API<a class="headerlink" href="#tracking-tracking-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="long-term-optical-tracking-api">
+<h2>Long-term optical tracking API<a class="headerlink" href="#long-term-optical-tracking-api" title="Permalink to this headline">¶</a></h2>
+<p>Long-term optical tracking is one of most important issue for many computer vision applications in real world scenario.
+The development in this area is very fragmented and this API is an unique interface useful for plug several algorithms and compare them.
+This work is partially based on <a class="reference internal" href="#aam" id="id1">[AAM]</a> and <a class="reference internal" href="#amvot" id="id2">[AMVOT]</a>.</p>
+<p>This algorithms start from a bounding box of the target and with their internal representation they avoid the drift during the tracking.
+These long-term trackers are able to evaluate online the quality of the location of the target in the new frame, without ground truth.</p>
+<p>There are three main components: the TrackerSampler, the TrackerFeatureSet and the TrackerModel. The first component is the object that computes the patches over the frame based on the last target location.
+The TrackerFeatureSet is the class that manages the Features, is possible plug many kind of these (HAAR, HOG, LBP, Feature2D, etc).
+The last component is the internal representation of the target, it is the appearence model. It stores all state candidates and compute the trajectory (the most likely target states). The class TrackerTargetState represents a possible state of the target.
+The TrackerSampler and the TrackerFeatureSet are the visual representation of the target, instead the TrackerModel is the statistical model.</p>
+<p>A recent benchmark between these algorithms can be found in <a class="reference internal" href="#oot" id="id3">[OOT]</a>.</p>
+<p>To see how API works, try tracker demo:
+<a class="reference external" href="https://github.com/lenlen/opencv/blob/tracking_api/samples/cpp/tracker.cpp">https://github.com/lenlen/opencv/blob/tracking_api/samples/cpp/tracker.cpp</a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This Tracking API has been designed with PlantUML. If you modify this API please change UML files under modules/tracking/doc/uml/</p>
+</div>
+<p>The following reference was used in the API</p>
+<table class="docutils citation" frame="void" id="aam" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[AAM]</a></td><td>S Salti, A Cavallaro, L Di Stefano, Adaptive Appearance Modeling for Video Tracking: Survey and Evaluation, IEEE Transactions on Image Processing, Vol. 21, Issue 10, October 2012, pp. 4334-4348</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="amvot" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[AMVOT]</a></td><td>X Li, W Hu, C Shen, Z Zhang, A Dick, A van den Hengel, A Survey of Appearance Models in Visual Object Tracking, ACM Transactions on Intelligent Systems and Technology (TIST), 2013</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="oot" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[OOT]</a></td><td>Yi Wu and Jongwoo Lim and Ming-Hsuan Yang, Online Object Tracking: A Benchmark, The IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2013</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="uml-design">
+<h2>UML design:<a class="headerlink" href="#uml-design" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="uml/package.html">General diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uml/Tracker.html">Tracker diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uml/TrackerSampler.html">TrackerSampler diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uml/TrackerFeature.html">TrackerFeatureSet diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uml/TrackerModel.html">TrackerModel diagram</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="tracker-classes">
+<h2>Tracker classes:<a class="headerlink" href="#tracker-classes" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tracker_algorithms.html">Tracker Algorithms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tracker_algorithms.html#trackerboosting">TrackerBoosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tracker_algorithms.html#trackerboosting-params">TrackerBoosting::Params</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tracker_algorithms.html#trackerboosting-createtracker">TrackerBoosting::createTracker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tracker_algorithms.html#trackermil">TrackerMIL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tracker_algorithms.html#trackermil-params">TrackerMIL::Params</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tracker_algorithms.html#trackermil-createtracker">TrackerMIL::createTracker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tracker_algorithms.html#trackermedianflow">TrackerMedianFlow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tracker_algorithms.html#trackermedianflow-params">TrackerMedianFlow::Params</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tracker_algorithms.html#trackermedianflow-createtracker">TrackerMedianFlow::createTracker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tracker_algorithms.html#trackertld">TrackerTLD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tracker_algorithms.html#trackertld-params">TrackerTLD::Params</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tracker_algorithms.html#trackertld-createtracker">TrackerTLD::createTracker</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="common_interfaces_tracker.html">Common Interfaces of Tracker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker.html#tracker-algorithm">Tracker : Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker.html#tracker-init">Tracker::init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker.html#tracker-update">Tracker::update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker.html#tracker-create">Tracker::create</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker.html#creating-own-tracker">Creating Own Tracker</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="common_interfaces_tracker_sampler.html">Common Interfaces of TrackerSampler</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersampler">TrackerSampler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersampler-sampling">TrackerSampler::sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersampler-getsamplers">TrackerSampler::getSamplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersampler-getsamples">TrackerSampler::getSamples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersampler-addtrackersampleralgorithm">TrackerSampler::addTrackerSamplerAlgorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersampleralgorithm">TrackerSamplerAlgorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersampleralgorithm-create">TrackerSamplerAlgorithm::create</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersampleralgorithm-sampling">TrackerSamplerAlgorithm::sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersampleralgorithm-getclassname">TrackerSamplerAlgorithm::getClassName</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="common_interfaces_tracker_sampler.html#specialized-trackersampleralgorithm">Specialized TrackerSamplerAlgorithm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersamplercsc-trackersampleralgorithm">TrackerSamplerCSC : TrackerSamplerAlgorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersamplercsc-params">TrackerSamplerCSC::Params</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersamplercsc-trackersamplercsc">TrackerSamplerCSC::TrackerSamplerCSC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersamplercsc-setmode">TrackerSamplerCSC::setMode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersamplercs-trackersampleralgorithm">TrackerSamplerCS : TrackerSamplerAlgorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersamplercs-params">TrackerSamplerCS::Params</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersamplercs-trackersamplercs">TrackerSamplerCS::TrackerSamplerCS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersamplercs-setmode">TrackerSamplerCS::setMode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersamplerpf-trackersampleralgorithm">TrackerSamplerPF : TrackerSamplerAlgorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersamplerpf-params">TrackerSamplerPF::Params</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_sampler.html#trackersamplerpf-trackersamplerpf">TrackerSamplerPF::TrackerSamplerPF</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="common_interfaces_tracker_feature_set.html">Common Interfaces of TrackerFeatureSet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeatureset">TrackerFeatureSet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeatureset-extraction">TrackerFeatureSet::extraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeatureset-selection">TrackerFeatureSet::selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeatureset-removeoutliers">TrackerFeatureSet::removeOutliers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeatureset-addtrackerfeature">TrackerFeatureSet::addTrackerFeature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeatureset-gettrackerfeature">TrackerFeatureSet::getTrackerFeature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeatureset-getresponses">TrackerFeatureSet::getResponses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeature">TrackerFeature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeature-create">TrackerFeature::create</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeature-compute">TrackerFeature::compute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeature-selection">TrackerFeature::selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeature-getclassname">TrackerFeature::getClassName</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#specialized-trackerfeature">Specialized TrackerFeature</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeaturehaar-trackerfeature">TrackerFeatureHAAR : TrackerFeature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeaturehaar-params">TrackerFeatureHAAR::Params</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeaturehaar-trackerfeaturehaar">TrackerFeatureHAAR::TrackerFeatureHAAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeaturehaar-selection">TrackerFeatureHAAR::selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeaturehaar-extractselected">TrackerFeatureHAAR::extractSelected</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeaturehaar-getmeansigmapairs">TrackerFeatureHAAR::getMeanSigmaPairs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeaturehaar-swapfeature">TrackerFeatureHAAR::swapFeature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeaturehaar-getfeatureat">TrackerFeatureHAAR::getFeatureAt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeaturehog">TrackerFeatureHOG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeaturelbp">TrackerFeatureLBP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_feature_set.html#trackerfeaturefeature2d">TrackerFeatureFeature2d</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="common_interfaces_tracker_model.html">Common Interfaces of TrackerModel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#confidencemap">ConfidenceMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trajectory">Trajectory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackertargetstate">TrackerTargetState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimator">TrackerStateEstimator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimator-create">TrackerStateEstimator::create</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimator-estimate">TrackerStateEstimator::estimate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimator-update">TrackerStateEstimator::update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimator-getclassname">TrackerStateEstimator::getClassName</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackermodel">TrackerModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackermodel-modelestimation">TrackerModel::modelEstimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackermodel-modelupdate">TrackerModel::modelUpdate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackermodel-runstateestimator">TrackerModel::runStateEstimator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackermodel-settrackerstateestimator">TrackerModel::setTrackerStateEstimator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackermodel-setlasttargetstate">TrackerModel::setLastTargetState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackermodel-getlasttargetstate">TrackerModel::getLastTargetState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackermodel-getconfidencemaps">TrackerModel::getConfidenceMaps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackermodel-getlastconfidencemap">TrackerModel::getLastConfidenceMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackermodel-gettrackerstateestimator">TrackerModel::getTrackerStateEstimator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="common_interfaces_tracker_model.html#specialized-trackerstateestimator">Specialized TrackerStateEstimator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatormilboosting-trackerstateestimator">TrackerStateEstimatorMILBoosting : TrackerStateEstimator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackermiltargetstate-trackertargetstate">TrackerMILTargetState : TrackerTargetState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatormilboosting-trackermiltargetstate-settargetfg">TrackerStateEstimatorMILBoosting::TrackerMILTargetState::setTargetFg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatormilboosting-trackermiltargetstate-setfeatures">TrackerStateEstimatorMILBoosting::TrackerMILTargetState::setFeatures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatormilboosting-trackermiltargetstate-istargetfg">TrackerStateEstimatorMILBoosting::TrackerMILTargetState::isTargetFg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatormilboosting-trackermiltargetstate-getfeatures">TrackerStateEstimatorMILBoosting::TrackerMILTargetState::getFeatures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatormilboosting-trackerstateestimatormilboosting">TrackerStateEstimatorMILBoosting::TrackerStateEstimatorMILBoosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatormilboosting-setcurrentconfidencemap">TrackerStateEstimatorMILBoosting::setCurrentConfidenceMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatoradaboosting-trackerstateestimator">TrackerStateEstimatorAdaBoosting : TrackerStateEstimator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackeradaboostingtargetstate-trackertargetstate">TrackerAdaBoostingTargetState : TrackerTargetState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatoradaboosting-trackeradaboostingtargetstate-settargetfg">TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::setTargetFg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatoradaboosting-trackeradaboostingtargetstate-settargetresponses">TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::setTargetResponses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatoradaboosting-trackeradaboostingtargetstate-istargetfg">TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::isTargetFg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatoradaboosting-trackeradaboostingtargetstate-gettargetresponses">TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::getTargetResponses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatoradaboosting-trackerstateestimatoradaboosting">TrackerStateEstimatorAdaBoosting::TrackerStateEstimatorAdaBoosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatoradaboosting-setcurrentconfidencemap">TrackerStateEstimatorAdaBoosting::setCurrentConfidenceMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatoradaboosting-getsampleroi">TrackerStateEstimatorAdaBoosting::getSampleROI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatoradaboosting-setsampleroi">TrackerStateEstimatorAdaBoosting::setSampleROI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatoradaboosting-computeselectedweakclassifier">TrackerStateEstimatorAdaBoosting::computeSelectedWeakClassifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatoradaboosting-computereplacedclassifier">TrackerStateEstimatorAdaBoosting::computeReplacedClassifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatoradaboosting-computeswappedclassifier">TrackerStateEstimatorAdaBoosting::computeSwappedClassifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_tracker_model.html#trackerstateestimatoradaboosting-setmeansigmapair">TrackerStateEstimatorAdaBoosting::setMeanSigmaPair</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="uml/package.html" title="General diagram"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../../text/doc/ocr.html" title="Scene Text Recognition"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/tracking/doc/tracking.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/tracking/doc/tracking.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:57:51 GMT -->
+</html>

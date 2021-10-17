@@ -1,0 +1,611 @@
+<!DOCTYPE html><html dir="ltr" lang="en"><head>
+<meta content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com" name="google-signin-client-id"/>
+<meta content="profile email" name="google-signin-scope"/>
+<meta content="TensorFlow" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="#ff6f00" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link crossorigin="use-credentials" href="_pwa/tensorflow/manifest.json" rel="manifest"/>
+<link crossorigin="" href="/www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.googleapis.com" rel="preconnect"/>
+<link href="../../../../main.css" rel="stylesheet"/>
+
+<noscript>
+
+</noscript>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/favicon.png" rel="shortcut icon"/>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/apple-touch-icon-180x180.png" rel="apple-touch-icon"/><link href="https://www.tensorflow.org/api_docs/python/tf/train/Checkpoint" rel="canonical"/><link href="https://www.tensorflow.org/s/opensearch.xml" rel="search" title="TensorFlow" type="application/opensearchdescription+xml"/>
+<title>tf.train.Checkpoint &nbsp;|&nbsp; TensorFlow Core v2.1.0</title>
+<meta content="tf.train.Checkpoint &nbsp;|&nbsp; TensorFlow Core v2.1.0" property="og:title"/>
+<meta content="https://www.tensorflow.org/api_docs/python/tf/train/Checkpoint" property="og:url"/>
+<meta content="en" property="og:locale"/>
+
+</head>
+<body class="" layout="docs" pending="" theme="tensorflow-theme" type="reference">
+<devsite-progress id="app-progress" type="indeterminate"></devsite-progress>
+<section class="devsite-wrapper"> <devsite-book-nav scrollbars="">
+
+</devsite-book-nav>
+<section id="gc-wrapper">
+<main class="devsite-main-content" has-book-nav="" has-toc="" role="main">
+<devsite-toc class="devsite-nav"></devsite-toc>
+<devsite-content>
+<article class="devsite-article">
+<article class="devsite-article-inner"><style>
+        /* Styles inlined from /site-assets/css/style.css */
+/* override theme */
+table img {
+  max-width: 100%;
+}
+
+/* override var element to differentiate color from comment */
+var, var code, var span, .prettyprint var span {
+  color: #039be5;
+}
+
+/* .devsite-terminal virtualenv prompt */
+.tfo-terminal-venv::before {
+  content: "(venv) $ " !important;
+}
+
+/* .devsite-terminal root prompt */
+.tfo-terminal-root::before {
+  content: "# " !important;
+}
+
+/* .devsite-terminal Windows prompt */
+.tfo-terminal-windows::before {
+  content: "C:\\> " !important;
+}
+
+/* .devsite-terminal Windows prompt w/ virtualenv */
+.tfo-terminal-windows-venv::before {
+  content: "(venv) C:\\> " !important;
+}
+
+.tfo-diff-green-one-level + * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green + * > * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green-list + ul > li:first-of-type {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-red-one-level + * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red + * > * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red-list + ul > li:first-of-type {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+devsite-code .tfo-notebook-code-cell-output {
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(255, 247, 237, 1);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(255, 247, 237, .7);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output {
+  background: rgba(64, 78, 103, 1);  /* medium slate */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(64, 78, 103, .7);  /* medium slate */
+}
+
+/* override default table styles for notebook buttons */
+.devsite-table-wrapper .tfo-notebook-buttons {
+  display: inline-block;
+  margin-left: 3px;
+  width: auto;
+}
+
+.tfo-notebook-buttons td {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.tfo-notebook-buttons a,
+.tfo-notebook-buttons :link,
+.tfo-notebook-buttons :visited {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  color: #202124;
+  padding: 12px 24px;
+  transition: box-shadow 0.2s;
+}
+
+.tfo-notebook-buttons a:hover,
+.tfo-notebook-buttons a:focus {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.tfo-notebook-buttons tr {
+  background: 0;
+  border: 0;
+}
+
+/* on rendered notebook page,
+   remove link to webpage since we're already here */
+.tfo-notebook-buttons:not(.tfo-api) td:first-child {
+  display: none;
+}
+
+.tfo-notebook-buttons td > a {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tfo-notebook-buttons td > a > img {
+  margin-right: 8px;
+}
+
+/* landing pages */
+
+.tfo-landing-row-item-inset-white {
+  background-color: #fff;
+  padding: 32px;
+}
+
+.tfo-landing-row-item-inset-white ol,
+.tfo-landing-row-item-inset-white ul {
+  padding-left: 20px;
+}
+
+/* colab callout button */
+.colab-callout-row devsite-code {
+  border-radius: 8px 8px 0 0;
+  box-shadow: none;
+}
+
+.colab-callout-footer {
+  background: #e3e4e7;
+  border-radius: 0 0 8px 8px;
+  color: #37474f;
+  padding: 20px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer {
+  background: #3f4f66;
+}
+
+
+.colab-callout-footer > .button {
+  margin-top: 4px;
+  color: #ff5c00;
+}
+
+.colab-callout-footer > a > span {
+  padding-top: 10px;
+  vertical-align: middle;
+  color: #37474f;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer > a > span {
+  color: #fff;
+}
+
+a.colab-button {
+  background: rgba(255, 255, 255, .75);
+  border: solid 1px rgba(0, 0, 0, .08);
+  border-bottom-color: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  color: #aaa;
+  display: inline-block;
+  font-size: 11px !important;
+  font-weight: 300;
+  line-height: 16px;
+  padding: 4px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.colab-button:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, .2);
+  color: #666;
+}
+
+a.colab-button span {
+  background: url(/images/colab_logo_button.svg) no-repeat 1px 1px / 20px;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 24px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .tfo-notebook-buttons td {
+    display: block;
+  }
+}
+
+/* guide and tutorials landing page cards and sections */
+
+.tfo-landing-page-card {
+  padding: 16px;
+  box-shadow: 0 0 36px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+/* Page section headings */
+.tfo-landing-page-heading h2, h2.tfo-landing-page-heading {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+/* Item title headings */
+.tfo-landing-page-heading h3, h3.tfo-landing-page-heading,
+.tfo-landing-page-card h3, h3.tfo-landing-page-card {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* List of tutorials notebooks for subsites */
+.tfo-landing-page-resources-ul {
+  padding-left: 15px
+}
+
+.tfo-landing-page-resources-ul > li {
+  margin: 6px 0;
+}
+
+/* Temporary fix to hide product description in header on landing pages */
+devsite-header .devsite-product-description {
+  display: none;
+}
+
+        </style> <div class="devsite-banner devsite-banner-announcement">
+<div class="devsite-banner-message">
+<div class="devsite-banner-message-text">
+            Missed TensorFlow Dev Summit? Check out the video playlist. <a class="button button-primary button-tfo-announcement" href="https://goo.gle/TFDS20AllSessions">Watch recordings</a>
+</div>
+</div>
+</div>
+<div class="devsite-article-meta">
+<ul class="devsite-breadcrumb-list">
+<li class="devsite-breadcrumb-item">
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="1" href="">
+            TensorFlow
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="2" href="api">
+            API
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="3" href="api_docs">
+            TensorFlow Core v2.1.0
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="4" href="api_docs/python/tf">
+            Python
+      
+  </a>
+</li>
+</ul>
+<devsite-page-rating hover-rating-star="0" position="header" selected-rating="0">
+</devsite-page-rating>
+</div>
+<a class="dashingAutolink" name="autolink-2680"></a><a class="dashAnchor" name="//apple_ref/cpp/Function/tf.train.Checkpoint"></a><h1 class="dash-function">tf.train.Checkpoint</h1>
+<devsite-toc class="devsite-nav" devsite-toc-embedded="">
+</devsite-toc>
+<div class="devsite-article-body clearfix">
+<p></p>
+<!-- DO NOT EDIT! Automatically generated file. -->
+<div itemscope="" itemtype="http://developers.google.com/ReferenceObject">
+<meta content="tf.train.Checkpoint" itemprop="name"/>
+<meta content="Stable" itemprop="path"/>
+<meta content="__init__" itemprop="property"/>
+<meta content="restore" itemprop="property"/>
+<meta content="save" itemprop="property"/>
+<meta content="write" itemprop="property"/>
+</div>
+<p><devsite-nav-buttons name="version" param="reset">
+<button default="" value="stable">See Stable</button>
+<button value="nightly">See Nightly</button>
+</devsite-nav-buttons></p>
+<!-- Stable -->
+<table align="left" class="tfo-notebook-buttons tfo-api">
+<tbody><tr><td>
+<a href="versions/r1.15/api_docs/python/tf/train/Checkpoint" target="_blank">
+<img src="https://www.tensorflow.org/images/tf_logo_32px.png"/>
+  TensorFlow 1 version</a>
+</td>
+<td>
+<a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/tracking/util.py#L1692-L1989" target="_blank">
+<img src="https://www.tensorflow.org/images/GitHub-Mark-32px.png"/>
+    View source on GitHub
+  </a>
+</td></tr></tbody></table>
+<p>Groups trackable objects, saving and restoring them.</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">tf.train.Checkpoint(
+    **kwargs
+)
+</code></pre>
+<h3>Used in the notebooks</h3>
+<table class="vertical-rules">
+<thead>
+<tr>
+<th>Used in the guide</th>
+<th>Used in the tutorials</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<ul>
+<li><a href="https://www.tensorflow.org/guide/checkpoint">Training checkpoints</a></li>
+<li><a href="https://www.tensorflow.org/guide/eager">Eager execution</a></li>
+</ul>
+</td>
+<td>
+<ul>
+<li><a href="https://www.tensorflow.org/tutorials/distribute/custom_training">Custom training with tf.distribute.Strategy</a></li>
+<li><a href="https://www.tensorflow.org/tutorials/generative/cyclegan">CycleGAN</a></li>
+<li><a href="https://www.tensorflow.org/tutorials/generative/dcgan">Deep Convolutional Generative Adversarial Network</a></li>
+<li><a href="https://www.tensorflow.org/tutorials/generative/pix2pix">Pix2Pix</a></li>
+<li><a href="https://www.tensorflow.org/tutorials/text/image_captioning">Image captioning with visual attention</a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><code dir="ltr" translate="no">Checkpoint</code>&#39;s constructor accepts keyword arguments whose values are types
+that contain trackable state, such as <a href="https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Optimizer"><code dir="ltr" translate="no">tf.keras.optimizers.Optimizer</code></a>
+implementations, <a href="https://www.tensorflow.org/api_docs/python/tf/Variable"><code dir="ltr" translate="no">tf.Variable</code></a>, <code dir="ltr" translate="no">tf.keras.Layer</code> implementations, or
+<a href="https://www.tensorflow.org/api_docs/python/tf/keras/Model"><code dir="ltr" translate="no">tf.keras.Model</code></a> implementations. It saves these values with a checkpoint, and
+maintains a <code dir="ltr" translate="no">save_counter</code> for numbering checkpoints.</p>
+<h4 id="example_usage_3">Example usage:</h4>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">import tensorflow as tf
+import os
+
+checkpoint_directory = &#34;/tmp/training_checkpoints&#34;
+checkpoint_prefix = os.path.join(checkpoint_directory, &#34;ckpt&#34;)
+
+checkpoint = tf.train.Checkpoint(optimizer=optimizer, model=model)
+status = checkpoint.restore(tf.train.latest_checkpoint(checkpoint_directory))
+for _ in range(num_training_steps):
+  optimizer.minimize( ... )  # Variables will be restored on creation.
+status.assert_consumed()  # Optional sanity checks.
+checkpoint.save(file_prefix=checkpoint_prefix)
+</code></pre>
+<p><a href="https://www.tensorflow.org/api_docs/python/tf/train/Checkpoint#save"><code dir="ltr" translate="no">Checkpoint.save</code></a> and <a href="https://www.tensorflow.org/api_docs/python/tf/train/Checkpoint#restore"><code dir="ltr" translate="no">Checkpoint.restore</code></a> write and read object-based
+checkpoints, in contrast to TensorFlow 1.x&#39;s <a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/Saver"><code dir="ltr" translate="no">tf.compat.v1.train.Saver</code></a> which
+writes and
+reads <code dir="ltr" translate="no">variable.name</code> based checkpoints. Object-based checkpointing saves a
+graph of dependencies between Python objects (<code dir="ltr" translate="no">Layer</code>s, <code dir="ltr" translate="no">Optimizer</code>s,
+<code dir="ltr" translate="no">Variable</code>s, etc.) with named edges, and this graph is used to match variables
+when restoring a checkpoint. It can be more robust to changes in the Python
+program, and helps to support restore-on-create for variables.</p>
+<p><code dir="ltr" translate="no">Checkpoint</code> objects have dependencies on the objects passed as keyword
+arguments to their constructors, and each dependency is given a name that is
+identical to the name of the keyword argument for which it was created.
+TensorFlow classes like <code dir="ltr" translate="no">Layer</code>s and <code dir="ltr" translate="no">Optimizer</code>s will automatically add
+dependencies on their variables (e.g. &#34;kernel&#34; and &#34;bias&#34; for
+<a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense"><code dir="ltr" translate="no">tf.keras.layers.Dense</code></a>). Inheriting from <a href="https://www.tensorflow.org/api_docs/python/tf/keras/Model"><code dir="ltr" translate="no">tf.keras.Model</code></a> makes managing
+dependencies easy in user-defined classes, since <code dir="ltr" translate="no">Model</code> hooks into attribute
+assignment. For example:</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">class Regress(tf.keras.Model):
+
+  def __init__(self):
+    super(Regress, self).__init__()
+    self.input_transform = tf.keras.layers.Dense(10)
+    # ...
+
+  def call(self, inputs):
+    x = self.input_transform(inputs)
+    # ...
+</code></pre>
+<p>This <code dir="ltr" translate="no">Model</code> has a dependency named &#34;input_transform&#34; on its <code dir="ltr" translate="no">Dense</code> layer,
+which in turn depends on its variables. As a result, saving an instance of
+<code dir="ltr" translate="no">Regress</code> using <a href="https://www.tensorflow.org/api_docs/python/tf/train/Checkpoint"><code dir="ltr" translate="no">tf.train.Checkpoint</code></a> will also save all the variables created
+by the <code dir="ltr" translate="no">Dense</code> layer.</p>
+<p>When variables are assigned to multiple workers, each worker writes its own
+section of the checkpoint. These sections are then merged/re-indexed to behave
+as a single checkpoint. This avoids copying all variables to one worker, but
+does require that all workers see a common filesystem.</p>
+<p>While <a href="https://www.tensorflow.org/api_docs/python/tf/keras/Model#save_weights"><code dir="ltr" translate="no">tf.keras.Model.save_weights</code></a> and <a href="https://www.tensorflow.org/api_docs/python/tf/train/Checkpoint#save"><code dir="ltr" translate="no">tf.train.Checkpoint.save</code></a> save in the
+same format, note that the root of the resulting checkpoint is the object the
+save method is attached to. This means saving a <a href="https://www.tensorflow.org/api_docs/python/tf/keras/Model"><code dir="ltr" translate="no">tf.keras.Model</code></a> using
+<code dir="ltr" translate="no">save_weights</code> and loading into a <a href="https://www.tensorflow.org/api_docs/python/tf/train/Checkpoint"><code dir="ltr" translate="no">tf.train.Checkpoint</code></a> with a <code dir="ltr" translate="no">Model</code>
+attached (or vice versa) will not match the <code dir="ltr" translate="no">Model</code>&#39;s variables. See the
+<a href="https://www.tensorflow.org/guide/checkpoint">guide to training
+checkpoints</a> for
+details. Prefer <a href="https://www.tensorflow.org/api_docs/python/tf/train/Checkpoint"><code dir="ltr" translate="no">tf.train.Checkpoint</code></a> over <a href="https://www.tensorflow.org/api_docs/python/tf/keras/Model#save_weights"><code dir="ltr" translate="no">tf.keras.Model.save_weights</code></a> for
+training checkpoints.</p>
+<h4 id="args_6">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">**kwargs</code></b>: Keyword arguments are set as attributes of this object, and are
+saved with the checkpoint. Values must be trackable objects.</li>
+</ul>
+<h4 id="attributes_2">Attributes:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">save_counter</code></b>: Incremented when <code dir="ltr" translate="no">save()</code> is called. Used to number
+checkpoints.</li>
+</ul>
+<h4 id="raises_2">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>: If objects in <code dir="ltr" translate="no">kwargs</code> are not trackable.</li>
+</ul>
+<h2 id="methods_2">Methods</h2>
+<h3 id="restore"><code dir="ltr" translate="no">restore</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/tracking/util.py#L1910-L1989" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">restore(
+    save_path
+)
+</code></pre>
+<p>Restore a training checkpoint.</p>
+<p>Restores this <code dir="ltr" translate="no">Checkpoint</code> and any objects it depends on.</p>
+<p>Either assigns values immediately if variables to restore have been created
+already, or defers restoration until the variables are created. Dependencies
+added after this call will be matched if they have a corresponding object in
+the checkpoint (the restore request will queue in any trackable object
+waiting for the expected dependency to be added).</p>
+<p>To ensure that loading is complete and no more assignments will take place,
+use the <code dir="ltr" translate="no">assert_consumed()</code> method of the status object returned by
+<code dir="ltr" translate="no">restore</code>:</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">checkpoint = tf.train.Checkpoint( ... )
+checkpoint.restore(path).assert_consumed()
+</code></pre>
+<p>An exception will be raised if any Python objects in the dependency graph
+were not found in the checkpoint, or if any checkpointed values do not have
+a matching Python object.</p>
+<p>Name-based <a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/Saver"><code dir="ltr" translate="no">tf.compat.v1.train.Saver</code></a> checkpoints from TensorFlow 1.x can be
+loaded
+using this method. Names are used to match variables. Re-encode name-based
+checkpoints using <a href="https://www.tensorflow.org/api_docs/python/tf/train/Checkpoint#save"><code dir="ltr" translate="no">tf.train.Checkpoint.save</code></a> as soon as possible.</p>
+<h4 id="args_7">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">save_path</code></b>: The path to the checkpoint, as returned by <code dir="ltr" translate="no">save</code> or
+<a href="https://www.tensorflow.org/api_docs/python/tf/train/latest_checkpoint"><code dir="ltr" translate="no">tf.train.latest_checkpoint</code></a>. If None (as when there is no latest
+checkpoint for <a href="https://www.tensorflow.org/api_docs/python/tf/train/latest_checkpoint"><code dir="ltr" translate="no">tf.train.latest_checkpoint</code></a> to return), returns an
+object which may run initializers for objects in the dependency graph.
+If the checkpoint was written by the name-based
+<a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/Saver"><code dir="ltr" translate="no">tf.compat.v1.train.Saver</code></a>, names are used to match variables.</li>
+</ul>
+<h4 id="returns_5">Returns:</h4>
+<p>A load status object, which can be used to make assertions about the
+status of a checkpoint restoration.</p>
+<p>The returned status object has the following methods:</p>
+<ul>
+<li><p><code dir="ltr" translate="no">assert_consumed()</code>:
+Raises an exception if any variables are unmatched: either
+checkpointed values which don&#39;t have a matching Python object or
+Python objects in the dependency graph with no values in the
+checkpoint. This method returns the status object, and so may be
+chained with other assertions.</p></li>
+<li><p><code dir="ltr" translate="no">assert_existing_objects_matched()</code>:
+Raises an exception if any existing Python objects in the dependency
+graph are unmatched. Unlike <code dir="ltr" translate="no">assert_consumed</code>, this assertion will
+pass if values in the checkpoint have no corresponding Python
+objects. For example a <code dir="ltr" translate="no">tf.keras.Layer</code> object which has not yet been
+built, and so has not created any variables, will pass this assertion
+but fail <code dir="ltr" translate="no">assert_consumed</code>. Useful when loading part of a larger
+checkpoint into a new Python program, e.g. a training checkpoint with
+a <a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/Optimizer"><code dir="ltr" translate="no">tf.compat.v1.train.Optimizer</code></a> was saved but only the state required
+for
+inference is being loaded. This method returns the status object, and
+so may be chained with other assertions.</p></li>
+<li><p><code dir="ltr" translate="no">assert_nontrivial_match()</code>: Asserts that something aside from the root
+object was matched. This is a very weak assertion, but is useful for
+sanity checking in library code where objects may exist in the
+checkpoint which haven&#39;t been created in Python and some Python
+objects may not have a checkpointed value.</p></li>
+<li><p><code dir="ltr" translate="no">expect_partial()</code>: Silence warnings about incomplete checkpoint
+restores. Warnings are otherwise printed for unused parts of the
+checkpoint file or object when the <code dir="ltr" translate="no">Checkpoint</code> object is deleted
+(often at program shutdown).</p></li>
+</ul>
+<h3 id="save"><code dir="ltr" translate="no">save</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/tracking/util.py#L1855-L1908" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">save(
+    file_prefix
+)
+</code></pre>
+<p>Saves a training checkpoint and provides basic checkpoint management.</p>
+<p>The saved checkpoint includes variables created by this object and any
+trackable objects it depends on at the time <a href="https://www.tensorflow.org/api_docs/python/tf/train/Checkpoint#save"><code dir="ltr" translate="no">Checkpoint.save()</code></a> is
+called.</p>
+<p><code dir="ltr" translate="no">save</code> is a basic convenience wrapper around the <code dir="ltr" translate="no">write</code> method,
+sequentially numbering checkpoints using <code dir="ltr" translate="no">save_counter</code> and updating the
+metadata used by <a href="https://www.tensorflow.org/api_docs/python/tf/train/latest_checkpoint"><code dir="ltr" translate="no">tf.train.latest_checkpoint</code></a>. More advanced checkpoint
+management, for example garbage collection and custom numbering, may be
+provided by other utilities which also wrap <code dir="ltr" translate="no">write</code>
+(<a href="https://www.tensorflow.org/api_docs/python/tf/train/CheckpointManager"><code dir="ltr" translate="no">tf.train.CheckpointManager</code></a> for example).</p>
+<h4 id="args_8">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">file_prefix</code></b>: A prefix to use for the checkpoint filenames
+(/path/to/directory/and_a_prefix). Names are generated based on this
+prefix and <a href="https://www.tensorflow.org/api_docs/python/tf/train/Checkpoint#save_counter"><code dir="ltr" translate="no">Checkpoint.save_counter</code></a>.</li>
+</ul>
+<h4 id="returns_6">Returns:</h4>
+<p>The full path to the checkpoint.</p>
+<h3 id="write"><code dir="ltr" translate="no">write</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/tracking/util.py#L1813-L1841" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">write(
+    file_prefix
+)
+</code></pre>
+<p>Writes a training checkpoint.</p>
+<p>The checkpoint includes variables created by this object and any
+trackable objects it depends on at the time <a href="https://www.tensorflow.org/api_docs/python/tf/train/Checkpoint#write"><code dir="ltr" translate="no">Checkpoint.write()</code></a> is
+called.</p>
+<p><code dir="ltr" translate="no">write</code> does not number checkpoints, increment <code dir="ltr" translate="no">save_counter</code>, or update the
+metadata used by <a href="https://www.tensorflow.org/api_docs/python/tf/train/latest_checkpoint"><code dir="ltr" translate="no">tf.train.latest_checkpoint</code></a>. It is primarily intended for
+use by higher level checkpoint management utilities. <code dir="ltr" translate="no">save</code> provides a very
+basic implementation of these features.</p>
+<h4 id="args_9">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">file_prefix</code></b>: A prefix to use for the checkpoint filenames
+(/path/to/directory/and_a_prefix).</li>
+</ul>
+<h4 id="returns_7">Returns:</h4>
+<p>The full path to the checkpoint (i.e. <code dir="ltr" translate="no">file_prefix</code>).</p>
+</div>
+<devsite-page-rating hover-rating-star="0" position="footer" selected-rating="0">
+</devsite-page-rating>
+</article>
+</article>
+
+</devsite-content>
+</main>
+<devsite-footer-promos class="devsite-footer">
+</devsite-footer-promos>
+<devsite-footer-linkboxes class="devsite-footer">
+
+</devsite-footer-linkboxes>
+<devsite-footer-utility class="devsite-footer">
+<div class="devsite-footer-utility nocontent">
+
+</div>
+</devsite-footer-utility>
+</section></section>
+<devsite-sitemask></devsite-sitemask>
+<devsite-snackbar></devsite-snackbar> <devsite-tooltip></devsite-tooltip>
+<devsite-heading-link></devsite-heading-link>
+<devsite-analytics>
+
+
+</devsite-analytics>
+ 
+</body></html>

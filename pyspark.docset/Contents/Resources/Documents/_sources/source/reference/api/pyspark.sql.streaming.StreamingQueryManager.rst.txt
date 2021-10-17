@@ -1,0 +1,31 @@
+pyspark.sql.streaming.StreamingQueryManager
+===========================================
+
+.. currentmodule:: pyspark.sql.streaming
+
+.. autoclass:: StreamingQueryManager
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~StreamingQueryManager.__init__
+      ~StreamingQueryManager.awaitAnyTermination
+      ~StreamingQueryManager.get
+      ~StreamingQueryManager.resetTerminated
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~StreamingQueryManager.active
+   
+   

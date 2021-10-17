@@ -1,0 +1,33 @@
+pyspark.sql.GroupedData
+=======================
+
+.. currentmodule:: pyspark.sql
+
+.. autoclass:: GroupedData
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~GroupedData.__init__
+      ~GroupedData.agg
+      ~GroupedData.apply
+      ~GroupedData.applyInPandas
+      ~GroupedData.avg
+      ~GroupedData.cogroup
+      ~GroupedData.count
+      ~GroupedData.max
+      ~GroupedData.mean
+      ~GroupedData.min
+      ~GroupedData.pivot
+      ~GroupedData.sum
+   
+   
+
+   
+   
+   

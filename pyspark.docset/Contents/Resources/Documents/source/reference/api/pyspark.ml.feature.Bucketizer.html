@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Bucketizer — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="bucketizer">
+<h1>Bucketizer<a class="headerlink" href="#bucketizer" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.feature.Bucketizer"><a name="//apple_ref/cpp/Class/pyspark.ml.feature.Bucketizer"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.feature.</code><code class="sig-name descname">Bucketizer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">splits</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">inputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">handleInvalid</span><span class="o">=</span><span class="default_value">'error'</span></em>, <em class="sig-param"><span class="n">splitsArray</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">inputCols</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outputCols</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#Bucketizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.Bucketizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maps a column of continuous features to a column of feature buckets. Since 3.0.0,
+<a class="reference internal" href="#pyspark.ml.feature.Bucketizer" title="pyspark.ml.feature.Bucketizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bucketizer</span></code></a> can map multiple columns at once by setting the <a class="reference internal" href="#pyspark.ml.feature.Bucketizer.inputCols" title="pyspark.ml.feature.Bucketizer.inputCols"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inputCols</span></code></a>
+parameter. Note that when both the <a class="reference internal" href="#pyspark.ml.feature.Bucketizer.inputCol" title="pyspark.ml.feature.Bucketizer.inputCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inputCol</span></code></a> and <a class="reference internal" href="#pyspark.ml.feature.Bucketizer.inputCols" title="pyspark.ml.feature.Bucketizer.inputCols"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inputCols</span></code></a> parameters
+are set, an Exception will be thrown. The <a class="reference internal" href="#pyspark.ml.feature.Bucketizer.splits" title="pyspark.ml.feature.Bucketizer.splits"><code class="xref py py-attr docutils literal notranslate"><span class="pre">splits</span></code></a> parameter is only used for single
+column usage, and <a class="reference internal" href="#pyspark.ml.feature.Bucketizer.splitsArray" title="pyspark.ml.feature.Bucketizer.splitsArray"><code class="xref py py-attr docutils literal notranslate"><span class="pre">splitsArray</span></code></a> is for multiple columns.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">values</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">)),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">"nan"</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="p">[</span><span class="s2">"values1"</span><span class="p">,</span> <span class="s2">"values2"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bucketizer</span> <span class="o">=</span> <span class="n">Bucketizer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bucketizer</span><span class="o">.</span><span class="n">setSplits</span><span class="p">([</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">),</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">)])</span>
+<span class="go">Bucketizer...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bucketizer</span><span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">"values1"</span><span class="p">)</span>
+<span class="go">Bucketizer...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bucketizer</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">"buckets"</span><span class="p">)</span>
+<span class="go">Bucketizer...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bucketed</span> <span class="o">=</span> <span class="n">bucketizer</span><span class="o">.</span><span class="n">setHandleInvalid</span><span class="p">(</span><span class="s2">"keep"</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bucketed</span> <span class="o">=</span> <span class="n">bucketizer</span><span class="o">.</span><span class="n">setHandleInvalid</span><span class="p">(</span><span class="s2">"keep"</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"values1"</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bucketed</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+-------+-------+</span>
+<span class="go">|values1|buckets|</span>
+<span class="go">+-------+-------+</span>
+<span class="go">|0.1    |0.0    |</span>
+<span class="go">|0.4    |0.0    |</span>
+<span class="go">|1.2    |1.0    |</span>
+<span class="go">|1.5    |2.0    |</span>
+<span class="go">|NaN    |3.0    |</span>
+<span class="go">|NaN    |3.0    |</span>
+<span class="go">+-------+-------+</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bucketizer</span><span class="o">.</span><span class="n">setParams</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="s2">"b"</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">b</span>
+<span class="go">0.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bucketizerPath</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/bucketizer"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bucketizer</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">bucketizerPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedBucketizer</span> <span class="o">=</span> <span class="n">Bucketizer</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">bucketizerPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedBucketizer</span><span class="o">.</span><span class="n">getSplits</span><span class="p">()</span> <span class="o">==</span> <span class="n">bucketizer</span><span class="o">.</span><span class="n">getSplits</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bucketed</span> <span class="o">=</span> <span class="n">bucketizer</span><span class="o">.</span><span class="n">setHandleInvalid</span><span class="p">(</span><span class="s2">"skip"</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">bucketed</span><span class="p">)</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bucketizer2</span> <span class="o">=</span> <span class="n">Bucketizer</span><span class="p">(</span><span class="n">splitsArray</span><span class="o">=</span>
+<span class="gp">... </span>    <span class="p">[[</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">),</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">)],</span> <span class="p">[</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">),</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">)]],</span>
+<span class="gp">... </span>    <span class="n">inputCols</span><span class="o">=</span><span class="p">[</span><span class="s2">"values1"</span><span class="p">,</span> <span class="s2">"values2"</span><span class="p">],</span> <span class="n">outputCols</span><span class="o">=</span><span class="p">[</span><span class="s2">"buckets1"</span><span class="p">,</span> <span class="s2">"buckets2"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bucketed2</span> <span class="o">=</span> <span class="n">bucketizer2</span><span class="o">.</span><span class="n">setHandleInvalid</span><span class="p">(</span><span class="s2">"keep"</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bucketed2</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+-------+-------+--------+--------+</span>
+<span class="go">|values1|values2|buckets1|buckets2|</span>
+<span class="go">+-------+-------+--------+--------+</span>
+<span class="go">|0.1    |0.0    |0.0     |0.0     |</span>
+<span class="go">|0.4    |1.0    |0.0     |1.0     |</span>
+<span class="go">|1.2    |1.3    |1.0     |1.0     |</span>
+<span class="go">|1.5    |NaN    |2.0     |2.0     |</span>
+<span class="go">|NaN    |1.0    |3.0     |1.0     |</span>
+<span class="go">|NaN    |0.0    |3.0     |0.0     |</span>
+<span class="go">+-------+-------+--------+--------+</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.clear"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.clear"></a>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears a param from the param map if it has been explicitly set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.copy"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.copy"></a>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a copy of this instance with the same uid and some
+extra params. This implementation first calls Params.copy and
+then make a copy of the companion Java pipeline component with
+extra params. So both the Python wrapper and the Java pipeline
+component get copied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Copy of this instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.explainParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.explainParam"></a>
+<code class="sig-name descname">explainParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.explainParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explains a single param and returns its name, doc, and optional
+default value and user-supplied value in a string.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.explainParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.explainParams"></a>
+<code class="sig-name descname">explainParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.explainParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the documentation of all params with their optionally
+default values and user-supplied values.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.extractParamMap"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.extractParamMap"></a>
+<code class="sig-name descname">extractParamMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the embedded default param values and user-supplied
+values, and then merges them with extra values from input into
+a flat param map, where the latter value is used if there exist
+conflicts, i.e., with ordering: default param values &lt;
+user-supplied values &lt; extra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>merged param map</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.getHandleInvalid"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.getHandleInvalid"></a>
+<code class="sig-name descname">getHandleInvalid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.getHandleInvalid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of handleInvalid or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.getInputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.getInputCol"></a>
+<code class="sig-name descname">getInputCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.getInputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of inputCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.getInputCols"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.getInputCols"></a>
+<code class="sig-name descname">getInputCols</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.getInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of inputCols or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.getOrDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.getOrDefault"></a>
+<code class="sig-name descname">getOrDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a param in the user-supplied param map or its
+default value. Raises an error if neither is set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.getOutputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.getOutputCol"></a>
+<code class="sig-name descname">getOutputCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.getOutputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of outputCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.getOutputCols"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.getOutputCols"></a>
+<code class="sig-name descname">getOutputCols</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.getOutputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of outputCols or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.getParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.getParam"></a>
+<code class="sig-name descname">getParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.getParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a param by its name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.getSplits"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.getSplits"></a>
+<code class="sig-name descname">getSplits</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#Bucketizer.getSplits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.getSplits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of threshold or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.getSplitsArray"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.getSplitsArray"></a>
+<code class="sig-name descname">getSplitsArray</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#Bucketizer.getSplitsArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.getSplitsArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the array of split points or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.hasDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.hasDefault"></a>
+<code class="sig-name descname">hasDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.hasDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param has a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.hasParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.hasParam"></a>
+<code class="sig-name descname">hasParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.hasParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether this instance contains a param with a given
+(string) name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.isDefined"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.isDefined"></a>
+<code class="sig-name descname">isDefined</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.isDefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user or has
+a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.isSet"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.isSet"></a>
+<code class="sig-name descname">isSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.isSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.load"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.load"></a>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.read"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.read"></a>
+<em class="property">classmethod </em><code class="sig-name descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLReader instance for this class.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.save"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.save"></a>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.set"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.set"></a>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.setHandleInvalid"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.setHandleInvalid"></a>
+<code class="sig-name descname">setHandleInvalid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#Bucketizer.setHandleInvalid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.setHandleInvalid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.Bucketizer.handleInvalid" title="pyspark.ml.feature.Bucketizer.handleInvalid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">handleInvalid</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.setInputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.setInputCol"></a>
+<code class="sig-name descname">setInputCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#Bucketizer.setInputCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.setInputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.Bucketizer.inputCol" title="pyspark.ml.feature.Bucketizer.inputCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inputCol</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.setInputCols"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.setInputCols"></a>
+<code class="sig-name descname">setInputCols</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#Bucketizer.setInputCols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.setInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.Bucketizer.inputCols" title="pyspark.ml.feature.Bucketizer.inputCols"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inputCols</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.setOutputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.setOutputCol"></a>
+<code class="sig-name descname">setOutputCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#Bucketizer.setOutputCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.setOutputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.Bucketizer.outputCol" title="pyspark.ml.feature.Bucketizer.outputCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">outputCol</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.setOutputCols"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.setOutputCols"></a>
+<code class="sig-name descname">setOutputCols</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#Bucketizer.setOutputCols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.setOutputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.Bucketizer.outputCols" title="pyspark.ml.feature.Bucketizer.outputCols"><code class="xref py py-attr docutils literal notranslate"><span class="pre">outputCols</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.setParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.setParams"></a>
+<code class="sig-name descname">setParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">splits</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">inputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">handleInvalid</span><span class="o">=</span><span class="default_value">'error'</span></em>, <em class="sig-param"><span class="n">splitsArray</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">inputCols</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outputCols</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#Bucketizer.setParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets params for this Bucketizer.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.setSplits"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.setSplits"></a>
+<code class="sig-name descname">setSplits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#Bucketizer.setSplits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.setSplits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.Bucketizer.splits" title="pyspark.ml.feature.Bucketizer.splits"><code class="xref py py-attr docutils literal notranslate"><span class="pre">splits</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.setSplitsArray"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.setSplitsArray"></a>
+<code class="sig-name descname">setSplitsArray</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#Bucketizer.setSplitsArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.setSplitsArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.Bucketizer.splitsArray" title="pyspark.ml.feature.Bucketizer.splitsArray"><code class="xref py py-attr docutils literal notranslate"><span class="pre">splitsArray</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.transform"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.transform"></a>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms the input dataset with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded params.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed dataset</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.Bucketizer.write"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.Bucketizer.write"></a>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLWriter instance for this ML instance.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.Bucketizer.handleInvalid"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.Bucketizer.handleInvalid"></a>
+<code class="sig-name descname">handleInvalid</code><em class="property"> = Param(parent='undefined', name='handleInvalid', doc="how to handle invalid entries containing NaN values. Values outside the splits will always be treated as errors. Options are 'skip' (filter out rows with invalid values), 'error' (throw an error), or 'keep' (keep invalid values in a special additional bucket). Note that in the multiple column case, the invalid handling is applied to all columns. That said for 'error' it will throw an error if any invalids are found in any column, for 'skip' it will skip rows with any invalids in any columns, etc.")</em><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.handleInvalid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.Bucketizer.inputCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.Bucketizer.inputCol"></a>
+<code class="sig-name descname">inputCol</code><em class="property"> = Param(parent='undefined', name='inputCol', doc='input column name.')</em><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.inputCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.Bucketizer.inputCols"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.Bucketizer.inputCols"></a>
+<code class="sig-name descname">inputCols</code><em class="property"> = Param(parent='undefined', name='inputCols', doc='input column names.')</em><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.inputCols" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.Bucketizer.outputCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.Bucketizer.outputCol"></a>
+<code class="sig-name descname">outputCol</code><em class="property"> = Param(parent='undefined', name='outputCol', doc='output column name.')</em><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.outputCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.Bucketizer.outputCols"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.Bucketizer.outputCols"></a>
+<code class="sig-name descname">outputCols</code><em class="property"> = Param(parent='undefined', name='outputCols', doc='output column names.')</em><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.outputCols" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.Bucketizer.params"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.Bucketizer.params"></a>
+<code class="sig-name descname">params</code><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all params ordered by name. The default implementation
+uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.Bucketizer.splits"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.Bucketizer.splits"></a>
+<code class="sig-name descname">splits</code><em class="property"> = Param(parent='undefined', name='splits', doc='Split points for mapping continuous features into buckets. With n+1 splits, there are n buckets. A bucket defined by splits x,y holds values in the range [x,y) except the last bucket, which also includes y. The splits should be of length &gt;= 3 and strictly increasing. Values at -inf, inf must be explicitly provided to cover all Double values; otherwise, values outside the splits specified will be treated as errors.')</em><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.splits" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.Bucketizer.splitsArray"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.Bucketizer.splitsArray"></a>
+<code class="sig-name descname">splitsArray</code><em class="property"> = Param(parent='undefined', name='splitsArray', doc='The array of split points for mapping continuous features into buckets for multiple columns. For each input column, with n+1 splits, there are n buckets. A bucket defined by splits x,y holds values in the range [x,y) except the last bucket, which also includes y. The splits should be of length &gt;= 3 and strictly increasing. Values at -inf, inf must be explicitly provided to cover all Double values; otherwise, values outside the splits specified will be treated as errors.')</em><a class="headerlink" href="#pyspark.ml.feature.Bucketizer.splitsArray" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

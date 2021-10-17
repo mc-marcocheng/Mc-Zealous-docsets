@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>_ImageSchema — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="imageschema">
+<h1>_ImageSchema<a class="headerlink" href="#imageschema" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.image._ImageSchema"><a name="//apple_ref/cpp/Class/pyspark.ml.image._ImageSchema"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.image.</code><code class="sig-name descname">_ImageSchema</code><a class="reference internal" href="../../../_modules/pyspark/ml/image.html#_ImageSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.image._ImageSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal class for <cite>pyspark.ml.image.ImageSchema</cite> attribute. Meant to be private and
+not to be instantized. Use <cite>pyspark.ml.image.ImageSchema</cite> attribute to access the
+APIs of this class.</p>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.image._ImageSchema.toImage"><a name="//apple_ref/cpp/Method/pyspark.ml.image._ImageSchema.toImage"></a>
+<code class="sig-name descname">toImage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">array</span></em>, <em class="sig-param"><span class="n">origin</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/image.html#_ImageSchema.toImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.image._ImageSchema.toImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts an array with metadata to a two-dimensional image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array</strong> (<em>numpy.ndarray</em>) – The array to convert to image.</p></li>
+<li><p><strong>origin</strong> (<em>str</em>) – Path to the image, optional.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a <code class="xref py py-class docutils literal notranslate"><span class="pre">Row</span></code> that is a two dimensional image.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.image._ImageSchema.toNDArray"><a name="//apple_ref/cpp/Method/pyspark.ml.image._ImageSchema.toNDArray"></a>
+<code class="sig-name descname">toNDArray</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/image.html#_ImageSchema.toNDArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.image._ImageSchema.toNDArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts an image to an array with metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>image</strong> (<a class="reference internal" href="pyspark.sql.Row.html#pyspark.sql.Row" title="pyspark.sql.Row"><em>Row</em></a>) – A row that contains the image to be converted. It should
+have the attributes specified in <cite>ImageSchema.imageSchema</cite>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a <cite>numpy.ndarray</cite> that is an image.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.image._ImageSchema.columnSchema"><a name="//apple_ref/cpp/Attribute/pyspark.ml.image._ImageSchema.columnSchema"></a>
+<code class="sig-name descname">columnSchema</code><a class="headerlink" href="#pyspark.ml.image._ImageSchema.columnSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the schema for the image column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a <code class="xref py py-class docutils literal notranslate"><span class="pre">StructType</span></code> for image column,
+<code class="docutils literal notranslate"><span class="pre">struct&lt;origin:string,</span> <span class="pre">height:int,</span> <span class="pre">width:int,</span> <span class="pre">nChannels:int,</span> <span class="pre">mode:int,</span> <span class="pre">data:binary&gt;</span></code>.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.image._ImageSchema.imageFields"><a name="//apple_ref/cpp/Attribute/pyspark.ml.image._ImageSchema.imageFields"></a>
+<code class="sig-name descname">imageFields</code><a class="headerlink" href="#pyspark.ml.image._ImageSchema.imageFields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns field names of image columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of field names.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.image._ImageSchema.imageSchema"><a name="//apple_ref/cpp/Attribute/pyspark.ml.image._ImageSchema.imageSchema"></a>
+<code class="sig-name descname">imageSchema</code><a class="headerlink" href="#pyspark.ml.image._ImageSchema.imageSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the image schema.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a <code class="xref py py-class docutils literal notranslate"><span class="pre">StructType</span></code> with a single column of images
+named “image” (nullable) and having the same type returned by <a class="reference internal" href="#pyspark.ml.image._ImageSchema.columnSchema" title="pyspark.ml.image._ImageSchema.columnSchema"><code class="xref py py-meth docutils literal notranslate"><span class="pre">columnSchema()</span></code></a>.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.image._ImageSchema.ocvTypes"><a name="//apple_ref/cpp/Attribute/pyspark.ml.image._ImageSchema.ocvTypes"></a>
+<code class="sig-name descname">ocvTypes</code><a class="headerlink" href="#pyspark.ml.image._ImageSchema.ocvTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the OpenCV type mapping supported.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a dictionary containing the OpenCV type mapping supported.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.image._ImageSchema.undefinedImageType"><a name="//apple_ref/cpp/Attribute/pyspark.ml.image._ImageSchema.undefinedImageType"></a>
+<code class="sig-name descname">undefinedImageType</code><a class="headerlink" href="#pyspark.ml.image._ImageSchema.undefinedImageType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the name of undefined image type for the invalid image.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

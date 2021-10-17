@@ -1,0 +1,384 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/text/doc/ocr.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:18 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Scene Text Recognition</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="text. Scene Text Detection and Recognition" href="text.html" />
+    <link rel="next" title="tracking. Tracking API" href="../../tracking/doc/tracking.html" />
+    <link rel="prev" title="Scene Text Detection" href="erfilter.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../tracking/doc/tracking.html" title="tracking. Tracking API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="erfilter.html" title="Scene Text Detection"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="text.html" accesskey="U">text. Scene Text Detection and Recognition</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Scene Text Recognition</a><ul>
+<li><a class="reference internal" href="#ocrtesseract">OCRTesseract</a></li>
+<li><a class="reference internal" href="#ocrtesseract-create">OCRTesseract::create</a></li>
+<li><a class="reference internal" href="#ocrtesseract-run">OCRTesseract::run</a></li>
+<li><a class="reference internal" href="#ocrhmmdecoder">OCRHMMDecoder</a></li>
+<li><a class="reference internal" href="#ocrhmmdecoder-classifiercallback">OCRHMMDecoder::ClassifierCallback</a></li>
+<li><a class="reference internal" href="#ocrhmmdecoder-classifiercallback-eval">OCRHMMDecoder::ClassifierCallback::eval</a></li>
+<li><a class="reference internal" href="#ocrhmmdecoder-create">OCRHMMDecoder::create</a></li>
+<li><a class="reference internal" href="#ocrhmmdecoder-run">OCRHMMDecoder::run</a></li>
+<li><a class="reference internal" href="#loadocrhmmclassifiernm">loadOCRHMMClassifierNM</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="erfilter.html"
+                        title="previous chapter">Scene Text Detection</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../tracking/doc/tracking.html"
+                        title="next chapter">tracking. Tracking API</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="scene-text-recognition">
+<h1>Scene Text Recognition<a class="headerlink" href="#scene-text-recognition" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="ocrtesseract">
+<h2>OCRTesseract<a class="headerlink" href="#ocrtesseract" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="OCRTesseract : public BaseOCR">
+<em class="property">class </em><tt class="descname">OCRTesseract</tt> : <em class="property">public</em> <tt class="descname">BaseOCR</tt><a class="headerlink" href="#OCRTesseract : public BaseOCR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>OCRTesseract class provides an interface with the tesseract-ocr API (v3.02.02) in C++. Notice that it is compiled only when tesseract-ocr is correctly installed.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>(C++) An example of OCRTesseract recognition combined with scene text detection can be found at the end_to_end_recognition demo: <a class="reference external" href="https://github.com/Itseez/opencv_contrib/blob/master/modules/text/samples/end_to_end_recognition.cpp">https://github.com/Itseez/opencv_contrib/blob/master/modules/text/samples/end_to_end_recognition.cpp</a></li>
+<li>(C++) Another example of OCRTesseract recognition combined with scene text detection can be found at the webcam_demo: <a class="reference external" href="https://github.com/Itseez/opencv_contrib/blob/master/modules/text/samples/webcam_demo.cpp">https://github.com/Itseez/opencv_contrib/blob/master/modules/text/samples/webcam_demo.cpp</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="ocrtesseract-create">
+<h2>OCRTesseract::create<a class="headerlink" href="#ocrtesseract-create" title="Permalink to this headline">¶</a></h2>
+<p>Creates an instance of the OCRTesseract class. Initializes Tesseract.</p>
+<dl class="function">
+<dt id="Ptr&lt;OCRTesseract&gt; OCRTesseract::create(const char* datapath, const char* language, const char* char_whitelist, int oem=(int)tesseract::OEM_DEFAULT, int psmode=(int)tesseract::PSM_AUTO)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;OCRTesseract&gt; <tt class="descclassname">OCRTesseract::</tt><tt class="descname">create</tt><big>(</big>const char* <strong>datapath</strong>=NULL, const char* <strong>language</strong>=NULL, const char* <strong>char_whitelist</strong>=NULL, int <strong>oem</strong>=(int)tesseract::OEM_DEFAULT, int <strong>psmode</strong>=(int)tesseract::PSM_AUTO<big>)</big><a class="headerlink" href="#Ptr<OCRTesseract> OCRTesseract::create(const char* datapath, const char* language, const char* char_whitelist, int oem=(int)tesseract::OEM_DEFAULT, int psmode=(int)tesseract::PSM_AUTO)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>datapath</strong> &#8211; the name of the parent directory of tessdata ended with &#8220;/&#8221;, or NULL to use the system&#8217;s default directory.</li>
+<li><strong>language</strong> &#8211; an ISO 639-3 code or NULL will default to &#8220;eng&#8221;.</li>
+<li><strong>char_whitelist</strong> &#8211; specifies the list of characters used for recognition. NULL defaults to &#8220;0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&#8221;.</li>
+<li><strong>oem</strong> &#8211; tesseract-ocr offers different OCR Engine Modes (OEM), by deffault tesseract::OEM_DEFAULT is used. See the tesseract-ocr API documentation for other possible values.</li>
+<li><strong>psmode</strong> &#8211; tesseract-ocr offers different Page Segmentation Modes (PSM) tesseract::PSM_AUTO (fully automatic layout analysis) is used. See the tesseract-ocr API documentation for other possible values.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="ocrtesseract-run">
+<h2>OCRTesseract::run<a class="headerlink" href="#ocrtesseract-run" title="Permalink to this headline">¶</a></h2>
+<p>Recognize text using the tesseract-ocr API. Takes image on input and returns recognized text in the output_text parameter. Optionally provides also the Rects for individual text elements found (e.g. words), and the list of those text elements with their confidence values.</p>
+<dl class="function">
+<dt id="void OCRTesseract::run(Mat&amp; image, string&amp; output_text, vector&lt;Rect&gt;* component_rects, vector&lt;string&gt;* component_texts, vector&lt;float&gt;* component_confidences, int component_level)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">OCRTesseract::</tt><tt class="descname">run</tt><big>(</big>Mat&amp; <strong>image</strong>, string&amp; <strong>output_text</strong>, vector&lt;Rect&gt;* <strong>component_rects</strong>=NULL, vector&lt;string&gt;* <strong>component_texts</strong>=NULL, vector&lt;float&gt;* <strong>component_confidences</strong>=NULL, int <strong>component_level</strong>=0<big>)</big><a class="headerlink" href="#void OCRTesseract::run(Mat& image, string& output_text, vector<Rect>* component_rects, vector<string>* component_texts, vector<float>* component_confidences, int component_level)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> &#8211; Input image <tt class="docutils literal"><span class="pre">CV_8UC1</span></tt> or <tt class="docutils literal"><span class="pre">CV_8UC3</span></tt></li>
+<li><strong>output_text</strong> &#8211; Output text of the tesseract-ocr.</li>
+<li><strong>component_rects</strong> &#8211; If provided the method will output a list of Rects for the individual text elements found (e.g. words or text lines).</li>
+<li><strong>component_text</strong> &#8211; If provided the method will output a list of text strings for the recognition of individual text elements found (e.g. words or text lines).</li>
+<li><strong>component_confidences</strong> &#8211; If provided the method will output a list of confidence values for the recognition of individual text elements found (e.g. words or text lines).</li>
+<li><strong>component_level</strong> &#8211; <tt class="docutils literal"><span class="pre">OCR_LEVEL_WORD</span></tt> (by default), or <tt class="docutils literal"><span class="pre">OCR_LEVEL_TEXT_LINE</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="ocrhmmdecoder">
+<h2>OCRHMMDecoder<a class="headerlink" href="#ocrhmmdecoder" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="OCRHMMDecoder : public BaseOCR">
+<em class="property">class </em><tt class="descname">OCRHMMDecoder</tt> : <em class="property">public</em> <tt class="descname">BaseOCR</tt><a class="headerlink" href="#OCRHMMDecoder : public BaseOCR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>OCRHMMDecoder class provides an interface for OCR using Hidden Markov Models.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>(C++) An example on using OCRHMMDecoder recognition combined with scene text detection can be found at the webcam_demo sample: <a class="reference external" href="https://github.com/Itseez/opencv_contrib/blob/master/modules/text/samples/webcam_demo.cpp">https://github.com/Itseez/opencv_contrib/blob/master/modules/text/samples/webcam_demo.cpp</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="ocrhmmdecoder-classifiercallback">
+<h2>OCRHMMDecoder::ClassifierCallback<a class="headerlink" href="#ocrhmmdecoder-classifiercallback" title="Permalink to this headline">¶</a></h2>
+<p>Callback with the character classifier is made a class. This way it hides the feature extractor and the classifier itself, so developers can write their own OCR code.</p>
+<dl class="class">
+<dt id="OCRHMMDecoder::ClassifierCallback">
+<em class="property">class </em><tt class="descclassname">OCRHMMDecoder::</tt><tt class="descname">ClassifierCallback</tt><a class="headerlink" href="#OCRHMMDecoder::ClassifierCallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>The default character classifier and feature extractor can be loaded using the utility funtion <tt class="docutils literal"><span class="pre">loadOCRHMMClassifierNM</span></tt> and KNN model provided in <a class="reference external" href="https://github.com/Itseez/opencv_contrib/blob/master/modules/text/samples/OCRHMM_knn_model_data.xml.gz">https://github.com/Itseez/opencv_contrib/blob/master/modules/text/samples/OCRHMM_knn_model_data.xml.gz</a>.</p>
+</div>
+<div class="section" id="ocrhmmdecoder-classifiercallback-eval">
+<h2>OCRHMMDecoder::ClassifierCallback::eval<a class="headerlink" href="#ocrhmmdecoder-classifiercallback-eval" title="Permalink to this headline">¶</a></h2>
+<p>The character classifier must return a (ranked list of) class(es) id(&#8216;s)</p>
+<dl class="function">
+<dt id="void OCRHMMDecoder::ClassifierCallback::eval(InputArray image, std::vector&lt;int&gt;&amp; out_class, std::vector&lt;double&gt;&amp; out_confidence)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">OCRHMMDecoder::ClassifierCallback::</tt><tt class="descname">eval</tt><big>(</big>InputArray <strong>image</strong>, std::vector&lt;int&gt;&amp; <strong>out_class</strong>, std::vector&lt;double&gt;&amp; <strong>out_confidence</strong><big>)</big><a class="headerlink" href="#void OCRHMMDecoder::ClassifierCallback::eval(InputArray image, std::vector<int>& out_class, std::vector<double>& out_confidence)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> &#8211; Input image <tt class="docutils literal"><span class="pre">CV_8UC1</span></tt> or <tt class="docutils literal"><span class="pre">CV_8UC3</span></tt> with a single letter.</li>
+<li><strong>out_class</strong> &#8211; The classifier returns the character class categorical label, or list of class labels, to which the input image corresponds.</li>
+<li><strong>out_confidence</strong> &#8211; The classifier returns the probability of the input image corresponding to each classes in <tt class="docutils literal"><span class="pre">out_class</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="ocrhmmdecoder-create">
+<h2>OCRHMMDecoder::create<a class="headerlink" href="#ocrhmmdecoder-create" title="Permalink to this headline">¶</a></h2>
+<p>Creates an instance of the OCRHMMDecoder class. Initializes HMMDecoder.</p>
+<dl class="function">
+<dt id="Ptr&lt;OCRHMMDecoder&gt; OCRHMMDecoder::create(const Ptr&lt;OCRHMMDecoder::ClassifierCallback&gt; classifier, const std::string&amp; vocabulary, InputArray transition_probabilities_table, InputArray emission_probabilities_table, decoder_mode mode)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;OCRHMMDecoder&gt; <tt class="descclassname">OCRHMMDecoder::</tt><tt class="descname">create</tt><big>(</big>const Ptr&lt;OCRHMMDecoder::ClassifierCallback&gt; <strong>classifier</strong>, const std::string&amp; <strong>vocabulary</strong>, InputArray <strong>transition_probabilities_table</strong>, InputArray <strong>emission_probabilities_table</strong>, decoder_mode <strong>mode</strong>=OCR_DECODER_VITERBI<big>)</big><a class="headerlink" href="#Ptr<OCRHMMDecoder> OCRHMMDecoder::create(const Ptr<OCRHMMDecoder::ClassifierCallback> classifier, const std::string& vocabulary, InputArray transition_probabilities_table, InputArray emission_probabilities_table, decoder_mode mode)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>classifier</strong> &#8211; The character classifier with built in feature extractor.</li>
+<li><strong>vocabulary</strong> &#8211; The language vocabulary (chars when ascii english text). vocabulary.size() must be equal to the number of classes of the classifier.</li>
+<li><strong>transition_probabilities_table</strong> &#8211; Table with transition probabilities between character pairs. cols == rows == vocabulary.size().</li>
+<li><strong>emission_probabilities_table</strong> &#8211; Table with observation emission probabilities. cols == rows == vocabulary.size().</li>
+<li><strong>mode</strong> &#8211; HMM Decoding algorithm. Only <tt class="docutils literal"><span class="pre">OCR_DECODER_VITERBI</span></tt> is available for the moment (<a class="reference external" href="http://en.wikipedia.org/wiki/Viterbi_algorithm">http://en.wikipedia.org/wiki/Viterbi_algorithm</a>).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="ocrhmmdecoder-run">
+<h2>OCRHMMDecoder::run<a class="headerlink" href="#ocrhmmdecoder-run" title="Permalink to this headline">¶</a></h2>
+<p>Recognize text using HMM. Takes image on input and returns recognized text in the output_text parameter. Optionally provides also the Rects for individual text elements found (e.g. words), and the list of those text elements with their confidence values.</p>
+<dl class="function">
+<dt id="void OCRHMMDecoder::run(Mat&amp; image, string&amp; output_text, vector&lt;Rect&gt;* component_rects, vector&lt;string&gt;* component_texts, vector&lt;float&gt;* component_confidences, int component_level)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">OCRHMMDecoder::</tt><tt class="descname">run</tt><big>(</big>Mat&amp; <strong>image</strong>, string&amp; <strong>output_text</strong>, vector&lt;Rect&gt;* <strong>component_rects</strong>=NULL, vector&lt;string&gt;* <strong>component_texts</strong>=NULL, vector&lt;float&gt;* <strong>component_confidences</strong>=NULL, int <strong>component_level</strong>=0<big>)</big><a class="headerlink" href="#void OCRHMMDecoder::run(Mat& image, string& output_text, vector<Rect>* component_rects, vector<string>* component_texts, vector<float>* component_confidences, int component_level)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> &#8211; Input image <tt class="docutils literal"><span class="pre">CV_8UC1</span></tt> with a single text line (or word).</li>
+<li><strong>output_text</strong> &#8211; Output text. Most likely character sequence found by the HMM decoder.</li>
+<li><strong>component_rects</strong> &#8211; If provided the method will output a list of Rects for the individual text elements found (e.g. words).</li>
+<li><strong>component_text</strong> &#8211; If provided the method will output a list of text strings for the recognition of individual text elements found (e.g. words).</li>
+<li><strong>component_confidences</strong> &#8211; If provided the method will output a list of confidence values for the recognition of individual text elements found (e.g. words).</li>
+<li><strong>component_level</strong> &#8211; Only <tt class="docutils literal"><span class="pre">OCR_LEVEL_WORD</span></tt> is supported.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="loadocrhmmclassifiernm">
+<h2>loadOCRHMMClassifierNM<a class="headerlink" href="#loadocrhmmclassifiernm" title="Permalink to this headline">¶</a></h2>
+<p>Allow to implicitly load the default character classifier when creating an OCRHMMDecoder object.</p>
+<dl class="function">
+<dt id="Ptr&lt;OCRHMMDecoder::ClassifierCallback&gt; loadOCRHMMClassifierNM(const std::string&amp; filename)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;OCRHMMDecoder::ClassifierCallback&gt; <tt class="descname">loadOCRHMMClassifierNM</tt><big>(</big>const std::string&amp; <strong>filename</strong><big>)</big><a class="headerlink" href="#Ptr<OCRHMMDecoder::ClassifierCallback> loadOCRHMMClassifierNM(const std::string& filename)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> &#8211; The XML or YAML file with the classifier model (e.g. OCRHMM_knn_model_data.xml)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The default classifier is based in the scene text recognition method proposed by Lukás Neumann &amp; Jiri Matas in [Neumann11b]. Basically, the region (contour) in the input image is normalized to a fixed size, while retaining the centroid and aspect ratio, in order to extract a feature vector based on gradient orientations along the chain-code of its perimeter. Then, the region is classified using a KNN model trained with synthetic data of rendered characters with different standard font types.</p>
+<table class="docutils citation" frame="void" id="neumann11b" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[Neumann11b]</td><td>Neumann L., Matas J.: Text Localization in Real-world Images using Efficiently Pruned Exhaustive Search, ICDAR 2011. The paper is available online at <a class="reference external" href="http://cmp.felk.cvut.cz/~neumalu1/icdar2011_article.pdf">http://cmp.felk.cvut.cz/~neumalu1/icdar2011_article.pdf</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../tracking/doc/tracking.html" title="tracking. Tracking API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="erfilter.html" title="Scene Text Detection"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="text.html" >text. Scene Text Detection and Recognition</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/text/doc/ocr.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/text/doc/ocr.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:18 GMT -->
+</html>

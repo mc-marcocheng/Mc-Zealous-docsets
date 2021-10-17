@@ -1,0 +1,22 @@
+pyspark.BarrierTaskInfo
+=======================
+
+.. currentmodule:: pyspark
+
+.. autoclass:: BarrierTaskInfo
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BarrierTaskInfo.__init__
+   
+   
+
+   
+   
+   

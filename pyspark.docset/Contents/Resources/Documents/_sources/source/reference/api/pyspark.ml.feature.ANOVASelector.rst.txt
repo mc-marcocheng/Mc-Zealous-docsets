@@ -1,0 +1,164 @@
+..  Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+..    http://www.apache.org/licenses/LICENSE-2.0
+
+..  Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+
+ANOVASelector
+================================
+
+.. currentmodule:: pyspark.ml.feature
+
+.. autoclass:: ANOVASelector
+
+    
+      
+    
+
+    
+    
+
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+       ~ANOVASelector.clear
+       ~ANOVASelector.copy
+       ~ANOVASelector.explainParam
+       ~ANOVASelector.explainParams
+       ~ANOVASelector.extractParamMap
+       ~ANOVASelector.fit
+       ~ANOVASelector.fitMultiple
+       ~ANOVASelector.getFdr
+       ~ANOVASelector.getFeaturesCol
+       ~ANOVASelector.getFpr
+       ~ANOVASelector.getFwe
+       ~ANOVASelector.getLabelCol
+       ~ANOVASelector.getNumTopFeatures
+       ~ANOVASelector.getOrDefault
+       ~ANOVASelector.getOutputCol
+       ~ANOVASelector.getParam
+       ~ANOVASelector.getPercentile
+       ~ANOVASelector.getSelectorType
+       ~ANOVASelector.hasDefault
+       ~ANOVASelector.hasParam
+       ~ANOVASelector.isDefined
+       ~ANOVASelector.isSet
+       ~ANOVASelector.load
+       ~ANOVASelector.read
+       ~ANOVASelector.save
+       ~ANOVASelector.set
+       ~ANOVASelector.setFdr
+       ~ANOVASelector.setFeaturesCol
+       ~ANOVASelector.setFpr
+       ~ANOVASelector.setFwe
+       ~ANOVASelector.setLabelCol
+       ~ANOVASelector.setNumTopFeatures
+       ~ANOVASelector.setOutputCol
+       ~ANOVASelector.setParams
+       ~ANOVASelector.setPercentile
+       ~ANOVASelector.setSelectorType
+       ~ANOVASelector.write
+
+    
+    
+
+    
+    
+
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+       ~ANOVASelector.fdr
+       ~ANOVASelector.featuresCol
+       ~ANOVASelector.fpr
+       ~ANOVASelector.fwe
+       ~ANOVASelector.labelCol
+       ~ANOVASelector.numTopFeatures
+       ~ANOVASelector.outputCol
+       ~ANOVASelector.params
+       ~ANOVASelector.percentile
+       ~ANOVASelector.selectorType
+
+    
+    
+
+    
+    
+
+    .. rubric:: Methods Documentation
+
+    
+    .. automethod:: clear
+    .. automethod:: copy
+    .. automethod:: explainParam
+    .. automethod:: explainParams
+    .. automethod:: extractParamMap
+    .. automethod:: fit
+    .. automethod:: fitMultiple
+    .. automethod:: getFdr
+    .. automethod:: getFeaturesCol
+    .. automethod:: getFpr
+    .. automethod:: getFwe
+    .. automethod:: getLabelCol
+    .. automethod:: getNumTopFeatures
+    .. automethod:: getOrDefault
+    .. automethod:: getOutputCol
+    .. automethod:: getParam
+    .. automethod:: getPercentile
+    .. automethod:: getSelectorType
+    .. automethod:: hasDefault
+    .. automethod:: hasParam
+    .. automethod:: isDefined
+    .. automethod:: isSet
+    .. automethod:: load
+    .. automethod:: read
+    .. automethod:: save
+    .. automethod:: set
+    .. automethod:: setFdr
+    .. automethod:: setFeaturesCol
+    .. automethod:: setFpr
+    .. automethod:: setFwe
+    .. automethod:: setLabelCol
+    .. automethod:: setNumTopFeatures
+    .. automethod:: setOutputCol
+    .. automethod:: setParams
+    .. automethod:: setPercentile
+    .. automethod:: setSelectorType
+    .. automethod:: write
+
+    
+    
+
+    
+    
+
+    .. rubric:: Attributes Documentation
+
+    
+    .. autoattribute:: fdr
+    .. autoattribute:: featuresCol
+    .. autoattribute:: fpr
+    .. autoattribute:: fwe
+    .. autoattribute:: labelCol
+    .. autoattribute:: numTopFeatures
+    .. autoattribute:: outputCol
+    .. autoattribute:: params
+    .. autoattribute:: percentile
+    .. autoattribute:: selectorType
+
+    
+    

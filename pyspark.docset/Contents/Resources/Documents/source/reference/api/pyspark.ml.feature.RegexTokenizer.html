@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>RegexTokenizer — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="regextokenizer">
+<h1>RegexTokenizer<a class="headerlink" href="#regextokenizer" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.feature.RegexTokenizer"><a name="//apple_ref/cpp/Class/pyspark.ml.feature.RegexTokenizer"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.feature.</code><code class="sig-name descname">RegexTokenizer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">minTokenLength</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">gaps</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">pattern</span><span class="o">=</span><span class="default_value">'\\s+'</span></em>, <em class="sig-param"><span class="n">inputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">toLowercase</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#RegexTokenizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>A regex based tokenizer that extracts tokens either by using the
+provided regex pattern (in Java dialect) to split the text
+(default) or repeatedly matching the regex (if gaps is false).
+Optional parameters also allow filtering tokens using a minimal
+length.
+It returns an array of strings that can be empty.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="s2">"A B  c"</span><span class="p">,)],</span> <span class="p">[</span><span class="s2">"text"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reTokenizer</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reTokenizer</span><span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">"text"</span><span class="p">)</span>
+<span class="go">RegexTokenizer...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reTokenizer</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">"words"</span><span class="p">)</span>
+<span class="go">RegexTokenizer...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reTokenizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="go">Row(text='A B  c', words=['a', 'b', 'c'])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Change a parameter.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reTokenizer</span><span class="o">.</span><span class="n">setParams</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="s2">"tokens"</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="go">Row(text='A B  c', tokens=['a', 'b', 'c'])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Temporarily modify a parameter.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reTokenizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="p">{</span><span class="n">reTokenizer</span><span class="o">.</span><span class="n">outputCol</span><span class="p">:</span> <span class="s2">"words"</span><span class="p">})</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="go">Row(text='A B  c', words=['a', 'b', 'c'])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reTokenizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="go">Row(text='A B  c', tokens=['a', 'b', 'c'])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Must use keyword arguments to specify params.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reTokenizer</span><span class="o">.</span><span class="n">setParams</span><span class="p">(</span><span class="s2">"text"</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="o">...</span>
+<span class="gr">TypeError</span>: <span class="n">Method setParams forces keyword arguments.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regexTokenizerPath</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/regex-tokenizer"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reTokenizer</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">regexTokenizerPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedReTokenizer</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">regexTokenizerPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedReTokenizer</span><span class="o">.</span><span class="n">getMinTokenLength</span><span class="p">()</span> <span class="o">==</span> <span class="n">reTokenizer</span><span class="o">.</span><span class="n">getMinTokenLength</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedReTokenizer</span><span class="o">.</span><span class="n">getGaps</span><span class="p">()</span> <span class="o">==</span> <span class="n">reTokenizer</span><span class="o">.</span><span class="n">getGaps</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.clear"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.clear"></a>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears a param from the param map if it has been explicitly set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.copy"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.copy"></a>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a copy of this instance with the same uid and some
+extra params. This implementation first calls Params.copy and
+then make a copy of the companion Java pipeline component with
+extra params. So both the Python wrapper and the Java pipeline
+component get copied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Copy of this instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.explainParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.explainParam"></a>
+<code class="sig-name descname">explainParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.explainParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explains a single param and returns its name, doc, and optional
+default value and user-supplied value in a string.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.explainParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.explainParams"></a>
+<code class="sig-name descname">explainParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.explainParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the documentation of all params with their optionally
+default values and user-supplied values.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.extractParamMap"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.extractParamMap"></a>
+<code class="sig-name descname">extractParamMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the embedded default param values and user-supplied
+values, and then merges them with extra values from input into
+a flat param map, where the latter value is used if there exist
+conflicts, i.e., with ordering: default param values &lt;
+user-supplied values &lt; extra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>merged param map</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.getGaps"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.getGaps"></a>
+<code class="sig-name descname">getGaps</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#RegexTokenizer.getGaps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.getGaps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of gaps or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.getInputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.getInputCol"></a>
+<code class="sig-name descname">getInputCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.getInputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of inputCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.getMinTokenLength"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.getMinTokenLength"></a>
+<code class="sig-name descname">getMinTokenLength</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#RegexTokenizer.getMinTokenLength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.getMinTokenLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of minTokenLength or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.getOrDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.getOrDefault"></a>
+<code class="sig-name descname">getOrDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a param in the user-supplied param map or its
+default value. Raises an error if neither is set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.getOutputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.getOutputCol"></a>
+<code class="sig-name descname">getOutputCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.getOutputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of outputCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.getParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.getParam"></a>
+<code class="sig-name descname">getParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.getParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a param by its name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.getPattern"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.getPattern"></a>
+<code class="sig-name descname">getPattern</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#RegexTokenizer.getPattern"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.getPattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of pattern or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.getToLowercase"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.getToLowercase"></a>
+<code class="sig-name descname">getToLowercase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#RegexTokenizer.getToLowercase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.getToLowercase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of toLowercase or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.hasDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.hasDefault"></a>
+<code class="sig-name descname">hasDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.hasDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param has a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.hasParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.hasParam"></a>
+<code class="sig-name descname">hasParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.hasParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether this instance contains a param with a given
+(string) name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.isDefined"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.isDefined"></a>
+<code class="sig-name descname">isDefined</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.isDefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user or has
+a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.isSet"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.isSet"></a>
+<code class="sig-name descname">isSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.isSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.load"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.load"></a>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.read"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.read"></a>
+<em class="property">classmethod </em><code class="sig-name descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLReader instance for this class.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.save"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.save"></a>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.set"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.set"></a>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.setGaps"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.setGaps"></a>
+<code class="sig-name descname">setGaps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#RegexTokenizer.setGaps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.setGaps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.RegexTokenizer.gaps" title="pyspark.ml.feature.RegexTokenizer.gaps"><code class="xref py py-attr docutils literal notranslate"><span class="pre">gaps</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.setInputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.setInputCol"></a>
+<code class="sig-name descname">setInputCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#RegexTokenizer.setInputCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.setInputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.RegexTokenizer.inputCol" title="pyspark.ml.feature.RegexTokenizer.inputCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inputCol</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.setMinTokenLength"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.setMinTokenLength"></a>
+<code class="sig-name descname">setMinTokenLength</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#RegexTokenizer.setMinTokenLength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.setMinTokenLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.RegexTokenizer.minTokenLength" title="pyspark.ml.feature.RegexTokenizer.minTokenLength"><code class="xref py py-attr docutils literal notranslate"><span class="pre">minTokenLength</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.setOutputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.setOutputCol"></a>
+<code class="sig-name descname">setOutputCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#RegexTokenizer.setOutputCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.setOutputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.RegexTokenizer.outputCol" title="pyspark.ml.feature.RegexTokenizer.outputCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">outputCol</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.setParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.setParams"></a>
+<code class="sig-name descname">setParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">minTokenLength</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">gaps</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">pattern</span><span class="o">=</span><span class="default_value">'\\s+'</span></em>, <em class="sig-param"><span class="n">inputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">toLowercase</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#RegexTokenizer.setParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets params for this RegexTokenizer.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.setPattern"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.setPattern"></a>
+<code class="sig-name descname">setPattern</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#RegexTokenizer.setPattern"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.setPattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.RegexTokenizer.pattern" title="pyspark.ml.feature.RegexTokenizer.pattern"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pattern</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.setToLowercase"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.setToLowercase"></a>
+<code class="sig-name descname">setToLowercase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#RegexTokenizer.setToLowercase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.setToLowercase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.RegexTokenizer.toLowercase" title="pyspark.ml.feature.RegexTokenizer.toLowercase"><code class="xref py py-attr docutils literal notranslate"><span class="pre">toLowercase</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.transform"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.transform"></a>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms the input dataset with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded params.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed dataset</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.RegexTokenizer.write"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.RegexTokenizer.write"></a>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLWriter instance for this ML instance.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.RegexTokenizer.gaps"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.RegexTokenizer.gaps"></a>
+<code class="sig-name descname">gaps</code><em class="property"> = Param(parent='undefined', name='gaps', doc='whether regex splits on gaps (True) or matches tokens (False)')</em><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.gaps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.RegexTokenizer.inputCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.RegexTokenizer.inputCol"></a>
+<code class="sig-name descname">inputCol</code><em class="property"> = Param(parent='undefined', name='inputCol', doc='input column name.')</em><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.inputCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.RegexTokenizer.minTokenLength"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.RegexTokenizer.minTokenLength"></a>
+<code class="sig-name descname">minTokenLength</code><em class="property"> = Param(parent='undefined', name='minTokenLength', doc='minimum token length (&gt;= 0)')</em><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.minTokenLength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.RegexTokenizer.outputCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.RegexTokenizer.outputCol"></a>
+<code class="sig-name descname">outputCol</code><em class="property"> = Param(parent='undefined', name='outputCol', doc='output column name.')</em><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.outputCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.RegexTokenizer.params"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.RegexTokenizer.params"></a>
+<code class="sig-name descname">params</code><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all params ordered by name. The default implementation
+uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.RegexTokenizer.pattern"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.RegexTokenizer.pattern"></a>
+<code class="sig-name descname">pattern</code><em class="property"> = Param(parent='undefined', name='pattern', doc='regex pattern (Java dialect) used for tokenizing')</em><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.pattern" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.RegexTokenizer.toLowercase"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.RegexTokenizer.toLowercase"></a>
+<code class="sig-name descname">toLowercase</code><em class="property"> = Param(parent='undefined', name='toLowercase', doc='whether to convert all characters to lowercase before tokenizing')</em><a class="headerlink" href="#pyspark.ml.feature.RegexTokenizer.toLowercase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

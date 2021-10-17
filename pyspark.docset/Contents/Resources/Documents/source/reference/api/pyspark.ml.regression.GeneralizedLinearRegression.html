@@ -1,0 +1,580 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>GeneralizedLinearRegression — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="generalizedlinearregression">
+<h1>GeneralizedLinearRegression<a class="headerlink" href="#generalizedlinearregression" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression"><a name="//apple_ref/cpp/Class/pyspark.ml.regression.GeneralizedLinearRegression"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.regression.</code><code class="sig-name descname">GeneralizedLinearRegression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">labelCol</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">featuresCol</span><span class="o">=</span><span class="default_value">'features'</span></em>, <em class="sig-param"><span class="n">predictionCol</span><span class="o">=</span><span class="default_value">'prediction'</span></em>, <em class="sig-param"><span class="n">family</span><span class="o">=</span><span class="default_value">'gaussian'</span></em>, <em class="sig-param"><span class="n">link</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fitIntercept</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">maxIter</span><span class="o">=</span><span class="default_value">25</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">1e-06</span></em>, <em class="sig-param"><span class="n">regParam</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">weightCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">solver</span><span class="o">=</span><span class="default_value">'irls'</span></em>, <em class="sig-param"><span class="n">linkPredictionCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">variancePower</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">linkPower</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">offsetCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">aggregationDepth</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generalized Linear Regression.</p>
+<p>Fit a Generalized Linear Model specified by giving a symbolic description of the linear
+predictor (link function) and a description of the error distribution (family). It supports
+“gaussian”, “binomial”, “poisson”, “gamma” and “tweedie” as family. Valid link functions for
+each family is listed below. The first link function of each family is the default one.</p>
+<ul class="simple">
+<li><p>“gaussian” -&gt; “identity”, “log”, “inverse”</p></li>
+<li><p>“binomial” -&gt; “logit”, “probit”, “cloglog”</p></li>
+<li><p>“poisson”  -&gt; “log”, “identity”, “sqrt”</p></li>
+<li><p>“gamma”    -&gt; “inverse”, “identity”, “log”</p></li>
+<li><p>“tweedie”  -&gt; power link function specified through “linkPower”.                     The default link power in the tweedie family is 1 - variancePower.</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Generalized_linear_model">GLM</a></p>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)),],</span> <span class="p">[</span><span class="s2">"label"</span><span class="p">,</span> <span class="s2">"features"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glr</span> <span class="o">=</span> <span class="n">GeneralizedLinearRegression</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s2">"gaussian"</span><span class="p">,</span> <span class="n">link</span><span class="o">=</span><span class="s2">"identity"</span><span class="p">,</span> <span class="n">linkPredictionCol</span><span class="o">=</span><span class="s2">"p"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glr</span><span class="o">.</span><span class="n">setRegParam</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="go">GeneralizedLinearRegression...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glr</span><span class="o">.</span><span class="n">getRegParam</span><span class="p">()</span>
+<span class="go">0.1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glr</span><span class="o">.</span><span class="n">clear</span><span class="p">(</span><span class="n">glr</span><span class="o">.</span><span class="n">regParam</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glr</span><span class="o">.</span><span class="n">setMaxIter</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">GeneralizedLinearRegression...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glr</span><span class="o">.</span><span class="n">getMaxIter</span><span class="p">()</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glr</span><span class="o">.</span><span class="n">clear</span><span class="p">(</span><span class="n">glr</span><span class="o">.</span><span class="n">maxIter</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">glr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">setFeaturesCol</span><span class="p">(</span><span class="s2">"features"</span><span class="p">)</span>
+<span class="go">GeneralizedLinearRegressionModel...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">getMaxIter</span><span class="p">()</span>
+<span class="go">25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">getAggregationDepth</span><span class="p">()</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformed</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">abs</span><span class="p">(</span><span class="n">transformed</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">prediction</span> <span class="o">-</span> <span class="mf">1.5</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.001</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">abs</span><span class="p">(</span><span class="n">transformed</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">p</span> <span class="o">-</span> <span class="mf">1.5</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.001</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">coefficients</span>
+<span class="go">DenseVector([1.5..., -1.0...])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">numFeatures</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">abs</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">intercept</span> <span class="o">-</span> <span class="mf">1.5</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.001</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glr_path</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/glr"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glr</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">glr_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glr2</span> <span class="o">=</span> <span class="n">GeneralizedLinearRegression</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">glr_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glr</span><span class="o">.</span><span class="n">getFamily</span><span class="p">()</span> <span class="o">==</span> <span class="n">glr2</span><span class="o">.</span><span class="n">getFamily</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model_path</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/glr_model"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model2</span> <span class="o">=</span> <span class="n">GeneralizedLinearRegressionModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">intercept</span> <span class="o">==</span> <span class="n">model2</span><span class="o">.</span><span class="n">intercept</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">model2</span><span class="o">.</span><span class="n">coefficients</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.clear"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.clear"></a>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears a param from the param map if it has been explicitly set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.copy"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.copy"></a>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a copy of this instance with the same uid and some
+extra params. This implementation first calls Params.copy and
+then make a copy of the companion Java pipeline component with
+extra params. So both the Python wrapper and the Java pipeline
+component get copied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Copy of this instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.explainParam"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.explainParam"></a>
+<code class="sig-name descname">explainParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.explainParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explains a single param and returns its name, doc, and optional
+default value and user-supplied value in a string.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.explainParams"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.explainParams"></a>
+<code class="sig-name descname">explainParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.explainParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the documentation of all params with their optionally
+default values and user-supplied values.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.extractParamMap"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.extractParamMap"></a>
+<code class="sig-name descname">extractParamMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the embedded default param values and user-supplied
+values, and then merges them with extra values from input into
+a flat param map, where the latter value is used if there exist
+conflicts, i.e., with ordering: default param values &lt;
+user-supplied values &lt; extra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>merged param map</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.fit"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.fit"></a>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the input dataset with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded params. If a list/tuple of
+param maps is given, this calls fit on each param map and returns a list of
+models.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fitted model(s)</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.fitMultiple"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.fitMultiple"></a>
+<code class="sig-name descname">fitMultiple</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">paramMaps</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.fitMultiple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a>.</p></li>
+<li><p><strong>paramMaps</strong> – A Sequence of param maps.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A thread safe iterable which contains one model for each param map. Each
+call to <cite>next(modelIterator)</cite> will return <cite>(index, model)</cite> where model was fit
+using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequential.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getAggregationDepth"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getAggregationDepth"></a>
+<code class="sig-name descname">getAggregationDepth</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getAggregationDepth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of aggregationDepth or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getFamily"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getFamily"></a>
+<code class="sig-name descname">getFamily</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getFamily" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of family or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getFeaturesCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getFeaturesCol"></a>
+<code class="sig-name descname">getFeaturesCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getFeaturesCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of featuresCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getFitIntercept"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getFitIntercept"></a>
+<code class="sig-name descname">getFitIntercept</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getFitIntercept" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of fitIntercept or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getLabelCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getLabelCol"></a>
+<code class="sig-name descname">getLabelCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getLabelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of labelCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getLink"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getLink"></a>
+<code class="sig-name descname">getLink</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getLink" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of link or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getLinkPower"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getLinkPower"></a>
+<code class="sig-name descname">getLinkPower</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getLinkPower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of linkPower or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getLinkPredictionCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getLinkPredictionCol"></a>
+<code class="sig-name descname">getLinkPredictionCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getLinkPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of linkPredictionCol or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getMaxIter"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getMaxIter"></a>
+<code class="sig-name descname">getMaxIter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getMaxIter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of maxIter or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getOffsetCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getOffsetCol"></a>
+<code class="sig-name descname">getOffsetCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getOffsetCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of offsetCol or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getOrDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getOrDefault"></a>
+<code class="sig-name descname">getOrDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a param in the user-supplied param map or its
+default value. Raises an error if neither is set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getParam"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getParam"></a>
+<code class="sig-name descname">getParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a param by its name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getPredictionCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getPredictionCol"></a>
+<code class="sig-name descname">getPredictionCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of predictionCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getRegParam"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getRegParam"></a>
+<code class="sig-name descname">getRegParam</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getRegParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of regParam or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getSolver"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getSolver"></a>
+<code class="sig-name descname">getSolver</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getSolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of solver or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getTol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getTol"></a>
+<code class="sig-name descname">getTol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getTol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of tol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getVariancePower"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getVariancePower"></a>
+<code class="sig-name descname">getVariancePower</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getVariancePower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of variancePower or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.getWeightCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.getWeightCol"></a>
+<code class="sig-name descname">getWeightCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.getWeightCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of weightCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.hasDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.hasDefault"></a>
+<code class="sig-name descname">hasDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.hasDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param has a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.hasParam"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.hasParam"></a>
+<code class="sig-name descname">hasParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.hasParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether this instance contains a param with a given
+(string) name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.isDefined"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.isDefined"></a>
+<code class="sig-name descname">isDefined</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.isDefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user or has
+a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.isSet"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.isSet"></a>
+<code class="sig-name descname">isSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.isSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.load"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.load"></a>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.read"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.read"></a>
+<em class="property">classmethod </em><code class="sig-name descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLReader instance for this class.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.save"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.save"></a>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.set"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.set"></a>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setAggregationDepth"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setAggregationDepth"></a>
+<code class="sig-name descname">setAggregationDepth</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegression.setAggregationDepth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setAggregationDepth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.aggregationDepth" title="pyspark.ml.regression.GeneralizedLinearRegression.aggregationDepth"><code class="xref py py-attr docutils literal notranslate"><span class="pre">aggregationDepth</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setFamily"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setFamily"></a>
+<code class="sig-name descname">setFamily</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegression.setFamily"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setFamily" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.family" title="pyspark.ml.regression.GeneralizedLinearRegression.family"><code class="xref py py-attr docutils literal notranslate"><span class="pre">family</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setFeaturesCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setFeaturesCol"></a>
+<code class="sig-name descname">setFeaturesCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setFeaturesCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.featuresCol" title="pyspark.ml.regression.GeneralizedLinearRegression.featuresCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">featuresCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setFitIntercept"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setFitIntercept"></a>
+<code class="sig-name descname">setFitIntercept</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegression.setFitIntercept"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setFitIntercept" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.fitIntercept" title="pyspark.ml.regression.GeneralizedLinearRegression.fitIntercept"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fitIntercept</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setLabelCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setLabelCol"></a>
+<code class="sig-name descname">setLabelCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setLabelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.labelCol" title="pyspark.ml.regression.GeneralizedLinearRegression.labelCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">labelCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setLink"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setLink"></a>
+<code class="sig-name descname">setLink</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegression.setLink"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setLink" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.link" title="pyspark.ml.regression.GeneralizedLinearRegression.link"><code class="xref py py-attr docutils literal notranslate"><span class="pre">link</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setLinkPower"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setLinkPower"></a>
+<code class="sig-name descname">setLinkPower</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegression.setLinkPower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setLinkPower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.linkPower" title="pyspark.ml.regression.GeneralizedLinearRegression.linkPower"><code class="xref py py-attr docutils literal notranslate"><span class="pre">linkPower</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setLinkPredictionCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setLinkPredictionCol"></a>
+<code class="sig-name descname">setLinkPredictionCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegression.setLinkPredictionCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setLinkPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.linkPredictionCol" title="pyspark.ml.regression.GeneralizedLinearRegression.linkPredictionCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">linkPredictionCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setMaxIter"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setMaxIter"></a>
+<code class="sig-name descname">setMaxIter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegression.setMaxIter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setMaxIter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.maxIter" title="pyspark.ml.regression.GeneralizedLinearRegression.maxIter"><code class="xref py py-attr docutils literal notranslate"><span class="pre">maxIter</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setOffsetCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setOffsetCol"></a>
+<code class="sig-name descname">setOffsetCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegression.setOffsetCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setOffsetCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.offsetCol" title="pyspark.ml.regression.GeneralizedLinearRegression.offsetCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">offsetCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setParams"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setParams"></a>
+<code class="sig-name descname">setParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">labelCol</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">featuresCol</span><span class="o">=</span><span class="default_value">'features'</span></em>, <em class="sig-param"><span class="n">predictionCol</span><span class="o">=</span><span class="default_value">'prediction'</span></em>, <em class="sig-param"><span class="n">family</span><span class="o">=</span><span class="default_value">'gaussian'</span></em>, <em class="sig-param"><span class="n">link</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fitIntercept</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">maxIter</span><span class="o">=</span><span class="default_value">25</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">1e-06</span></em>, <em class="sig-param"><span class="n">regParam</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">weightCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">solver</span><span class="o">=</span><span class="default_value">'irls'</span></em>, <em class="sig-param"><span class="n">linkPredictionCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">variancePower</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">linkPower</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">offsetCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">aggregationDepth</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegression.setParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets params for generalized linear regression.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setPredictionCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setPredictionCol"></a>
+<code class="sig-name descname">setPredictionCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.predictionCol" title="pyspark.ml.regression.GeneralizedLinearRegression.predictionCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">predictionCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setRegParam"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setRegParam"></a>
+<code class="sig-name descname">setRegParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegression.setRegParam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setRegParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.regParam" title="pyspark.ml.regression.GeneralizedLinearRegression.regParam"><code class="xref py py-attr docutils literal notranslate"><span class="pre">regParam</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setSolver"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setSolver"></a>
+<code class="sig-name descname">setSolver</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegression.setSolver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setSolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.solver" title="pyspark.ml.regression.GeneralizedLinearRegression.solver"><code class="xref py py-attr docutils literal notranslate"><span class="pre">solver</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setTol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setTol"></a>
+<code class="sig-name descname">setTol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegression.setTol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setTol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.tol" title="pyspark.ml.regression.GeneralizedLinearRegression.tol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setVariancePower"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setVariancePower"></a>
+<code class="sig-name descname">setVariancePower</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegression.setVariancePower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setVariancePower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.variancePower" title="pyspark.ml.regression.GeneralizedLinearRegression.variancePower"><code class="xref py py-attr docutils literal notranslate"><span class="pre">variancePower</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.setWeightCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.setWeightCol"></a>
+<code class="sig-name descname">setWeightCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#GeneralizedLinearRegression.setWeightCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.setWeightCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.GeneralizedLinearRegression.weightCol" title="pyspark.ml.regression.GeneralizedLinearRegression.weightCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">weightCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.write"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.GeneralizedLinearRegression.write"></a>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLWriter instance for this ML instance.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.aggregationDepth"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.aggregationDepth"></a>
+<code class="sig-name descname">aggregationDepth</code><em class="property"> = Param(parent='undefined', name='aggregationDepth', doc='suggested depth for treeAggregate (&gt;= 2).')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.aggregationDepth" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.family"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.family"></a>
+<code class="sig-name descname">family</code><em class="property"> = Param(parent='undefined', name='family', doc='The name of family which is a description of the error distribution to be used in the model. Supported options: gaussian (default), binomial, poisson, gamma and tweedie.')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.family" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.featuresCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.featuresCol"></a>
+<code class="sig-name descname">featuresCol</code><em class="property"> = Param(parent='undefined', name='featuresCol', doc='features column name.')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.featuresCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.fitIntercept"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.fitIntercept"></a>
+<code class="sig-name descname">fitIntercept</code><em class="property"> = Param(parent='undefined', name='fitIntercept', doc='whether to fit an intercept term.')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.fitIntercept" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.labelCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.labelCol"></a>
+<code class="sig-name descname">labelCol</code><em class="property"> = Param(parent='undefined', name='labelCol', doc='label column name.')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.labelCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.link"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.link"></a>
+<code class="sig-name descname">link</code><em class="property"> = Param(parent='undefined', name='link', doc='The name of link function which provides the relationship between the linear predictor and the mean of the distribution function. Supported options: identity, log, inverse, logit, probit, cloglog and sqrt.')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.link" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.linkPower"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.linkPower"></a>
+<code class="sig-name descname">linkPower</code><em class="property"> = Param(parent='undefined', name='linkPower', doc='The index in the power link function. Only applicable to the Tweedie family.')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.linkPower" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.linkPredictionCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.linkPredictionCol"></a>
+<code class="sig-name descname">linkPredictionCol</code><em class="property"> = Param(parent='undefined', name='linkPredictionCol', doc='link prediction (linear predictor) column name')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.linkPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.maxIter"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.maxIter"></a>
+<code class="sig-name descname">maxIter</code><em class="property"> = Param(parent='undefined', name='maxIter', doc='max number of iterations (&gt;= 0).')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.maxIter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.offsetCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.offsetCol"></a>
+<code class="sig-name descname">offsetCol</code><em class="property"> = Param(parent='undefined', name='offsetCol', doc='The offset column name. If this is not set or empty, we treat all instance offsets as 0.0')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.offsetCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.params"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.params"></a>
+<code class="sig-name descname">params</code><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all params ordered by name. The default implementation
+uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.predictionCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.predictionCol"></a>
+<code class="sig-name descname">predictionCol</code><em class="property"> = Param(parent='undefined', name='predictionCol', doc='prediction column name.')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.predictionCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.regParam"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.regParam"></a>
+<code class="sig-name descname">regParam</code><em class="property"> = Param(parent='undefined', name='regParam', doc='regularization parameter (&gt;= 0).')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.regParam" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.solver"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.solver"></a>
+<code class="sig-name descname">solver</code><em class="property"> = Param(parent='undefined', name='solver', doc='The solver algorithm for optimization. Supported options: irls.')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.solver" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.tol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.tol"></a>
+<code class="sig-name descname">tol</code><em class="property"> = Param(parent='undefined', name='tol', doc='the convergence tolerance for iterative algorithms (&gt;= 0).')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.tol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.variancePower"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.variancePower"></a>
+<code class="sig-name descname">variancePower</code><em class="property"> = Param(parent='undefined', name='variancePower', doc='The power in the variance function of the Tweedie distribution which characterizes the relationship between the variance and mean of the distribution. Only applicable for the Tweedie family. Supported values: 0 and [1, Inf).')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.variancePower" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.GeneralizedLinearRegression.weightCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.GeneralizedLinearRegression.weightCol"></a>
+<code class="sig-name descname">weightCol</code><em class="property"> = Param(parent='undefined', name='weightCol', doc='weight column name. If this is not set or empty, we treat all instance weights as 1.0.')</em><a class="headerlink" href="#pyspark.ml.regression.GeneralizedLinearRegression.weightCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

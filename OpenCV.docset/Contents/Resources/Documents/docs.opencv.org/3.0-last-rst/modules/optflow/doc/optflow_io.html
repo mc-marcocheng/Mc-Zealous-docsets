@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/optflow/doc/optflow_io.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:16 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Optical flow input / output</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="optflow. Optical Flow Algorithms" href="optflow.html" />
+    <link rel="next" title="reg. Image Registration" href="../../reg/doc/reg.html" />
+    <link rel="prev" title="Motion Templates" href="motion_templates.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../reg/doc/reg.html" title="reg. Image Registration"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="motion_templates.html" title="Motion Templates"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="optflow.html" accesskey="U">optflow. Optical Flow Algorithms</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Optical flow input / output</a><ul>
+<li><a class="reference internal" href="#readopticalflow">readOpticalFlow</a></li>
+<li><a class="reference internal" href="#writeopticalflow">writeOpticalFlow</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="motion_templates.html"
+                        title="previous chapter">Motion Templates</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../reg/doc/reg.html"
+                        title="next chapter">reg. Image Registration</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="optical-flow-input-output">
+<h1>Optical flow input / output<a class="headerlink" href="#optical-flow-input-output" title="Permalink to this headline">¶</a></h1>
+<p>Functions reading and writing .flo files in &#8220;Middlebury&#8221; format, see: <a class="reference internal" href="#middleburyflo" id="id1">[MiddleburyFlo]</a></p>
+<div class="section" id="readopticalflow">
+<h2>readOpticalFlow<a class="headerlink" href="#readopticalflow" title="Permalink to this headline">¶</a></h2>
+<p>Read a .flo file</p>
+<dl class="function">
+<dt id="Mat readOpticalFlow(const String&amp; path)">
+<strong>C++:</strong><tt class="descname"> </tt>Mat <tt class="descname">readOpticalFlow</tt><big>(</big>const String&amp; <strong>path</strong><big>)</big><a class="headerlink" href="#Mat readOpticalFlow(const String& path)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; Path to the file to be loaded</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The function readOpticalFlow loads a flow field from a file and returns it as a single matrix.
+Resulting <tt class="docutils literal"><span class="pre">Mat</span></tt> has a type <tt class="docutils literal"><span class="pre">CV_32FC2</span></tt> - floating-point, 2-channel.
+First channel corresponds to the flow in the horizontal direction (u), second - vertical (v).</p>
+</div>
+<div class="section" id="writeopticalflow">
+<h2>writeOpticalFlow<a class="headerlink" href="#writeopticalflow" title="Permalink to this headline">¶</a></h2>
+<p>Write a .flo to disk</p>
+<dl class="function">
+<dt id="bool writeOpticalFlow(const String&amp; path, InputArray flow)">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descname">writeOpticalFlow</tt><big>(</big>const String&amp; <strong>path</strong>, InputArray <strong>flow</strong><big>)</big><a class="headerlink" href="#bool writeOpticalFlow(const String& path, InputArray flow)" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param path:</th><td class="field-body">Path to the file to be written</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param flow:</th><td class="field-body">Flow field to be stored</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>The function stores a flow field in a file, returns <tt class="docutils literal"><span class="pre">true</span></tt> on success, <tt class="docutils literal"><span class="pre">false</span></tt> otherwise.</p>
+<p>The flow field must be a 2-channel, floating-point matrix (<tt class="docutils literal"><span class="pre">CV_32FC2</span></tt>).
+First channel corresponds to the flow in the horizontal direction (u), second - vertical (v).</p>
+</dd></dl>
+
+<table class="docutils citation" frame="void" id="middleburyflo" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[MiddleburyFlo]</a></td><td><a class="reference external" href="http://vision.middlebury.edu/flow/code/flow-code/README.txt">http://vision.middlebury.edu/flow/code/flow-code/README.txt</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../reg/doc/reg.html" title="reg. Image Registration"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="motion_templates.html" title="Motion Templates"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="optflow.html" >optflow. Optical Flow Algorithms</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/optflow/doc/optflow_io.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/optflow/doc/optflow_io.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:16 GMT -->
+</html>

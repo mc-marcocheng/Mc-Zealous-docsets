@@ -1,0 +1,164 @@
+..  Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+..    http://www.apache.org/licenses/LICENSE-2.0
+
+..  Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+
+FValueSelector
+=================================
+
+.. currentmodule:: pyspark.ml.feature
+
+.. autoclass:: FValueSelector
+
+    
+      
+    
+
+    
+    
+
+    .. rubric:: Methods
+
+    .. autosummary::
+    
+       ~FValueSelector.clear
+       ~FValueSelector.copy
+       ~FValueSelector.explainParam
+       ~FValueSelector.explainParams
+       ~FValueSelector.extractParamMap
+       ~FValueSelector.fit
+       ~FValueSelector.fitMultiple
+       ~FValueSelector.getFdr
+       ~FValueSelector.getFeaturesCol
+       ~FValueSelector.getFpr
+       ~FValueSelector.getFwe
+       ~FValueSelector.getLabelCol
+       ~FValueSelector.getNumTopFeatures
+       ~FValueSelector.getOrDefault
+       ~FValueSelector.getOutputCol
+       ~FValueSelector.getParam
+       ~FValueSelector.getPercentile
+       ~FValueSelector.getSelectorType
+       ~FValueSelector.hasDefault
+       ~FValueSelector.hasParam
+       ~FValueSelector.isDefined
+       ~FValueSelector.isSet
+       ~FValueSelector.load
+       ~FValueSelector.read
+       ~FValueSelector.save
+       ~FValueSelector.set
+       ~FValueSelector.setFdr
+       ~FValueSelector.setFeaturesCol
+       ~FValueSelector.setFpr
+       ~FValueSelector.setFwe
+       ~FValueSelector.setLabelCol
+       ~FValueSelector.setNumTopFeatures
+       ~FValueSelector.setOutputCol
+       ~FValueSelector.setParams
+       ~FValueSelector.setPercentile
+       ~FValueSelector.setSelectorType
+       ~FValueSelector.write
+
+    
+    
+
+    
+    
+
+    .. rubric:: Attributes
+
+    .. autosummary::
+    
+       ~FValueSelector.fdr
+       ~FValueSelector.featuresCol
+       ~FValueSelector.fpr
+       ~FValueSelector.fwe
+       ~FValueSelector.labelCol
+       ~FValueSelector.numTopFeatures
+       ~FValueSelector.outputCol
+       ~FValueSelector.params
+       ~FValueSelector.percentile
+       ~FValueSelector.selectorType
+
+    
+    
+
+    
+    
+
+    .. rubric:: Methods Documentation
+
+    
+    .. automethod:: clear
+    .. automethod:: copy
+    .. automethod:: explainParam
+    .. automethod:: explainParams
+    .. automethod:: extractParamMap
+    .. automethod:: fit
+    .. automethod:: fitMultiple
+    .. automethod:: getFdr
+    .. automethod:: getFeaturesCol
+    .. automethod:: getFpr
+    .. automethod:: getFwe
+    .. automethod:: getLabelCol
+    .. automethod:: getNumTopFeatures
+    .. automethod:: getOrDefault
+    .. automethod:: getOutputCol
+    .. automethod:: getParam
+    .. automethod:: getPercentile
+    .. automethod:: getSelectorType
+    .. automethod:: hasDefault
+    .. automethod:: hasParam
+    .. automethod:: isDefined
+    .. automethod:: isSet
+    .. automethod:: load
+    .. automethod:: read
+    .. automethod:: save
+    .. automethod:: set
+    .. automethod:: setFdr
+    .. automethod:: setFeaturesCol
+    .. automethod:: setFpr
+    .. automethod:: setFwe
+    .. automethod:: setLabelCol
+    .. automethod:: setNumTopFeatures
+    .. automethod:: setOutputCol
+    .. automethod:: setParams
+    .. automethod:: setPercentile
+    .. automethod:: setSelectorType
+    .. automethod:: write
+
+    
+    
+
+    
+    
+
+    .. rubric:: Attributes Documentation
+
+    
+    .. autoattribute:: fdr
+    .. autoattribute:: featuresCol
+    .. autoattribute:: fpr
+    .. autoattribute:: fwe
+    .. autoattribute:: labelCol
+    .. autoattribute:: numTopFeatures
+    .. autoattribute:: outputCol
+    .. autoattribute:: params
+    .. autoattribute:: percentile
+    .. autoattribute:: selectorType
+
+    
+    

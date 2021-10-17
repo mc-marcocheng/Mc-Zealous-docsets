@@ -1,0 +1,29 @@
+pyspark.TaskContext
+===================
+
+.. currentmodule:: pyspark
+
+.. autoclass:: TaskContext
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TaskContext.__init__
+      ~TaskContext.attemptNumber
+      ~TaskContext.get
+      ~TaskContext.getLocalProperty
+      ~TaskContext.partitionId
+      ~TaskContext.resources
+      ~TaskContext.stageId
+      ~TaskContext.taskAttemptId
+   
+   
+
+   
+   
+   

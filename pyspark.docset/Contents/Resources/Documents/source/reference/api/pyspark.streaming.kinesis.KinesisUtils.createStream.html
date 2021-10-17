@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.streaming.kinesis.KinesisUtils.createStream — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-streaming-kinesis-kinesisutils-createstream">
+<h1>pyspark.streaming.kinesis.KinesisUtils.createStream<a class="headerlink" href="#pyspark-streaming-kinesis-kinesisutils-createstream" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.streaming.kinesis.KinesisUtils.createStream"><a name="//apple_ref/cpp/Method/pyspark.streaming.kinesis.KinesisUtils.createStream"></a>
+<em class="property">static </em><code class="sig-prename descclassname">KinesisUtils.</code><code class="sig-name descname">createStream</code><span class="sig-paren">(</span><em class="sig-param">ssc</em>, <em class="sig-param">kinesisAppName</em>, <em class="sig-param">streamName</em>, <em class="sig-param">endpointUrl</em>, <em class="sig-param">regionName</em>, <em class="sig-param">initialPositionInStream</em>, <em class="sig-param">checkpointInterval</em>, <em class="sig-param">storageLevel=StorageLevel(True</em>, <em class="sig-param">True</em>, <em class="sig-param">False</em>, <em class="sig-param">False</em>, <em class="sig-param">2)</em>, <em class="sig-param">awsAccessKeyId=None</em>, <em class="sig-param">awsSecretKey=None</em>, <em class="sig-param">decoder=&lt;function utf8_decoder&gt;</em>, <em class="sig-param">stsAssumeRoleArn=None</em>, <em class="sig-param">stsSessionName=None</em>, <em class="sig-param">stsExternalId=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/streaming/kinesis.html#KinesisUtils.createStream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.streaming.kinesis.KinesisUtils.createStream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an input stream that pulls messages from a Kinesis stream. This uses the
+Kinesis Client Library (KCL) to pull messages from Kinesis.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The given AWS credentials will get saved in DStream checkpoints if checkpointing
+is enabled. Make sure that your checkpoint directory is secure.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ssc</strong> – StreamingContext object</p></li>
+<li><p><strong>kinesisAppName</strong> – Kinesis application name used by the Kinesis Client Library (KCL) to
+update DynamoDB</p></li>
+<li><p><strong>streamName</strong> – Kinesis stream name</p></li>
+<li><p><strong>endpointUrl</strong> – Url of Kinesis service (e.g., <a class="reference external" href="https://kinesis.us-east-1.amazonaws.com">https://kinesis.us-east-1.amazonaws.com</a>)</p></li>
+<li><p><strong>regionName</strong> – Name of region used by the Kinesis Client Library (KCL) to update
+DynamoDB (lease coordination and checkpointing) and CloudWatch (metrics)</p></li>
+<li><p><strong>initialPositionInStream</strong> – In the absence of Kinesis checkpoint info, this is the
+worker’s initial starting position in the stream. The
+values are either the beginning of the stream per Kinesis’
+limit of 24 hours (InitialPositionInStream.TRIM_HORIZON) or
+the tip of the stream (InitialPositionInStream.LATEST).</p></li>
+<li><p><strong>checkpointInterval</strong> – Checkpoint interval for Kinesis checkpointing. See the Kinesis
+Spark Streaming documentation for more details on the different
+types of checkpoints.</p></li>
+<li><p><strong>storageLevel</strong> – Storage level to use for storing the received objects (default is
+StorageLevel.MEMORY_AND_DISK_2)</p></li>
+<li><p><strong>awsAccessKeyId</strong> – AWS AccessKeyId (default is None. If None, will use
+DefaultAWSCredentialsProviderChain)</p></li>
+<li><p><strong>awsSecretKey</strong> – AWS SecretKey (default is None. If None, will use
+DefaultAWSCredentialsProviderChain)</p></li>
+<li><p><strong>decoder</strong> – A function used to decode value (default is utf8_decoder)</p></li>
+<li><p><strong>stsAssumeRoleArn</strong> – ARN of IAM role to assume when using STS sessions to read from
+the Kinesis stream (default is None).</p></li>
+<li><p><strong>stsSessionName</strong> – Name to uniquely identify STS sessions used to read from Kinesis
+stream, if STS is being used (default is None).</p></li>
+<li><p><strong>stsExternalId</strong> – External ID that can be used to validate against the assumed IAM
+role’s trust policy, if STS is being used (default is None).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A DStream object</p>
+</dd>
+</dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

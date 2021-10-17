@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.sql.functions.from_utc_timestamp — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-sql-functions-from-utc-timestamp">
+<h1>pyspark.sql.functions.from_utc_timestamp<a class="headerlink" href="#pyspark-sql-functions-from-utc-timestamp" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="pyspark.sql.functions.from_utc_timestamp"><a name="//apple_ref/cpp/Function/pyspark.sql.functions.from_utc_timestamp"></a>
+<code class="sig-prename descclassname">pyspark.sql.functions.</code><code class="sig-name descname">from_utc_timestamp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestamp</span></em>, <em class="sig-param"><span class="n">tz</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/sql/functions.html#from_utc_timestamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.sql.functions.from_utc_timestamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a common function for databases supporting TIMESTAMP WITHOUT TIMEZONE. This function
+takes a timestamp which is timezone-agnostic, and interprets it as a timestamp in UTC, and
+renders that timestamp as a timestamp in the given time zone.</p>
+<p>However, timestamp in Spark represents number of microseconds from the Unix epoch, which is not
+timezone-agnostic. So in Spark this function just shift the timestamp value from UTC timezone to
+the given timezone.</p>
+<p>This function may return confusing result if the input is a string with timezone, e.g.
+‘2018-03-13T06:18:23+00:00’. The reason is that, Spark firstly cast the string to timestamp
+according to the timezone in the string, and finally display the result by converting the
+timestamp to string according to the session local timezone.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timestamp</strong> – the column that contains timestamps</p></li>
+<li><p><strong>tz</strong> – A string detailing the time zone ID that the input should be adjusted to. It should
+be in the format of either region-based zone IDs or zone offsets. Region IDs must
+have the form ‘area/city’, such as ‘America/Los_Angeles’. Zone offsets must be in
+the format ‘(+|-)HH:mm’, for example ‘-08:00’ or ‘+01:00’. Also ‘UTC’ and ‘Z’ are
+supported as aliases of ‘+00:00’. Other short names are not recommended to use
+because they can be ambiguous.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.4: </span><cite>tz</cite> can take a <code class="xref py py-class docutils literal notranslate"><span class="pre">Column</span></code> containing timezone ID strings.</p>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="s1">'1997-02-28 10:30:00'</span><span class="p">,</span> <span class="s1">'JST'</span><span class="p">)],</span> <span class="p">[</span><span class="s1">'ts'</span><span class="p">,</span> <span class="s1">'tz'</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">from_utc_timestamp</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">ts</span><span class="p">,</span> <span class="s2">"PST"</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'local_time'</span><span class="p">))</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="go">[Row(local_time=datetime.datetime(1997, 2, 28, 2, 30))]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">from_utc_timestamp</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">ts</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">tz</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'local_time'</span><span class="p">))</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="go">[Row(local_time=datetime.datetime(1997, 2, 28, 19, 30))]</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.</span></p>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

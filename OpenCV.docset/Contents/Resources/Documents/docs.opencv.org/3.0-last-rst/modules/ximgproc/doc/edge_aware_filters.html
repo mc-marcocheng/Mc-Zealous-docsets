@@ -1,0 +1,642 @@
+<html><head><script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/ximgproc/doc/edge_aware_filters.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:19 GMT -->
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    
+    <title>Domain Transform filter</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css">
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css">
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html">
+    <link rel="up" title="ximgproc. Extended Image Processing" href="ximgproc.html">
+    <link rel="next" title="Superpixels" href="superpixels.html">
+    <link rel="prev" title="Structured forests for fast edge detection" href="structured_edge_detection.html">
+    <link href="../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700" rel="stylesheet" type="text/css">
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <body><div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index" accesskey="I">index</a></li>
+        <li class="right">
+          <a href="superpixels.html" title="Superpixels" accesskey="N">next</a> |</li>
+        <li class="right">
+          <a href="structured_edge_detection.html" title="Structured forests for fast edge detection" accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> »</li>
+          <li><a href="../../refman.html">OpenCV API Reference</a> »</li>
+          <li><a href="ximgproc.html" accesskey="U">ximgproc. Extended Image Processing</a> »</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q">
+      <input type="submit" value="Go">
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Domain Transform filter</a><ul>
+<li><a class="reference internal" href="#dtfilter">DTFilter</a></li>
+<li><a class="reference internal" href="#createdtfilter">createDTFilter</a></li>
+<li><a class="reference internal" href="#dtfilter-filter">DTFilter::filter</a></li>
+<li><a class="reference internal" href="#id3">dtFilter</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#guided-filter">Guided Filter</a><ul>
+<li><a class="reference internal" href="#guidedfilter">GuidedFilter</a></li>
+<li><a class="reference internal" href="#createguidedfilter">createGuidedFilter</a></li>
+<li><a class="reference internal" href="#guidedfilter-filter">GuidedFilter::filter</a></li>
+<li><a class="reference internal" href="#id6">guidedFilter</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#adaptive-manifold-filter">Adaptive Manifold Filter</a><ul>
+<li><a class="reference internal" href="#adaptivemanifoldfilter">AdaptiveManifoldFilter</a></li>
+<li><a class="reference internal" href="#createamfilter">createAMFilter</a></li>
+<li><a class="reference internal" href="#adaptivemanifoldfilter-filter">AdaptiveManifoldFilter::filter</a></li>
+<li><a class="reference internal" href="#amfilter">amFilter</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#joint-bilateral-filter">Joint Bilateral Filter</a><ul>
+<li><a class="reference internal" href="#jointbilateralfilter">jointBilateralFilter</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="structured_edge_detection.html" title="previous chapter">Structured forests for fast edge detection</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="superpixels.html" title="next chapter">Superpixels</a></p>
+        </div>
+      </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="domain-transform-filter">
+<h1>Domain Transform filter<a class="headerlink" href="#domain-transform-filter" title="Permalink to this headline">¶</a></h1>
+<p>This section describes interface for Domain Transform filter.
+For more details about this filter see <a class="reference internal" href="#gastal11" id="id1">[Gastal11]</a> and <a class="reference internal" href="#references">References</a>.</p>
+<div class="section" id="dtfilter">
+<h2>DTFilter<a class="headerlink" href="#dtfilter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="DTFilter : public Algorithm">
+<em class="property">class </em><tt class="descname">DTFilter</tt> : <em class="property">public</em> <tt class="descname">Algorithm</tt><a class="headerlink" href="#DTFilter : public Algorithm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Interface for realizations of Domain Transform filter.</p>
+</div>
+<div class="section" id="createdtfilter">
+<h2>createDTFilter<a class="headerlink" href="#createdtfilter" title="Permalink to this headline">¶</a></h2>
+<p>Factory method, create instance of <a class="reference internal" href="#DTFilter : public Algorithm" title="class DTFilter : public Algorithm"><tt class="xref ocv ocv-class docutils literal"><span class="pre">DTFilter</span></tt></a> and produce initialization routines.</p>
+<dl class="function">
+<dt id="Ptr&lt;DTFilter&gt; createDTFilter(InputArray guide, double sigmaSpatial, double sigmaColor, int mode , int numIters)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;DTFilter&gt; <tt class="descname">createDTFilter</tt><big>(</big>InputArray <strong>guide</strong>, double <strong>sigmaSpatial</strong>, double <strong>sigmaColor</strong>, int <strong>mode</strong>=DTF_NC, int <strong>numIters</strong>=3<big>)</big><a class="headerlink" href="#Ptr&lt;DTFilter&gt; createDTFilter(InputArray guide, double sigmaSpatial, double sigmaColor, int mode , int numIters)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="pyfunction">
+<a class="dashAnchor" name="//apple_ref/Function/cv2%2EcreateDTFilter"></a><dt id="cv2.createDTFilter">
+<strong>Python:</strong><tt class="descname"> </tt><tt class="descclassname">cv2.</tt><tt class="descname">createDTFilter</tt><big>(</big>guide, sigmaSpatial, sigmaColor<span class="optional">[</span>, mode<span class="optional">[</span>, numIters<span class="optional">]</span><span class="optional">]</span><big>)</big> → instance<a class="headerlink" href="#cv2.createDTFilter" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>guide</strong> – guided image (used to build transformed distance, which describes edge structure of guided image).</li>
+<li><strong>sigmaSpatial</strong> – <img class="math" src="../../../_images/math/ec955a6c10dba44e3add8caa0614ebfbc1d5cbe3.png" alt="{\sigma}_H"> parameter in the original article, it’s similar to the sigma in the coordinate space into <a class="reference internal" href="../../imgproc/doc/filtering.html#void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">bilateralFilter()</span></tt></a>.</li>
+<li><strong>sigmaColor</strong> – <img class="math" src="../../../_images/math/0f1898a54d36a6dfa0c9fa3dabeb70b1b07cc679.png" alt="{\sigma}_r"> parameter in the original article, it’s similar to the sigma in the color space into <a class="reference internal" href="../../imgproc/doc/filtering.html#void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">bilateralFilter()</span></tt></a>.</li>
+<li><strong>mode</strong> – one form three modes <tt class="docutils literal"><span class="pre">DTF_NC</span></tt>, <tt class="docutils literal"><span class="pre">DTF_RF</span></tt> and <tt class="docutils literal"><span class="pre">DTF_IC</span></tt> which corresponds to three modes for filtering 2D signals in the article.</li>
+<li><strong>numIters</strong> – optional number of iterations used for filtering, 3 is quite enough.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>For more details about Domain Transform filter parameters, see the original article <a class="reference internal" href="#gastal11" id="id2">[Gastal11]</a> and <a class="reference external" href="http://www.inf.ufrgs.br/~eslgastal/DomainTransform/">Domain Transform filter homepage</a>.</p>
+</div>
+<div class="section" id="dtfilter-filter">
+<h2>DTFilter::filter<a class="headerlink" href="#dtfilter-filter" title="Permalink to this headline">¶</a></h2>
+<p>Produce domain transform filtering operation on source image.</p>
+<dl class="function">
+<dt id="void DTFilter::filter(InputArray src, OutputArray dst, int dDepth)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">DTFilter::</tt><tt class="descname">filter</tt><big>(</big>InputArray <strong>src</strong>, OutputArray <strong>dst</strong>, int <strong>dDepth</strong>=-1<big>)</big><a class="headerlink" href="#void DTFilter::filter(InputArray src, OutputArray dst, int dDepth)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="pyfunction">
+<a class="dashAnchor" name="//apple_ref/Function/cv2%2EDTFilter%2Efilter"></a><dt id="cv2.DTFilter.filter">
+<strong>Python:</strong><tt class="descname"> </tt><tt class="descclassname">cv2.DTFilter.</tt><tt class="descname">filter</tt><big>(</big>src, dst<span class="optional">[</span>, dDepth<span class="optional">]</span><big>)</big> → None<a class="headerlink" href="#cv2.DTFilter.filter" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>src</strong> – filtering image with unsigned 8-bit or floating-point 32-bit depth and up to 4 channels.</li>
+<li><strong>dst</strong> – destination image.</li>
+<li><strong>dDepth</strong> – optional depth of the output image. <tt class="docutils literal"><span class="pre">dDepth</span></tt> can be set to -1, which will be equivalent to <tt class="docutils literal"><span class="pre">src.depth()</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="id3">
+<h2>dtFilter<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Simple one-line Domain Transform filter call.
+If you have multiple images to filter with the same guided image then use <a class="reference internal" href="#DTFilter : public Algorithm" title="class DTFilter : public Algorithm"><tt class="xref ocv ocv-class docutils literal"><span class="pre">DTFilter</span></tt></a> interface to avoid extra computations on initialization stage.</p>
+<dl class="function">
+<dt id="void dtFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial, double sigmaColor, int mode , int numIters)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">dtFilter</tt><big>(</big>InputArray <strong>guide</strong>, InputArray <strong>src</strong>, OutputArray <strong>dst</strong>, double <strong>sigmaSpatial</strong>, double <strong>sigmaColor</strong>, int <strong>mode</strong>=DTF_NC, int <strong>numIters</strong>=3<big>)</big><a class="headerlink" href="#void dtFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial, double sigmaColor, int mode , int numIters)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="pyfunction">
+<a class="dashAnchor" name="//apple_ref/Function/cv2%2EdtFilter"></a><dt id="cv2.dtFilter">
+<strong>Python:</strong><tt class="descname"> </tt><tt class="descclassname">cv2.</tt><tt class="descname">dtFilter</tt><big>(</big>guide, src, sigmaSpatial, sigmaColor<span class="optional">[</span>, mode<span class="optional">[</span>, numIters<span class="optional">]</span><span class="optional">]</span><big>)</big> → None<a class="headerlink" href="#cv2.dtFilter" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>guide</strong> – guided image (also called as joint image) with unsigned 8-bit or floating-point 32-bit depth and up to 4 channels.</li>
+<li><strong>src</strong> – filtering image with unsigned 8-bit or floating-point 32-bit depth and up to 4 channels.</li>
+<li><strong>sigmaSpatial</strong> – <img class="math" src="../../../_images/math/ec955a6c10dba44e3add8caa0614ebfbc1d5cbe3.png" alt="{\sigma}_H"> parameter in the original article, it’s similar to the sigma in the coordinate space into <a class="reference internal" href="../../imgproc/doc/filtering.html#void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">bilateralFilter()</span></tt></a>.</li>
+<li><strong>sigmaColor</strong> – <img class="math" src="../../../_images/math/0f1898a54d36a6dfa0c9fa3dabeb70b1b07cc679.png" alt="{\sigma}_r"> parameter in the original article, it’s similar to the sigma in the color space into <a class="reference internal" href="../../imgproc/doc/filtering.html#void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">bilateralFilter()</span></tt></a>.</li>
+<li><strong>mode</strong> – one form three modes <tt class="docutils literal"><span class="pre">DTF_NC</span></tt>, <tt class="docutils literal"><span class="pre">DTF_RF</span></tt> and <tt class="docutils literal"><span class="pre">DTF_IC</span></tt> which corresponds to three modes for filtering 2D signals in the article.</li>
+<li><strong>numIters</strong> – optional number of iterations used for filtering, 3 is quite enough.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="../../imgproc/doc/filtering.html#void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">bilateralFilter()</span></tt></a>, <a class="reference internal" href="#void guidedFilter(InputArray guide, InputArray src, OutputArray dst, int radius, double eps, int dDepth)" title="void guidedFilter(InputArray guide, InputArray src, OutputArray dst, int radius, double eps, int dDepth)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">guidedFilter()</span></tt></a>, <a class="reference internal" href="#void amFilter(InputArray joint, InputArray src, OutputArray dst, double sigma_s, double sigma_r, bool adjust_outliers)" title="void amFilter(InputArray joint, InputArray src, OutputArray dst, double sigma_s, double sigma_r, bool adjust_outliers)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">amFilter()</span></tt></a></p>
+</div>
+</div>
+</div>
+<div class="section" id="guided-filter">
+<h1>Guided Filter<a class="headerlink" href="#guided-filter" title="Permalink to this headline">¶</a></h1>
+<p>This section describes interface for Guided Filter.
+For more details about this filter see <a class="reference internal" href="#kaiming10" id="id4">[Kaiming10]</a> and <a class="reference internal" href="#references">References</a>.</p>
+<div class="section" id="guidedfilter">
+<h2>GuidedFilter<a class="headerlink" href="#guidedfilter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="GuidedFilter : public Algorithm">
+<em class="property">class </em><tt class="descname">GuidedFilter</tt> : <em class="property">public</em> <tt class="descname">Algorithm</tt><a class="headerlink" href="#GuidedFilter : public Algorithm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Interface for realizations of Guided Filter.</p>
+</div>
+<div class="section" id="createguidedfilter">
+<h2>createGuidedFilter<a class="headerlink" href="#createguidedfilter" title="Permalink to this headline">¶</a></h2>
+<p>Factory method, create instance of <a class="reference internal" href="#GuidedFilter : public Algorithm" title="class GuidedFilter : public Algorithm"><tt class="xref ocv ocv-class docutils literal"><span class="pre">GuidedFilter</span></tt></a> and produce initialization routines.</p>
+<dl class="function">
+<dt id="Ptr&lt;GuidedFilter&gt; createGuidedFilter(InputArray guide, int radius, double eps)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;GuidedFilter&gt; <tt class="descname">createGuidedFilter</tt><big>(</big>InputArray <strong>guide</strong>, int <strong>radius</strong>, double <strong>eps</strong><big>)</big><a class="headerlink" href="#Ptr&lt;GuidedFilter&gt; createGuidedFilter(InputArray guide, int radius, double eps)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="pyfunction">
+<a class="dashAnchor" name="//apple_ref/Function/cv2%2EcreateGuidedFilter"></a><dt id="cv2.createGuidedFilter">
+<strong>Python:</strong><tt class="descname"> </tt><tt class="descclassname">cv2.</tt><tt class="descname">createGuidedFilter</tt><big>(</big>guide, radius, eps<big>)</big> → instance<a class="headerlink" href="#cv2.createGuidedFilter" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>guide</strong> – guided image (or array of images) with up to 3 channels, if it have more then 3 channels then only first 3 channels will be used.</li>
+<li><strong>radius</strong> – radius of Guided Filter.</li>
+<li><strong>eps</strong> – regularization term of Guided Filter. <img class="math" src="../../../_images/math/59ba044b4f37779773e7b504c8e5ae910e9f9e2b.png" alt="{eps}^2"> is similar to the sigma in the color space into <a class="reference internal" href="../../imgproc/doc/filtering.html#void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">bilateralFilter()</span></tt></a>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>For more details about Guided Filter parameters, see the original article <a class="reference internal" href="#kaiming10" id="id5">[Kaiming10]</a>.</p>
+</div>
+<div class="section" id="guidedfilter-filter">
+<h2>GuidedFilter::filter<a class="headerlink" href="#guidedfilter-filter" title="Permalink to this headline">¶</a></h2>
+<p>Apply Guided Filter to the filtering image.</p>
+<dl class="function">
+<dt id="void GuidedFilter::filter(InputArray src, OutputArray dst, int dDepth)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">GuidedFilter::</tt><tt class="descname">filter</tt><big>(</big>InputArray <strong>src</strong>, OutputArray <strong>dst</strong>, int <strong>dDepth</strong>=-1<big>)</big><a class="headerlink" href="#void GuidedFilter::filter(InputArray src, OutputArray dst, int dDepth)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="pyfunction">
+<a class="dashAnchor" name="//apple_ref/Function/cv2%2EGuidedFilter%2Efilter"></a><dt id="cv2.GuidedFilter.filter">
+<strong>Python:</strong><tt class="descname"> </tt><tt class="descclassname">cv2.GuidedFilter.</tt><tt class="descname">filter</tt><big>(</big>src, dst<span class="optional">[</span>, dDepth<span class="optional">]</span><big>)</big> → None<a class="headerlink" href="#cv2.GuidedFilter.filter" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>src</strong> – filtering image with any numbers of channels.</li>
+<li><strong>dst</strong> – output image.</li>
+<li><strong>dDepth</strong> – optional depth of the output image. <tt class="docutils literal"><span class="pre">dDepth</span></tt> can be set to -1, which will be equivalent to <tt class="docutils literal"><span class="pre">src.depth()</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="id6">
+<h2>guidedFilter<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>Simple one-line Guided Filter call.
+If you have multiple images to filter with the same guided image then use <a class="reference internal" href="#GuidedFilter : public Algorithm" title="class GuidedFilter : public Algorithm"><tt class="xref ocv ocv-class docutils literal"><span class="pre">GuidedFilter</span></tt></a> interface to avoid extra computations on initialization stage.</p>
+<dl class="function">
+<dt id="void guidedFilter(InputArray guide, InputArray src, OutputArray dst, int radius, double eps, int dDepth)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">guidedFilter</tt><big>(</big>InputArray <strong>guide</strong>, InputArray <strong>src</strong>, OutputArray <strong>dst</strong>, int <strong>radius</strong>, double <strong>eps</strong>, int <strong>dDepth</strong>=-1<big>)</big><a class="headerlink" href="#void guidedFilter(InputArray guide, InputArray src, OutputArray dst, int radius, double eps, int dDepth)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="pyfunction">
+<a class="dashAnchor" name="//apple_ref/Function/cv2%2EguidedFilter"></a><dt id="cv2.guidedFilter">
+<strong>Python:</strong><tt class="descname"> </tt><tt class="descclassname">cv2.</tt><tt class="descname">guidedFilter</tt><big>(</big>guide, src, dst, radius, eps<span class="optional">[</span>, dDepth<span class="optional">]</span><big>)</big> → None<a class="headerlink" href="#cv2.guidedFilter" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>guide</strong> – guided image (or array of images) with up to 3 channels, if it have more then 3 channels then only first 3 channels will be used.</li>
+<li><strong>src</strong> – filtering image with any numbers of channels.</li>
+<li><strong>dst</strong> – output image.</li>
+<li><strong>radius</strong> – radius of Guided Filter.</li>
+<li><strong>eps</strong> – regularization term of Guided Filter. <img class="math" src="../../../_images/math/59ba044b4f37779773e7b504c8e5ae910e9f9e2b.png" alt="{eps}^2"> is similar to the sigma in the color space into <a class="reference internal" href="../../imgproc/doc/filtering.html#void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">bilateralFilter()</span></tt></a>.</li>
+<li><strong>dDepth</strong> – optional depth of the output image.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="../../imgproc/doc/filtering.html#void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">bilateralFilter()</span></tt></a>, <a class="reference internal" href="#void dtFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial, double sigmaColor, int mode , int numIters)" title="void dtFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial, double sigmaColor, int mode , int numIters)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">dtFilter()</span></tt></a>, <a class="reference internal" href="#void amFilter(InputArray joint, InputArray src, OutputArray dst, double sigma_s, double sigma_r, bool adjust_outliers)" title="void amFilter(InputArray joint, InputArray src, OutputArray dst, double sigma_s, double sigma_r, bool adjust_outliers)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">amFilter()</span></tt></a></p>
+</div>
+</div>
+</div>
+<div class="section" id="adaptive-manifold-filter">
+<h1>Adaptive Manifold Filter<a class="headerlink" href="#adaptive-manifold-filter" title="Permalink to this headline">¶</a></h1>
+<p>This section describes interface for Adaptive Manifold Filter.</p>
+<p>For more details about this filter see <a class="reference internal" href="#gastal12" id="id7">[Gastal12]</a> and <a class="reference internal" href="#references">References</a>.</p>
+<div class="section" id="adaptivemanifoldfilter">
+<h2>AdaptiveManifoldFilter<a class="headerlink" href="#adaptivemanifoldfilter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="AdaptiveManifoldFilter : public Algorithm">
+<em class="property">class </em><tt class="descname">AdaptiveManifoldFilter</tt> : <em class="property">public</em> <tt class="descname">Algorithm</tt><a class="headerlink" href="#AdaptiveManifoldFilter : public Algorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interface for Adaptive Manifold Filter realizations.</p>
+<p>Below listed optional parameters which may be set up with <a class="reference internal" href="../../core/doc/basic_structures.html#void Algorithm::set(const String&amp; name, int value)" title="void Algorithm::set(const String&amp; name, int value)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">Algorithm::set()</span></tt></a> function.</p>
+<dl class="member">
+<dt id="double sigma_s = 16.0">
+double <tt class="descname">sigma_s</tt> = 16.0<a class="headerlink" href="#double sigma_s = 16.0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Spatial standard deviation.</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="double sigma_r = 0.2">
+double <tt class="descname">sigma_r</tt> = 0.2<a class="headerlink" href="#double sigma_r = 0.2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Color space standard deviation.</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="int tree_height = -1">
+int <tt class="descname">tree_height</tt> = -1<a class="headerlink" href="#int tree_height = -1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Height of the manifold tree (default = -1 : automatically computed).</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="int num_pca_iterations = 1">
+int <tt class="descname">num_pca_iterations</tt> = 1<a class="headerlink" href="#int num_pca_iterations = 1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of iterations to computed the eigenvector.</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="bool adjust_outliers = false">
+bool <tt class="descname">adjust_outliers</tt> = false<a class="headerlink" href="#bool adjust_outliers = false" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specify adjust outliers using Eq. 9 or not.</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="bool use_RNG = true">
+bool <tt class="descname">use_RNG</tt> = true<a class="headerlink" href="#bool use_RNG = true" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specify use random number generator to compute eigenvector or not.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="createamfilter">
+<h2>createAMFilter<a class="headerlink" href="#createamfilter" title="Permalink to this headline">¶</a></h2>
+<p>Factory method, create instance of <a class="reference internal" href="#AdaptiveManifoldFilter : public Algorithm" title="class AdaptiveManifoldFilter : public Algorithm"><tt class="xref ocv ocv-class docutils literal"><span class="pre">AdaptiveManifoldFilter</span></tt></a> and produce some initialization routines.</p>
+<dl class="function">
+<dt id="Ptr&lt;AdaptiveManifoldFilter&gt; createAMFilter(double sigma_s, double sigma_r, bool adjust_outliers)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;AdaptiveManifoldFilter&gt; <tt class="descname">createAMFilter</tt><big>(</big>double <strong>sigma_s</strong>, double <strong>sigma_r</strong>, bool <strong>adjust_outliers</strong>=false<big>)</big><a class="headerlink" href="#Ptr&lt;AdaptiveManifoldFilter&gt; createAMFilter(double sigma_s, double sigma_r, bool adjust_outliers)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="pyfunction">
+<a class="dashAnchor" name="//apple_ref/Function/cv2%2EcreateAMFilter"></a><dt id="cv2.createAMFilter">
+<strong>Python:</strong><tt class="descname"> </tt><tt class="descclassname">cv2.</tt><tt class="descname">createAMFilter</tt><big>(</big>sigma_s, sigma_r, adjust_outliers<big>)</big> → instance<a class="headerlink" href="#cv2.createAMFilter" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sigma_s</strong> – spatial standard deviation.</li>
+<li><strong>sigma_r</strong> – color space standard deviation, it is similar to the sigma in the color space into <a class="reference internal" href="../../imgproc/doc/filtering.html#void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">bilateralFilter()</span></tt></a>.</li>
+<li><strong>adjust_outliers</strong> – optional, specify perform outliers adjust operation or not, (Eq. 9) in the original paper.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>For more details about Adaptive Manifold Filter parameters, see the original article <a class="reference internal" href="#gastal12" id="id8">[Gastal12]</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Joint images with <cite>CV_8U</cite> and <cite>CV_16U</cite> depth converted to images with <cite>CV_32F</cite> depth and [0; 1] color range before processing.
+Hence color space sigma <cite>sigma_r</cite> must be in [0; 1] range, unlike same sigmas in <a class="reference internal" href="../../imgproc/doc/filtering.html#void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">bilateralFilter()</span></tt></a> and <a class="reference internal" href="#void dtFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial, double sigmaColor, int mode , int numIters)" title="void dtFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial, double sigmaColor, int mode , int numIters)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">dtFilter()</span></tt></a> functions.</p>
+</div>
+</div>
+<div class="section" id="adaptivemanifoldfilter-filter">
+<h2>AdaptiveManifoldFilter::filter<a class="headerlink" href="#adaptivemanifoldfilter-filter" title="Permalink to this headline">¶</a></h2>
+<p>Apply high-dimensional filtering using adaptive manifolds.</p>
+<dl class="function">
+<dt id="void AdaptiveManifoldFilter::filter(InputArray src, OutputArray dst, InputArray joint)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">AdaptiveManifoldFilter::</tt><tt class="descname">filter</tt><big>(</big>InputArray <strong>src</strong>, OutputArray <strong>dst</strong>, InputArray <strong>joint</strong>=noArray()<big>)</big><a class="headerlink" href="#void AdaptiveManifoldFilter::filter(InputArray src, OutputArray dst, InputArray joint)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="pyfunction">
+<a class="dashAnchor" name="//apple_ref/Function/cv2%2EAdaptiveManifoldFilter%2Efilter"></a><dt id="cv2.AdaptiveManifoldFilter.filter">
+<strong>Python:</strong><tt class="descname"> </tt><tt class="descclassname">cv2.AdaptiveManifoldFilter.</tt><tt class="descname">filter</tt><big>(</big>src, dst<span class="optional">[</span>, joint<span class="optional">]</span><big>)</big> → None<a class="headerlink" href="#cv2.AdaptiveManifoldFilter.filter" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>src</strong> – filtering image with any numbers of channels.</li>
+<li><strong>dst</strong> – output image.</li>
+<li><strong>joint</strong> – optional joint (also called as guided) image with any numbers of channels.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="amfilter">
+<h2>amFilter<a class="headerlink" href="#amfilter" title="Permalink to this headline">¶</a></h2>
+<p>Simple one-line Adaptive Manifold Filter call.</p>
+<dl class="function">
+<dt id="void amFilter(InputArray joint, InputArray src, OutputArray dst, double sigma_s, double sigma_r, bool adjust_outliers)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">amFilter</tt><big>(</big>InputArray <strong>joint</strong>, InputArray <strong>src</strong>, OutputArray <strong>dst</strong>, double <strong>sigma_s</strong>, double <strong>sigma_r</strong>, bool <strong>adjust_outliers</strong>=false<big>)</big><a class="headerlink" href="#void amFilter(InputArray joint, InputArray src, OutputArray dst, double sigma_s, double sigma_r, bool adjust_outliers)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="pyfunction">
+<a class="dashAnchor" name="//apple_ref/Function/cv2%2EamFilter"></a><dt id="cv2.amFilter">
+<strong>Python:</strong><tt class="descname"> </tt><tt class="descclassname">cv2.</tt><tt class="descname">amFilter</tt><big>(</big>joint, src, dst, sigma_s, sigma_r<span class="optional">[</span>, adjust_outliers<span class="optional">]</span><big>)</big> → None<a class="headerlink" href="#cv2.amFilter" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>joint</strong> – joint (also  called as guided) image or array of images with any numbers of channels.</li>
+<li><strong>src</strong> – filtering image with any numbers of channels.</li>
+<li><strong>dst</strong> – output image.</li>
+<li><strong>sigma_s</strong> – spatial standard deviation.</li>
+<li><strong>sigma_r</strong> – color space standard deviation, it is similar to the sigma in the color space into <a class="reference internal" href="../../imgproc/doc/filtering.html#void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">bilateralFilter()</span></tt></a>.</li>
+<li><strong>adjust_outliers</strong> – optional, specify perform outliers adjust operation or not, (Eq. 9) in the original paper.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Joint images with <cite>CV_8U</cite> and <cite>CV_16U</cite> depth converted to images with <cite>CV_32F</cite> depth and [0; 1] color range before processing.
+Hence color space sigma <cite>sigma_r</cite> must be in [0; 1] range, unlike same sigmas in <a class="reference internal" href="../../imgproc/doc/filtering.html#void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">bilateralFilter()</span></tt></a> and <a class="reference internal" href="#void dtFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial, double sigmaColor, int mode , int numIters)" title="void dtFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial, double sigmaColor, int mode , int numIters)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">dtFilter()</span></tt></a> functions.</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="../../imgproc/doc/filtering.html#void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">bilateralFilter()</span></tt></a>, <a class="reference internal" href="#void dtFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial, double sigmaColor, int mode , int numIters)" title="void dtFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial, double sigmaColor, int mode , int numIters)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">dtFilter()</span></tt></a>, <a class="reference internal" href="#void guidedFilter(InputArray guide, InputArray src, OutputArray dst, int radius, double eps, int dDepth)" title="void guidedFilter(InputArray guide, InputArray src, OutputArray dst, int radius, double eps, int dDepth)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">guidedFilter()</span></tt></a></p>
+</div>
+</div>
+</div>
+<div class="section" id="joint-bilateral-filter">
+<h1>Joint Bilateral Filter<a class="headerlink" href="#joint-bilateral-filter" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="jointbilateralfilter">
+<h2>jointBilateralFilter<a class="headerlink" href="#jointbilateralfilter" title="Permalink to this headline">¶</a></h2>
+<p>Applies the joint bilateral filter to an image.</p>
+<dl class="function">
+<dt id="void jointBilateralFilter(InputArray joint, InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">jointBilateralFilter</tt><big>(</big>InputArray <strong>joint</strong>, InputArray <strong>src</strong>, OutputArray <strong>dst</strong>, int <strong>d</strong>, double <strong>sigmaColor</strong>, double <strong>sigmaSpace</strong>, int <strong>borderType</strong>=BORDER_DEFAULT<big>)</big><a class="headerlink" href="#void jointBilateralFilter(InputArray joint, InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="pyfunction">
+<a class="dashAnchor" name="//apple_ref/Function/cv2%2EjointBilateralFilter"></a><dt id="cv2.jointBilateralFilter">
+<strong>Python:</strong><tt class="descname"> </tt><tt class="descclassname">cv2.</tt><tt class="descname">jointBilateralFilter</tt><big>(</big>joint, src, dst, d, sigmaColor, sigmaSpace<span class="optional">[</span>, borderType<span class="optional">]</span><big>)</big> → None<a class="headerlink" href="#cv2.jointBilateralFilter" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>joint</strong> – Joint 8-bit or floating-point, 1-channel or 3-channel image.</li>
+<li><strong>src</strong> – Source 8-bit or floating-point, 1-channel or 3-channel image with the same depth as joint image.</li>
+<li><strong>dst</strong> – Destination image of the same size and type as  <tt class="docutils literal"><span class="pre">src</span></tt> .</li>
+<li><strong>d</strong> – Diameter of each pixel neighborhood that is used during filtering. If it is non-positive, it is computed from  <tt class="docutils literal"><span class="pre">sigmaSpace</span></tt> .</li>
+<li><strong>sigmaColor</strong> – Filter sigma in the color space. A larger value of the parameter means that farther colors within the pixel neighborhood (see  <tt class="docutils literal"><span class="pre">sigmaSpace</span></tt> ) will be mixed together, resulting in larger areas of semi-equal color.</li>
+<li><strong>sigmaSpace</strong> – Filter sigma in the coordinate space. A larger value of the parameter means that farther pixels will influence each other as long as their colors are close enough (see  <tt class="docutils literal"><span class="pre">sigmaColor</span></tt> ). When  <tt class="docutils literal"><span class="pre">d&gt;0</span></tt> , it specifies the neighborhood size regardless of  <tt class="docutils literal"><span class="pre">sigmaSpace</span></tt> . Otherwise,  <tt class="docutils literal"><span class="pre">d</span></tt>  is proportional to  <tt class="docutils literal"><span class="pre">sigmaSpace</span></tt> .</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference internal" href="../../imgproc/doc/filtering.html#void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">bilateralFilter()</span></tt></a> and <a class="reference internal" href="#void jointBilateralFilter(InputArray joint, InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void jointBilateralFilter(InputArray joint, InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">jointBilateralFilter()</span></tt></a> use L1 norm to compute difference between colors.</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="../../imgproc/doc/filtering.html#void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)" title="void bilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor, double sigmaSpace, int borderType)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">bilateralFilter()</span></tt></a>, <a class="reference internal" href="#void amFilter(InputArray joint, InputArray src, OutputArray dst, double sigma_s, double sigma_r, bool adjust_outliers)" title="void amFilter(InputArray joint, InputArray src, OutputArray dst, double sigma_s, double sigma_r, bool adjust_outliers)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">amFilter()</span></tt></a></p>
+</div>
+</div>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<table class="docutils citation" frame="void" id="gastal11" rules="none">
+<colgroup><col class="label"><col></colgroup>
+<tbody valign="top">
+<tr><td class="label">[Gastal11]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> <ol class="upperalpha simple" start="5">
+<li>Gastal and M. Oliveira, “Domain Transform for Edge-Aware Image and Video Processing”, Proceedings of SIGGRAPH, 2011, vol. 30, pp. 69:1 - 69:12.</li>
+</ol>
+<p class="last">The paper is available <a class="reference external" href="http://www.inf.ufrgs.br/~eslgastal/DomainTransform/">online</a>.</p>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="gastal12" rules="none">
+<colgroup><col class="label"><col></colgroup>
+<tbody valign="top">
+<tr><td class="label">[Gastal12]</td><td><em>(<a class="fn-backref" href="#id7">1</a>, <a class="fn-backref" href="#id8">2</a>)</em> <ol class="upperalpha simple" start="5">
+<li>Gastal and M. Oliveira, “Adaptive manifolds for real-time high-dimensional filtering,” Proceedings of SIGGRAPH, 2012, vol. 31, pp. 33:1 - 33:13.</li>
+</ol>
+<p class="last">The paper is available <a class="reference external" href="http://inf.ufrgs.br/~eslgastal/AdaptiveManifolds/">online</a>.</p>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="kaiming10" rules="none">
+<colgroup><col class="label"><col></colgroup>
+<tbody valign="top">
+<tr><td class="label">[Kaiming10]</td><td><em>(<a class="fn-backref" href="#id4">1</a>, <a class="fn-backref" href="#id5">2</a>)</em> <p>Kaiming He et. al., “Guided Image Filtering,” ECCV 2010, pp. 1 - 14.</p>
+<p class="last">The paper is available <a class="reference external" href="http://research.microsoft.com/en-us/um/people/kahe/eccv10/">online</a>.</p>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="tomasi98" rules="none">
+<colgroup><col class="label"><col></colgroup>
+<tbody valign="top">
+<tr><td class="label">[Tomasi98]</td><td><p class="first">Carlo Tomasi and Roberto Manduchi, “Bilateral filtering for gray and color images,” in Computer Vision, 1998. Sixth International Conference on . IEEE, 1998, pp. 839– 846.</p>
+<p class="last">The paper is available <a class="reference external" href="https://www.cs.duke.edu/~tomasi/papers/tomasi/tomasiIccv98.pdf">online</a>.</p>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="ziyang13" rules="none">
+<colgroup><col class="label"><col></colgroup>
+<tbody valign="top">
+<tr><td class="label">[Ziyang13]</td><td><p class="first">Ziyang Ma et al., “Constant Time Weighted Median Filtering for Stereo Matching and Beyond,” ICCV, 2013, pp. 49 - 56.</p>
+<p class="last">The paper is available <a class="reference external" href="http://www.cv-foundation.org/openaccess/content_iccv_2013/papers/Ma_Constant_Time_Weighted_2013_ICCV_paper.pdf">online</a>.</p>
+</td></tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&amp;A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index">index</a></li>
+        <li class="right">
+          <a href="superpixels.html" title="Superpixels">next</a> |</li>
+        <li class="right">
+          <a href="structured_edge_detection.html" title="Structured forests for fast edge detection">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> »</li>
+          <li><a href="../../refman.html">OpenCV API Reference</a> »</li>
+          <li><a href="ximgproc.html">ximgproc. Extended Image Processing</a> »</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        © Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/ximgproc/doc/edge_aware_filters.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/ximgproc/doc/edge_aware_filters.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:19 GMT -->
+</body></html>

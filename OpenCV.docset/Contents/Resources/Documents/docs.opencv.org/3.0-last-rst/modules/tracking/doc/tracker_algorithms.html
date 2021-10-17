@@ -1,0 +1,503 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/tracking/doc/tracker_algorithms.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:45 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tracker Algorithms</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="tracking. Tracking API" href="tracking.html" />
+    <link rel="next" title="Common Interfaces of Tracker" href="common_interfaces_tracker.html" />
+    <link rel="prev" title="TrackerModel diagram" href="uml/TrackerModel.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="common_interfaces_tracker.html" title="Common Interfaces of Tracker"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="uml/TrackerModel.html" title="TrackerModel diagram"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="tracking.html" accesskey="U">tracking. Tracking API</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tracker Algorithms</a><ul>
+<li><a class="reference internal" href="#trackerboosting">TrackerBoosting</a></li>
+<li><a class="reference internal" href="#trackerboosting-params">TrackerBoosting::Params</a></li>
+<li><a class="reference internal" href="#trackerboosting-createtracker">TrackerBoosting::createTracker</a></li>
+<li><a class="reference internal" href="#trackermil">TrackerMIL</a></li>
+<li><a class="reference internal" href="#trackermil-params">TrackerMIL::Params</a></li>
+<li><a class="reference internal" href="#trackermil-createtracker">TrackerMIL::createTracker</a></li>
+<li><a class="reference internal" href="#trackermedianflow">TrackerMedianFlow</a></li>
+<li><a class="reference internal" href="#trackermedianflow-params">TrackerMedianFlow::Params</a></li>
+<li><a class="reference internal" href="#trackermedianflow-createtracker">TrackerMedianFlow::createTracker</a></li>
+<li><a class="reference internal" href="#trackertld">TrackerTLD</a></li>
+<li><a class="reference internal" href="#trackertld-params">TrackerTLD::Params</a></li>
+<li><a class="reference internal" href="#trackertld-createtracker">TrackerTLD::createTracker</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="uml/TrackerModel.html"
+                        title="previous chapter">TrackerModel diagram</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="common_interfaces_tracker.html"
+                        title="next chapter">Common Interfaces of Tracker</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tracker-algorithms">
+<h1>Tracker Algorithms<a class="headerlink" href="#tracker-algorithms" title="Permalink to this headline">¶</a></h1>
+<p>The following algorithms are implemented at the moment.</p>
+<table class="docutils citation" frame="void" id="mil" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[MIL]</a></td><td>B Babenko, M-H Yang, and S Belongie, Visual Tracking with Online Multiple Instance Learning, In CVPR, 2009</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="olb" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[OLB]</a></td><td>H Grabner, M Grabner, and H Bischof, Real-time tracking via on-line boosting, In Proc. BMVC, volume 1, pages 47– 56, 2006</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="medianflow" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[MedianFlow]</a></td><td><ol class="first last upperalpha simple" start="26">
+<li>Kalal, K. Mikolajczyk, and J. Matas, “Forward-Backward Error: Automatic Detection of Tracking Failures,” International Conference on Pattern Recognition, 2010, pp. 23-26.</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="tld" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[TLD]</a></td><td><ol class="first last upperalpha simple" start="26">
+<li>Kalal, K. Mikolajczyk, and J. Matas, “Tracking-Learning-Detection,” Pattern Analysis and Machine Intelligence 2011.</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+<div class="section" id="trackerboosting">
+<h2>TrackerBoosting<a class="headerlink" href="#trackerboosting" title="Permalink to this headline">¶</a></h2>
+<p>This is a real-time object tracking based on a novel on-line version of the AdaBoost algorithm.
+The classifier uses the surrounding background as negative examples in update step to avoid the drifting problem. The implementation is based on
+<a class="reference internal" href="#olb" id="id1">[OLB]</a>.</p>
+<dl class="class">
+<dt id="TrackerBoosting">
+<em class="property">class </em><tt class="descname">TrackerBoosting</tt><a class="headerlink" href="#TrackerBoosting" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Implementation of TrackerBoosting from <a class="reference internal" href="common_interfaces_tracker.html#Tracker" title="class Tracker"><tt class="xref ocv ocv-class docutils literal"><span class="pre">Tracker</span></tt></a>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerBoosting</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Tracker</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="kt">void</span> <span class="n">read</span><span class="p">(</span> <span class="k">const</span> <span class="n">FileNode</span><span class="o">&amp;</span> <span class="n">fn</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="n">write</span><span class="p">(</span> <span class="n">FileStorage</span><span class="o">&amp;</span> <span class="n">fs</span> <span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">static</span> <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">trackerBoosting</span><span class="o">&gt;</span> <span class="n">createTracker</span><span class="p">(</span><span class="k">const</span> <span class="n">trackerBoosting</span><span class="o">::</span><span class="n">Params</span> <span class="o">&amp;</span><span class="n">parameters</span><span class="o">=</span><span class="n">trackerBoosting</span><span class="o">::</span><span class="n">Params</span><span class="p">());</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">trackerBoosting</span><span class="p">(){};</span>
+
+ <span class="nl">protected:</span>
+  <span class="kt">bool</span> <span class="nf">initImpl</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="k">const</span> <span class="n">Rect2d</span><span class="o">&amp;</span> <span class="n">boundingBox</span> <span class="p">);</span>
+  <span class="kt">bool</span> <span class="nf">updateImpl</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="n">Rect2d</span><span class="o">&amp;</span> <span class="n">boundingBox</span> <span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackerboosting-params">
+<h2>TrackerBoosting::Params<a class="headerlink" href="#trackerboosting-params" title="Permalink to this headline">¶</a></h2>
+<dl class="struct">
+<dt id="TrackerBoosting::Params">
+<em class="property">struct </em><tt class="descclassname">TrackerBoosting::</tt><tt class="descname">Params</tt><a class="headerlink" href="#TrackerBoosting::Params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>List of BOOSTING parameters:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">CV_EXPORTS</span> <span class="n">Params</span>
+<span class="p">{</span>
+ <span class="n">Params</span><span class="p">();</span>
+ <span class="kt">int</span> <span class="n">numClassifiers</span><span class="p">;</span>  <span class="c1">//the number of classifiers to use in a OnlineBoosting algorithm</span>
+ <span class="kt">float</span> <span class="n">samplerOverlap</span><span class="p">;</span>  <span class="c1">//search region parameters to use in a OnlineBoosting algorithm</span>
+ <span class="kt">float</span> <span class="n">samplerSearchFactor</span><span class="p">;</span>  <span class="c1">// search region parameters to use in a OnlineBoosting algorithm</span>
+ <span class="kt">int</span> <span class="n">iterationInit</span><span class="p">;</span>  <span class="c1">//the initial iterations</span>
+ <span class="kt">int</span> <span class="n">featureSetNumFeatures</span><span class="p">;</span>  <span class="c1">// #features</span>
+
+ <span class="kt">void</span> <span class="nf">read</span><span class="p">(</span> <span class="k">const</span> <span class="n">FileNode</span><span class="o">&amp;</span> <span class="n">fn</span> <span class="p">);</span>
+ <span class="kt">void</span> <span class="n">write</span><span class="p">(</span> <span class="n">FileStorage</span><span class="o">&amp;</span> <span class="n">fs</span> <span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackerboosting-createtracker">
+<h2>TrackerBoosting::createTracker<a class="headerlink" href="#trackerboosting-createtracker" title="Permalink to this headline">¶</a></h2>
+<p>Constructor</p>
+<dl class="function">
+<dt id="Ptr&lt;trackerBoosting&gt; TrackerBoosting::createTracker(const trackerBoosting::Params &amp;parameters)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;trackerBoosting&gt; <tt class="descclassname">TrackerBoosting::</tt><tt class="descname">createTracker</tt><big>(</big>const trackerBoosting::Params&amp; <strong>parameters</strong>=trackerBoosting::Params()<big>)</big><a class="headerlink" href="#Ptr<trackerBoosting> TrackerBoosting::createTracker(const trackerBoosting::Params &parameters)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parameters</strong> &#8211; BOOSTING parameters <a class="reference internal" href="#TrackerBoosting::Params" title="struct TrackerBoosting::Params"><tt class="xref ocv ocv-struct docutils literal"><span class="pre">TrackerBoosting::Params</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackermil">
+<h2>TrackerMIL<a class="headerlink" href="#trackermil" title="Permalink to this headline">¶</a></h2>
+<p>The MIL algorithm trains a classifier in an online manner to separate the object from the background. Multiple Instance Learning avoids the drift problem for a robust tracking. The implementation is based on <a class="reference internal" href="#mil" id="id2">[MIL]</a>.</p>
+<p>Original code can be found here <a class="reference external" href="http://vision.ucsd.edu/~bbabenko/project_miltrack.shtml">http://vision.ucsd.edu/~bbabenko/project_miltrack.shtml</a></p>
+<dl class="class">
+<dt id="TrackerMIL">
+<em class="property">class </em><tt class="descname">TrackerMIL</tt><a class="headerlink" href="#TrackerMIL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Implementation of TrackerMIL from <a class="reference internal" href="common_interfaces_tracker.html#Tracker" title="class Tracker"><tt class="xref ocv ocv-class docutils literal"><span class="pre">Tracker</span></tt></a>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerMIL</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Tracker</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="kt">void</span> <span class="n">read</span><span class="p">(</span> <span class="k">const</span> <span class="n">FileNode</span><span class="o">&amp;</span> <span class="n">fn</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="n">write</span><span class="p">(</span> <span class="n">FileStorage</span><span class="o">&amp;</span> <span class="n">fs</span> <span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">static</span> <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">trackerMIL</span><span class="o">&gt;</span> <span class="n">createTracker</span><span class="p">(</span><span class="k">const</span> <span class="n">trackerMIL</span><span class="o">::</span><span class="n">Params</span> <span class="o">&amp;</span><span class="n">parameters</span><span class="o">=</span><span class="n">trackerMIL</span><span class="o">::</span><span class="n">Params</span><span class="p">());</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">trackerMIL</span><span class="p">(){};</span>
+
+ <span class="nl">protected:</span>
+  <span class="kt">bool</span> <span class="nf">initImpl</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="k">const</span> <span class="n">Rect2d</span><span class="o">&amp;</span> <span class="n">boundingBox</span> <span class="p">);</span>
+  <span class="kt">bool</span> <span class="nf">updateImpl</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="n">Rect2d</span><span class="o">&amp;</span> <span class="n">boundingBox</span> <span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackermil-params">
+<h2>TrackerMIL::Params<a class="headerlink" href="#trackermil-params" title="Permalink to this headline">¶</a></h2>
+<dl class="struct">
+<dt id="TrackerMIL::Params">
+<em class="property">struct </em><tt class="descclassname">TrackerMIL::</tt><tt class="descname">Params</tt><a class="headerlink" href="#TrackerMIL::Params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>List of MIL parameters:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">CV_EXPORTS</span> <span class="n">Params</span>
+<span class="p">{</span>
+ <span class="n">Params</span><span class="p">();</span>
+ <span class="c1">//parameters for sampler</span>
+ <span class="kt">float</span> <span class="n">samplerInitInRadius</span><span class="p">;</span>   <span class="c1">// radius for gathering positive instances during init</span>
+ <span class="kt">int</span> <span class="n">samplerInitMaxNegNum</span><span class="p">;</span>    <span class="c1">// # negative samples to use during init</span>
+ <span class="kt">float</span> <span class="n">samplerSearchWinSize</span><span class="p">;</span>  <span class="c1">// size of search window</span>
+ <span class="kt">float</span> <span class="n">samplerTrackInRadius</span><span class="p">;</span>  <span class="c1">// radius for gathering positive instances during tracking</span>
+ <span class="kt">int</span> <span class="n">samplerTrackMaxPosNum</span><span class="p">;</span>   <span class="c1">// # positive samples to use during tracking</span>
+ <span class="kt">int</span> <span class="n">samplerTrackMaxNegNum</span><span class="p">;</span>   <span class="c1">// # negative samples to use during tracking</span>
+
+ <span class="kt">int</span> <span class="n">featureSetNumFeatures</span><span class="p">;</span>   <span class="c1">// # features</span>
+
+ <span class="kt">void</span> <span class="nf">read</span><span class="p">(</span> <span class="k">const</span> <span class="n">FileNode</span><span class="o">&amp;</span> <span class="n">fn</span> <span class="p">);</span>
+ <span class="kt">void</span> <span class="n">write</span><span class="p">(</span> <span class="n">FileStorage</span><span class="o">&amp;</span> <span class="n">fs</span> <span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackermil-createtracker">
+<h2>TrackerMIL::createTracker<a class="headerlink" href="#trackermil-createtracker" title="Permalink to this headline">¶</a></h2>
+<p>Constructor</p>
+<dl class="function">
+<dt id="Ptr&lt;trackerMIL&gt; TrackerMIL::createTracker(const trackerMIL::Params &amp;parameters)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;trackerMIL&gt; <tt class="descclassname">TrackerMIL::</tt><tt class="descname">createTracker</tt><big>(</big>const trackerMIL::Params&amp; <strong>parameters</strong>=trackerMIL::Params()<big>)</big><a class="headerlink" href="#Ptr<trackerMIL> TrackerMIL::createTracker(const trackerMIL::Params &parameters)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parameters</strong> &#8211; MIL parameters <a class="reference internal" href="#TrackerMIL::Params" title="struct TrackerMIL::Params"><tt class="xref ocv ocv-struct docutils literal"><span class="pre">TrackerMIL::Params</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackermedianflow">
+<h2>TrackerMedianFlow<a class="headerlink" href="#trackermedianflow" title="Permalink to this headline">¶</a></h2>
+<p>Implementation of a paper &#8220;Forward-Backward Error: Automatic Detection of Tracking Failures&#8221; by Z. Kalal, K. Mikolajczyk
+and Jiri Matas. The implementation is based on <a class="reference internal" href="#medianflow" id="id3">[MedianFlow]</a>.</p>
+<p>The tracker is suitable for very smooth and predictable movements when object is visible throughout the whole sequence. It&#8217;s quite and
+accurate for this type of problems (in particular, it was shown by authors to outperform MIL). During the implementation period the code at
+<a class="reference external" href="http://www.aonsquared.co.uk/node/5">http://www.aonsquared.co.uk/node/5</a>, the courtesy of the author Arthur Amarra, was used for the reference purpose.</p>
+<dl class="class">
+<dt id="TrackerMedianFlow">
+<em class="property">class </em><tt class="descname">TrackerMedianFlow</tt><a class="headerlink" href="#TrackerMedianFlow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Implementation of TrackerMedianFlow from <a class="reference internal" href="common_interfaces_tracker.html#Tracker" title="class Tracker"><tt class="xref ocv ocv-class docutils literal"><span class="pre">Tracker</span></tt></a>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerMedianFlow</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Tracker</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="kt">void</span> <span class="n">read</span><span class="p">(</span> <span class="k">const</span> <span class="n">FileNode</span><span class="o">&amp;</span> <span class="n">fn</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="n">write</span><span class="p">(</span> <span class="n">FileStorage</span><span class="o">&amp;</span> <span class="n">fs</span> <span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">static</span> <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">trackerMedianFlow</span><span class="o">&gt;</span> <span class="n">createTracker</span><span class="p">(</span><span class="k">const</span> <span class="n">trackerMedianFlow</span><span class="o">::</span><span class="n">Params</span> <span class="o">&amp;</span><span class="n">parameters</span><span class="o">=</span><span class="n">trackerMedianFlow</span><span class="o">::</span><span class="n">Params</span><span class="p">());</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">trackerMedianFlow</span><span class="p">(){};</span>
+
+ <span class="nl">protected:</span>
+  <span class="kt">bool</span> <span class="nf">initImpl</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="k">const</span> <span class="n">Rect2d</span><span class="o">&amp;</span> <span class="n">boundingBox</span> <span class="p">);</span>
+  <span class="kt">bool</span> <span class="nf">updateImpl</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="n">Rect2d</span><span class="o">&amp;</span> <span class="n">boundingBox</span> <span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackermedianflow-params">
+<h2>TrackerMedianFlow::Params<a class="headerlink" href="#trackermedianflow-params" title="Permalink to this headline">¶</a></h2>
+<dl class="struct">
+<dt id="TrackerMedianFlow::Params">
+<em class="property">struct </em><tt class="descclassname">TrackerMedianFlow::</tt><tt class="descname">Params</tt><a class="headerlink" href="#TrackerMedianFlow::Params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>List of MedianFlow parameters:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">CV_EXPORTS</span> <span class="n">Params</span>
+<span class="p">{</span>
+ <span class="n">Params</span><span class="p">();</span>
+ <span class="kt">int</span> <span class="n">pointsInGrid</span><span class="p">;</span> <span class="c1">//square root of number of keypoints used; increase it to trade</span>
+                   <span class="c1">//accurateness for speed; default value is sensible and recommended</span>
+
+ <span class="kt">void</span> <span class="nf">read</span><span class="p">(</span> <span class="k">const</span> <span class="n">FileNode</span><span class="o">&amp;</span> <span class="n">fn</span> <span class="p">);</span>
+ <span class="kt">void</span> <span class="n">write</span><span class="p">(</span> <span class="n">FileStorage</span><span class="o">&amp;</span> <span class="n">fs</span> <span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackermedianflow-createtracker">
+<h2>TrackerMedianFlow::createTracker<a class="headerlink" href="#trackermedianflow-createtracker" title="Permalink to this headline">¶</a></h2>
+<p>Constructor</p>
+<dl class="function">
+<dt id="Ptr&lt;trackerMedianFlow&gt; TrackerMedianFlow::createTracker(const trackerMedianFlow::Params &amp;parameters)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;trackerMedianFlow&gt; <tt class="descclassname">TrackerMedianFlow::</tt><tt class="descname">createTracker</tt><big>(</big>const trackerMedianFlow::Params&amp; <strong>parameters</strong>=trackerMedianFlow::Params()<big>)</big><a class="headerlink" href="#Ptr<trackerMedianFlow> TrackerMedianFlow::createTracker(const trackerMedianFlow::Params &parameters)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parameters</strong> &#8211; Median Flow parameters <a class="reference internal" href="#TrackerMedianFlow::Params" title="struct TrackerMedianFlow::Params"><tt class="xref ocv ocv-struct docutils literal"><span class="pre">TrackerMedianFlow::Params</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackertld">
+<h2>TrackerTLD<a class="headerlink" href="#trackertld" title="Permalink to this headline">¶</a></h2>
+<p>TLD is a novel tracking framework that explicitly decomposes the long-term tracking task into tracking, learning and detection. The tracker follows the object from frame to frame. The detector localizes all appearances that have been observed so far and corrects the tracker if necessary. The learning estimates detector’s errors and updates it to avoid these errors in the future. The implementation is based on <a class="reference internal" href="#tld" id="id4">[TLD]</a>.</p>
+<p>The Median Flow algorithm (see above) was chosen as a tracking component in this implementation, following authors. Tracker is supposed to be able
+to handle rapid motions, partial occlusions, object absence etc.</p>
+<dl class="class">
+<dt id="TrackerTLD">
+<em class="property">class </em><tt class="descname">TrackerTLD</tt><a class="headerlink" href="#TrackerTLD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Implementation of TrackerTLD from <a class="reference internal" href="common_interfaces_tracker.html#Tracker" title="class Tracker"><tt class="xref ocv ocv-class docutils literal"><span class="pre">Tracker</span></tt></a>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerTLD</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Tracker</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="kt">void</span> <span class="n">read</span><span class="p">(</span> <span class="k">const</span> <span class="n">FileNode</span><span class="o">&amp;</span> <span class="n">fn</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="n">write</span><span class="p">(</span> <span class="n">FileStorage</span><span class="o">&amp;</span> <span class="n">fs</span> <span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">static</span> <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">trackerTLD</span><span class="o">&gt;</span> <span class="n">createTracker</span><span class="p">(</span><span class="k">const</span> <span class="n">trackerTLD</span><span class="o">::</span><span class="n">Params</span> <span class="o">&amp;</span><span class="n">parameters</span><span class="o">=</span><span class="n">trackerTLD</span><span class="o">::</span><span class="n">Params</span><span class="p">());</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">trackerTLD</span><span class="p">(){};</span>
+
+ <span class="nl">protected:</span>
+  <span class="kt">bool</span> <span class="nf">initImpl</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="k">const</span> <span class="n">Rect2d</span><span class="o">&amp;</span> <span class="n">boundingBox</span> <span class="p">);</span>
+  <span class="kt">bool</span> <span class="nf">updateImpl</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="n">Rect2d</span><span class="o">&amp;</span> <span class="n">boundingBox</span> <span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackertld-params">
+<h2>TrackerTLD::Params<a class="headerlink" href="#trackertld-params" title="Permalink to this headline">¶</a></h2>
+<dl class="struct">
+<dt id="TrackerTLD::Params">
+<em class="property">struct </em><tt class="descclassname">TrackerTLD::</tt><tt class="descname">Params</tt><a class="headerlink" href="#TrackerTLD::Params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>List of TLD parameters:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">CV_EXPORTS</span> <span class="n">Params</span>
+<span class="p">{</span>
+ <span class="n">Params</span><span class="p">();</span>
+
+ <span class="kt">void</span> <span class="nf">read</span><span class="p">(</span> <span class="k">const</span> <span class="n">FileNode</span><span class="o">&amp;</span> <span class="n">fn</span> <span class="p">);</span>
+ <span class="kt">void</span> <span class="n">write</span><span class="p">(</span> <span class="n">FileStorage</span><span class="o">&amp;</span> <span class="n">fs</span> <span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackertld-createtracker">
+<h2>TrackerTLD::createTracker<a class="headerlink" href="#trackertld-createtracker" title="Permalink to this headline">¶</a></h2>
+<p>Constructor</p>
+<dl class="function">
+<dt id="Ptr&lt;trackerTLD&gt; TrackerTLD::createTracker(const trackerTLD::Params &amp;parameters)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;trackerTLD&gt; <tt class="descclassname">TrackerTLD::</tt><tt class="descname">createTracker</tt><big>(</big>const trackerTLD::Params&amp; <strong>parameters</strong>=trackerTLD::Params()<big>)</big><a class="headerlink" href="#Ptr<trackerTLD> TrackerTLD::createTracker(const trackerTLD::Params &parameters)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parameters</strong> &#8211; TLD parameters <a class="reference internal" href="#TrackerTLD::Params" title="struct TrackerTLD::Params"><tt class="xref ocv ocv-struct docutils literal"><span class="pre">TrackerTLD::Params</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="common_interfaces_tracker.html" title="Common Interfaces of Tracker"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="uml/TrackerModel.html" title="TrackerModel diagram"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="tracking.html" >tracking. Tracking API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/tracking/doc/tracker_algorithms.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/tracking/doc/tracker_algorithms.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:45 GMT -->
+</html>

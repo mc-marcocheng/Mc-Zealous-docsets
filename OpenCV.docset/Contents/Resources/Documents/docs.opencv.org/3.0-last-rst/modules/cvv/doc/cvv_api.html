@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/cvv/doc/cvv_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:13 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>CVV : the API</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="cvv. GUI for Interactive Visual Debugging of Computer Vision Programs" href="cvv.html" />
+    <link rel="next" title="CVV : the GUI" href="cvv_gui.html" />
+    <link rel="prev" title="cvv. GUI for Interactive Visual Debugging of Computer Vision Programs" href="cvv.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cvv_gui.html" title="CVV : the GUI"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cvv.html" title="cvv. GUI for Interactive Visual Debugging of Computer Vision Programs"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="cvv.html" accesskey="U">cvv. GUI for Interactive Visual Debugging of Computer Vision Programs</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">CVV : the API</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#api-functions">API Functions</a><ul>
+<li><a class="reference internal" href="#showimage">showImage</a></li>
+<li><a class="reference internal" href="#debugfilter">debugFilter</a></li>
+<li><a class="reference internal" href="#debugdmatch">debugDMatch</a></li>
+<li><a class="reference internal" href="#finalshow">finalShow</a></li>
+<li><a class="reference internal" href="#setdebugflag">setDebugFlag</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="cvv.html"
+                        title="previous chapter">cvv. GUI for Interactive Visual Debugging of Computer Vision Programs</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="cvv_gui.html"
+                        title="next chapter">CVV : the GUI</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="cvv-the-api">
+<h1>CVV : the API<a class="headerlink" href="#cvv-the-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Namespace for all functions is <strong>cvv</strong>, i.e. <em>cvv::showImage()</em>.</p>
+<p>Compilation:</p>
+<ul class="simple">
+<li>For development, i.e. for cvv GUI to show up, compile your code using cvv with <em>g++ -DCVVISUAL_DEBUGMODE</em>.</li>
+<li>For release, i.e. cvv calls doing nothing, compile your code without above flag.</li>
+</ul>
+<p>See cvv tutorial for a commented example application using cvv.</p>
+</div>
+<div class="section" id="api-functions">
+<h2>API Functions<a class="headerlink" href="#api-functions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="showimage">
+<h3>showImage<a class="headerlink" href="#showimage" title="Permalink to this headline">¶</a></h3>
+<p>Add a single image to debug GUI (similar to <a class="reference external" href="http://docs.opencv.org/modules/highgui/doc/user_interface.html?highlight=imshow#imshow">imshow</a>).</p>
+<dl class="function">
+<dt id="void showImage(InputArray img, const CallMetaData&amp; metaData, const string&amp; description, const string&amp; view)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">showImage</tt><big>(</big>InputArray <strong>img</strong>, const CallMetaData&amp; <strong>metaData</strong>, const string&amp; <strong>description</strong>, const string&amp; <strong>view</strong><big>)</big><a class="headerlink" href="#void showImage(InputArray img, const CallMetaData& metaData, const string& description, const string& view)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>img</strong> &#8211; Image to show in debug GUI.</li>
+<li><strong>metaData</strong> &#8211; Properly initialized CallMetaData struct, i.e. information about file, line and function name for GUI. Use CVVISUAL_LOCATION macro.</li>
+<li><strong>description</strong> &#8211; Human readable description to provide context to image.</li>
+<li><strong>view</strong> &#8211; Preselect view that will be used to visualize this image in GUI. Other views can still be selected in GUI later on.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="debugfilter">
+<h3>debugFilter<a class="headerlink" href="#debugfilter" title="Permalink to this headline">¶</a></h3>
+<p>Add two images to debug GUI for comparison. Usually the input and output of some filter operation, whose result should be inspected.</p>
+<dl class="function">
+<dt id="void debugFilter(InputArray original, InputArray result, const CallMetaData&amp; metaData, const string&amp; description, const string&amp; view)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">debugFilter</tt><big>(</big>InputArray <strong>original</strong>, InputArray <strong>result</strong>, const CallMetaData&amp; <strong>metaData</strong>, const string&amp; <strong>description</strong>, const string&amp; <strong>view</strong><big>)</big><a class="headerlink" href="#void debugFilter(InputArray original, InputArray result, const CallMetaData& metaData, const string& description, const string& view)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>original</strong> &#8211; First image for comparison, e.g. filter input.</li>
+<li><strong>result</strong> &#8211; Second image for comparison, e.g. filter output.</li>
+<li><strong>metaData</strong> &#8211; See <a class="reference internal" href="#void showImage(InputArray img, const CallMetaData&amp; metaData, const string&amp; description, const string&amp; view)" title="void showImage(InputArray img, const CallMetaData&amp; metaData, const string&amp; description, const string&amp; view)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">showImage()</span></tt></a></li>
+<li><strong>description</strong> &#8211; See <a class="reference internal" href="#void showImage(InputArray img, const CallMetaData&amp; metaData, const string&amp; description, const string&amp; view)" title="void showImage(InputArray img, const CallMetaData&amp; metaData, const string&amp; description, const string&amp; view)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">showImage()</span></tt></a></li>
+<li><strong>view</strong> &#8211; See <a class="reference internal" href="#void showImage(InputArray img, const CallMetaData&amp; metaData, const string&amp; description, const string&amp; view)" title="void showImage(InputArray img, const CallMetaData&amp; metaData, const string&amp; description, const string&amp; view)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">showImage()</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="debugdmatch">
+<h3>debugDMatch<a class="headerlink" href="#debugdmatch" title="Permalink to this headline">¶</a></h3>
+<p>Add a filled in <a class="reference external" href="http://docs.opencv.org/modules/core/doc/basic_structures.html#dmatch">DMatch</a> to debug GUI. The matches can are visualized for interactive inspection in different GUI views (one similar to an interactive <a class="reference external" href="http://docs.opencv.org/modules/features2d/doc/drawing_function_of_keypoints_and_matches.html?highlight=drawmatches#drawmatches">drawMatches</a>).</p>
+<dl class="function">
+<dt id="void debugDMatch(InputArray img1, std::vector&lt;cv::KeyPoint&gt; keypoints1, InputArray img2, std::vector&lt;cv::KeyPoint&gt; keypoints2, std::vector&lt;cv::DMatch&gt; matches, const CallMetaData&amp; metaData, const string&amp; description, const string&amp; view, bool useTrainDescriptor)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">debugDMatch</tt><big>(</big>InputArray <strong>img1</strong>, std::vector&lt;cv::KeyPoint&gt; <strong>keypoints1</strong>, InputArray <strong>img2</strong>, std::vector&lt;cv::KeyPoint&gt; <strong>keypoints2</strong>, std::vector&lt;cv::DMatch&gt; <strong>matches</strong>, const CallMetaData&amp; <strong>metaData</strong>, const string&amp; <strong>description</strong>, const string&amp; <strong>view</strong>, bool <strong>useTrainDescriptor</strong><big>)</big><a class="headerlink" href="#void debugDMatch(InputArray img1, std::vector<cv::KeyPoint> keypoints1, InputArray img2, std::vector<cv::KeyPoint> keypoints2, std::vector<cv::DMatch> matches, const CallMetaData& metaData, const string& description, const string& view, bool useTrainDescriptor)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>img1</strong> &#8211; First image used in <a class="reference external" href="http://docs.opencv.org/modules/core/doc/basic_structures.html#dmatch">DMatch</a>.</li>
+<li><strong>keypoints1</strong> &#8211; Keypoints of first image.</li>
+<li><strong>img2</strong> &#8211; Second image used in DMatch.</li>
+<li><strong>keypoints2</strong> &#8211; Keypoints of second image.</li>
+<li><strong>metaData</strong> &#8211; See <a class="reference internal" href="#void showImage(InputArray img, const CallMetaData&amp; metaData, const string&amp; description, const string&amp; view)" title="void showImage(InputArray img, const CallMetaData&amp; metaData, const string&amp; description, const string&amp; view)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">showImage()</span></tt></a></li>
+<li><strong>description</strong> &#8211; See <a class="reference internal" href="#void showImage(InputArray img, const CallMetaData&amp; metaData, const string&amp; description, const string&amp; view)" title="void showImage(InputArray img, const CallMetaData&amp; metaData, const string&amp; description, const string&amp; view)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">showImage()</span></tt></a></li>
+<li><strong>view</strong> &#8211; See <a class="reference internal" href="#void showImage(InputArray img, const CallMetaData&amp; metaData, const string&amp; description, const string&amp; view)" title="void showImage(InputArray img, const CallMetaData&amp; metaData, const string&amp; description, const string&amp; view)"><tt class="xref ocv ocv-func docutils literal"><span class="pre">showImage()</span></tt></a></li>
+<li><strong>useTrainDescriptor</strong> &#8211; Use <a class="reference external" href="http://docs.opencv.org/modules/core/doc/basic_structures.html#dmatch">DMatch</a>&#8216;s train descriptor index instead of query descriptor index.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="finalshow">
+<h3>finalShow<a class="headerlink" href="#finalshow" title="Permalink to this headline">¶</a></h3>
+<p>This function <strong>must</strong> be called <em>once</em> <em>after</em> all cvv calls if any.
+As an alternative create an instance of FinalShowCaller, which calls finalShow() in its destructor (RAII-style).</p>
+<dl class="function">
+<dt id="void finalShow()">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">finalShow</tt><big>(</big><big>)</big><a class="headerlink" href="#void finalShow()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="setdebugflag">
+<h3>setDebugFlag<a class="headerlink" href="#setdebugflag" title="Permalink to this headline">¶</a></h3>
+<p>Enable or disable cvv for current translation unit and thread (disabled this way has higher - but still low - overhead compared to using the compile flags).</p>
+<dl class="function">
+<dt id="void setDebugFlag(bool active)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">setDebugFlag</tt><big>(</big>bool <strong>active</strong><big>)</big><a class="headerlink" href="#void setDebugFlag(bool active)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>active</strong> &#8211; See above</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cvv_gui.html" title="CVV : the GUI"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cvv.html" title="cvv. GUI for Interactive Visual Debugging of Computer Vision Programs"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="cvv.html" >cvv. GUI for Interactive Visual Debugging of Computer Vision Programs</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/cvv/doc/cvv_api.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/cvv/doc/cvv_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:13 GMT -->
+</html>

@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>VectorSizeHint — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="vectorsizehint">
+<h1>VectorSizeHint<a class="headerlink" href="#vectorsizehint" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.feature.VectorSizeHint"><a name="//apple_ref/cpp/Class/pyspark.ml.feature.VectorSizeHint"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.feature.</code><code class="sig-name descname">VectorSizeHint</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">handleInvalid</span><span class="o">=</span><span class="default_value">'error'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#VectorSizeHint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint" title="Permalink to this definition">¶</a></dt>
+<dd><p>A feature transformer that adds size information to the metadata of a vector column.
+VectorAssembler needs size information for its input columns and cannot be used on streaming
+dataframes without this metadata.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>VectorSizeHint modifies <cite>inputCol</cite> to include size metadata and does not have an
+outputCol.</p>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span><span class="p">,</span> <span class="n">PipelineModel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">]),</span> <span class="mf">4.</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="s2">"vector"</span><span class="p">,</span> <span class="s2">"float"</span><span class="p">])</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sizeHint</span> <span class="o">=</span> <span class="n">VectorSizeHint</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="s2">"vector"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">handleInvalid</span><span class="o">=</span><span class="s2">"skip"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vecAssembler</span> <span class="o">=</span> <span class="n">VectorAssembler</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="p">[</span><span class="s2">"vector"</span><span class="p">,</span> <span class="s2">"float"</span><span class="p">],</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">"assembled"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">sizeHint</span><span class="p">,</span> <span class="n">vecAssembler</span><span class="p">])</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineModel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">assembled</span>
+<span class="go">DenseVector([1.0, 2.0, 3.0, 4.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vectorSizeHintPath</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/vector-size-hint-pipeline"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineModel</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">vectorSizeHintPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedPipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">vectorSizeHintPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loaded</span> <span class="o">=</span> <span class="n">loadedPipeline</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">assembled</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">expected</span> <span class="o">=</span> <span class="n">pipelineModel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">assembled</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loaded</span> <span class="o">==</span> <span class="n">expected</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.clear"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.clear"></a>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears a param from the param map if it has been explicitly set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.copy"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.copy"></a>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a copy of this instance with the same uid and some
+extra params. This implementation first calls Params.copy and
+then make a copy of the companion Java pipeline component with
+extra params. So both the Python wrapper and the Java pipeline
+component get copied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Copy of this instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.explainParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.explainParam"></a>
+<code class="sig-name descname">explainParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.explainParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explains a single param and returns its name, doc, and optional
+default value and user-supplied value in a string.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.explainParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.explainParams"></a>
+<code class="sig-name descname">explainParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.explainParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the documentation of all params with their optionally
+default values and user-supplied values.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.extractParamMap"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.extractParamMap"></a>
+<code class="sig-name descname">extractParamMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the embedded default param values and user-supplied
+values, and then merges them with extra values from input into
+a flat param map, where the latter value is used if there exist
+conflicts, i.e., with ordering: default param values &lt;
+user-supplied values &lt; extra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>merged param map</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.getHandleInvalid"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.getHandleInvalid"></a>
+<code class="sig-name descname">getHandleInvalid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.getHandleInvalid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of handleInvalid or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.getInputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.getInputCol"></a>
+<code class="sig-name descname">getInputCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.getInputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of inputCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.getOrDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.getOrDefault"></a>
+<code class="sig-name descname">getOrDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a param in the user-supplied param map or its
+default value. Raises an error if neither is set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.getParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.getParam"></a>
+<code class="sig-name descname">getParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.getParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a param by its name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.getSize"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.getSize"></a>
+<code class="sig-name descname">getSize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#VectorSizeHint.getSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.getSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets size param, the size of vectors in <cite>inputCol</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.hasDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.hasDefault"></a>
+<code class="sig-name descname">hasDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.hasDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param has a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.hasParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.hasParam"></a>
+<code class="sig-name descname">hasParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.hasParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether this instance contains a param with a given
+(string) name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.isDefined"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.isDefined"></a>
+<code class="sig-name descname">isDefined</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.isDefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user or has
+a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.isSet"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.isSet"></a>
+<code class="sig-name descname">isSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.isSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.load"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.load"></a>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.read"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.read"></a>
+<em class="property">classmethod </em><code class="sig-name descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLReader instance for this class.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.save"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.save"></a>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.set"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.set"></a>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.setHandleInvalid"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.setHandleInvalid"></a>
+<code class="sig-name descname">setHandleInvalid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#VectorSizeHint.setHandleInvalid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.setHandleInvalid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.VectorSizeHint.handleInvalid" title="pyspark.ml.feature.VectorSizeHint.handleInvalid"><code class="xref py py-attr docutils literal notranslate"><span class="pre">handleInvalid</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.setInputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.setInputCol"></a>
+<code class="sig-name descname">setInputCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#VectorSizeHint.setInputCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.setInputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.VectorSizeHint.inputCol" title="pyspark.ml.feature.VectorSizeHint.inputCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inputCol</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.setParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.setParams"></a>
+<code class="sig-name descname">setParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">inputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">handleInvalid</span><span class="o">=</span><span class="default_value">'error'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#VectorSizeHint.setParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets params for this VectorSizeHint.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.setSize"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.setSize"></a>
+<code class="sig-name descname">setSize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#VectorSizeHint.setSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.setSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets size param, the size of vectors in <cite>inputCol</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.transform"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.transform"></a>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms the input dataset with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded params.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed dataset</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.VectorSizeHint.write"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.VectorSizeHint.write"></a>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLWriter instance for this ML instance.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.VectorSizeHint.handleInvalid"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.VectorSizeHint.handleInvalid"></a>
+<code class="sig-name descname">handleInvalid</code><em class="property"> = Param(parent='undefined', name='handleInvalid', doc='How to handle invalid vectors in inputCol. Invalid vectors include nulls and vectors with the wrong size. The options are `skip` (filter out rows with invalid vectors), `error` (throw an error) and `optimistic` (do not check the vector size, and keep all rows). `error` by default.')</em><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.handleInvalid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.VectorSizeHint.inputCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.VectorSizeHint.inputCol"></a>
+<code class="sig-name descname">inputCol</code><em class="property"> = Param(parent='undefined', name='inputCol', doc='input column name.')</em><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.inputCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.VectorSizeHint.params"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.VectorSizeHint.params"></a>
+<code class="sig-name descname">params</code><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all params ordered by name. The default implementation
+uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.VectorSizeHint.size"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.VectorSizeHint.size"></a>
+<code class="sig-name descname">size</code><em class="property"> = Param(parent='undefined', name='size', doc='Size of vectors in column.')</em><a class="headerlink" href="#pyspark.ml.feature.VectorSizeHint.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

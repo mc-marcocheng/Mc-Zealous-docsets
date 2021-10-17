@@ -1,0 +1,33 @@
+pyspark.resource.ResourceProfileBuilder
+=======================================
+
+.. currentmodule:: pyspark.resource
+
+.. autoclass:: ResourceProfileBuilder
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ResourceProfileBuilder.__init__
+      ~ResourceProfileBuilder.clearExecutorResourceRequests
+      ~ResourceProfileBuilder.clearTaskResourceRequests
+      ~ResourceProfileBuilder.require
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ResourceProfileBuilder.build
+      ~ResourceProfileBuilder.executorResources
+      ~ResourceProfileBuilder.taskResources
+   
+   

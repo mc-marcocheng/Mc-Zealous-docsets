@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>SQLTransformer — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="sqltransformer">
+<h1>SQLTransformer<a class="headerlink" href="#sqltransformer" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.feature.SQLTransformer"><a name="//apple_ref/cpp/Class/pyspark.ml.feature.SQLTransformer"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.feature.</code><code class="sig-name descname">SQLTransformer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">statement</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#SQLTransformer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the transforms which are defined by SQL statement.
+Currently we only support SQL syntax like ‘SELECT … FROM __THIS__’
+where ‘__THIS__’ represents the underlying table of the input dataset.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)],</span> <span class="p">[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"v1"</span><span class="p">,</span> <span class="s2">"v2"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sqlTrans</span> <span class="o">=</span> <span class="n">SQLTransformer</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">statement</span><span class="o">=</span><span class="s2">"SELECT *, (v1 + v2) AS v3, (v1 * v2) AS v4 FROM __THIS__"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sqlTrans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="go">Row(id=0, v1=1.0, v2=3.0, v3=4.0, v4=3.0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sqlTransformerPath</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/sql-transformer"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sqlTrans</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">sqlTransformerPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedSqlTrans</span> <span class="o">=</span> <span class="n">SQLTransformer</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">sqlTransformerPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedSqlTrans</span><span class="o">.</span><span class="n">getStatement</span><span class="p">()</span> <span class="o">==</span> <span class="n">sqlTrans</span><span class="o">.</span><span class="n">getStatement</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.clear"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.clear"></a>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears a param from the param map if it has been explicitly set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.copy"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.copy"></a>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a copy of this instance with the same uid and some
+extra params. This implementation first calls Params.copy and
+then make a copy of the companion Java pipeline component with
+extra params. So both the Python wrapper and the Java pipeline
+component get copied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Copy of this instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.explainParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.explainParam"></a>
+<code class="sig-name descname">explainParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.explainParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explains a single param and returns its name, doc, and optional
+default value and user-supplied value in a string.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.explainParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.explainParams"></a>
+<code class="sig-name descname">explainParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.explainParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the documentation of all params with their optionally
+default values and user-supplied values.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.extractParamMap"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.extractParamMap"></a>
+<code class="sig-name descname">extractParamMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the embedded default param values and user-supplied
+values, and then merges them with extra values from input into
+a flat param map, where the latter value is used if there exist
+conflicts, i.e., with ordering: default param values &lt;
+user-supplied values &lt; extra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>merged param map</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.getOrDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.getOrDefault"></a>
+<code class="sig-name descname">getOrDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a param in the user-supplied param map or its
+default value. Raises an error if neither is set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.getParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.getParam"></a>
+<code class="sig-name descname">getParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.getParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a param by its name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.getStatement"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.getStatement"></a>
+<code class="sig-name descname">getStatement</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#SQLTransformer.getStatement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.getStatement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of statement or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.hasDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.hasDefault"></a>
+<code class="sig-name descname">hasDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.hasDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param has a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.hasParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.hasParam"></a>
+<code class="sig-name descname">hasParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.hasParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether this instance contains a param with a given
+(string) name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.isDefined"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.isDefined"></a>
+<code class="sig-name descname">isDefined</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.isDefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user or has
+a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.isSet"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.isSet"></a>
+<code class="sig-name descname">isSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.isSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.load"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.load"></a>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.read"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.read"></a>
+<em class="property">classmethod </em><code class="sig-name descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLReader instance for this class.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.save"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.save"></a>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.set"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.set"></a>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.setParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.setParams"></a>
+<code class="sig-name descname">setParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">statement</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#SQLTransformer.setParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets params for this SQLTransformer.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.setStatement"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.setStatement"></a>
+<code class="sig-name descname">setStatement</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#SQLTransformer.setStatement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.setStatement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.SQLTransformer.statement" title="pyspark.ml.feature.SQLTransformer.statement"><code class="xref py py-attr docutils literal notranslate"><span class="pre">statement</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.transform"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.transform"></a>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms the input dataset with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded params.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed dataset</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.SQLTransformer.write"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.SQLTransformer.write"></a>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLWriter instance for this ML instance.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.SQLTransformer.params"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.SQLTransformer.params"></a>
+<code class="sig-name descname">params</code><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all params ordered by name. The default implementation
+uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.SQLTransformer.statement"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.SQLTransformer.statement"></a>
+<code class="sig-name descname">statement</code><em class="property"> = Param(parent='undefined', name='statement', doc='SQL statement')</em><a class="headerlink" href="#pyspark.ml.feature.SQLTransformer.statement" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

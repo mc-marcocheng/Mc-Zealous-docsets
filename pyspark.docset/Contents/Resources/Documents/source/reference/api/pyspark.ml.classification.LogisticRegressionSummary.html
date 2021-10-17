@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>LogisticRegressionSummary — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="logisticregressionsummary">
+<h1>LogisticRegressionSummary<a class="headerlink" href="#logisticregressionsummary" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary"><a name="//apple_ref/cpp/Class/pyspark.ml.classification.LogisticRegressionSummary"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.classification.</code><code class="sig-name descname">LogisticRegressionSummary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">java_obj</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/classification.html#LogisticRegressionSummary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstraction for Logistic Regression Results for a given model.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.fMeasureByLabel"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.LogisticRegressionSummary.fMeasureByLabel"></a>
+<code class="sig-name descname">fMeasureByLabel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">beta</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/classification.html#LogisticRegressionSummary.fMeasureByLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.fMeasureByLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns f-measure for each label (category).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.weightedFMeasure"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.LogisticRegressionSummary.weightedFMeasure"></a>
+<code class="sig-name descname">weightedFMeasure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">beta</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/classification.html#LogisticRegressionSummary.weightedFMeasure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.weightedFMeasure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted averaged f-measure.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.accuracy"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.LogisticRegressionSummary.accuracy"></a>
+<code class="sig-name descname">accuracy</code><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.accuracy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns accuracy.
+(equals to the total number of correctly classified instances
+out of the total number of instances.)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.falsePositiveRateByLabel"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.LogisticRegressionSummary.falsePositiveRateByLabel"></a>
+<code class="sig-name descname">falsePositiveRateByLabel</code><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.falsePositiveRateByLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns false positive rate for each label (category).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.featuresCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.LogisticRegressionSummary.featuresCol"></a>
+<code class="sig-name descname">featuresCol</code><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.featuresCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field in “predictions” which gives the features of each instance
+as a vector.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.labelCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.LogisticRegressionSummary.labelCol"></a>
+<code class="sig-name descname">labelCol</code><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.labelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field in “predictions” which gives the true label of each
+instance.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.labels"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.LogisticRegressionSummary.labels"></a>
+<code class="sig-name descname">labels</code><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the sequence of labels in ascending order. This order matches the order used
+in metrics which are specified as arrays over labels, e.g., truePositiveRateByLabel.</p>
+<p>Note: In most cases, it will be values {0.0, 1.0, …, numClasses-1}, However, if the
+training set is missing a label, then all of the arrays over labels
+(e.g., from truePositiveRateByLabel) will be of length numClasses-1 instead of the
+expected numClasses.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.precisionByLabel"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.LogisticRegressionSummary.precisionByLabel"></a>
+<code class="sig-name descname">precisionByLabel</code><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.precisionByLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns precision for each label (category).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.predictionCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.LogisticRegressionSummary.predictionCol"></a>
+<code class="sig-name descname">predictionCol</code><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.predictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field in “predictions” which gives the prediction of each class.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.predictions"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.LogisticRegressionSummary.predictions"></a>
+<code class="sig-name descname">predictions</code><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.predictions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dataframe outputted by the model’s <cite>transform</cite> method.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.probabilityCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.LogisticRegressionSummary.probabilityCol"></a>
+<code class="sig-name descname">probabilityCol</code><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.probabilityCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field in “predictions” which gives the probability
+of each class as a vector.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.recallByLabel"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.LogisticRegressionSummary.recallByLabel"></a>
+<code class="sig-name descname">recallByLabel</code><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.recallByLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns recall for each label (category).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.truePositiveRateByLabel"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.LogisticRegressionSummary.truePositiveRateByLabel"></a>
+<code class="sig-name descname">truePositiveRateByLabel</code><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.truePositiveRateByLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true positive rate for each label (category).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.weightedFalsePositiveRate"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.LogisticRegressionSummary.weightedFalsePositiveRate"></a>
+<code class="sig-name descname">weightedFalsePositiveRate</code><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.weightedFalsePositiveRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted false positive rate.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.weightedPrecision"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.LogisticRegressionSummary.weightedPrecision"></a>
+<code class="sig-name descname">weightedPrecision</code><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.weightedPrecision" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted averaged precision.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.weightedRecall"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.LogisticRegressionSummary.weightedRecall"></a>
+<code class="sig-name descname">weightedRecall</code><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.weightedRecall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted averaged recall.
+(equals to precision, recall and f-measure)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.LogisticRegressionSummary.weightedTruePositiveRate"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.LogisticRegressionSummary.weightedTruePositiveRate"></a>
+<code class="sig-name descname">weightedTruePositiveRate</code><a class="headerlink" href="#pyspark.ml.classification.LogisticRegressionSummary.weightedTruePositiveRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted true positive rate.
+(equals to precision, recall and f-measure)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

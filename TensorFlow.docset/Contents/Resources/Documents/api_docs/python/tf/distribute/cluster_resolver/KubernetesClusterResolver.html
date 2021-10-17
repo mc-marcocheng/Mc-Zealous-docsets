@@ -1,0 +1,500 @@
+<!DOCTYPE html><html dir="ltr" lang="en"><head>
+<meta content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com" name="google-signin-client-id"/>
+<meta content="profile email" name="google-signin-scope"/>
+<meta content="TensorFlow" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="#ff6f00" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link crossorigin="use-credentials" href="_pwa/tensorflow/manifest.json" rel="manifest"/>
+<link crossorigin="" href="/www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.googleapis.com" rel="preconnect"/>
+<link href="../../../../../main.css" rel="stylesheet"/>
+
+<noscript>
+
+</noscript>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/favicon.png" rel="shortcut icon"/>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/apple-touch-icon-180x180.png" rel="apple-touch-icon"/><link href="https://www.tensorflow.org/api_docs/python/tf/distribute/cluster_resolver/KubernetesClusterResolver" rel="canonical"/><link href="https://www.tensorflow.org/s/opensearch.xml" rel="search" title="TensorFlow" type="application/opensearchdescription+xml"/>
+<title>tf.distribute.cluster_resolver.KubernetesClusterResolver</title>
+<meta content="tf.distribute.cluster_resolver.KubernetesClusterResolver" property="og:title"/>
+<meta content="https://www.tensorflow.org/api_docs/python/tf/distribute/cluster_resolver/KubernetesClusterResolver" property="og:url"/>
+<meta content="en" property="og:locale"/>
+
+</head>
+<body class="" layout="docs" pending="" theme="tensorflow-theme" type="reference">
+<devsite-progress id="app-progress" type="indeterminate"></devsite-progress>
+<section class="devsite-wrapper"> <devsite-book-nav scrollbars="">
+
+</devsite-book-nav>
+<section id="gc-wrapper">
+<main class="devsite-main-content" has-book-nav="" has-toc="" role="main">
+<devsite-toc class="devsite-nav"></devsite-toc>
+<devsite-content>
+<article class="devsite-article">
+<article class="devsite-article-inner"><style>
+        /* Styles inlined from /site-assets/css/style.css */
+/* override theme */
+table img {
+  max-width: 100%;
+}
+
+/* override var element to differentiate color from comment */
+var, var code, var span, .prettyprint var span {
+  color: #039be5;
+}
+
+/* .devsite-terminal virtualenv prompt */
+.tfo-terminal-venv::before {
+  content: "(venv) $ " !important;
+}
+
+/* .devsite-terminal root prompt */
+.tfo-terminal-root::before {
+  content: "# " !important;
+}
+
+/* .devsite-terminal Windows prompt */
+.tfo-terminal-windows::before {
+  content: "C:\\> " !important;
+}
+
+/* .devsite-terminal Windows prompt w/ virtualenv */
+.tfo-terminal-windows-venv::before {
+  content: "(venv) C:\\> " !important;
+}
+
+.tfo-diff-green-one-level + * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green + * > * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green-list + ul > li:first-of-type {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-red-one-level + * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red + * > * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red-list + ul > li:first-of-type {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+devsite-code .tfo-notebook-code-cell-output {
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(255, 247, 237, 1);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(255, 247, 237, .7);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output {
+  background: rgba(64, 78, 103, 1);  /* medium slate */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(64, 78, 103, .7);  /* medium slate */
+}
+
+/* override default table styles for notebook buttons */
+.devsite-table-wrapper .tfo-notebook-buttons {
+  display: inline-block;
+  margin-left: 3px;
+  width: auto;
+}
+
+.tfo-notebook-buttons td {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.tfo-notebook-buttons a,
+.tfo-notebook-buttons :link,
+.tfo-notebook-buttons :visited {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  color: #202124;
+  padding: 12px 24px;
+  transition: box-shadow 0.2s;
+}
+
+.tfo-notebook-buttons a:hover,
+.tfo-notebook-buttons a:focus {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.tfo-notebook-buttons tr {
+  background: 0;
+  border: 0;
+}
+
+/* on rendered notebook page,
+   remove link to webpage since we're already here */
+.tfo-notebook-buttons:not(.tfo-api) td:first-child {
+  display: none;
+}
+
+.tfo-notebook-buttons td > a {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tfo-notebook-buttons td > a > img {
+  margin-right: 8px;
+}
+
+/* landing pages */
+
+.tfo-landing-row-item-inset-white {
+  background-color: #fff;
+  padding: 32px;
+}
+
+.tfo-landing-row-item-inset-white ol,
+.tfo-landing-row-item-inset-white ul {
+  padding-left: 20px;
+}
+
+/* colab callout button */
+.colab-callout-row devsite-code {
+  border-radius: 8px 8px 0 0;
+  box-shadow: none;
+}
+
+.colab-callout-footer {
+  background: #e3e4e7;
+  border-radius: 0 0 8px 8px;
+  color: #37474f;
+  padding: 20px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer {
+  background: #3f4f66;
+}
+
+
+.colab-callout-footer > .button {
+  margin-top: 4px;
+  color: #ff5c00;
+}
+
+.colab-callout-footer > a > span {
+  padding-top: 10px;
+  vertical-align: middle;
+  color: #37474f;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer > a > span {
+  color: #fff;
+}
+
+a.colab-button {
+  background: rgba(255, 255, 255, .75);
+  border: solid 1px rgba(0, 0, 0, .08);
+  border-bottom-color: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  color: #aaa;
+  display: inline-block;
+  font-size: 11px !important;
+  font-weight: 300;
+  line-height: 16px;
+  padding: 4px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.colab-button:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, .2);
+  color: #666;
+}
+
+a.colab-button span {
+  background: url(/images/colab_logo_button.svg) no-repeat 1px 1px / 20px;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 24px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .tfo-notebook-buttons td {
+    display: block;
+  }
+}
+
+/* guide and tutorials landing page cards and sections */
+
+.tfo-landing-page-card {
+  padding: 16px;
+  box-shadow: 0 0 36px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+/* Page section headings */
+.tfo-landing-page-heading h2, h2.tfo-landing-page-heading {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+/* Item title headings */
+.tfo-landing-page-heading h3, h3.tfo-landing-page-heading,
+.tfo-landing-page-card h3, h3.tfo-landing-page-card {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* List of tutorials notebooks for subsites */
+.tfo-landing-page-resources-ul {
+  padding-left: 15px
+}
+
+.tfo-landing-page-resources-ul > li {
+  margin: 6px 0;
+}
+
+/* Temporary fix to hide product description in header on landing pages */
+devsite-header .devsite-product-description {
+  display: none;
+}
+
+        </style> <div class="devsite-banner devsite-banner-announcement">
+<div class="devsite-banner-message">
+<div class="devsite-banner-message-text">
+            Missed TensorFlow Dev Summit? Check out the video playlist. <a class="button button-primary button-tfo-announcement" href="https://goo.gle/TFDS20AllSessions">Watch recordings</a>
+</div>
+</div>
+</div>
+<div class="devsite-article-meta">
+<ul class="devsite-breadcrumb-list">
+<li class="devsite-breadcrumb-item">
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="1" href="">
+            TensorFlow
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="2" href="api">
+            API
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="3" href="api_docs">
+            TensorFlow Core v2.1.0
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="4" href="api_docs/python/tf">
+            Python
+      
+  </a>
+</li>
+</ul>
+<devsite-page-rating hover-rating-star="0" position="header" selected-rating="0">
+</devsite-page-rating>
+</div>
+<a class="dashingAutolink" name="autolink-1274"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/tf.distribute.cluster_resolver.KubernetesClusterResolver"></a><h1 class="dash-class">tf.distribute.cluster_resolver.KubernetesClusterResolver</h1>
+<devsite-toc class="devsite-nav" devsite-toc-embedded="">
+</devsite-toc>
+<div class="devsite-article-body clearfix">
+<p></p>
+<!-- DO NOT EDIT! Automatically generated file. -->
+<div itemscope="" itemtype="http://developers.google.com/ReferenceObject">
+<meta content="tf.distribute.cluster_resolver.KubernetesClusterResolver" itemprop="name"/>
+<meta content="Stable" itemprop="path"/>
+<meta content="__init__" itemprop="property"/>
+<meta content="cluster_spec" itemprop="property"/>
+<meta content="master" itemprop="property"/>
+<meta content="num_accelerators" itemprop="property"/>
+</div>
+<!-- Insert buttons and diff -->
+<table align="left" class="tfo-notebook-buttons tfo-api">
+<tbody><tr><td>
+<a href="versions/r1.15/api_docs/python/tf/distribute/cluster_resolver/KubernetesClusterResolver" target="_blank">
+<img src="https://www.tensorflow.org/images/tf_logo_32px.png"/>
+  TensorFlow 1 version</a>
+</td>
+<td>
+<a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/distribute/cluster_resolver/kubernetes_cluster_resolver.py#L35-L158" target="_blank">
+<img src="https://www.tensorflow.org/images/GitHub-Mark-32px.png"/>
+    View source on GitHub
+  </a>
+</td></tr></tbody></table>
+<p>ClusterResolver for Kubernetes.</p>
+<p>Inherits From: <a href="https://www.tensorflow.org/api_docs/python/tf/distribute/cluster_resolver/ClusterResolver"><code dir="ltr" translate="no">ClusterResolver</code></a></p>
+<section class="expandable">
+<h4 class="showalways">View aliases</h4>
+<p>
+<b>Compat aliases for migration</b>
+</p><p>See
+<a href="https://www.tensorflow.org/guide/migrate">Migration guide</a> for
+more details.</p>
+<p><a href="api_docs/python/tf/distribute/cluster_resolver/KubernetesClusterResolver"><code dir="ltr" translate="no">tf.compat.v1.distribute.cluster_resolver.KubernetesClusterResolver</code></a></p>
+</section>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">tf.distribute.cluster_resolver.KubernetesClusterResolver(
+    job_to_label_mapping=None, tf_server_port=8470, rpc_layer=&#39;grpc&#39;,
+    override_client=None
+)
+</code></pre>
+<!-- Placeholder for "Used in" -->
+<p>This is an implementation of cluster resolvers for Kubernetes. When given the
+the Kubernetes namespace and label selector for pods, we will retrieve the
+pod IP addresses of all running pods matching the selector, and return a
+ClusterSpec based on that information.</p>
+<h4 id="args">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">job_to_label_mapping</code></b>: A mapping of TensorFlow jobs to label selectors.
+This allows users to specify many TensorFlow jobs in one Cluster
+Resolver, and each job can have pods belong with different label
+selectors. For example, a sample mapping might be</li>
+</ul>
+<blockquote>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">{&#39;worker&#39;: [&#39;job-name=worker-cluster-a&#39;, &#39;job-name=worker-cluster-b&#39;],
+ &#39;ps&#39;: [&#39;job-name=ps-1&#39;, &#39;job-name=ps-2&#39;]}
+</code></pre></blockquote>
+<ul>
+<li><b><code dir="ltr" translate="no">tf_server_port</code></b>: The port the TensorFlow server is listening on.</li>
+<li><b><code dir="ltr" translate="no">rpc_layer</code></b>: (Optional) The RPC layer TensorFlow should use to communicate
+between tasks in Kubernetes. Defaults to &#39;grpc&#39;.</li>
+<li><b><code dir="ltr" translate="no">override_client</code></b>: The Kubernetes client (usually automatically retrieved
+using <code dir="ltr" translate="no">from kubernetes import client as k8sclient</code>). If you pass this
+in, you are responsible for setting Kubernetes credentials manually.</li>
+</ul>
+<h4 id="attributes">Attributes:</h4>
+<ul>
+<li><p><b><code dir="ltr" translate="no">environment</code></b>:   Returns the current environment which TensorFlow is running in.</p>
+<p>There are two possible return values, &#34;google&#34; (when TensorFlow is running
+in a Google-internal environment) or an empty string (when TensorFlow is
+running elsewhere).</p>
+<p>If you are implementing a ClusterResolver that works in both the Google
+environment and the open-source world (for instance, a TPU ClusterResolver
+or similar), you will have to return the appropriate string depending on the
+environment, which you will have to detect.</p>
+<p>Otherwise, if you are implementing a ClusterResolver that will only work
+in open-source TensorFlow, you do not need to implement this property.</p></li>
+</ul>
+<h4 id="raises">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">ImportError</code></b>: If the Kubernetes Python client is not installed and no
+<code dir="ltr" translate="no">override_client</code> is passed in.</li>
+<li><b><code dir="ltr" translate="no">RuntimeError</code></b>: If autoresolve_task is not a boolean or a callable.</li>
+</ul>
+<h2 id="methods">Methods</h2>
+<h3 id="cluster_spec"><code dir="ltr" translate="no">cluster_spec</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/distribute/cluster_resolver/kubernetes_cluster_resolver.py#L122-L158" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">cluster_spec()
+</code></pre>
+<p>Returns a ClusterSpec object based on the latest info from Kubernetes.</p>
+<p>We retrieve the information from the Kubernetes master every time this
+method is called.</p>
+<h4 id="returns">Returns:</h4>
+<p>A ClusterSpec containing host information returned from Kubernetes.</p>
+<h4 id="raises_2">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">RuntimeError</code></b>: If any of the pods returned by the master is not in the
+<code dir="ltr" translate="no">Running</code> phase.</li>
+</ul>
+<h3 id="master"><code dir="ltr" translate="no">master</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/distribute/cluster_resolver/kubernetes_cluster_resolver.py#L96-L120" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">master(
+    task_type=None, task_id=None, rpc_layer=None
+)
+</code></pre>
+<p>Returns the master address to use when creating a session.</p>
+<p>You must have set the task_type and task_id object properties before
+calling this function, or pass in the <code dir="ltr" translate="no">task_type</code> and <code dir="ltr" translate="no">task_id</code>
+parameters when using this function. If you do both, the function parameters
+will override the object properties.</p>
+<h4 id="args_2">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">task_type</code></b>: (Optional) The type of the TensorFlow task of the master.</li>
+<li><b><code dir="ltr" translate="no">task_id</code></b>: (Optional) The index of the TensorFlow task of the master.</li>
+<li><b><code dir="ltr" translate="no">rpc_layer</code></b>: (Optional) The RPC protocol for the given cluster.</li>
+</ul>
+<h4 id="returns_2">Returns:</h4>
+<p>The name or URL of the session master.</p>
+<h3 id="num_accelerators"><code dir="ltr" translate="no">num_accelerators</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/distribute/cluster_resolver/cluster_resolver.py#L118-L153" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">num_accelerators(
+    task_type=None, task_id=None, config_proto=None
+)
+</code></pre>
+<p>Returns the number of accelerator cores per worker.</p>
+<p>This returns the number of accelerator cores (such as GPUs and TPUs)
+available per worker.</p>
+<p>Optionally, we allow callers to specify the task_type, and task_id, for
+if they want to target a specific TensorFlow process to query
+the number of accelerators. This is to support heterogenous environments,
+where the number of accelerators cores per host is different.</p>
+<h4 id="args_3">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">task_type</code></b>: (Optional) The type of the TensorFlow task of the machine we
+want to query.</li>
+<li><b><code dir="ltr" translate="no">task_id</code></b>: (Optional) The index of the TensorFlow task of the machine we
+want to query.</li>
+<li><b><code dir="ltr" translate="no">config_proto</code></b>: (Optional) Configuration for starting a new session to
+query how many accelerator cores it has.</li>
+</ul>
+<h4 id="returns_3">Returns:</h4>
+<p>A map of accelerator types to number of cores.</p>
+</div>
+<devsite-page-rating hover-rating-star="0" position="footer" selected-rating="0">
+</devsite-page-rating>
+</article>
+</article>
+
+</devsite-content>
+</main>
+<devsite-footer-promos class="devsite-footer">
+</devsite-footer-promos>
+<devsite-footer-linkboxes class="devsite-footer">
+
+</devsite-footer-linkboxes>
+<devsite-footer-utility class="devsite-footer">
+<div class="devsite-footer-utility nocontent">
+
+</div>
+</devsite-footer-utility>
+</section></section>
+<devsite-sitemask></devsite-sitemask>
+<devsite-snackbar></devsite-snackbar> <devsite-tooltip></devsite-tooltip>
+<devsite-heading-link></devsite-heading-link>
+<devsite-analytics>
+
+
+</devsite-analytics>
+ 
+</body></html>

@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Vectors — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="vectors">
+<h1>Vectors<a class="headerlink" href="#vectors" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.linalg.Vectors"><a name="//apple_ref/cpp/Class/pyspark.mllib.linalg.Vectors"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.linalg.</code><code class="sig-name descname">Vectors</code><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg.html#Vectors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.Vectors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Factory methods for working with vectors.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Dense vectors are simply represented as NumPy array objects,
+so there is no need to covert them for use in MLlib. For sparse vectors,
+the factory methods in this class create an MLlib-compatible type, or users
+can pass in SciPy’s <cite>scipy.sparse</cite> column vectors.</p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.Vectors.dense"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.Vectors.dense"></a>
+<em class="property">static </em><code class="sig-name descname">dense</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">elements</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg.html#Vectors.dense"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.Vectors.dense" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a dense vector of 64-bit floats from a Python list or numbers.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="go">DenseVector([1.0, 2.0, 3.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+<span class="go">DenseVector([1.0, 2.0])</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.Vectors.fromML"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.Vectors.fromML"></a>
+<em class="property">static </em><code class="sig-name descname">fromML</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vec</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg.html#Vectors.fromML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.Vectors.fromML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a vector from the new mllib-local representation.
+This does NOT copy the data; it copies references.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vec</strong> – a <a class="reference internal" href="pyspark.ml.linalg.Vector.html#pyspark.ml.linalg.Vector" title="pyspark.ml.linalg.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.linalg.Vector</span></code></a></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a <a class="reference internal" href="pyspark.mllib.linalg.Vector.html#pyspark.mllib.linalg.Vector" title="pyspark.mllib.linalg.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.mllib.linalg.Vector</span></code></a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.Vectors.norm"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.Vectors.norm"></a>
+<em class="property">static </em><code class="sig-name descname">norm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vector</span></em>, <em class="sig-param"><span class="n">p</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg.html#Vectors.norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.Vectors.norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find norm of the given vector.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.Vectors.parse"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.Vectors.parse"></a>
+<em class="property">static </em><code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg.html#Vectors.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.Vectors.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a string representation back into the Vector.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Vectors</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">'[2,1,2 ]'</span><span class="p">)</span>
+<span class="go">DenseVector([2.0, 1.0, 2.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Vectors</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">' ( 100,  [0],  [2])'</span><span class="p">)</span>
+<span class="go">SparseVector(100, {0: 2.0})</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.Vectors.sparse"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.Vectors.sparse"></a>
+<em class="property">static </em><code class="sig-name descname">sparse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg.html#Vectors.sparse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.Vectors.sparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a sparse vector, using either a dictionary, a list of
+(index, value) pairs, or two separate arrays of indices and
+values (sorted by index).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size</strong> – Size of the vector.</p></li>
+<li><p><strong>args</strong> – Non-zero entries, as a dictionary, list of tuples,
+or two sorted lists containing indices and values.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Vectors</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mf">5.5</span><span class="p">})</span>
+<span class="go">SparseVector(4, {1: 1.0, 3: 5.5})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Vectors</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">)])</span>
+<span class="go">SparseVector(4, {1: 1.0, 3: 5.5})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Vectors</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">])</span>
+<span class="go">SparseVector(4, {1: 1.0, 3: 5.5})</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.Vectors.squared_distance"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.Vectors.squared_distance"></a>
+<em class="property">static </em><code class="sig-name descname">squared_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg.html#Vectors.squared_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.Vectors.squared_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Squared distance between two vectors.
+a and b can be of type SparseVector, DenseVector, np.ndarray
+or array.array.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">squared_distance</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">51.0</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.Vectors.stringify"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.Vectors.stringify"></a>
+<em class="property">static </em><code class="sig-name descname">stringify</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vector</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg.html#Vectors.stringify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.Vectors.stringify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a vector into a string, which can be recognized by
+Vectors.parse().</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Vectors</span><span class="o">.</span><span class="n">stringify</span><span class="p">(</span><span class="n">Vectors</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]))</span>
+<span class="go">'(2,[1],[1.0])'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Vectors</span><span class="o">.</span><span class="n">stringify</span><span class="p">(</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]))</span>
+<span class="go">'[0.0,1.0]'</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.Vectors.zeros"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.Vectors.zeros"></a>
+<em class="property">static </em><code class="sig-name descname">zeros</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg.html#Vectors.zeros"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.Vectors.zeros" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

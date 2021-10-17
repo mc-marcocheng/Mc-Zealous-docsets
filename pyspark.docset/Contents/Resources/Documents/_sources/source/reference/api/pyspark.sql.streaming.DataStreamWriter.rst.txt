@@ -1,0 +1,32 @@
+pyspark.sql.streaming.DataStreamWriter
+======================================
+
+.. currentmodule:: pyspark.sql.streaming
+
+.. autoclass:: DataStreamWriter
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DataStreamWriter.__init__
+      ~DataStreamWriter.foreach
+      ~DataStreamWriter.foreachBatch
+      ~DataStreamWriter.format
+      ~DataStreamWriter.option
+      ~DataStreamWriter.options
+      ~DataStreamWriter.outputMode
+      ~DataStreamWriter.partitionBy
+      ~DataStreamWriter.queryName
+      ~DataStreamWriter.start
+      ~DataStreamWriter.trigger
+   
+   
+
+   
+   
+   

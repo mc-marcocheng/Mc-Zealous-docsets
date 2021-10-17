@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/saliency/doc/motion_saliency_algorithms.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:35 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Motion Saliency Algorithms</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="Saliency API" href="saliency.html" />
+    <link rel="next" title="Objectness Algorithms" href="objectness_algorithms.html" />
+    <link rel="prev" title="Static Saliency algorithms" href="static_saliency_algorithms.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="objectness_algorithms.html" title="Objectness Algorithms"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="static_saliency_algorithms.html" title="Static Saliency algorithms"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="saliency.html" accesskey="U">Saliency API</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Motion Saliency Algorithms</a><ul>
+<li><a class="reference internal" href="#motionsaliencybinwangapr2014">MotionSaliencyBinWangApr2014</a></li>
+<li><a class="reference internal" href="#motionsaliencybinwangapr2014-motionsaliencybinwangapr2014">MotionSaliencyBinWangApr2014::MotionSaliencyBinWangApr2014</a></li>
+<li><a class="reference internal" href="#motionsaliencybinwangapr2014-setimagesize">MotionSaliencyBinWangApr2014::setImagesize</a></li>
+<li><a class="reference internal" href="#motionsaliencybinwangapr2014-init">MotionSaliencyBinWangApr2014::init</a></li>
+<li><a class="reference internal" href="#motionsaliencybinwangapr2014-computesaliencyimpl">MotionSaliencyBinWangApr2014::computeSaliencyImpl</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="static_saliency_algorithms.html"
+                        title="previous chapter">Static Saliency algorithms</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="objectness_algorithms.html"
+                        title="next chapter">Objectness Algorithms</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="motion-saliency-algorithms">
+<h1>Motion Saliency Algorithms<a class="headerlink" href="#motion-saliency-algorithms" title="Permalink to this headline">¶</a></h1>
+<p>Algorithms belonging to this category, are particularly focused to detect salient objects over time (hence also over frame), then there is a temporal component sealing cosider that allows to detect &#8220;moving&#8221; objects as salient, meaning therefore also the more general sense of detection the changes in the scene.</p>
+<p>Presently, the Fast Self-tuning Background Subtraction Algorithm <a class="reference internal" href="#binwangapr2014" id="id1">[BinWangApr2014]</a> has been implemented.</p>
+<table class="docutils citation" frame="void" id="binwangapr2014" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[BinWangApr2014]</a></td><td><ol class="first last upperalpha simple" start="2">
+<li>Wang and P. Dudek &#8220;A Fast Self-tuning Background Subtraction Algorithm&#8221;, in proc of IEEE Workshop on Change Detection, 2014</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+<div class="section" id="motionsaliencybinwangapr2014">
+<h2>MotionSaliencyBinWangApr2014<a class="headerlink" href="#motionsaliencybinwangapr2014" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="MotionSaliencyBinWangApr2014">
+<em class="property">class </em><tt class="descname">MotionSaliencyBinWangApr2014</tt><a class="headerlink" href="#MotionSaliencyBinWangApr2014" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Implementation of MotionSaliencyBinWangApr2014 from <a class="reference internal" href="saliency_categories.html#MotionSaliency" title="class MotionSaliency"><tt class="xref ocv ocv-class docutils literal"><span class="pre">MotionSaliency</span></tt></a>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre> <span class="k">class</span> <span class="nc">CV_EXPORTS</span> <span class="n">MotionSaliencyBinWangApr2014</span> <span class="o">:</span> <span class="k">public</span> <span class="n">MotionSaliency</span>
+ <span class="p">{</span>
+  <span class="nl">public:</span>
+    <span class="n">MotionSaliencyBinWangApr2014</span><span class="p">();</span>
+    <span class="o">~</span><span class="n">MotionSaliencyBinWangApr2014</span><span class="p">();</span>
+
+   <span class="kt">void</span> <span class="nf">setImagesize</span><span class="p">(</span> <span class="kt">int</span> <span class="n">W</span><span class="p">,</span> <span class="kt">int</span> <span class="n">H</span> <span class="p">);</span>
+   <span class="kt">bool</span> <span class="nf">init</span><span class="p">();</span>
+
+  <span class="nl">protected:</span>
+   <span class="kt">bool</span> <span class="nf">computeSaliencyImpl</span><span class="p">(</span> <span class="k">const</span> <span class="n">InputArray</span> <span class="n">image</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">saliencyMap</span> <span class="p">);</span>
+
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="motionsaliencybinwangapr2014-motionsaliencybinwangapr2014">
+<h2>MotionSaliencyBinWangApr2014::MotionSaliencyBinWangApr2014<a class="headerlink" href="#motionsaliencybinwangapr2014-motionsaliencybinwangapr2014" title="Permalink to this headline">¶</a></h2>
+<p>Constructor</p>
+<dl class="function">
+<dt id="MotionSaliencyBinWangApr2014::MotionSaliencyBinWangApr2014()">
+<strong>C++:</strong><tt class="descname"> </tt> <tt class="descclassname">MotionSaliencyBinWangApr2014::</tt><tt class="descname">MotionSaliencyBinWangApr2014</tt><big>(</big><big>)</big><a class="headerlink" href="#MotionSaliencyBinWangApr2014::MotionSaliencyBinWangApr2014()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="motionsaliencybinwangapr2014-setimagesize">
+<h2>MotionSaliencyBinWangApr2014::setImagesize<a class="headerlink" href="#motionsaliencybinwangapr2014-setimagesize" title="Permalink to this headline">¶</a></h2>
+<p>This is a utility function that allows to set the correct size (taken from the input image) in the corresponding variables that will be used to size the data structures of the algorithm.</p>
+<dl class="function">
+<dt id="void MotionSaliencyBinWangApr2014::setImagesize(int W, int H)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">MotionSaliencyBinWangApr2014::</tt><tt class="descname">setImagesize</tt><big>(</big>int <strong>W</strong>, int <strong>H</strong><big>)</big><a class="headerlink" href="#void MotionSaliencyBinWangApr2014::setImagesize(int W, int H)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>W</strong> &#8211; width of input image</li>
+<li><strong>H</strong> &#8211; height of input image</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="motionsaliencybinwangapr2014-init">
+<h2>MotionSaliencyBinWangApr2014::init<a class="headerlink" href="#motionsaliencybinwangapr2014-init" title="Permalink to this headline">¶</a></h2>
+<p>This function allows the correct initialization of all data structures that will be used by the algorithm.</p>
+<dl class="function">
+<dt id="bool MotionSaliencyBinWangApr2014::init()">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">MotionSaliencyBinWangApr2014::</tt><tt class="descname">init</tt><big>(</big><big>)</big><a class="headerlink" href="#bool MotionSaliencyBinWangApr2014::init()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="motionsaliencybinwangapr2014-computesaliencyimpl">
+<h2>MotionSaliencyBinWangApr2014::computeSaliencyImpl<a class="headerlink" href="#motionsaliencybinwangapr2014-computesaliencyimpl" title="Permalink to this headline">¶</a></h2>
+<p>Performs all the operations and calls all internal functions necessary for the accomplishment of the Fast Self-tuning Background Subtraction Algorithm algorithm.</p>
+<dl class="function">
+<dt id="bool MotionSaliencyBinWangApr2014::computeSaliencyImpl(const InputArray image, OutputArray saliencyMap)">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">MotionSaliencyBinWangApr2014::</tt><tt class="descname">computeSaliencyImpl</tt><big>(</big>const InputArray <strong>image</strong>, OutputArray <strong>saliencyMap</strong><big>)</big><a class="headerlink" href="#bool MotionSaliencyBinWangApr2014::computeSaliencyImpl(const InputArray image, OutputArray saliencyMap)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> &#8211; input image. According to the needs of this specialized algorithm, the param image is a single <em>Mat</em>.</li>
+<li><strong>saliencyMap</strong> &#8211; Saliency Map. Is a binarized map that, in accordance with the nature of the algorithm, highlights the moving objects or areas of change in the scene.
+The saliency map is given by a single <em>Mat</em> (one for each frame of an hypothetical video stream).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="objectness_algorithms.html" title="Objectness Algorithms"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="static_saliency_algorithms.html" title="Static Saliency algorithms"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="saliency.html" >Saliency API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/saliency/doc/motion_saliency_algorithms.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/saliency/doc/motion_saliency_algorithms.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:35 GMT -->
+</html>

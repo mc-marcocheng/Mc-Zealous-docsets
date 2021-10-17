@@ -1,0 +1,526 @@
+<!DOCTYPE html><html dir="ltr" lang="en"><head>
+<meta content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com" name="google-signin-client-id"/>
+<meta content="profile email" name="google-signin-scope"/>
+<meta content="TensorFlow" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="#ff6f00" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link crossorigin="use-credentials" href="_pwa/tensorflow/manifest.json" rel="manifest"/>
+<link crossorigin="" href="/www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.googleapis.com" rel="preconnect"/>
+<link href="../../../../main.css" rel="stylesheet"/>
+
+<noscript>
+
+</noscript>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/favicon.png" rel="shortcut icon"/>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/apple-touch-icon-180x180.png" rel="apple-touch-icon"/><link href="https://www.tensorflow.org/api_docs/python/tf/autodiff/ForwardAccumulator" rel="canonical"/><link href="https://www.tensorflow.org/s/opensearch.xml" rel="search" title="TensorFlow" type="application/opensearchdescription+xml"/>
+<title>tf.autodiff.ForwardAccumulator &nbsp;|&nbsp; TensorFlow Core v2.1.0</title>
+<meta content="tf.autodiff.ForwardAccumulator &nbsp;|&nbsp; TensorFlow Core v2.1.0" property="og:title"/>
+<meta content="https://www.tensorflow.org/api_docs/python/tf/autodiff/ForwardAccumulator" property="og:url"/>
+<meta content="en" property="og:locale"/>
+
+</head>
+<body class="" layout="docs" pending="" theme="tensorflow-theme" type="reference">
+<devsite-progress id="app-progress" type="indeterminate"></devsite-progress>
+<section class="devsite-wrapper"> <devsite-book-nav scrollbars="">
+
+</devsite-book-nav>
+<section id="gc-wrapper">
+<main class="devsite-main-content" has-book-nav="" has-toc="" role="main">
+<devsite-toc class="devsite-nav"></devsite-toc>
+<devsite-content>
+<article class="devsite-article">
+<article class="devsite-article-inner"><style>
+        /* Styles inlined from /site-assets/css/style.css */
+/* override theme */
+table img {
+  max-width: 100%;
+}
+
+/* override var element to differentiate color from comment */
+var, var code, var span, .prettyprint var span {
+  color: #039be5;
+}
+
+/* .devsite-terminal virtualenv prompt */
+.tfo-terminal-venv::before {
+  content: "(venv) $ " !important;
+}
+
+/* .devsite-terminal root prompt */
+.tfo-terminal-root::before {
+  content: "# " !important;
+}
+
+/* .devsite-terminal Windows prompt */
+.tfo-terminal-windows::before {
+  content: "C:\\> " !important;
+}
+
+/* .devsite-terminal Windows prompt w/ virtualenv */
+.tfo-terminal-windows-venv::before {
+  content: "(venv) C:\\> " !important;
+}
+
+.tfo-diff-green-one-level + * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green + * > * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green-list + ul > li:first-of-type {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-red-one-level + * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red + * > * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red-list + ul > li:first-of-type {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+devsite-code .tfo-notebook-code-cell-output {
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(255, 247, 237, 1);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(255, 247, 237, .7);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output {
+  background: rgba(64, 78, 103, 1);  /* medium slate */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(64, 78, 103, .7);  /* medium slate */
+}
+
+/* override default table styles for notebook buttons */
+.devsite-table-wrapper .tfo-notebook-buttons {
+  display: inline-block;
+  margin-left: 3px;
+  width: auto;
+}
+
+.tfo-notebook-buttons td {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.tfo-notebook-buttons a,
+.tfo-notebook-buttons :link,
+.tfo-notebook-buttons :visited {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  color: #202124;
+  padding: 12px 24px;
+  transition: box-shadow 0.2s;
+}
+
+.tfo-notebook-buttons a:hover,
+.tfo-notebook-buttons a:focus {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.tfo-notebook-buttons tr {
+  background: 0;
+  border: 0;
+}
+
+/* on rendered notebook page,
+   remove link to webpage since we're already here */
+.tfo-notebook-buttons:not(.tfo-api) td:first-child {
+  display: none;
+}
+
+.tfo-notebook-buttons td > a {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tfo-notebook-buttons td > a > img {
+  margin-right: 8px;
+}
+
+/* landing pages */
+
+.tfo-landing-row-item-inset-white {
+  background-color: #fff;
+  padding: 32px;
+}
+
+.tfo-landing-row-item-inset-white ol,
+.tfo-landing-row-item-inset-white ul {
+  padding-left: 20px;
+}
+
+/* colab callout button */
+.colab-callout-row devsite-code {
+  border-radius: 8px 8px 0 0;
+  box-shadow: none;
+}
+
+.colab-callout-footer {
+  background: #e3e4e7;
+  border-radius: 0 0 8px 8px;
+  color: #37474f;
+  padding: 20px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer {
+  background: #3f4f66;
+}
+
+
+.colab-callout-footer > .button {
+  margin-top: 4px;
+  color: #ff5c00;
+}
+
+.colab-callout-footer > a > span {
+  padding-top: 10px;
+  vertical-align: middle;
+  color: #37474f;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer > a > span {
+  color: #fff;
+}
+
+a.colab-button {
+  background: rgba(255, 255, 255, .75);
+  border: solid 1px rgba(0, 0, 0, .08);
+  border-bottom-color: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  color: #aaa;
+  display: inline-block;
+  font-size: 11px !important;
+  font-weight: 300;
+  line-height: 16px;
+  padding: 4px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.colab-button:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, .2);
+  color: #666;
+}
+
+a.colab-button span {
+  background: url(/images/colab_logo_button.svg) no-repeat 1px 1px / 20px;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 24px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .tfo-notebook-buttons td {
+    display: block;
+  }
+}
+
+/* guide and tutorials landing page cards and sections */
+
+.tfo-landing-page-card {
+  padding: 16px;
+  box-shadow: 0 0 36px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+/* Page section headings */
+.tfo-landing-page-heading h2, h2.tfo-landing-page-heading {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+/* Item title headings */
+.tfo-landing-page-heading h3, h3.tfo-landing-page-heading,
+.tfo-landing-page-card h3, h3.tfo-landing-page-card {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* List of tutorials notebooks for subsites */
+.tfo-landing-page-resources-ul {
+  padding-left: 15px
+}
+
+.tfo-landing-page-resources-ul > li {
+  margin: 6px 0;
+}
+
+/* Temporary fix to hide product description in header on landing pages */
+devsite-header .devsite-product-description {
+  display: none;
+}
+
+        </style> <div class="devsite-banner devsite-banner-announcement">
+<div class="devsite-banner-message">
+<div class="devsite-banner-message-text">
+            Missed TensorFlow Dev Summit? Check out the video playlist. <a class="button button-primary button-tfo-announcement" href="https://goo.gle/TFDS20AllSessions">Watch recordings</a>
+</div>
+</div>
+</div>
+<div class="devsite-article-meta">
+<ul class="devsite-breadcrumb-list">
+<li class="devsite-breadcrumb-item">
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="1" href="">
+            TensorFlow
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="2" href="api">
+            API
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="3" href="api_docs">
+            TensorFlow Core v2.1.0
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="4" href="api_docs/python/tf">
+            Python
+      
+  </a>
+</li>
+</ul>
+<devsite-page-rating hover-rating-star="0" position="header" selected-rating="0">
+</devsite-page-rating>
+</div>
+<a class="dashingAutolink" name="autolink-31"></a><a class="dashAnchor" name="//apple_ref/cpp/Function/tf.autodiff.ForwardAccumulator"></a><h1 class="dash-function">tf.autodiff.ForwardAccumulator</h1>
+<devsite-toc class="devsite-nav" devsite-toc-embedded="">
+</devsite-toc>
+<div class="devsite-article-body clearfix">
+<p></p>
+<!-- DO NOT EDIT! Automatically generated file. -->
+<div itemscope="" itemtype="http://developers.google.com/ReferenceObject">
+<meta content="tf.autodiff.ForwardAccumulator" itemprop="name"/>
+<meta content="Stable" itemprop="path"/>
+<meta content="__enter__" itemprop="property"/>
+<meta content="__exit__" itemprop="property"/>
+<meta content="__init__" itemprop="property"/>
+<meta content="jvp" itemprop="property"/>
+</div>
+<p><devsite-nav-buttons name="version" param="reset">
+<button default="" value="stable">See Stable</button>
+<button value="nightly">See Nightly</button>
+</devsite-nav-buttons></p>
+<!-- Stable -->
+<table align="left" class="tfo-notebook-buttons tfo-api">
+<tbody><tr><td>
+<a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/eager/forwardprop.py#L173-L392" target="_blank">
+<img src="https://www.tensorflow.org/images/GitHub-Mark-32px.png"/>
+    View source on GitHub
+  </a>
+</td></tr></tbody></table>
+<p>Computes Jacobian-vector products (&#34;JVP&#34;s) using forward-mode autodiff.</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">tf.autodiff.ForwardAccumulator(
+    primals, tangents
+)
+</code></pre>
+<!-- Placeholder for "Used in" -->
+<p>Compare to <a href="https://www.tensorflow.org/api_docs/python/tf/GradientTape"><code dir="ltr" translate="no">tf.GradientTape</code></a> which computes vector-Jacobian products (&#34;VJP&#34;s)
+using reverse-mode autodiff (backprop). Reverse mode is more attractive when
+computing gradients of a scalar-valued function with respect to many inputs
+(e.g. a neural network with many parameters and a scalar loss). Forward mode
+works best on functions with many outputs and few inputs. Since it does not
+hold on to intermediate activations, it is much more memory efficient than
+backprop where it is applicable.</p>
+<p>Consider a simple linear regression:</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">x = tf.constant([[2.0, 3.0], [1.0, 4.0]]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dense = tf.keras.layers.Dense(1) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dense.build([2]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">with tf.autodiff.ForwardAccumulator( </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">   primals=dense.kernel, </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">   tangents=tf.constant([[1.], [0.]])) as acc: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  loss = tf.reduce_sum((dense(x) - tf.constant([1., -1.])) ** 2.) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">acc.jvp(loss) </code>
+<code class="no-select nocode" dir="ltr" translate="no">&lt;tf.Tensor: shape=(), dtype=float32, numpy=...&gt; </code>
+</pre>
+<p>The example has two variables containing parameters, <code dir="ltr" translate="no">dense.kernel</code> (2
+parameters) and <code dir="ltr" translate="no">dense.bias</code> (1 parameter). Considering the training data <code dir="ltr" translate="no">x</code>
+as a constant, this means the Jacobian matrix for the function mapping from
+parameters to loss has one row and three columns.</p>
+<p>With forwardprop, we specify a length-three vector in advance which multiplies
+the Jacobian. The <code dir="ltr" translate="no">primals</code> constructor argument is the parameter (a
+<a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a> or <a href="https://www.tensorflow.org/api_docs/python/tf/Variable"><code dir="ltr" translate="no">tf.Variable</code></a>) we&#39;re specifying a vector for, and the
+<code dir="ltr" translate="no">tangents</code> argument is the &#34;vector&#34; in Jacobian-vector product. If our goal is
+to compute the entire Jacobian matrix, forwardprop computes one column at a
+time while backprop computes one row at a time. Since the Jacobian in the
+linear regression example has only one row, backprop requires fewer
+invocations:</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">x = tf.constant([[2.0, 3.0], [1.0, 4.0]]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dense = tf.keras.layers.Dense(1) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dense.build([2]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">loss_fn = lambda: tf.reduce_sum((dense(x) - tf.constant([1., -1.])) ** 2.) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">kernel_fprop = [] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">with tf.autodiff.ForwardAccumulator( </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    dense.kernel, tf.constant([[1.], [0.]])) as acc: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  kernel_fprop.append(acc.jvp(loss_fn())) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">with tf.autodiff.ForwardAccumulator( </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    dense.kernel, tf.constant([[0.], [1.]])) as acc: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  kernel_fprop.append(acc.jvp(loss_fn())) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">with tf.autodiff.ForwardAccumulator(dense.bias, tf.constant([1.])) as acc: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  bias_fprop = acc.jvp(loss_fn()) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">with tf.GradientTape() as tape: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  loss = loss_fn() </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">kernel_grad, bias_grad = tape.gradient(loss, (dense.kernel, dense.bias)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">np.testing.assert_allclose( </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    kernel_grad, tf.stack(kernel_fprop)[:, tf.newaxis]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">np.testing.assert_allclose(bias_grad, bias_fprop[tf.newaxis]) </code>
+</pre>
+<p>Implicit in the <code dir="ltr" translate="no">tape.gradient</code> call is a length-one vector which
+left-multiplies the Jacobian, a vector-Jacobian product.</p>
+<p><code dir="ltr" translate="no">ForwardAccumulator</code> maintains JVPs corresponding primal tensors it is
+watching, derived from the original <code dir="ltr" translate="no">primals</code> specified in the constructor. As
+soon as a primal tensor is deleted, <code dir="ltr" translate="no">ForwardAccumulator</code> deletes the
+corresponding JVP.</p>
+<p><code dir="ltr" translate="no">acc.jvp(x)</code> retrieves <code dir="ltr" translate="no">acc</code>&#39;s JVP corresponding to the primal tensor <code dir="ltr" translate="no">x</code>. It
+does not perform any computation. <code dir="ltr" translate="no">acc.jvp</code> calls can be repeated as long as
+<code dir="ltr" translate="no">acc</code> is accessible, whether the context manager is active or not. New JVPs
+are only computed while the context manager is active.</p>
+<p>Note that <code dir="ltr" translate="no">ForwardAccumulator</code>s are always applied in the order their context
+managers were entered, so inner accumulators will not see JVP computation from
+outer accumulators. Take higher-order JVPs from outer accumulators:</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">primal = tf.constant(1.1) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">with tf.autodiff.ForwardAccumulator(primal, tf.constant(1.)) as outer: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  with tf.autodiff.ForwardAccumulator(primal, tf.constant(1.)) as inner: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    primal_out = primal ** tf.constant(3.5) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">inner_jvp = inner.jvp(primal_out) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">inner_jvp  # 3.5 * 1.1 ** 2.5 </code>
+<code class="no-select nocode" dir="ltr" translate="no">&lt;tf.Tensor: shape=(), dtype=float32, numpy=4.441...&gt; </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">outer.jvp(inner_jvp)  # 3.5 * 2.5 * 1.1 ** 1.5 </code>
+<code class="no-select nocode" dir="ltr" translate="no">&lt;tf.Tensor: shape=(), dtype=float32, numpy=10.094...&gt; </code>
+</pre>
+<p>Reversing the collection in the last line to instead retrieve
+<code dir="ltr" translate="no">inner.jvp(outer.jvp(primal_out))</code> will not work.</p>
+<p>Strict nesting also applies to combinations of <code dir="ltr" translate="no">ForwardAccumulator</code> and
+<a href="https://www.tensorflow.org/api_docs/python/tf/GradientTape"><code dir="ltr" translate="no">tf.GradientTape</code></a>. More deeply nested <code dir="ltr" translate="no">GradientTape</code> objects will ignore the
+products of outer <code dir="ltr" translate="no">ForwardAccumulator</code> objects. This allows (for example)
+memory-efficient forward-over-backward computation of Hessian-vector products,
+where the inner <code dir="ltr" translate="no">GradientTape</code> would otherwise hold on to all intermediate
+JVPs:</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">v = tf.Variable([1., 2.]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">with tf.autodiff.ForwardAccumulator( </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    v, </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    # The &#34;vector&#34; in Hessian-vector product. </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    tf.constant([1., 0.])) as acc: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  with tf.GradientTape() as tape: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    y = tf.reduce_sum(v ** 3.) </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  backward = tape.gradient(y, v) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">backward  # gradient from backprop </code>
+<code class="no-select nocode" dir="ltr" translate="no">&lt;tf.Tensor: shape=(2,), dtype=float32, numpy=array([ 3., 12.], dtype=float32)&gt; </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">acc.jvp(backward)  # forward-over-backward Hessian-vector product </code>
+<code class="no-select nocode" dir="ltr" translate="no">&lt;tf.Tensor: shape=(2,), dtype=float32, numpy=array([6., 0.], dtype=float32)&gt; </code>
+</pre>
+<h4 id="args_3">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">primals</code></b>: A tensor or nested structure of tensors to watch.</li>
+<li><b><code dir="ltr" translate="no">tangents</code></b>: A tensor or nested structure of tensors, with the same nesting
+structure as <code dir="ltr" translate="no">primals</code>, with each element being a vector with the same
+size as the corresponding primal element.</li>
+</ul>
+<h4 id="raises_2">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>: If the same tensor or variable is specified multiple times in
+<code dir="ltr" translate="no">primals</code>.</li>
+</ul>
+<h2 id="methods_2">Methods</h2>
+<h3 id="__enter__"><code dir="ltr" translate="no">__enter__</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/eager/forwardprop.py#L315-L317" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">__enter__()
+</code></pre>
+<h3 id="__exit__"><code dir="ltr" translate="no">__exit__</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/eager/forwardprop.py#L319-L321" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">__exit__(
+    typ, value, traceback
+)
+</code></pre>
+<h3 id="jvp"><code dir="ltr" translate="no">jvp</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/eager/forwardprop.py#L363-L392" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">jvp(
+    primals, unconnected_gradients=tf.UnconnectedGradients.NONE
+)
+</code></pre>
+<p>Fetches the Jacobian-vector product computed for <code dir="ltr" translate="no">primals</code>.</p>
+<p>Note that this method performs no computation, and simply looks up a JVP
+that was already computed (unlike backprop using a <a href="https://www.tensorflow.org/api_docs/python/tf/GradientTape"><code dir="ltr" translate="no">tf.GradientTape</code></a>, where
+the computation happens on the call to <code dir="ltr" translate="no">tape.gradient</code>).</p>
+<h4 id="args_4">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">primals</code></b>: A watched Tensor or structure of Tensors to fetch the JVPs for.</li>
+<li><b><code dir="ltr" translate="no">unconnected_gradients</code></b>: A value which can either hold &#39;none&#39; or &#39;zero&#39; and
+alters the value which will be returned if no JVP was computed for
+<code dir="ltr" translate="no">primals</code>. The possible values and effects are detailed in
+&#39;tf.UnconnectedGradients&#39; and it defaults to &#39;none&#39;.</li>
+</ul>
+<h4 id="returns_2">Returns:</h4>
+<p>Tensors with the same shapes and dtypes as <code dir="ltr" translate="no">primals</code>, or None if no JVP
+is available.</p>
+</div>
+<devsite-page-rating hover-rating-star="0" position="footer" selected-rating="0">
+</devsite-page-rating>
+</article>
+</article>
+
+</devsite-content>
+</main>
+<devsite-footer-promos class="devsite-footer">
+</devsite-footer-promos>
+<devsite-footer-linkboxes class="devsite-footer">
+
+</devsite-footer-linkboxes>
+<devsite-footer-utility class="devsite-footer">
+<div class="devsite-footer-utility nocontent">
+
+</div>
+</devsite-footer-utility>
+</section></section>
+<devsite-sitemask></devsite-sitemask>
+<devsite-snackbar></devsite-snackbar> <devsite-tooltip></devsite-tooltip>
+<devsite-heading-link></devsite-heading-link>
+<devsite-analytics>
+
+
+</devsite-analytics>
+ 
+</body></html>

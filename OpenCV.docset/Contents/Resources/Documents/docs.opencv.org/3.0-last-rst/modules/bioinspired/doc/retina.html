@@ -1,0 +1,898 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/bioinspired/doc/retina.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:12 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Retina : a Bio mimetic human retina model</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="bioinspired. Biologically inspired vision models and derivated tools" href="bioinspired.html" />
+    <link rel="next" title="cvv. GUI for Interactive Visual Debugging of Computer Vision Programs" href="../../cvv/doc/cvv.html" />
+    <link rel="prev" title="bioinspired. Biologically inspired vision models and derivated tools" href="bioinspired.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../cvv/doc/cvv.html" title="cvv. GUI for Interactive Visual Debugging of Computer Vision Programs"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="bioinspired.html" title="bioinspired. Biologically inspired vision models and derivated tools"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="bioinspired.html" accesskey="U">bioinspired. Biologically inspired vision models and derivated tools</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Retina : a Bio mimetic human retina model</a><ul>
+<li><a class="reference internal" href="#retina">Retina</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#preliminary-illustration">Preliminary illustration</a></li>
+<li><a class="reference internal" href="#description">Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#literature">Literature</a></li>
+<li><a class="reference internal" href="#demos-and-experiments">Demos and experiments !</a></li>
+<li><a class="reference internal" href="#methods-description">Methods description</a><ul>
+<li><a class="reference internal" href="#ptr-retina-createretina">Ptr&lt;Retina&gt;::createRetina</a></li>
+<li><a class="reference internal" href="#retina-activatecontoursprocessing">Retina::activateContoursProcessing</a></li>
+<li><a class="reference internal" href="#retina-activatemovingcontoursprocessing">Retina::activateMovingContoursProcessing</a></li>
+<li><a class="reference internal" href="#retina-clearbuffers">Retina::clearBuffers</a></li>
+<li><a class="reference internal" href="#retina-getparvo">Retina::getParvo</a></li>
+<li><a class="reference internal" href="#retina-getmagno">Retina::getMagno</a></li>
+<li><a class="reference internal" href="#retina-getinputsize">Retina::getInputSize</a></li>
+<li><a class="reference internal" href="#retina-getoutputsize">Retina::getOutputSize</a></li>
+<li><a class="reference internal" href="#retina-printsetup">Retina::printSetup</a></li>
+<li><a class="reference internal" href="#retina-run">Retina::run</a></li>
+<li><a class="reference internal" href="#retina-applyfasttonemapping">Retina::applyFastToneMapping</a></li>
+<li><a class="reference internal" href="#retina-setcolorsaturation">Retina::setColorSaturation</a></li>
+<li><a class="reference internal" href="#retina-setup">Retina::setup</a></li>
+<li><a class="reference internal" href="#retina-write">Retina::write</a></li>
+<li><a class="reference internal" href="#retina-setupiplmagnochannel">Retina::setupIPLMagnoChannel</a></li>
+<li><a class="reference internal" href="#retina-setupoplandiplparvochannel">Retina::setupOPLandIPLParvoChannel</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#retina-retinaparameters">Retina::RetinaParameters</a><ul>
+<li><a class="reference internal" href="#retina-parameters-files-examples">Retina parameters files examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="bioinspired.html"
+                        title="previous chapter">bioinspired. Biologically inspired vision models and derivated tools</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../cvv/doc/cvv.html"
+                        title="next chapter">cvv. GUI for Interactive Visual Debugging of Computer Vision Programs</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="retina-a-bio-mimetic-human-retina-model">
+<h1>Retina : a Bio mimetic human retina model<a class="headerlink" href="#retina-a-bio-mimetic-human-retina-model" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="retina">
+<h2>Retina<a class="headerlink" href="#retina" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Retina : public Algorithm">
+<em class="property">class </em><tt class="descname">Retina</tt> : <em class="property">public</em> <tt class="descname">Algorithm</tt><a class="headerlink" href="#Retina : public Algorithm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p><strong>Note</strong> : do not forget that the retina model is included in the following namespace : <em>cv::bioinspired</em>.</p>
+<div class="section" id="introduction">
+<h3>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h3>
+<p>Class which provides the main controls to the Gipsa/Listic labs human  retina model. This is a non separable spatio-temporal filter modelling the two main retina information channels :</p>
+<ul class="simple">
+<li>foveal vision for detailled color vision : the parvocellular pathway.</li>
+<li>peripheral vision for sensitive transient signals detection (motion and events) : the magnocellular pathway.</li>
+</ul>
+<p>From a general point of view, this filter whitens the image spectrum and corrects luminance thanks to local adaptation. An other important property is its hability to filter out spatio-temporal noise while enhancing details.
+This model originates from Jeanny Herault work <a class="reference internal" href="#herault2010" id="id1">[Herault2010]</a>. It has been involved in Alexandre Benoit phd and his current research <a class="reference internal" href="#benoit2010" id="id2">[Benoit2010]</a>, <a class="reference internal" href="#strat2013" id="id3">[Strat2013]</a> (he currently maintains this module within OpenCV). It includes the work of other Jeanny&#8217;s phd student such as <a class="reference internal" href="#chaix2007" id="id4">[Chaix2007]</a> and the log polar transformations of Barthelemy Durette described in Jeanny&#8217;s book.</p>
+<p><strong>NOTES :</strong></p>
+<ul class="simple">
+<li>For ease of use in computer vision applications, the two retina channels are applied homogeneously on all the input images. This does not follow the real retina topology but this can still be done using the log sampling capabilities proposed within the class.</li>
+<li>Extend the retina description and code use in the tutorial/contrib section for complementary explanations.</li>
+</ul>
+</div>
+<div class="section" id="preliminary-illustration">
+<h3>Preliminary illustration<a class="headerlink" href="#preliminary-illustration" title="Permalink to this headline">¶</a></h3>
+<p>As a preliminary presentation, let&#8217;s start with a visual example. We propose to apply the filter on a low quality color jpeg image with backlight problems. Here is the considered input... <em>&#8220;Well, my eyes were able to see more that this strange black shadow...&#8221;</em></p>
+<img alt="a low quality color jpeg image with backlight problems." class="align-center" src="../../../_images/retinaInput.jpg" />
+<p>Below, the retina foveal model applied on the entire image with default parameters. Here contours are enforced, halo effects are voluntary visible with this configuration. See parameters discussion below and increase horizontalCellsGain near 1 to remove them.</p>
+<img alt="the retina foveal model applied on the entire image with default parameters. Here contours are enforced, luminance is corrected and halo effects are voluntary visible with this configuration, increase horizontalCellsGain near 1 to remove them." class="align-center" src="../../../_images/retinaOutput_default.jpg" />
+<p>Below, a second retina foveal model output applied on the entire image with a parameters setup focused on naturalness perception. <em>&#8220;Hey, i now recognize my cat, looking at the mountains at the end of the day !&#8221;</em>. Here contours are enforced, luminance is corrected but halos are avoided with this configuration. The backlight effect is corrected and highlight details are still preserved. Then, even on a low quality jpeg image, if some luminance information remains, the retina is able to reconstruct a proper visual signal. Such configuration is also usefull for High Dynamic Range (<em>HDR</em>) images compression to 8bit images as discussed in <a class="reference internal" href="#benoit2010" id="id5">[Benoit2010]</a> and in the demonstration codes discussed below.
+As shown at the end of the page, parameters change from defaults are :</p>
+<ul class="simple">
+<li>horizontalCellsGain=0.3</li>
+<li>photoreceptorsLocalAdaptationSensitivity=ganglioncellsSensitivity=0.89.</li>
+</ul>
+<img alt="the retina foveal model applied on the entire image with 'naturalness' parameters. Here contours are enforced but are avoided with this configuration, horizontalCellsGain is 0.3 and photoreceptorsLocalAdaptationSensitivity=ganglioncellsSensitivity=0.89." class="align-center" src="../../../_images/retinaOutput_realistic.jpg" />
+<p>As observed in this preliminary demo, the retina can be settled up with various parameters, by default, as shown on the figure above, the retina strongly reduces mean luminance energy and enforces all details of the visual scene. Luminance energy and halo effects can be modulated (exagerated to cancelled as shown on the two examples). In order to use your own parameters, you can use at least one time the <em>write(String fs)</em> method which will write a proper XML file with all default parameters. Then, tweak it on your own and reload them at any time using method <em>setup(String fs)</em>. These methods update a <em>Retina::RetinaParameters</em> member structure that is described hereafter. XML parameters file samples are shown at the end of the page.</p>
+<p>Here is an overview of the abstract Retina interface, allocate one instance with the <em>createRetina</em> functions.:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">namespace</span> <span class="n">cv</span><span class="p">{</span><span class="k">namespace</span> <span class="n">bioinspired</span><span class="p">{</span>
+
+<span class="k">class</span> <span class="nc">Retina</span> <span class="o">:</span> <span class="k">public</span> <span class="n">Algorithm</span>
+<span class="p">{</span>
+<span class="nl">public:</span>
+  <span class="c1">// parameters setup instance</span>
+  <span class="k">struct</span> <span class="n">RetinaParameters</span><span class="p">;</span> <span class="c1">// this class is detailled later</span>
+
+  <span class="c1">// main method for input frame processing (all use method, can also perform High Dynamic Range tone mapping)</span>
+  <span class="kt">void</span> <span class="nf">run</span> <span class="p">(</span><span class="n">InputArray</span> <span class="n">inputImage</span><span class="p">);</span>
+
+  <span class="c1">// specific method aiming at correcting luminance only (faster High Dynamic Range tone mapping)</span>
+  <span class="kt">void</span> <span class="nf">applyFastToneMapping</span><span class="p">(</span><span class="n">InputArray</span> <span class="n">inputImage</span><span class="p">,</span> <span class="n">OutputArray</span> <span class="n">outputToneMappedImage</span><span class="p">)</span>
+
+  <span class="c1">// output buffers retreival methods</span>
+  <span class="c1">// -&gt; foveal color vision details channel with luminance and noise correction</span>
+  <span class="kt">void</span> <span class="n">getParvo</span> <span class="p">(</span><span class="n">OutputArray</span> <span class="n">retinaOutput_parvo</span><span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">getParvoRAW</span> <span class="p">(</span><span class="n">OutputArray</span> <span class="n">retinaOutput_parvo</span><span class="p">);</span><span class="c1">// retreive original output buffers without any normalisation</span>
+  <span class="k">const</span> <span class="n">Mat</span> <span class="n">getParvoRAW</span> <span class="p">()</span> <span class="k">const</span><span class="p">;</span><span class="c1">// retreive original output buffers without any normalisation</span>
+  <span class="c1">// -&gt; peripheral monochrome motion and events (transient information) channel</span>
+  <span class="kt">void</span> <span class="nf">getMagno</span> <span class="p">(</span><span class="n">OutputArray</span> <span class="n">retinaOutput_magno</span><span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">getMagnoRAW</span> <span class="p">(</span><span class="n">OutputArray</span> <span class="n">retinaOutput_magno</span><span class="p">);</span> <span class="c1">// retreive original output buffers without any normalisation</span>
+  <span class="k">const</span> <span class="n">Mat</span> <span class="n">getMagnoRAW</span> <span class="p">()</span> <span class="k">const</span><span class="p">;</span><span class="c1">// retreive original output buffers without any normalisation</span>
+
+  <span class="c1">// reset retina buffers... equivalent to closing your eyes for some seconds</span>
+  <span class="kt">void</span> <span class="nf">clearBuffers</span> <span class="p">();</span>
+
+  <span class="c1">// retreive input and output buffers sizes</span>
+  <span class="n">Size</span> <span class="nf">getInputSize</span> <span class="p">();</span>
+  <span class="n">Size</span> <span class="nf">getOutputSize</span> <span class="p">();</span>
+
+  <span class="c1">// setup methods with specific parameters specification of global xml config file loading/write</span>
+  <span class="kt">void</span> <span class="nf">setup</span> <span class="p">(</span><span class="n">String</span> <span class="n">retinaParameterFile</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="k">const</span> <span class="kt">bool</span> <span class="n">applyDefaultSetupOnFailure</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">setup</span> <span class="p">(</span><span class="n">FileStorage</span> <span class="o">&amp;</span><span class="n">fs</span><span class="p">,</span> <span class="k">const</span> <span class="kt">bool</span> <span class="n">applyDefaultSetupOnFailure</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">setup</span> <span class="p">(</span><span class="n">RetinaParameters</span> <span class="n">newParameters</span><span class="p">);</span>
+  <span class="k">struct</span> <span class="n">Retina</span><span class="o">::</span><span class="n">RetinaParameters</span> <span class="n">getParameters</span> <span class="p">();</span>
+  <span class="k">const</span> <span class="n">String</span> <span class="nf">printSetup</span> <span class="p">();</span>
+  <span class="k">virtual</span> <span class="kt">void</span> <span class="n">write</span> <span class="p">(</span><span class="n">String</span> <span class="n">fs</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">virtual</span> <span class="kt">void</span> <span class="n">write</span> <span class="p">(</span><span class="n">FileStorage</span> <span class="o">&amp;</span><span class="n">fs</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">void</span> <span class="nf">setupOPLandIPLParvoChannel</span> <span class="p">(</span><span class="k">const</span> <span class="kt">bool</span> <span class="n">colorMode</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="k">const</span> <span class="kt">bool</span> <span class="n">normaliseOutput</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">photoreceptorsLocalAdaptationSensitivity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">photoreceptorsTemporalConstant</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">photoreceptorsSpatialConstant</span><span class="o">=</span><span class="mf">0.53</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">horizontalCellsGain</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">HcellsTemporalConstant</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">HcellsSpatialConstant</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">ganglionCellsSensitivity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">setupIPLMagnoChannel</span> <span class="p">(</span><span class="k">const</span> <span class="kt">bool</span> <span class="n">normaliseOutput</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">parasolCells_beta</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">parasolCells_tau</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">parasolCells_k</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">amacrinCellsTemporalCutFrequency</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">V0CompressionParameter</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">localAdaptintegration_tau</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">localAdaptintegration_k</span><span class="o">=</span><span class="mi">7</span><span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">setColorSaturation</span> <span class="p">(</span><span class="k">const</span> <span class="kt">bool</span> <span class="n">saturateColors</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">colorSaturationValue</span><span class="o">=</span><span class="mf">4.0</span><span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">activateMovingContoursProcessing</span> <span class="p">(</span><span class="k">const</span> <span class="kt">bool</span> <span class="n">activate</span><span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">activateContoursProcessing</span> <span class="p">(</span><span class="k">const</span> <span class="kt">bool</span> <span class="n">activate</span><span class="p">);</span>
+<span class="p">};</span>
+
+  <span class="c1">// Allocators</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Ptr</span><span class="o">&lt;</span><span class="n">Retina</span><span class="o">&gt;</span> <span class="n">createRetina</span> <span class="p">(</span><span class="n">Size</span> <span class="n">inputSize</span><span class="p">);</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Ptr</span><span class="o">&lt;</span><span class="n">Retina</span><span class="o">&gt;</span> <span class="n">createRetina</span> <span class="p">(</span><span class="n">Size</span> <span class="n">inputSize</span><span class="p">,</span> <span class="k">const</span> <span class="kt">bool</span> <span class="n">colorMode</span><span class="p">,</span> <span class="n">RETINA_COLORSAMPLINGMETHOD</span> <span class="n">colorSamplingMethod</span><span class="o">=</span><span class="n">RETINA_COLOR_BAYER</span><span class="p">,</span> <span class="k">const</span> <span class="kt">bool</span> <span class="n">useRetinaLogSampling</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="k">const</span> <span class="kt">double</span> <span class="n">reductionFactor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="k">const</span> <span class="kt">double</span> <span class="n">samplingStrenght</span><span class="o">=</span><span class="mf">10.0</span><span class="p">);</span>
+  <span class="p">}}</span> <span class="c1">// cv and bioinspired namespaces end</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="description">
+<h3>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h3>
+<p>Class which allows the <a class="reference external" href="http://www.gipsa-lab.inpg.fr/">Gipsa</a> (preliminary work) / <a class="reference external" href="http://www.listic.univ-savoie.fr/">Listic</a> (code maintainer and user) labs retina model to be used. This class allows human retina spatio-temporal image processing to be applied on still images, images sequences and video sequences. Briefly, here are the main human retina model properties:</p>
+<ul class="simple">
+<li>spectral whithening (mid-frequency details enhancement)</li>
+<li>high frequency spatio-temporal noise reduction (temporal noise and high frequency spatial noise are minimized)</li>
+<li>low frequency luminance reduction (luminance range compression) : high luminance regions do not hide details in darker regions anymore</li>
+<li>local logarithmic luminance compression allows details to be enhanced even in low light conditions</li>
+</ul>
+<p>Use : this model can be used basically for spatio-temporal video effects but also in the aim of :</p>
+<ul class="simple">
+<li>performing texture analysis with enhanced signal to noise ratio and enhanced details robust against input images luminance ranges (check out the parvocellular retina channel output, by using the provided <strong>getParvo</strong> methods)</li>
+<li>performing motion analysis also taking benefit of the previously cited properties  (check out the magnocellular retina channel output, by using the provided <strong>getMagno</strong> methods)</li>
+<li>general image/video sequence description using either one or both channels. An example of the use of Retina in a Bag of Words approach is given in <a class="reference internal" href="#strat2013" id="id6">[Strat2013]</a>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="literature">
+<h2>Literature<a class="headerlink" href="#literature" title="Permalink to this headline">¶</a></h2>
+<p>For more information, refer to the following papers :</p>
+<ul class="simple">
+<li>Model description :</li>
+</ul>
+<table class="docutils citation" frame="void" id="benoit2010" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[Benoit2010]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id5">2</a>, <a class="fn-backref" href="#id7">3</a>)</em> Benoit A., Caplier A., Durette B., Herault, J., &#8220;Using Human Visual System Modeling For Bio-Inspired Low Level Image Processing&#8221;, Elsevier, Computer Vision and Image Understanding 114 (2010), pp. 758-773. DOI &lt;<a class="reference external" href="http://dx.doi.org/10.1016/j.cviu.2010.01.011">http://dx.doi.org/10.1016/j.cviu.2010.01.011</a>&gt;</td></tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>Model use in a Bag of Words approach :</li>
+</ul>
+<table class="docutils citation" frame="void" id="strat2013" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[Strat2013]</td><td><em>(<a class="fn-backref" href="#id3">1</a>, <a class="fn-backref" href="#id6">2</a>)</em> Strat S., Benoit A., Lambert P., &#8220;Retina enhanced SIFT descriptors for video indexing&#8221;, CBMI2013, Veszprém, Hungary, 2013.</td></tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>Please have a look at the reference work of Jeanny Herault that you can read in his book :</li>
+</ul>
+<table class="docutils citation" frame="void" id="herault2010" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[Herault2010]</a></td><td>Vision: Images, Signals and Neural Networks: Models of Neural Processing in Visual Perception (Progress in Neural Processing),By: Jeanny Herault, ISBN: 9814273686. WAPI (Tower ID): 113266891.</td></tr>
+</tbody>
+</table>
+<p>This retina filter code includes the research contributions of phd/research collegues from which code has been redrawn by the author :</p>
+<ul class="simple">
+<li>take a look at the <em>retinacolor.hpp</em> module to discover Brice Chaix de Lavarene phD color mosaicing/demosaicing and his reference paper:</li>
+</ul>
+<table class="docutils citation" frame="void" id="chaix2007" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[Chaix2007]</a></td><td><ol class="first last upperalpha simple" start="2">
+<li>Chaix de Lavarene, D. Alleysson, B. Durette, J. Herault (2007). &#8220;Efficient demosaicing through recursive filtering&#8221;, IEEE International Conference on Image Processing ICIP 2007</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>take a look at <em>imagelogpolprojection.hpp</em> to discover retina spatial log sampling which originates from Barthelemy Durette phd with Jeanny Herault. A Retina / V1 cortex projection is also proposed and originates from Jeanny&#8217;s discussions. More informations in the above cited Jeanny Heraults&#8217;s book.</li>
+<li>Meylan&amp;al work on HDR tone mapping that is implemented as a specific method within the model :</li>
+</ul>
+<table class="docutils citation" frame="void" id="meylan2007" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[Meylan2007]</a></td><td><ol class="first last upperalpha simple" start="12">
+<li>Meylan , D. Alleysson, S. Susstrunk, &#8220;A Model of Retinal Local Adaptation for the Tone Mapping of Color Filter Array Images&#8221;, Journal of Optical Society of America, A, Vol. 24, N 9, September, 1st, 2007, pp. 2807-2816</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="demos-and-experiments">
+<h2>Demos and experiments !<a class="headerlink" href="#demos-and-experiments" title="Permalink to this headline">¶</a></h2>
+<p><strong>NOTE : Complementary to the following examples, have a look at the Retina tutorial in the tutorial/contrib section for complementary explanations.</strong></p>
+<p>Take a look at the provided C++ examples provided with OpenCV :</p>
+<ul>
+<li><dl class="first docutils">
+<dt><strong>samples/cpp/retinademo.cpp</strong> shows how to use the retina module for details enhancement (Parvo channel output) and transient maps observation (Magno channel output). You can play with images, video sequences and webcam video.</dt>
+<dd><blockquote class="first">
+<div><p>Typical uses are (provided your OpenCV installation is situated in folder <em>OpenCVReleaseFolder</em>)</p>
+<ul class="simple">
+<li>image processing : <strong>OpenCVReleaseFolder/bin/retinademo -image myPicture.jpg</strong></li>
+<li>video processing : <strong>OpenCVReleaseFolder/bin/retinademo -video myMovie.avi</strong></li>
+<li>webcam processing: <strong>OpenCVReleaseFolder/bin/retinademo -video</strong></li>
+</ul>
+</div></blockquote>
+<p class="last"><strong>Note :</strong> This demo generates the file <em>RetinaDefaultParameters.xml</em> which contains the default parameters of the retina. Then, rename this as <em>RetinaSpecificParameters.xml</em>, adjust the parameters the way you want and reload the program to check the effect.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><strong>samples/cpp/OpenEXRimages_HDR_Retina_toneMapping.cpp</strong> shows how to use the retina to perform High Dynamic Range (HDR) luminance compression</p>
+<blockquote>
+<div><p>Then, take a HDR image using bracketing with your camera and generate an OpenEXR image and then process it using the demo.</p>
+<p>Typical use, supposing that you have the OpenEXR image such as <em>memorial.exr</em> (present in the samples/cpp/ folder)</p>
+<p><strong>OpenCVReleaseFolder/bin/OpenEXRimages_HDR_Retina_toneMapping memorial.exr [optional: &#8216;fast&#8217;]</strong></p>
+<blockquote>
+<div><p>Note that some sliders are made available to allow you to play with luminance compression.</p>
+<p>If not using the &#8216;fast&#8217; option, then, tone mapping is performed using the full retina model <a class="reference internal" href="#benoit2010" id="id7">[Benoit2010]</a>. It includes spectral whitening that allows luminance energy to be reduced. When using the &#8216;fast&#8217; option, then, a simpler method is used, it is an adaptation of the algorithm presented in <a class="reference internal" href="#meylan2007" id="id8">[Meylan2007]</a>. This method gives also good results and is faster to process but it sometimes requires some more parameters adjustement.</p>
+</div></blockquote>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="methods-description">
+<h2>Methods description<a class="headerlink" href="#methods-description" title="Permalink to this headline">¶</a></h2>
+<p>Here are detailled the main methods to control the retina model</p>
+<div class="section" id="ptr-retina-createretina">
+<h3>Ptr&lt;Retina&gt;::createRetina<a class="headerlink" href="#ptr-retina-createretina" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="Ptr&lt;cv::bioinspired::Retina&gt; createRetina(Size inputSize)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;cv::bioinspired::Retina&gt; <tt class="descname">createRetina</tt><big>(</big>Size <strong>inputSize</strong><big>)</big><a class="headerlink" href="#Ptr<cv::bioinspired::Retina> createRetina(Size inputSize)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Ptr&lt;cv::bioinspired::Retina&gt; createRetina(Size inputSize, const bool colorMode, cv::bioinspired::RETINA_COLORSAMPLINGMETHOD colorSamplingMethod , const bool useRetinaLogSampling , const double reductionFactor , const double samplingStrenght)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;cv::bioinspired::Retina&gt; <tt class="descname">createRetina</tt><big>(</big>Size <strong>inputSize</strong>, const bool <strong>colorMode</strong>, cv::bioinspired::RETINA_COLORSAMPLINGMETHOD <strong>colorSamplingMethod</strong>=cv::bioinspired::RETINA_COLOR_BAYER, const bool <strong>useRetinaLogSampling</strong>=false, const double <strong>reductionFactor</strong>=1.0, const double <strong>samplingStrenght</strong>=10.0 <big>)</big><a class="headerlink" href="#Ptr<cv::bioinspired::Retina> createRetina(Size inputSize, const bool colorMode, cv::bioinspired::RETINA_COLORSAMPLINGMETHOD colorSamplingMethod , const bool useRetinaLogSampling , const double reductionFactor , const double samplingStrenght)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructors from standardized interfaces : retreive a smart pointer to a Retina instance</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>inputSize</strong> &#8211; the input frame size</li>
+<li><strong>colorMode</strong> &#8211; the chosen processing mode : with or without color processing</li>
+<li><strong>colorSamplingMethod</strong> &#8211; <p>specifies which kind of color sampling will be used :</p>
+<ul>
+<li>cv::bioinspired::RETINA_COLOR_RANDOM: each pixel position is either R, G or B in a random choice</li>
+<li>cv::bioinspired::RETINA_COLOR_DIAGONAL: color sampling is RGBRGBRGB..., line 2 BRGBRGBRG..., line 3, GBRGBRGBR...</li>
+<li>cv::bioinspired::RETINA_COLOR_BAYER: standard bayer sampling</li>
+</ul>
+</li>
+<li><strong>useRetinaLogSampling</strong> &#8211; activate retina log sampling, if true, the 2 following parameters can be used</li>
+<li><strong>reductionFactor</strong> &#8211; only usefull if param useRetinaLogSampling=true, specifies the reduction factor of the output frame (as the center (fovea) is high resolution and corners can be underscaled, then a reduction of the output is allowed without precision leak</li>
+<li><strong>samplingStrenght</strong> &#8211; only usefull if param useRetinaLogSampling=true, specifies the strenght of the log scale that is applied</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="retina-activatecontoursprocessing">
+<h3>Retina::activateContoursProcessing<a class="headerlink" href="#retina-activatecontoursprocessing" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="void Retina::activateContoursProcessing(const bool activate)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">activateContoursProcessing</tt><big>(</big>const bool <strong>activate</strong><big>)</big><a class="headerlink" href="#void Retina::activateContoursProcessing(const bool activate)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Activate/desactivate the Parvocellular pathway processing (contours information extraction), by default, it is activated</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>activate</strong> &#8211; true if Parvocellular (contours information extraction) output should be activated, false if not... if activated, the Parvocellular output can be retrieved using the <strong>getParvo</strong> methods</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="retina-activatemovingcontoursprocessing">
+<h3>Retina::activateMovingContoursProcessing<a class="headerlink" href="#retina-activatemovingcontoursprocessing" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="void Retina::activateMovingContoursProcessing(const bool activate)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">activateMovingContoursProcessing</tt><big>(</big>const bool <strong>activate</strong><big>)</big><a class="headerlink" href="#void Retina::activateMovingContoursProcessing(const bool activate)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Activate/desactivate the Magnocellular pathway processing (motion information extraction), by default, it is activated</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>activate</strong> &#8211; true if Magnocellular output should be activated, false if not... if activated, the Magnocellular output can be retrieved using the <strong>getMagno</strong> methods</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="retina-clearbuffers">
+<h3>Retina::clearBuffers<a class="headerlink" href="#retina-clearbuffers" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="void Retina::clearBuffers()">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">clearBuffers</tt><big>(</big><big>)</big><a class="headerlink" href="#void Retina::clearBuffers()" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears all retina buffers (equivalent to opening the eyes after a long period of eye close ;o) whatchout the temporal transition occuring just after this method call.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="retina-getparvo">
+<h3>Retina::getParvo<a class="headerlink" href="#retina-getparvo" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="void Retina::getParvo(OutputArray retinaOutput_parvo)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">getParvo</tt><big>(</big>OutputArray <strong>retinaOutput_parvo</strong><big>)</big><a class="headerlink" href="#void Retina::getParvo(OutputArray retinaOutput_parvo)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="void Retina::getParvoRAW(OutputArray retinaOutput_parvo)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">getParvoRAW</tt><big>(</big>OutputArray <strong>retinaOutput_parvo</strong><big>)</big><a class="headerlink" href="#void Retina::getParvoRAW(OutputArray retinaOutput_parvo)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="const Mat Retina::getParvoRAW() const">
+<strong>C++:</strong><tt class="descname"> </tt>const Mat <tt class="descclassname">Retina::</tt><tt class="descname">getParvoRAW</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#const Mat Retina::getParvoRAW() const" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor of the details channel of the retina (models foveal vision). Warning, getParvoRAW methods return buffers that are not rescaled within range [0;255] while the non RAW method allows a normalized matrix to be retrieved.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>retinaOutput_parvo</strong> &#8211; <p>the output buffer (reallocated if necessary), format can be :</p>
+<ul>
+<li>a Mat, this output is rescaled for standard 8bits image processing use in OpenCV</li>
+<li>RAW methods actually return a 1D matrix (encoding is R1, R2, ... Rn, G1, G2, ..., Gn, B1, B2, ...Bn), this output is the original retina filter model output, without any quantification or rescaling.</li>
+</ul>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="retina-getmagno">
+<h3>Retina::getMagno<a class="headerlink" href="#retina-getmagno" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="void Retina::getMagno(OutputArray retinaOutput_magno)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">getMagno</tt><big>(</big>OutputArray <strong>retinaOutput_magno</strong><big>)</big><a class="headerlink" href="#void Retina::getMagno(OutputArray retinaOutput_magno)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="void Retina::getMagnoRAW(OutputArray retinaOutput_magno)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">getMagnoRAW</tt><big>(</big>OutputArray <strong>retinaOutput_magno</strong><big>)</big><a class="headerlink" href="#void Retina::getMagnoRAW(OutputArray retinaOutput_magno)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="const Mat Retina::getMagnoRAW() const">
+<strong>C++:</strong><tt class="descname"> </tt>const Mat <tt class="descclassname">Retina::</tt><tt class="descname">getMagnoRAW</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#const Mat Retina::getMagnoRAW() const" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor of the motion channel of the retina (models peripheral vision). Warning, getMagnoRAW methods return buffers that are not rescaled within range [0;255] while the non RAW method allows a normalized matrix to be retrieved.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>retinaOutput_magno</strong> &#8211; <p>the output buffer (reallocated if necessary), format can be :</p>
+<ul>
+<li>a Mat, this output is rescaled for standard 8bits image processing use in OpenCV</li>
+<li>RAW methods actually return a 1D matrix (encoding is M1, M2,... Mn), this output is the original retina filter model output, without any quantification or rescaling.</li>
+</ul>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="retina-getinputsize">
+<h3>Retina::getInputSize<a class="headerlink" href="#retina-getinputsize" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="Size Retina::getInputSize()">
+<strong>C++:</strong><tt class="descname"> </tt>Size <tt class="descclassname">Retina::</tt><tt class="descname">getInputSize</tt><big>(</big><big>)</big><a class="headerlink" href="#Size Retina::getInputSize()" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retreive retina input buffer size</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the retina input buffer size</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="retina-getoutputsize">
+<h3>Retina::getOutputSize<a class="headerlink" href="#retina-getoutputsize" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="Size Retina::getOutputSize()">
+<strong>C++:</strong><tt class="descname"> </tt>Size <tt class="descclassname">Retina::</tt><tt class="descname">getOutputSize</tt><big>(</big><big>)</big><a class="headerlink" href="#Size Retina::getOutputSize()" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retreive retina output buffer size that can be different from the input if a spatial log transformation is applied</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the retina output buffer size</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="retina-printsetup">
+<h3>Retina::printSetup<a class="headerlink" href="#retina-printsetup" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="const String Retina::printSetup()">
+<strong>C++:</strong><tt class="descname"> </tt>const String <tt class="descclassname">Retina::</tt><tt class="descname">printSetup</tt><big>(</big><big>)</big><a class="headerlink" href="#const String Retina::printSetup()" title="Permalink to this definition">¶</a></dt>
+<dd><p>Outputs a string showing the used parameters setup</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string which contains formated parameters information</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="retina-run">
+<h3>Retina::run<a class="headerlink" href="#retina-run" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="void Retina::run(InputArray inputImage)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">run</tt><big>(</big>InputArray <strong>inputImage</strong><big>)</big><a class="headerlink" href="#void Retina::run(InputArray inputImage)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method which allows retina to be applied on an input image, after run, encapsulated retina module is ready to deliver its outputs using dedicated acccessors, see getParvo and getMagno methods</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>inputImage</strong> &#8211; the input Mat image to be processed, can be gray level or BGR coded in any format (from 8bit to 16bits)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="retina-applyfasttonemapping">
+<h3>Retina::applyFastToneMapping<a class="headerlink" href="#retina-applyfasttonemapping" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="void Retina::applyFastToneMapping(InputArray inputImage, OutputArray outputToneMappedImage)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">applyFastToneMapping</tt><big>(</big>InputArray <strong>inputImage</strong>, OutputArray <strong>outputToneMappedImage</strong><big>)</big><a class="headerlink" href="#void Retina::applyFastToneMapping(InputArray inputImage, OutputArray outputToneMappedImage)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method which processes an image in the aim to correct its luminance : correct backlight problems, enhance details in shadows. This method is designed to perform High Dynamic Range image tone mapping (compress &gt;8bit/pixel images to 8bit/pixel). This is a simplified version of the Retina Parvocellular model (simplified version of the run/getParvo methods call) since it does not include the spatio-temporal filter modelling the Outer Plexiform Layer of the retina that performs spectral whitening and many other stuff. However, it works great for tone mapping and in a faster way.</p>
+<p>Check the demos and experiments section to see examples and the way to perform tone mapping using the original retina model and the method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>inputImage</strong> &#8211; the input image to process (should be coded in float format : CV_32F, CV_32FC1, CV_32F_C3, CV_32F_C4, the 4th channel won&#8217;t be considered).</li>
+<li><strong>outputToneMappedImage</strong> &#8211; the output 8bit/channel tone mapped image (CV_8U or CV_8UC3 format).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="retina-setcolorsaturation">
+<h3>Retina::setColorSaturation<a class="headerlink" href="#retina-setcolorsaturation" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="void Retina::setColorSaturation(const bool saturateColors , const float colorSaturationValue)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">setColorSaturation</tt><big>(</big>const bool <strong>saturateColors</strong>=true, const float <strong>colorSaturationValue</strong>=4.0 <big>)</big><a class="headerlink" href="#void Retina::setColorSaturation(const bool saturateColors , const float colorSaturationValue)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Activate color saturation as the final step of the color demultiplexing process -&gt; this saturation is a sigmoide function applied to each channel of the demultiplexed image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>saturateColors</strong> &#8211; boolean that activates color saturation (if true) or desactivate (if false)</li>
+<li><strong>colorSaturationValue</strong> &#8211; the saturation factor : a simple factor applied on the chrominance buffers</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="retina-setup">
+<h3>Retina::setup<a class="headerlink" href="#retina-setup" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="void Retina::setup(String retinaParameterFile , const bool applyDefaultSetupOnFailure)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">setup</tt><big>(</big>String <strong>retinaParameterFile</strong>=&quot;&quot;, const bool <strong>applyDefaultSetupOnFailure</strong>=true <big>)</big><a class="headerlink" href="#void Retina::setup(String retinaParameterFile , const bool applyDefaultSetupOnFailure)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="void Retina::setup(FileStorage &amp; fs, const bool applyDefaultSetupOnFailure)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">setup</tt><big>(</big>FileStorage&amp; <strong>fs</strong>, const bool <strong>applyDefaultSetupOnFailure</strong>=true <big>)</big><a class="headerlink" href="#void Retina::setup(FileStorage & fs, const bool applyDefaultSetupOnFailure)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="void Retina::setup(RetinaParameters newParameters)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">setup</tt><big>(</big>RetinaParameters <strong>newParameters</strong><big>)</big><a class="headerlink" href="#void Retina::setup(RetinaParameters newParameters)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to open an XML retina parameters file to adjust current retina instance setup =&gt; if the xml file does not exist, then default setup is applied =&gt; warning, Exceptions are thrown if read XML file is not valid</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>retinaParameterFile</strong> &#8211; the parameters filename</li>
+<li><strong>applyDefaultSetupOnFailure</strong> &#8211; set to true if an error must be thrown on error</li>
+<li><strong>fs</strong> &#8211; the open Filestorage which contains retina parameters</li>
+<li><strong>newParameters</strong> &#8211; a parameters structures updated with the new target configuration. You can retreive the current parameers structure using method <em>Retina::RetinaParameters Retina::getParameters()</em> and update it before running method <em>setup</em>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="retina-write">
+<h3>Retina::write<a class="headerlink" href="#retina-write" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="void Retina::write(String fs) const">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">write</tt><big>(</big>String <strong>fs</strong><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#void Retina::write(String fs) const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="void Retina::write(FileStorage&amp; fs) const">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">write</tt><big>(</big>FileStorage&amp; <strong>fs</strong><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#void Retina::write(FileStorage& fs) const" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write xml/yml formated parameters information</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fs</strong> &#8211; the filename of the xml file that will be open and writen with formatted parameters information</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="retina-setupiplmagnochannel">
+<h3>Retina::setupIPLMagnoChannel<a class="headerlink" href="#retina-setupiplmagnochannel" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="void Retina::setupIPLMagnoChannel(const bool normaliseOutput , const float parasolCells_beta , const float parasolCells_tau , const float parasolCells_k , const float amacrinCellsTemporalCutFrequency , const float V0CompressionParameter , const float localAdaptintegration_tau , const float localAdaptintegration_k)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">setupIPLMagnoChannel</tt><big>(</big>const bool <strong>normaliseOutput</strong>=true, const float <strong>parasolCells_beta</strong>=0, const float <strong>parasolCells_tau</strong>=0, const float <strong>parasolCells_k</strong>=7, const float <strong>amacrinCellsTemporalCutFrequency</strong>=1.2, const float <strong>V0CompressionParameter</strong>=0.95, const float <strong>localAdaptintegration_tau</strong>=0, const float <strong>localAdaptintegration_k</strong>=7 <big>)</big><a class="headerlink" href="#void Retina::setupIPLMagnoChannel(const bool normaliseOutput , const float parasolCells_beta , const float parasolCells_tau , const float parasolCells_k , const float amacrinCellsTemporalCutFrequency , const float V0CompressionParameter , const float localAdaptintegration_tau , const float localAdaptintegration_k)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set parameters values for the Inner Plexiform Layer (IPL) magnocellular channel this channel processes signals output from OPL processing stage in peripheral vision, it allows motion information enhancement. It is decorrelated from the details channel. See reference papers for more details.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>normaliseOutput</strong> &#8211; specifies if (true) output is rescaled between 0 and 255 of not (false)</li>
+<li><strong>parasolCells_beta</strong> &#8211; the low pass filter gain used for local contrast adaptation at the IPL level of the retina (for ganglion cells local adaptation), typical value is 0</li>
+<li><strong>parasolCells_tau</strong> &#8211; the low pass filter time constant used for local contrast adaptation at the IPL level of the retina (for ganglion cells local adaptation), unit is frame, typical value is 0 (immediate response)</li>
+<li><strong>parasolCells_k</strong> &#8211; the low pass filter spatial constant used for local contrast adaptation at the IPL level of the retina (for ganglion cells local adaptation), unit is pixels, typical value is 5</li>
+<li><strong>amacrinCellsTemporalCutFrequency</strong> &#8211; the time constant of the first order high pass fiter of the magnocellular way (motion information channel), unit is frames, typical value is 1.2</li>
+<li><strong>V0CompressionParameter</strong> &#8211; the compression strengh of the ganglion cells local adaptation output, set a value between 0.6 and 1 for best results, a high value increases more the low value sensitivity... and the output saturates faster, recommended value: 0.95</li>
+<li><strong>localAdaptintegration_tau</strong> &#8211; specifies the temporal constant of the low pas filter involved in the computation of the local &#8220;motion mean&#8221; for the local adaptation computation</li>
+<li><strong>localAdaptintegration_k</strong> &#8211; specifies the spatial constant of the low pas filter involved in the computation of the local &#8220;motion mean&#8221; for the local adaptation computation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="retina-setupoplandiplparvochannel">
+<h3>Retina::setupOPLandIPLParvoChannel<a class="headerlink" href="#retina-setupoplandiplparvochannel" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="void Retina::setupOPLandIPLParvoChannel(const bool colorMode , const bool normaliseOutput , const float photoreceptorsLocalAdaptationSensitivity , const float photoreceptorsTemporalConstant , const float photoreceptorsSpatialConstant , const float horizontalCellsGain , const float HcellsTemporalConstant , const float HcellsSpatialConstant , const float ganglionCellsSensitivity)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">Retina::</tt><tt class="descname">setupOPLandIPLParvoChannel</tt><big>(</big>const bool <strong>colorMode</strong>=true, const bool <strong>normaliseOutput</strong>=true, const float <strong>photoreceptorsLocalAdaptationSensitivity</strong>=0.7, const float <strong>photoreceptorsTemporalConstant</strong>=0.5, const float <strong>photoreceptorsSpatialConstant</strong>=0.53, const float <strong>horizontalCellsGain</strong>=0, const float <strong>HcellsTemporalConstant</strong>=1, const float <strong>HcellsSpatialConstant</strong>=7, const float <strong>ganglionCellsSensitivity</strong>=0.7 <big>)</big><a class="headerlink" href="#void Retina::setupOPLandIPLParvoChannel(const bool colorMode , const bool normaliseOutput , const float photoreceptorsLocalAdaptationSensitivity , const float photoreceptorsTemporalConstant , const float photoreceptorsSpatialConstant , const float horizontalCellsGain , const float HcellsTemporalConstant , const float HcellsSpatialConstant , const float ganglionCellsSensitivity)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup the OPL and IPL parvo channels (see biologocal model) OPL is referred as Outer Plexiform Layer of the retina, it allows the spatio-temporal filtering which withens the spectrum and reduces spatio-temporal noise while attenuating global luminance (low frequency energy) IPL parvo is the OPL next processing stage, it refers to a part of the Inner Plexiform layer of the retina, it allows high contours sensitivity in foveal vision. See reference papers for more informations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>colorMode</strong> &#8211; specifies if (true) color is processed of not (false) to then processing gray level image</li>
+<li><strong>normaliseOutput</strong> &#8211; specifies if (true) output is rescaled between 0 and 255 of not (false)</li>
+<li><strong>photoreceptorsLocalAdaptationSensitivity</strong> &#8211; the photoreceptors sensitivity renage is 0-1 (more log compression effect when value increases)</li>
+<li><strong>photoreceptorsTemporalConstant</strong> &#8211; the time constant of the first order low pass filter of the photoreceptors, use it to cut high temporal frequencies (noise or fast motion), unit is frames, typical value is 1 frame</li>
+<li><strong>photoreceptorsSpatialConstant</strong> &#8211; the spatial constant of the first order low pass filter of the photoreceptors, use it to cut high spatial frequencies (noise or thick contours), unit is pixels, typical value is 1 pixel</li>
+<li><strong>horizontalCellsGain</strong> &#8211; gain of the horizontal cells network, if 0, then the mean value of the output is zero, if the parameter is near 1, then, the luminance is not filtered and is still reachable at the output, typicall value is 0</li>
+<li><strong>HcellsTemporalConstant</strong> &#8211; the time constant of the first order low pass filter of the horizontal cells, use it to cut low temporal frequencies (local luminance variations), unit is frames, typical value is 1 frame, as the photoreceptors</li>
+<li><strong>HcellsSpatialConstant</strong> &#8211; the spatial constant of the first order low pass filter of the horizontal cells, use it to cut low spatial frequencies (local luminance), unit is pixels, typical value is 5 pixel, this value is also used for local contrast computing when computing the local contrast adaptation at the ganglion cells level (Inner Plexiform Layer parvocellular channel model)</li>
+<li><strong>ganglionCellsSensitivity</strong> &#8211; the compression strengh of the ganglion cells local adaptation output, set a value between 0.6 and 1 for best results, a high value increases more the low value sensitivity... and the output saturates faster, recommended value: 0.7</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="retina-retinaparameters">
+<h2>Retina::RetinaParameters<a class="headerlink" href="#retina-retinaparameters" title="Permalink to this headline">¶</a></h2>
+<dl class="struct">
+<dt id="Retina::RetinaParameters">
+<em class="property">struct </em><tt class="descclassname">Retina::</tt><tt class="descname">RetinaParameters</tt><a class="headerlink" href="#Retina::RetinaParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>This structure merges all the parameters that can be adjusted threw the <strong>Retina::setup()</strong>, <strong>Retina::setupOPLandIPLParvoChannel</strong> and <strong>Retina::setupIPLMagnoChannel</strong> setup methods
+Parameters structure for better clarity, check explenations on the comments of methods : setupOPLandIPLParvoChannel and setupIPLMagnoChannel.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">RetinaParameters</span><span class="p">{</span>
+    <span class="k">struct</span> <span class="n">OPLandIplParvoParameters</span><span class="p">{</span> <span class="c1">// Outer Plexiform Layer (OPL) and Inner Plexiform Layer Parvocellular (IplParvo) parameters</span>
+           <span class="n">OPLandIplParvoParameters</span><span class="p">()</span><span class="o">:</span><span class="n">colorMode</span><span class="p">(</span><span class="nb">true</span><span class="p">),</span>
+              <span class="n">normaliseOutput</span><span class="p">(</span><span class="nb">true</span><span class="p">),</span> <span class="c1">// specifies if (true) output is rescaled between 0 and 255 of not (false)</span>
+              <span class="n">photoreceptorsLocalAdaptationSensitivity</span><span class="p">(</span><span class="mf">0.7f</span><span class="p">),</span> <span class="c1">// the photoreceptors sensitivity renage is 0-1 (more log compression effect when value increases)</span>
+              <span class="n">photoreceptorsTemporalConstant</span><span class="p">(</span><span class="mf">0.5f</span><span class="p">),</span><span class="c1">// the time constant of the first order low pass filter of the photoreceptors, use it to cut high temporal frequencies (noise or fast motion), unit is frames, typical value is 1 frame</span>
+              <span class="n">photoreceptorsSpatialConstant</span><span class="p">(</span><span class="mf">0.53f</span><span class="p">),</span><span class="c1">// the spatial constant of the first order low pass filter of the photoreceptors, use it to cut high spatial frequencies (noise or thick contours), unit is pixels, typical value is 1 pixel</span>
+              <span class="n">horizontalCellsGain</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">),</span><span class="c1">//gain of the horizontal cells network, if 0, then the mean value of the output is zero, if the parameter is near 1, then, the luminance is not filtered and is still reachable at the output, typicall value is 0</span>
+              <span class="n">hcellsTemporalConstant</span><span class="p">(</span><span class="mf">1.f</span><span class="p">),</span><span class="c1">// the time constant of the first order low pass filter of the horizontal cells, use it to cut low temporal frequencies (local luminance variations), unit is frames, typical value is 1 frame, as the photoreceptors. Reduce to 0.5 to limit retina after effects.</span>
+              <span class="n">hcellsSpatialConstant</span><span class="p">(</span><span class="mf">7.f</span><span class="p">),</span><span class="c1">//the spatial constant of the first order low pass filter of the horizontal cells, use it to cut low spatial frequencies (local luminance), unit is pixels, typical value is 5 pixel, this value is also used for local contrast computing when computing the local contrast adaptation at the ganglion cells level (Inner Plexiform Layer parvocellular channel model)</span>
+              <span class="n">ganglionCellsSensitivity</span><span class="p">(</span><span class="mf">0.7f</span><span class="p">)</span><span class="c1">//the compression strengh of the ganglion cells local adaptation output, set a value between 0.6 and 1 for best results, a high value increases more the low value sensitivity... and the output saturates faster, recommended value: 0.7</span>
+              <span class="p">{};</span><span class="c1">// default setup</span>
+           <span class="kt">bool</span> <span class="n">colorMode</span><span class="p">,</span> <span class="n">normaliseOutput</span><span class="p">;</span>
+           <span class="kt">float</span> <span class="n">photoreceptorsLocalAdaptationSensitivity</span><span class="p">,</span> <span class="n">photoreceptorsTemporalConstant</span><span class="p">,</span> <span class="n">photoreceptorsSpatialConstant</span><span class="p">,</span> <span class="n">horizontalCellsGain</span><span class="p">,</span> <span class="n">hcellsTemporalConstant</span><span class="p">,</span> <span class="n">hcellsSpatialConstant</span><span class="p">,</span> <span class="n">ganglionCellsSensitivity</span><span class="p">;</span>
+       <span class="p">};</span>
+       <span class="k">struct</span> <span class="n">IplMagnoParameters</span><span class="p">{</span> <span class="c1">// Inner Plexiform Layer Magnocellular channel (IplMagno)</span>
+           <span class="n">IplMagnoParameters</span><span class="p">()</span><span class="o">:</span>
+              <span class="n">normaliseOutput</span><span class="p">(</span><span class="nb">true</span><span class="p">),</span> <span class="c1">//specifies if (true) output is rescaled between 0 and 255 of not (false)</span>
+              <span class="n">parasolCells_beta</span><span class="p">(</span><span class="mf">0.f</span><span class="p">),</span> <span class="c1">// the low pass filter gain used for local contrast adaptation at the IPL level of the retina (for ganglion cells local adaptation), typical value is 0</span>
+              <span class="n">parasolCells_tau</span><span class="p">(</span><span class="mf">0.f</span><span class="p">),</span> <span class="c1">//the low pass filter time constant used for local contrast adaptation at the IPL level of the retina (for ganglion cells local adaptation), unit is frame, typical value is 0 (immediate response)</span>
+              <span class="n">parasolCells_k</span><span class="p">(</span><span class="mf">7.f</span><span class="p">),</span> <span class="c1">//the low pass filter spatial constant used for local contrast adaptation at the IPL level of the retina (for ganglion cells local adaptation), unit is pixels, typical value is 5</span>
+              <span class="n">amacrinCellsTemporalCutFrequency</span><span class="p">(</span><span class="mf">1.2f</span><span class="p">),</span> <span class="c1">//the time constant of the first order high pass fiter of the magnocellular way (motion information channel), unit is frames, typical value is 1.2</span>
+              <span class="n">V0CompressionParameter</span><span class="p">(</span><span class="mf">0.95f</span><span class="p">),</span> <span class="n">the</span> <span class="n">compression</span> <span class="n">strengh</span> <span class="n">of</span> <span class="n">the</span> <span class="n">ganglion</span> <span class="n">cells</span> <span class="n">local</span> <span class="n">adaptation</span> <span class="n">output</span><span class="p">,</span> <span class="n">set</span> <span class="n">a</span> <span class="n">value</span> <span class="n">between</span> <span class="mf">0.6</span> <span class="n">and</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">best</span> <span class="n">results</span><span class="p">,</span> <span class="n">a</span> <span class="n">high</span> <span class="n">value</span> <span class="n">increases</span> <span class="n">more</span> <span class="n">the</span> <span class="n">low</span> <span class="n">value</span> <span class="n">sensitivity</span><span class="p">...</span> <span class="n">and</span> <span class="n">the</span> <span class="n">output</span> <span class="n">saturates</span> <span class="n">faster</span><span class="p">,</span> <span class="n">recommended</span> <span class="n">value</span><span class="o">:</span> <span class="mf">0.95</span>
+              <span class="n">localAdaptintegration_tau</span><span class="p">(</span><span class="mf">0.f</span><span class="p">),</span> <span class="c1">// specifies the temporal constant of the low pas filter involved in the computation of the local &quot;motion mean&quot; for the local adaptation computation</span>
+              <span class="n">localAdaptintegration_k</span><span class="p">(</span><span class="mf">7.f</span><span class="p">)</span> <span class="c1">// specifies the spatial constant of the low pas filter involved in the computation of the local &quot;motion mean&quot; for the local adaptation computation</span>
+              <span class="p">{};</span><span class="c1">// default setup</span>
+           <span class="kt">bool</span> <span class="n">normaliseOutput</span><span class="p">;</span>
+           <span class="kt">float</span> <span class="n">parasolCells_beta</span><span class="p">,</span> <span class="n">parasolCells_tau</span><span class="p">,</span> <span class="n">parasolCells_k</span><span class="p">,</span> <span class="n">amacrinCellsTemporalCutFrequency</span><span class="p">,</span> <span class="n">V0CompressionParameter</span><span class="p">,</span> <span class="n">localAdaptintegration_tau</span><span class="p">,</span> <span class="n">localAdaptintegration_k</span><span class="p">;</span>
+       <span class="p">};</span>
+        <span class="k">struct</span> <span class="n">OPLandIplParvoParameters</span> <span class="n">OPLandIplParvo</span><span class="p">;</span>
+        <span class="k">struct</span> <span class="n">IplMagnoParameters</span> <span class="n">IplMagno</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="retina-parameters-files-examples">
+<h3>Retina parameters files examples<a class="headerlink" href="#retina-parameters-files-examples" title="Permalink to this headline">¶</a></h3>
+<p>Here is the default configuration file of the retina module. It gives results such as the first retina output shown on the top of this page.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="o">&lt;?</span><span class="n">xml</span> <span class="n">version</span><span class="o">=</span><span class="s">&quot;1.0&quot;</span><span class="o">?&gt;</span>
+<span class="o">&lt;</span><span class="n">opencv_storage</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">OPLandIPLparvo</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">colorMode</span><span class="o">&gt;</span><span class="mi">1</span><span class="o">&lt;/</span><span class="n">colorMode</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">normaliseOutput</span><span class="o">&gt;</span><span class="mi">1</span><span class="o">&lt;/</span><span class="n">normaliseOutput</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">photoreceptorsLocalAdaptationSensitivity</span><span class="o">&gt;</span><span class="mf">7.5e-01</span><span class="o">&lt;/</span><span class="n">photoreceptorsLocalAdaptationSensitivity</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">photoreceptorsTemporalConstant</span><span class="o">&gt;</span><span class="mf">9.0e-01</span><span class="o">&lt;/</span><span class="n">photoreceptorsTemporalConstant</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">photoreceptorsSpatialConstant</span><span class="o">&gt;</span><span class="mf">5.3e-01</span><span class="o">&lt;/</span><span class="n">photoreceptorsSpatialConstant</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">horizontalCellsGain</span><span class="o">&gt;</span><span class="mf">0.01</span><span class="o">&lt;/</span><span class="n">horizontalCellsGain</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">hcellsTemporalConstant</span><span class="o">&gt;</span><span class="mf">0.5</span><span class="o">&lt;/</span><span class="n">hcellsTemporalConstant</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">hcellsSpatialConstant</span><span class="o">&gt;</span><span class="mf">7.</span><span class="o">&lt;/</span><span class="n">hcellsSpatialConstant</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">ganglionCellsSensitivity</span><span class="o">&gt;</span><span class="mf">7.5e-01</span><span class="o">&lt;/</span><span class="n">ganglionCellsSensitivity</span><span class="o">&gt;&lt;/</span><span class="n">OPLandIPLparvo</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">IPLmagno</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">normaliseOutput</span><span class="o">&gt;</span><span class="mi">1</span><span class="o">&lt;/</span><span class="n">normaliseOutput</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">parasolCells_beta</span><span class="o">&gt;</span><span class="mf">0.</span><span class="o">&lt;/</span><span class="n">parasolCells_beta</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">parasolCells_tau</span><span class="o">&gt;</span><span class="mf">0.</span><span class="o">&lt;/</span><span class="n">parasolCells_tau</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">parasolCells_k</span><span class="o">&gt;</span><span class="mf">7.</span><span class="o">&lt;/</span><span class="n">parasolCells_k</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">amacrinCellsTemporalCutFrequency</span><span class="o">&gt;</span><span class="mf">2.0e+00</span><span class="o">&lt;/</span><span class="n">amacrinCellsTemporalCutFrequency</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">V0CompressionParameter</span><span class="o">&gt;</span><span class="mf">9.5e-01</span><span class="o">&lt;/</span><span class="n">V0CompressionParameter</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">localAdaptintegration_tau</span><span class="o">&gt;</span><span class="mf">0.</span><span class="o">&lt;/</span><span class="n">localAdaptintegration_tau</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">localAdaptintegration_k</span><span class="o">&gt;</span><span class="mf">7.</span><span class="o">&lt;/</span><span class="n">localAdaptintegration_k</span><span class="o">&gt;&lt;/</span><span class="n">IPLmagno</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">opencv_storage</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Here is the &#8216;realistic&#8221; setup used to obtain the second retina output shown on the top of this page.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="o">&lt;?</span><span class="n">xml</span> <span class="n">version</span><span class="o">=</span><span class="s">&quot;1.0&quot;</span><span class="o">?&gt;</span>
+<span class="o">&lt;</span><span class="n">opencv_storage</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">OPLandIPLparvo</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">colorMode</span><span class="o">&gt;</span><span class="mi">1</span><span class="o">&lt;/</span><span class="n">colorMode</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">normaliseOutput</span><span class="o">&gt;</span><span class="mi">1</span><span class="o">&lt;/</span><span class="n">normaliseOutput</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">photoreceptorsLocalAdaptationSensitivity</span><span class="o">&gt;</span><span class="mf">8.9e-01</span><span class="o">&lt;/</span><span class="n">photoreceptorsLocalAdaptationSensitivity</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">photoreceptorsTemporalConstant</span><span class="o">&gt;</span><span class="mf">9.0e-01</span><span class="o">&lt;/</span><span class="n">photoreceptorsTemporalConstant</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">photoreceptorsSpatialConstant</span><span class="o">&gt;</span><span class="mf">5.3e-01</span><span class="o">&lt;/</span><span class="n">photoreceptorsSpatialConstant</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">horizontalCellsGain</span><span class="o">&gt;</span><span class="mf">0.3</span><span class="o">&lt;/</span><span class="n">horizontalCellsGain</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">hcellsTemporalConstant</span><span class="o">&gt;</span><span class="mf">0.5</span><span class="o">&lt;/</span><span class="n">hcellsTemporalConstant</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">hcellsSpatialConstant</span><span class="o">&gt;</span><span class="mf">7.</span><span class="o">&lt;/</span><span class="n">hcellsSpatialConstant</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ganglionCellsSensitivity</span><span class="o">&gt;</span><span class="mf">8.9e-01</span><span class="o">&lt;/</span><span class="n">ganglionCellsSensitivity</span><span class="o">&gt;&lt;/</span><span class="n">OPLandIPLparvo</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">IPLmagno</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">normaliseOutput</span><span class="o">&gt;</span><span class="mi">1</span><span class="o">&lt;/</span><span class="n">normaliseOutput</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">parasolCells_beta</span><span class="o">&gt;</span><span class="mf">0.</span><span class="o">&lt;/</span><span class="n">parasolCells_beta</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">parasolCells_tau</span><span class="o">&gt;</span><span class="mf">0.</span><span class="o">&lt;/</span><span class="n">parasolCells_tau</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">parasolCells_k</span><span class="o">&gt;</span><span class="mf">7.</span><span class="o">&lt;/</span><span class="n">parasolCells_k</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">amacrinCellsTemporalCutFrequency</span><span class="o">&gt;</span><span class="mf">2.0e+00</span><span class="o">&lt;/</span><span class="n">amacrinCellsTemporalCutFrequency</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">V0CompressionParameter</span><span class="o">&gt;</span><span class="mf">9.5e-01</span><span class="o">&lt;/</span><span class="n">V0CompressionParameter</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">localAdaptintegration_tau</span><span class="o">&gt;</span><span class="mf">0.</span><span class="o">&lt;/</span><span class="n">localAdaptintegration_tau</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">localAdaptintegration_k</span><span class="o">&gt;</span><span class="mf">7.</span><span class="o">&lt;/</span><span class="n">localAdaptintegration_k</span><span class="o">&gt;&lt;/</span><span class="n">IPLmagno</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">opencv_storage</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../cvv/doc/cvv.html" title="cvv. GUI for Interactive Visual Debugging of Computer Vision Programs"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="bioinspired.html" title="bioinspired. Biologically inspired vision models and derivated tools"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="bioinspired.html" >bioinspired. Biologically inspired vision models and derivated tools</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/bioinspired/doc/retina.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/bioinspired/doc/retina.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:12 GMT -->
+</html>

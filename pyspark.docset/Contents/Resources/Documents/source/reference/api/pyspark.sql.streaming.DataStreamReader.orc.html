@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.sql.streaming.DataStreamReader.orc — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-sql-streaming-datastreamreader-orc">
+<h1>pyspark.sql.streaming.DataStreamReader.orc<a class="headerlink" href="#pyspark-sql-streaming-datastreamreader-orc" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.sql.streaming.DataStreamReader.orc"><a name="//apple_ref/cpp/Method/pyspark.sql.streaming.DataStreamReader.orc"></a>
+<code class="sig-prename descclassname">DataStreamReader.</code><code class="sig-name descname">orc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">mergeSchema</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pathGlobFilter</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">recursiveFileLookup</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/sql/streaming.html#DataStreamReader.orc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.sql.streaming.DataStreamReader.orc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a ORC file stream, returning the result as a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Evolving.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mergeSchema</strong> – sets whether we should merge schemas collected from all
+ORC part-files. This will override <code class="docutils literal notranslate"><span class="pre">spark.sql.orc.mergeSchema</span></code>.
+The default value is specified in <code class="docutils literal notranslate"><span class="pre">spark.sql.orc.mergeSchema</span></code>.</p></li>
+<li><p><strong>pathGlobFilter</strong> – an optional glob pattern to only include files with paths matching
+the pattern. The syntax follows <cite>org.apache.hadoop.fs.GlobFilter</cite>.
+It does not change the behavior of <a href="#id1"><span class="problematic" id="id2">`partition discovery`_</span></a>.</p></li>
+<li><p><strong>recursiveFileLookup</strong> – recursively scan a directory for files. Using this option
+disables <a href="#id3"><span class="problematic" id="id4">`partition discovery`_</span></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">orc_sdf</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">readStream</span><span class="o">.</span><span class="n">schema</span><span class="p">(</span><span class="n">sdf_schema</span><span class="p">)</span><span class="o">.</span><span class="n">orc</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">orc_sdf</span><span class="o">.</span><span class="n">isStreaming</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">orc_sdf</span><span class="o">.</span><span class="n">schema</span> <span class="o">==</span> <span class="n">sdf_schema</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.</span></p>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

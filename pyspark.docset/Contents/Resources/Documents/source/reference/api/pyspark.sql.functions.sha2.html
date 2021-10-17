@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.sql.functions.sha2 — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-sql-functions-sha2">
+<h1>pyspark.sql.functions.sha2<a class="headerlink" href="#pyspark-sql-functions-sha2" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="pyspark.sql.functions.sha2"><a name="//apple_ref/cpp/Function/pyspark.sql.functions.sha2"></a>
+<code class="sig-prename descclassname">pyspark.sql.functions.</code><code class="sig-name descname">sha2</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">numBits</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/sql/functions.html#sha2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.sql.functions.sha2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the hex string result of SHA-2 family of hash functions (SHA-224, SHA-256, SHA-384,
+and SHA-512). The numBits indicates the desired bit length of the result, which must have a
+value of 224, 256, 384, 512, or 0 (which is equivalent to 256).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">digests</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">sha2</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'s'</span><span class="p">))</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">digests</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">Row(s='3bc51062973c458d5a6f2d8d64a023246354ad7e064b1e4e009ec8a0699a3043')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">digests</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">Row(s='cd9fb1e148ccd8442e5aa74904cc73bf6fb54d1d54d333bd596aa9bb4bb4e961')</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.</span></p>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

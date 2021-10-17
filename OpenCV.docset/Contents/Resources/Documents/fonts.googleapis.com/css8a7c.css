@@ -1,0 +1,25 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(../fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTYnF5uFdDttMLvmWuJdhhgs.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(../fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3aCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(../fonts.gstatic.com/s/opensans/v13/k3k702ZOKiLJc3WVjuplzInF5uFdDttMLvmWuJdhhgs.ttf) format('truetype');
+}
+
+div.related {display:none}
+a.headerlink {display:none}
+body{background-color:white !important} div.related h3 {display:none}
+div.sphinxsidebar {display:none}
+body {background-image:none !important; border:none !important; min-width:0px !important; max-width:none !important} div.bodywrapper {border:none !important} .footer {display:none !important} h1, h2, h3, h4, h5 {word-break:break-word !important} #sidebar {display:none}
+div.bodywrapper {margin:0 0 0 0px}

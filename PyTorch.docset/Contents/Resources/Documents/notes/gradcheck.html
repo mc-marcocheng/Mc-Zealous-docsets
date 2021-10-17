@@ -1,0 +1,967 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Gradcheck mechanics &mdash; PyTorch master documentation</title>
+  
+
+  
+  
+  
+  
+    <link rel="canonical" href="https://pytorch.org/docs/stable/notes/gradcheck.html"/>
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="../_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/jit.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="HIP (ROCm) semantics" href="hip.html" />
+    <link rel="prev" title="Frequently Asked Questions" href="faq.html" />
+  <!-- Google Analytics -->
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117752657-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-117752657-2');
+    </script>
+  
+  <!-- End Google Analytics -->
+  
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+  <!-- Preload the theme fonts -->
+
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-book.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/FreightSans/freight-sans-medium-italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="../_static/fonts/IBMPlexMono/IBMPlexMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
+<!-- Preload the katex fonts -->
+
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Main-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size1-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size4-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size2-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Size3-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/fonts/KaTeX_Caligraphic-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+
+<div class="container-fluid header-holder tutorials-header" id="header-holder">
+  <div class="container">
+    <div class="header-container">
+      <a class="header-logo" href="https://pytorch.org/" aria-label="PyTorch"></a>
+
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://pytorch.org/get-started">Get Started</a>
+          </li>
+
+          <li>
+            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
+          </li>
+
+          <li>
+            <a href="https://pytorch.org/mobile">Mobile</a>
+          </li>
+
+          <li>
+            <a href="https://pytorch.org/blog/">Blog</a>
+          </li>
+
+          <li>
+            <a href="https://pytorch.org/tutorials">Tutorials</a>
+          </li>
+
+          <li class="active docs-active">
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="resource-option with-down-orange-arrow">
+                Docs
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/docs/stable/index.html">
+                  <span class="dropdown-title">PyTorch</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/audio/stable/index.html">
+                  <span class="dropdown-title">torchaudio</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/text/stable/index.html">
+                  <span class="dropdown-title">torchtext</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/vision/stable/index.html">
+                  <span class="dropdown-title">torchvision</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/elastic/">
+                  <span class="dropdown-title">TorchElastic</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/serve/">
+                  <span class="dropdown-title">TorchServe</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/xla">
+                  <span class="dropdown-title">PyTorch on XLA Devices</span>
+                  <p></p>
+                </a>
+            </div>
+          </li>
+
+          <li>
+            <div id="resourcesDropdownButton" data-toggle="resources-dropdown" class="resources-dropdown">
+              <a class="resource-option with-down-arrow">
+                Resources
+              </a>
+              <div class="resources-dropdown-menu">
+                <a class="nav-dropdown-item" href="https://pytorch.org/features">
+                  <span class="dropdown-title">About</span>
+                  <p>Learn about PyTorch’s features and capabilities</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/#community-module">
+                  <span class="dropdown-title">Community</span>
+                  <p>Join the PyTorch developer community to contribute, learn, and get your questions answered.</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/resources">
+                  <span class="dropdown-title">Developer Resources</span>
+                  <p>Find resources and get questions answered</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://discuss.pytorch.org/" target="_blank">
+                  <span class="dropdown-title">Forums</span>
+                  <p>A place to discuss PyTorch code, issues, install, research</p>
+                </a>
+                <a class="nav-dropdown-item" href="https://pytorch.org/hub">
+                  <span class="dropdown-title">Models (Beta)</span>
+                  <p>Discover, publish, and reuse pre-trained models</p>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <a href="https://github.com/pytorch/pytorch">GitHub</a>
+          </li>
+        </ul>
+      </div>
+
+      <a class="main-menu-open-button" href="#" data-behavior="open-mobile-menu"></a>
+    </div>
+  </div>
+</div>
+
+<body class="pytorch-body">
+
+   
+
+    
+
+    <div class="table-of-contents-link-wrapper">
+      <span>Table of Contents</span>
+      <a href="#" class="toggle-table-of-contents" data-behavior="toggle-table-of-contents"></a>
+    </div>
+
+    <nav data-toggle="wy-nav-shift" class="pytorch-left-menu" id="pytorch-left-menu">
+      <div class="pytorch-side-scroll">
+        <div class="pytorch-menu pytorch-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          <div class="pytorch-left-menu-search">
+            
+    <div class="version">
+      <a href='https://pytorch.org/docs/versions.html'>master (1.9.0+cu102 ) &#x25BC</a>
+    </div>
+    
+
+
+  
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search Docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          </div>
+
+          
+
+<div>
+  <a style="color:#F05732" href="https://pytorch.org/docs/stable/notes/gradcheck.html">
+    You are viewing unstable developer preview docs.
+    Click here to view docs for latest stable release.
+  </a>
+</div>
+
+
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Notes</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="amp_examples.html">Automatic Mixed Precision examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autograd.html">Autograd mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="broadcasting.html">Broadcasting semantics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cpu_threading_torchscript_inference.html">CPU threading and TorchScript inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cuda.html">CUDA semantics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ddp.html">Distributed Data Parallel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extending.html">Extending PyTorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Gradcheck mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hip.html">HIP (ROCm) semantics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="large_scale_deployments.html">Features for large-scale deployments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multiprocessing.html">Multiprocessing best practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="randomness.html">Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="serialization.html">Serialization semantics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="windows.html">Windows FAQ</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Language Bindings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cpp_index.html">C++</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/javadoc/">Javadoc</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../torch.html">torch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nn.html">torch.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nn.functional.html">torch.nn.functional</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tensors.html">torch.Tensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tensor_attributes.html">Tensor Attributes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tensor_view.html">Tensor Views</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../autograd.html">torch.autograd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cuda.html">torch.cuda</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../amp.html">torch.cuda.amp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../backends.html">torch.backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributed.html">torch.distributed</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributed.elastic.html">torch.distributed.elastic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributed.optim.html">torch.distributed.optim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions.html">torch.distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fft.html">torch.fft</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../futures.html">torch.futures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fx.html">torch.fx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hub.html">torch.hub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jit.html">torch.jit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linalg.html">torch.linalg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../special.html">torch.special</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../torch.overrides.html">torch.overrides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../package.html">torch.package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../profiler.html">torch.profiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nn.init.html">torch.nn.init</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../onnx.html">torch.onnx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optim.html">torch.optim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../complex_numbers.html">Complex Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ddp_comm_hooks.html">DDP Communication Hooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipeline.html">Pipeline Parallelism</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantization.html">Quantization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rpc.html">Distributed RPC Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random.html">torch.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sparse.html">torch.sparse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage.html">torch.Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing.html">torch.testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmark_utils.html">torch.utils.benchmark</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bottleneck.html">torch.utils.bottleneck</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../checkpoint.html">torch.utils.checkpoint</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp_extension.html">torch.utils.cpp_extension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data.html">torch.utils.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dlpack.html">torch.utils.dlpack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile_optimizer.html">torch.utils.mobile_optimizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model_zoo.html">torch.utils.model_zoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tensorboard.html">torch.utils.tensorboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../type_info.html">Type Info</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../named_tensor.html">Named Tensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../name_inference.html">Named Tensors operator coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../__config__.html">torch.__config__</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Libraries</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/audio/stable">torchaudio</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/text/stable">torchtext</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/vision/stable">torchvision</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pytorch.org/serve">TorchServe</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://pytorch.org/xla/">PyTorch on XLA Devices</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Community</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../community/contribution_guide.html">PyTorch Contribution Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../community/governance.html">PyTorch Governance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../community/persons_of_interest.html">PyTorch Governance | Persons of Interest</a></li>
+</ul>
+
+            
+          
+
+        </div>
+      </div>
+    </nav>
+
+    <div class="pytorch-container">
+      <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+        <div class="pytorch-breadcrumbs-wrapper">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="pytorch-breadcrumbs">
+    
+      <li>
+        <a href="../index.html">
+          
+            Docs
+          
+        </a> &gt;
+      </li>
+
+        
+      <li>Gradcheck mechanics</li>
+    
+    
+      <li class="pytorch-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/notes/gradcheck.rst.txt" rel="nofollow"><img src="../_static/images/view-page-source-icon.svg"></a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+</div>
+        </div>
+
+        <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+          Shortcuts
+        </div>
+      </div>
+
+      <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
+        <div class="pytorch-content-left">
+
+        
+          
+          <div class="rst-content">
+          
+            <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
+             <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
+              
+  <div class="section" id="gradcheck-mechanics">
+<span id="id1"></span><h1>Gradcheck mechanics<a class="headerlink" href="#gradcheck-mechanics" title="Permalink to this headline">¶</a></h1>
+<p>This note presents an overview of how the <a class="reference internal" href="../generated/torch.autograd.gradcheck.html#torch.autograd.gradcheck" title="torch.autograd.gradcheck"><code class="xref py py-meth docutils literal notranslate"><span class="pre">gradcheck()</span></code></a> and <a class="reference internal" href="../generated/torch.autograd.gradgradcheck.html#torch.autograd.gradgradcheck" title="torch.autograd.gradgradcheck"><code class="xref py py-meth docutils literal notranslate"><span class="pre">gradgradcheck()</span></code></a> functions work.</p>
+<p>It will cover both forward and backward mode AD for both real and complex-valued functions as well as higher-order derivatives.
+This note also covers both the default behavior of gradcheck as well as the case where <code class="code docutils literal notranslate"><span class="pre">fast_mode=True</span></code> argument is passed (referred to as fast gradcheck below).</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#notations-and-background-information" id="id2">Notations and background information</a></p></li>
+<li><p><a class="reference internal" href="#default-backward-mode-gradcheck-behavior" id="id3">Default backward mode gradcheck behavior</a></p>
+<ul>
+<li><p><a class="reference internal" href="#real-to-real-functions" id="id4">Real-to-real functions</a></p></li>
+<li><p><a class="reference internal" href="#complex-to-real-functions" id="id5">Complex-to-real functions</a></p></li>
+<li><p><a class="reference internal" href="#functions-with-complex-outputs" id="id6">Functions with complex outputs</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#fast-backward-mode-gradcheck" id="id7">Fast backward mode gradcheck</a></p>
+<ul>
+<li><p><a class="reference internal" href="#fast-gradcheck-for-real-to-real-functions" id="id8">Fast gradcheck for real-to-real functions</a></p></li>
+<li><p><a class="reference internal" href="#fast-gradcheck-for-complex-to-real-functions" id="id9">Fast gradcheck for complex-to-real functions</a></p></li>
+<li><p><a class="reference internal" href="#fast-gradcheck-for-functions-with-complex-outputs" id="id10">Fast gradcheck for functions with complex outputs</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#gradgradcheck-implementation" id="id11">Gradgradcheck implementation</a></p></li>
+</ul>
+</div>
+<div class="section" id="notations-and-background-information">
+<h2><a class="toc-backref" href="#id2">Notations and background information</a><a class="headerlink" href="#notations-and-background-information" title="Permalink to this headline">¶</a></h2>
+<p>Throughout this note, we will use the following convention:</p>
+<ol class="arabic simple">
+<li><p><span class="math">\(x\)</span>, <span class="math">\(y\)</span>, <span class="math">\(a\)</span>, <span class="math">\(b\)</span>, <span class="math">\(v\)</span>, <span class="math">\(u\)</span>, <span class="math">\(ur\)</span> and <span class="math">\(ui\)</span> are real-valued vectors and <span class="math">\(z\)</span> is a complex-valued vector that can be rewritten in terms of two real-valued vectors as <span class="math">\(z = a + i b\)</span>.</p></li>
+<li><p><span class="math">\(N\)</span> and <span class="math">\(M\)</span> are two integers that we will use for the dimension of the input and output space respectively.</p></li>
+<li><p><span class="math">\(f: \mathcal{R}^N \to \mathcal{R}^M\)</span> is our basic real-to-real function such that <span class="math">\(y = f(x)\)</span>.</p></li>
+<li><p><span class="math">\(g: \mathcal{C}^N \to \mathcal{R}^M\)</span> is our basic complex-to-real function such that <span class="math">\(y = g(z)\)</span>.</p></li>
+</ol>
+<p>For the simple real-to-real case, we write as <span class="math">\(J_f\)</span> the Jacobian matrix associated with <span class="math">\(f\)</span> of size <span class="math">\(M \times N\)</span>.
+This matrix contains all the partial derivatives such that the entry at position <span class="math">\((i, j)\)</span> contains <span class="math">\(\frac{\partial y_i}{\partial x_j}\)</span>.
+Backward mode AD is then computing, for a given vector <span class="math">\(v\)</span> of size <span class="math">\(M\)</span>, the quantity <span class="math">\(v^T J_f\)</span>.
+Forward mode AD on the other hand is computing, for a given vector <span class="math">\(u\)</span> of size <span class="math">\(N\)</span>, the quantity <span class="math">\(J_f u\)</span>.</p>
+<p>For functions that contain complex values, the story is a lot more complex. We only provide the gist here and the full description can be found at <a class="reference internal" href="autograd.html#complex-autograd-doc"><span class="std std-ref">Autograd for Complex Numbers</span></a>.</p>
+<p>The constraints to satisfy complex differentiability (Cauchy-Riemann equations) are too restrictive for all real-valued loss functions, so we instead opted to use Wirtinger calculus.
+In a basic setting of Wirtinger calculus, the chain rule requires access to both the Wirtinger derivative (called <span class="math">\(W\)</span> below) and the Conjugate Wirtinger derivative (called <span class="math">\(CW\)</span> below).
+Both <span class="math">\(W\)</span> and <span class="math">\(CW\)</span> need to be propagated because in general, despite their name, one is not the complex conjugate of the other.</p>
+<p>To avoid having to propagate both values, for backward mode AD, we always work under the assumption that the function whose derivative is being calculated is either a real-valued function or is part of a bigger real-valued function. This assumption means that all the intermediary gradients we compute during the backward pass are also associated with real-valued functions.
+In practice, this assumption is not restrictive when doing optimization as such problem require real-valued objectives (as there is no natural ordering of the complex numbers).</p>
+<p>Under this assumption, using <span class="math">\(W\)</span> and <span class="math">\(CW\)</span> definitions, we can show that <span class="math">\(W = CW^*\)</span> (we use <span class="math">\(*\)</span> to denote complex conjugation here) and so only one of the two values actually need to be “backwarded through the graph” as the other one can easily be recovered.
+To simplify internal computations, PyTorch uses <span class="math">\(2 * CW\)</span> as the value it backwards and returns when the user asks for gradients.
+Similarly to the real case, when the output is actually in <span class="math">\(\mathcal{R}^M\)</span>, backward mode AD does not compute <span class="math">\(2 * CW\)</span> but only <span class="math">\(v^T (2 * CW)\)</span> for a given vector <span class="math">\(v \in \mathcal{R}^M\)</span>.</p>
+<p>For forward mode AD, we use a similar logic, in this case, assuming that the function is part of a larger function whose input is in <span class="math">\(\mathcal{R}\)</span>. Under this assumption, we can make a similar claim that every intermediary result corresponds to a function whose input is in <span class="math">\(\mathcal{R}\)</span> and in this case, using <span class="math">\(W\)</span> and <span class="math">\(CW\)</span> definitions, we can show that <span class="math">\(W = CW\)</span> for the intermediary functions.
+To make sure the forward and backward mode compute the same quantities in the elementary case of a one dimensional function, the forward mode also computes <span class="math">\(2 * CW\)</span>.
+Similarly to the real case, when the input is actually in <span class="math">\(\mathcal{R}^N\)</span>, forward mode AD does not compute <span class="math">\(2 * CW\)</span> but only <span class="math">\((2 * CW) u\)</span> for a given vector <span class="math">\(u \in \mathcal{R}^N\)</span>.</p>
+</div>
+<div class="section" id="default-backward-mode-gradcheck-behavior">
+<h2><a class="toc-backref" href="#id3">Default backward mode gradcheck behavior</a><a class="headerlink" href="#default-backward-mode-gradcheck-behavior" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="real-to-real-functions">
+<h3><a class="toc-backref" href="#id4">Real-to-real functions</a><a class="headerlink" href="#real-to-real-functions" title="Permalink to this headline">¶</a></h3>
+<p>To test a function <span class="math">\(f: \mathcal{R}^N \to \mathcal{R}^M, x \to y\)</span>, we reconstruct the full Jacobian matrix <span class="math">\(J_f\)</span> of size <span class="math">\(M \times N\)</span> in two ways: analytically and numerically.
+The analytical version uses our backward mode AD while the numerical version uses finite difference.
+The two reconstructed Jacobian matrices are then compared elementwise for equality.</p>
+<div class="section" id="default-real-input-numerical-evaluation">
+<h4>Default real input numerical evaluation<a class="headerlink" href="#default-real-input-numerical-evaluation" title="Permalink to this headline">¶</a></h4>
+<p>If we consider the elementary case of a one-dimensional function (<span class="math">\(N = M = 1\)</span>), then we can use the basic finite difference formula from <a class="reference external" href="https://en.wikipedia.org/wiki/Finite_difference">the wikipedia article</a>. We use the “central difference” for better numerical properties:</p>
+<div class="math">
+\[\frac{\partial y}{\partial x} \approx \frac{f(x + eps) - f(x - eps)}{2 * eps}
+
+\]</div>
+<p>This formula easily generalizes for multiple outputs (<span class="math">\(M \gt 1\)</span>) by having <span class="math">\(\frac{\partial y}{\partial x}\)</span> be a column vector of size <span class="math">\(M \times 1\)</span> like <span class="math">\(f(x + eps)\)</span>.
+In that case, the above formula can be re-used as-is and approximates the full Jacobian matrix with only two evaluations of the user function (namely <span class="math">\(f(x + eps)\)</span> and <span class="math">\(f(x - eps)\)</span>).</p>
+<p>It is more computationally expensive to handle the case with multiple inputs (<span class="math">\(N \gt 1\)</span>). In this scenario, we loop over all the inputs one after the other and apply the <span class="math">\(eps\)</span> perturbation for each element of <span class="math">\(x\)</span> one after the other. This allows us to reconstruct the <span class="math">\(J_f\)</span> matrix column by column.</p>
+</div>
+<div class="section" id="default-real-input-analytical-evaluation">
+<h4>Default real input analytical evaluation<a class="headerlink" href="#default-real-input-analytical-evaluation" title="Permalink to this headline">¶</a></h4>
+<p>For the analytical evaluation, we use the fact, as described above, that backward mode AD computes <span class="math">\(v^T J_f\)</span>.
+For functions with a single output, we simply use <span class="math">\(v = 1\)</span> to recover the full Jacobian matrix with a single backward pass.</p>
+<p>For functions with more than one output, we resort to a for-loop which iterates over the outputs where each <span class="math">\(v\)</span> is a one-hot vector corresponding to each output one after the other. This allows to reconstruct the <span class="math">\(J_f\)</span> matrix row by row.</p>
+</div>
+</div>
+<div class="section" id="complex-to-real-functions">
+<h3><a class="toc-backref" href="#id5">Complex-to-real functions</a><a class="headerlink" href="#complex-to-real-functions" title="Permalink to this headline">¶</a></h3>
+<p>To test a function <span class="math">\(g: \mathcal{C}^N \to \mathcal{R}^M, z \to y\)</span> with <span class="math">\(z = a + i b\)</span>, we reconstruct the (complex-valued) matrix that contains <span class="math">\(2 * CW\)</span>.</p>
+<div class="section" id="default-complex-input-numerical-evaluation">
+<h4>Default complex input numerical evaluation<a class="headerlink" href="#default-complex-input-numerical-evaluation" title="Permalink to this headline">¶</a></h4>
+<p>Consider the elementary case where <span class="math">\(N = M = 1\)</span> first. We know from (chapter 3 of) <a class="reference external" href="https://arxiv.org/pdf/1701.00392.pdf">this research paper</a> that:</p>
+<div class="math">
+\[CW := \frac{\partial y}{\partial z^*} = \frac{1}{2} * (\frac{\partial y}{\partial a} + i \frac{\partial y}{\partial b})
+
+\]</div>
+<p>Note that <span class="math">\(\frac{\partial y}{\partial a}\)</span> and <span class="math">\(\frac{\partial y}{\partial b}\)</span>, in the above equation, are <span class="math">\(\mathcal{R} \to \mathcal{R}\)</span> derivatives.
+To evaluate these numerically, we use the method described above for the real-to-real case.
+This allows us to compute the <span class="math">\(CW\)</span> matrix and then multiply it by <span class="math">\(2\)</span>.</p>
+<p>Note that the code, as of time of writing, computes this value in a slightly convoluted way:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code from https://github.com/pytorch/pytorch/blob/58eb23378f2a376565a66ac32c93a316c45b6131/torch/autograd/gradcheck.py#L99-L105</span>
+<span class="c1"># Notation changes in this code block:</span>
+<span class="c1"># s here is y above</span>
+<span class="c1"># x, y here are a, b above</span>
+
+<span class="n">ds_dx</span> <span class="o">=</span> <span class="n">compute_gradient</span><span class="p">(</span><span class="n">eps</span><span class="p">)</span>
+<span class="n">ds_dy</span> <span class="o">=</span> <span class="n">compute_gradient</span><span class="p">(</span><span class="n">eps</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">)</span>
+<span class="c1"># conjugate wirtinger derivative</span>
+<span class="n">conj_w_d</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">ds_dx</span> <span class="o">+</span> <span class="n">ds_dy</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">)</span>
+<span class="c1"># wirtinger derivative</span>
+<span class="n">w_d</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">ds_dx</span> <span class="o">-</span> <span class="n">ds_dy</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">)</span>
+<span class="n">d</span><span class="p">[</span><span class="n">d_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">grad_out</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()</span> <span class="o">*</span> <span class="n">conj_w_d</span> <span class="o">+</span> <span class="n">grad_out</span> <span class="o">*</span> <span class="n">w_d</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
+
+<span class="c1"># Since grad_out is always 1, and W and CW are complex conjugate of each other, the last line ends up computing exactly `conj_w_d + w_d.conj() = conj_w_d + conj_w_d = 2 * conj_w_d`.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="default-complex-input-analytical-evaluation">
+<h4>Default complex input analytical evaluation<a class="headerlink" href="#default-complex-input-analytical-evaluation" title="Permalink to this headline">¶</a></h4>
+<p>Since backward mode AD computes exactly twice the <span class="math">\(CW\)</span> derivative already, we simply use the same trick as for the real-to-real case here and reconstruct the matrix row by row when there are multiple real outputs.</p>
+</div>
+</div>
+<div class="section" id="functions-with-complex-outputs">
+<h3><a class="toc-backref" href="#id6">Functions with complex outputs</a><a class="headerlink" href="#functions-with-complex-outputs" title="Permalink to this headline">¶</a></h3>
+<p>In this case, the user-provided function does not follow the assumption from the autograd that the function we compute backward AD for is real-valued.
+This means that using autograd directly on this function is not well defined.
+To solve this, we will replace the test of the function <span class="math">\(h: \mathcal{P}^N \to \mathcal{C}^M\)</span> (where <span class="math">\(\mathcal{P}\)</span> can be either <span class="math">\(\mathcal{R}\)</span> or <span class="math">\(\mathcal{C}\)</span>), with two functions: <span class="math">\(hr\)</span> and <span class="math">\(hi\)</span> such that:</p>
+<div class="math">
+\[\begin{aligned}
+    hr(q) &:= real(f(q)) \\
+    hi(q) &:= imag(f(q))
+\end{aligned}
+
+\]</div>
+<p>where <span class="math">\(q \in \mathcal{P}\)</span>.
+We then do a basic gradcheck for both <span class="math">\(hr\)</span> and <span class="math">\(hi\)</span> using either the real-to-real or complex-to-real case described above, depending on <span class="math">\(\mathcal{P}\)</span>.</p>
+<p>Note that, the code, as of time of writing, does not create these functions explicitly but perform the chain rule with the <span class="math">\(real\)</span> or <span class="math">\(imag\)</span> functions manually by passing the <span class="math">\(\text{grad\_out}\)</span> arguments to the different functions.
+When <span class="math">\(\text{grad\_out} = 1\)</span>, then we are considering <span class="math">\(hr\)</span>.
+When <span class="math">\(\text{grad\_out} = 1j\)</span>, then we are considering <span class="math">\(hi\)</span>.</p>
+</div>
+</div>
+<div class="section" id="fast-backward-mode-gradcheck">
+<h2><a class="toc-backref" href="#id7">Fast backward mode gradcheck</a><a class="headerlink" href="#fast-backward-mode-gradcheck" title="Permalink to this headline">¶</a></h2>
+<p>While the above formulation of gradcheck is great, both, to ensure correctness and debuggability, it is very slow because it reconstructs the full Jacobian matrices.
+This section presents a way to perform gradcheck in a faster way without affecting its correctness.
+The debuggability can be recovered by adding special logic when we detect an error. In that case, we can run the default version that reconstructs the full matrix to give full details to the user.</p>
+<p>The high level strategy here is to find a scalar quantity that can be computed efficiently by both the numerical and analytical methods and that represents the full matrix computed by the slow gradcheck well enough to ensure that it will catch any discrepancy in the Jacobians.</p>
+<div class="section" id="fast-gradcheck-for-real-to-real-functions">
+<h3><a class="toc-backref" href="#id8">Fast gradcheck for real-to-real functions</a><a class="headerlink" href="#fast-gradcheck-for-real-to-real-functions" title="Permalink to this headline">¶</a></h3>
+<p>The scalar quantity that we want to compute here is <span class="math">\(v^T J_f u\)</span> for a given random vector <span class="math">\(v \in \mathcal{R}^M\)</span> and a random unit norm vector <span class="math">\(u \in \mathcal{R}^N\)</span>.</p>
+<p>For the numerical evaluation, we can efficiently compute</p>
+<div class="math">
+\[J_f u \approx \frac{f(x + u * eps) - f(x - u * eps)}{2 * eps}.
+
+\]</div>
+<p>We then perform the dot product between this vector and <span class="math">\(v\)</span> to get the scalar value of interest.</p>
+<p>For the analytical version, we can use backward mode AD to compute <span class="math">\(v^T J_f\)</span> directly. We then perform the dot product with <span class="math">\(u\)</span> to get the expected value.</p>
+</div>
+<div class="section" id="fast-gradcheck-for-complex-to-real-functions">
+<h3><a class="toc-backref" href="#id9">Fast gradcheck for complex-to-real functions</a><a class="headerlink" href="#fast-gradcheck-for-complex-to-real-functions" title="Permalink to this headline">¶</a></h3>
+<p>Similar to the real-to-real case, we want to perform a reduction of the full matrix. But the <span class="math">\(2 * CW\)</span> matrix is complex-valued and so in this case, we will compare to complex scalars.</p>
+<p>Due to some constraints on what we can compute efficiently in the numerical case and to keep the number of numerical evaluations to a minimum, we compute the following (albeit surprising) scalar value:</p>
+<div class="math">
+\[s := 2 * v^T (real(CW) ur + i * imag(CW) ui)
+
+\]</div>
+<p>where <span class="math">\(v \in \mathcal{R}^M\)</span>, <span class="math">\(ur \in \mathcal{R}^N\)</span> and <span class="math">\(ui \in \mathcal{R}^N\)</span>.</p>
+<div class="section" id="fast-complex-input-numerical-evaluation">
+<h4>Fast complex input numerical evaluation<a class="headerlink" href="#fast-complex-input-numerical-evaluation" title="Permalink to this headline">¶</a></h4>
+<p>We first consider how to compute <span class="math">\(s\)</span> with a numerical method. To do so, keeping in mind that we’re considering <span class="math">\(g: \mathcal{C}^N \to \mathcal{R}^M, z \to y\)</span> with <span class="math">\(z = a + i b\)</span>, and that <span class="math">\(CW = \frac{1}{2} * (\frac{\partial y}{\partial a} + i \frac{\partial y}{\partial b})\)</span>,  we rewrite it as follows:</p>
+<div class="math">
+\[\begin{aligned}
+    s &= 2 * v^T (real(CW) ur + i * imag(CW) ui) \\
+      &= 2 * v^T (\frac{1}{2} * \frac{\partial y}{\partial a} ur + i * \frac{1}{2} * \frac{\partial y}{\partial b} ui) \\
+      &= v^T (\frac{\partial y}{\partial a} ur + i * \frac{\partial y}{\partial b} ui) \\
+      &= v^T ((\frac{\partial y}{\partial a} ur) + i * (\frac{\partial y}{\partial b} ui))
+\end{aligned}
+
+\]</div>
+<p>In this formula, we can see that <span class="math">\(\frac{\partial y}{\partial a} ur\)</span> and <span class="math">\(\frac{\partial y}{\partial b} ui\)</span> can be evaluated the same way as the fast version for the real-to-real case.
+Once these real-valued quantities have been computed, we can reconstruct the complex vector on the right side and do a dot product with the real-valued <span class="math">\(v\)</span> vector.</p>
+</div>
+<div class="section" id="fast-complex-input-analytical-evaluation">
+<h4>Fast complex input analytical evaluation<a class="headerlink" href="#fast-complex-input-analytical-evaluation" title="Permalink to this headline">¶</a></h4>
+<p>For the analytical case, things are simpler and we rewrite the formula as:</p>
+<div class="math">
+\[\begin{aligned}
+    s &= 2 * v^T (real(CW) ur + i * imag(CW) ui) \\
+      &= v^T real(2 * CW) ur + i * v^T imag(2 * CW) ui) \\
+      &= real(v^T (2 * CW)) ur + i * imag(v^T (2 * CW)) ui
+\end{aligned}
+
+\]</div>
+<p>We can thus use the fact that the backward mode AD provides us with an efficient way to compute <span class="math">\(v^T (2 * CW)\)</span> and then perform a dot product of the real part with <span class="math">\(ur\)</span> and the imaginary part with <span class="math">\(ui\)</span> before reconstructing the final complex scalar <span class="math">\(s\)</span>.</p>
+</div>
+<div class="section" id="why-not-use-a-complex-u">
+<h4>Why not use a complex <span class="math">\(u\)</span><a class="headerlink" href="#why-not-use-a-complex-u" title="Permalink to this headline">¶</a></h4>
+<p>At this point, you might be wondering why we did not select a complex <span class="math">\(u\)</span> and just performed the reduction <span class="math">\(2 * v^T CW u'\)</span>.
+To dive into this, in this paragraph, we will use the complex version of <span class="math">\(u\)</span> noted <span class="math">\(u' = ur' + i ui'\)</span>.
+Using such complex <span class="math">\(u'\)</span>, the problem is that when doing the numerical evaluation, we would need to compute:</p>
+<div class="math">
+\[\begin{aligned}
+    2*CW u' &= (\frac{\partial y}{\partial a} + i \frac{\partial y}{\partial b})(ur' + i ui') \\
+            &= \frac{\partial y}{\partial a} ur' + i \frac{\partial y}{\partial a} ui' + i \frac{\partial y}{\partial b} ur' - \frac{\partial y}{\partial b} ui'
+\end{aligned}
+
+\]</div>
+<p>Which would require four evaluations of real-to-real finite difference (twice as much compared to the approached proposed above).
+Since this approach does not have more degrees of freedom (same number of real valued variables) and we try to get the fastest possible evaluation here, we use the other formulation above.</p>
+</div>
+</div>
+<div class="section" id="fast-gradcheck-for-functions-with-complex-outputs">
+<h3><a class="toc-backref" href="#id10">Fast gradcheck for functions with complex outputs</a><a class="headerlink" href="#fast-gradcheck-for-functions-with-complex-outputs" title="Permalink to this headline">¶</a></h3>
+<p>Just like in the slow case, we consider two real-valued functions and use the appropriate rule from above for each function.</p>
+</div>
+</div>
+<div class="section" id="gradgradcheck-implementation">
+<h2><a class="toc-backref" href="#id11">Gradgradcheck implementation</a><a class="headerlink" href="#gradgradcheck-implementation" title="Permalink to this headline">¶</a></h2>
+<p>PyTorch also provide a utility to verify second order gradients. The goal here is to make sure that the backward implementation is also properly differentiable and computes the right thing.</p>
+<p>This feature is implemented by considering the function <span class="math">\(F: x, v \to v^T J_f\)</span> and use the gradcheck defined above on this function.
+Note that <span class="math">\(v\)</span> in this case is just a random vector with the same type as <span class="math">\(f(x)\)</span>.</p>
+<p>The fast version of gradgradcheck is implemented by using the fast version of gradcheck on that same function <span class="math">\(F\)</span>.</p>
+</div>
+</div>
+
+
+             </article>
+             
+            </div>
+            <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="hip.html" class="btn btn-neutral float-right" title="HIP (ROCm) semantics" accesskey="n" rel="next">Next <img src="../_static/images/chevron-right-orange.svg" class="next-page"></a>
+      
+      
+        <a href="faq.html" class="btn btn-neutral" title="Frequently Asked Questions" accesskey="p" rel="prev"><img src="../_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+      
+    </div>
+  
+
+  
+
+    <hr>
+
+  
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Torch Contributors.
+
+    </p>
+  </div>
+    
+      <div>
+        Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+      </div>
+     
+
+</footer>
+
+          </div>
+        </div>
+
+        <div class="pytorch-content-right" id="pytorch-content-right">
+          <div class="pytorch-right-menu" id="pytorch-right-menu">
+            <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
+              <ul>
+<li><a class="reference internal" href="#">Gradcheck mechanics</a><ul>
+<li><a class="reference internal" href="#notations-and-background-information">Notations and background information</a></li>
+<li><a class="reference internal" href="#default-backward-mode-gradcheck-behavior">Default backward mode gradcheck behavior</a><ul>
+<li><a class="reference internal" href="#real-to-real-functions">Real-to-real functions</a><ul>
+<li><a class="reference internal" href="#default-real-input-numerical-evaluation">Default real input numerical evaluation</a></li>
+<li><a class="reference internal" href="#default-real-input-analytical-evaluation">Default real input analytical evaluation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#complex-to-real-functions">Complex-to-real functions</a><ul>
+<li><a class="reference internal" href="#default-complex-input-numerical-evaluation">Default complex input numerical evaluation</a></li>
+<li><a class="reference internal" href="#default-complex-input-analytical-evaluation">Default complex input analytical evaluation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#functions-with-complex-outputs">Functions with complex outputs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fast-backward-mode-gradcheck">Fast backward mode gradcheck</a><ul>
+<li><a class="reference internal" href="#fast-gradcheck-for-real-to-real-functions">Fast gradcheck for real-to-real functions</a></li>
+<li><a class="reference internal" href="#fast-gradcheck-for-complex-to-real-functions">Fast gradcheck for complex-to-real functions</a><ul>
+<li><a class="reference internal" href="#fast-complex-input-numerical-evaluation">Fast complex input numerical evaluation</a></li>
+<li><a class="reference internal" href="#fast-complex-input-analytical-evaluation">Fast complex input analytical evaluation</a></li>
+<li><a class="reference internal" href="#why-not-use-a-complex-u">Why not use a complex <span class="math">\(u\)</span></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fast-gradcheck-for-functions-with-complex-outputs">Fast gradcheck for functions with complex outputs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gradgradcheck-implementation">Gradgradcheck implementation</a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  
+
+
+  
+
+     
+       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+         <script src="../_static/jquery.js"></script>
+         <script src="../_static/underscore.js"></script>
+         <script src="../_static/doctools.js"></script>
+         <script src="../_static/language_data.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+         <script src="../_static/katex_autorenderer.js"></script>
+     
+
+  
+
+  <script type="text/javascript" src="../_static/js/vendor/popper.min.js"></script>
+  <script type="text/javascript" src="../_static/js/vendor/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ 
+<script script type="text/javascript">
+  var collapsedSections = ['Notes', 'Language Bindings', 'Libraries', 'Community'];
+</script>
+
+<img height="1" width="1" style="border-style:none;" alt="" src="https://www.googleadservices.com/pagead/conversion/795629140/?label=txkmCPmdtosBENSssfsC&amp;guid=ON&amp;script=0"/>
+
+
+  <!-- Begin Footer -->
+
+  <div class="container-fluid docs-tutorials-resources" id="docs-tutorials-resources">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <h2>Docs</h2>
+          <p>Access comprehensive developer documentation for PyTorch</p>
+          <a class="with-right-arrow" href="https://pytorch.org/docs/stable/index.html">View Docs</a>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <h2>Tutorials</h2>
+          <p>Get in-depth tutorials for beginners and advanced developers</p>
+          <a class="with-right-arrow" href="https://pytorch.org/tutorials">View Tutorials</a>
+        </div>
+
+        <div class="col-md-4 text-center">
+          <h2>Resources</h2>
+          <p>Find development resources and get your questions answered</p>
+          <a class="with-right-arrow" href="https://pytorch.org/resources">View Resources</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-logo-wrapper">
+        <a href="https://pytorch.org/" class="footer-logo"></a>
+      </div>
+
+      <div class="footer-links-wrapper">
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://pytorch.org/">PyTorch</a></li>
+            <li><a href="https://pytorch.org/get-started">Get Started</a></li>
+            <li><a href="https://pytorch.org/features">Features</a></li>
+            <li><a href="https://pytorch.org/ecosystem">Ecosystem</a></li>
+            <li><a href="https://pytorch.org/blog/">Blog</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md">Contributing</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <ul>
+            <li class="list-title"><a href="https://pytorch.org/resources">Resources</a></li>
+            <li><a href="https://pytorch.org/tutorials">Tutorials</a></li>
+            <li><a href="https://pytorch.org/docs/stable/index.html">Docs</a></li>
+            <li><a href="https://discuss.pytorch.org" target="_blank">Discuss</a></li>
+            <li><a href="https://github.com/pytorch/pytorch/issues" target="_blank">Github Issues</a></li>
+            <li><a href="https://pytorch.org/assets/brand-guidelines/PyTorch-Brand-Guidelines.pdf" target="_blank">Brand Guidelines</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col follow-us-col">
+          <ul>
+            <li class="list-title">Stay Connected</li>
+            <li>
+              <div id="mc_embed_signup">
+                <form
+                  action="https://twitter.us14.list-manage.com/subscribe/post?u=75419c71fe0a935e53dfa4a3f&id=91d0dccd39"
+                  method="post"
+                  id="mc-embedded-subscribe-form"
+                  name="mc-embedded-subscribe-form"
+                  class="email-subscribe-form validate"
+                  target="_blank"
+                  novalidate>
+                  <div id="mc_embed_signup_scroll" class="email-subscribe-form-fields-wrapper">
+                    <div class="mc-field-group">
+                      <label for="mce-EMAIL" style="display:none;">Email Address</label>
+                      <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email Address">
+                    </div>
+
+                    <div id="mce-responses" class="clear">
+                      <div class="response" id="mce-error-response" style="display:none"></div>
+                      <div class="response" id="mce-success-response" style="display:none"></div>
+                    </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+
+                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_75419c71fe0a935e53dfa4a3f_91d0dccd39" tabindex="-1" value=""></div>
+
+                    <div class="clear">
+                      <input type="submit" value="" name="subscribe" id="mc-embedded-subscribe" class="button email-subscribe-button">
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+            </li>
+          </ul>
+
+          <div class="footer-social-icons">
+            <a href="https://www.facebook.com/pytorch" target="_blank" class="facebook"></a>
+            <a href="https://twitter.com/pytorch" target="_blank" class="twitter"></a>
+            <a href="https://www.youtube.com/pytorch" target="_blank" class="youtube"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cookie-banner-wrapper">
+  <div class="container">
+    <p class="gdpr-notice">To analyze traffic and optimize your experience, we serve cookies on this site. By clicking or navigating, you agree to allow our usage of cookies. As the current maintainers of this site, Facebook’s Cookies Policy applies. Learn more, including about available controls: <a href="https://www.facebook.com/policies/cookies/">Cookies Policy</a>.</p>
+    <img class="close-button" src="../_static/images/pytorch-x.svg">
+  </div>
+</div>
+
+  <!-- End Footer -->
+
+  <!-- Begin Mobile Menu -->
+
+  <div class="mobile-main-menu">
+    <div class="container-fluid">
+      <div class="container">
+        <div class="mobile-main-menu-header-container">
+          <a class="header-logo" href="https://pytorch.org/" aria-label="PyTorch"></a>
+          <a class="main-menu-close-button" href="#" data-behavior="close-mobile-menu"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-main-menu-links-container">
+      <div class="main-menu">
+        <ul>
+          <li>
+            <a href="https://pytorch.org/get-started">Get Started</a>
+          </li>
+
+          <li>
+            <a href="https://pytorch.org/ecosystem">Ecosystem</a>
+          </li>
+
+          <li>
+            <a href="https://pytorch.org/mobile">Mobile</a>
+          </li>
+
+          <li>
+            <a href="https://pytorch.org/hub">PyTorch Hub</a>
+          </li>
+
+          <li>
+            <a href="https://pytorch.org/blog/">Blog</a>
+          </li>
+
+          <li>
+            <a href="https://pytorch.org/tutorials">Tutorials</a>
+          </li>
+
+          <li class="resources-mobile-menu-title" class="active">
+            Docs
+          </li>
+
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/docs/stable/index.html">PyTorch</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/audio/stable/index.html">torchaudio</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/text/stable/index.html">torchtext</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/vision/stable/index.html">torchvision</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/elastic/">TorchElastic</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/serve/">TorchServe</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/xla">PyTorch on XLA Devices</a>
+            </li>
+          </ul>
+
+          <li class="resources-mobile-menu-title">
+            Resources
+          </li>
+
+          <ul class="resources-mobile-menu-items">
+            <li>
+              <a href="https://pytorch.org/resources">Developer Resources</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/features">About</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/hub">Models (Beta)</a>
+            </li>
+
+            <li>
+              <a href="https://pytorch.org/#community-module">Community</a>
+            </li>
+
+            <li>
+              <a href="https://discuss.pytorch.org/">Forums</a>
+            </li>
+          </ul>
+
+          <li>
+            <a href="https://github.com/pytorch/pytorch">Github</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mobile Menu -->
+
+  <script type="text/javascript" src="../_static/js/vendor/anchor.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
+      sideMenus.bind();
+      scrollToAnchor.bind();
+      highlightNavigation.bind();
+      mainMenuDropdown.bind();
+      filterTags.bind();
+
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function(e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
+  </script>
+</body>
+</html>

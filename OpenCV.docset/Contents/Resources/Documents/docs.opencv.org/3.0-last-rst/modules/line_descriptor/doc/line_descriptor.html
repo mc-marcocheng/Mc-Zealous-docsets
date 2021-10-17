@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/line_descriptor/doc/line_descriptor.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:57:47 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Binary descriptors for lines extracted from an image</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="OpenCV API Reference" href="../../refman.html" />
+    <link rel="next" title="BinaryDescriptor Class" href="binary_descriptor.html" />
+    <link rel="prev" title="Changelog" href="../../face/doc/facerec_changelog.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="binary_descriptor.html" title="BinaryDescriptor Class"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../../face/doc/facerec_changelog.html" title="Changelog"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" accesskey="U">OpenCV API Reference</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Binary descriptors for lines extracted from an image</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#a-class-to-represent-a-line-keyline">A class to represent a line: KeyLine</a></li>
+<li><a class="reference internal" href="#computation-of-binary-descriptors">Computation of binary descriptors</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../../face/doc/facerec_changelog.html"
+                        title="previous chapter">Changelog</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="binary_descriptor.html"
+                        title="next chapter">BinaryDescriptor Class</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="binary-descriptors-for-lines-extracted-from-an-image">
+<span id="line-descriptor"></span><h1>Binary descriptors for lines extracted from an image<a class="headerlink" href="#binary-descriptors-for-lines-extracted-from-an-image" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>One of the most challenging activities in computer vision is the extraction of useful information from a given image. Such information, usually comes in the form of points that preserve some kind of property (for instance, they are scale-invariant) and are actually representative of input image.</p>
+<p>The goal of this module is seeking a new kind of representative information inside an image and providing the functionalities for its extraction and representation. In particular, differently from previous methods for detection of relevant elements inside an image, lines are extracted in place of points; a new class is defined ad hoc to summarize a line&#8217;s properties, for reuse and plotting purposes.</p>
+</div>
+<div class="section" id="a-class-to-represent-a-line-keyline">
+<h2>A class to represent a line: KeyLine<a class="headerlink" href="#a-class-to-represent-a-line-keyline" title="Permalink to this headline">¶</a></h2>
+<p>As aformentioned, it is been necessary to design a class that fully stores the information needed to characterize completely a line and plot it on image it was extracted from, when required.</p>
+<p><em>KeyLine</em> class has been created for such goal; it is mainly inspired to Feature2d&#8217;s KeyPoint class, since KeyLine shares some of <em>KeyPoint</em>&#8216;s fields, even if a part of them assumes a different meaning, when speaking about lines.
+In particular:</p>
+<ul class="simple">
+<li>the <em>class_id</em> field is used to gather lines extracted from different octaves which refer to same line inside original image (such lines and the one they represent in original image share the same <em>class_id</em> value)</li>
+<li>the <em>angle</em> field represents line&#8217;s slope with respect to (positive) X axis</li>
+<li>the <em>pt</em> field represents line&#8217;s midpoint</li>
+<li>the <em>response</em> field is computed as the ratio between the line&#8217;s length and maximum between image&#8217;s width and height</li>
+<li>the <em>size</em> field is the area of the smallest rectangle containing line</li>
+</ul>
+<p>Apart from fields inspired to KeyPoint class, KeyLines stores information about extremes of line in original image and in octave it was extracted from, about line&#8217;s length and number of pixels it covers. Code relative to KeyLine class is reported in the following snippet:</p>
+<dl class="class">
+<dt id="KeyLine">
+<em class="property">class </em><tt class="descname">KeyLine</tt><a class="headerlink" href="#KeyLine" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">KeyLine</span>
+  <span class="p">{</span>
+  <span class="nl">public:</span>
+      <span class="cm">/* orientation of the line */</span>
+      <span class="kt">float</span> <span class="n">angle</span><span class="p">;</span>
+
+      <span class="cm">/* object ID, that can be used to cluster keylines by the line they represent */</span>
+      <span class="kt">int</span> <span class="n">class_id</span><span class="p">;</span>
+
+      <span class="cm">/* octave (pyramid layer), from which the keyline has been extracted */</span>
+      <span class="kt">int</span> <span class="n">octave</span><span class="p">;</span>
+
+      <span class="cm">/* coordinates of the middlepoint */</span>
+      <span class="n">Point</span> <span class="n">pt</span><span class="p">;</span>
+
+      <span class="cm">/* the response, by which the strongest keylines have been selected.</span>
+<span class="cm">        It&#39;s represented by the ratio between line&#39;s length and maximum between</span>
+<span class="cm">        image&#39;s width and height */</span>
+      <span class="kt">float</span> <span class="n">response</span><span class="p">;</span>
+
+      <span class="cm">/* minimum area containing line */</span>
+      <span class="kt">float</span> <span class="n">size</span><span class="p">;</span>
+
+      <span class="cm">/* lines&#39;s extremes in original image */</span>
+      <span class="kt">float</span> <span class="n">startPointX</span><span class="p">;</span>
+      <span class="kt">float</span> <span class="n">startPointY</span><span class="p">;</span>
+      <span class="kt">float</span> <span class="n">endPointX</span><span class="p">;</span>
+      <span class="kt">float</span> <span class="n">endPointY</span><span class="p">;</span>
+
+      <span class="cm">/* line&#39;s extremes in image it was extracted from */</span>
+      <span class="kt">float</span> <span class="n">sPointInOctaveX</span><span class="p">;</span>
+      <span class="kt">float</span> <span class="n">sPointInOctaveY</span><span class="p">;</span>
+      <span class="kt">float</span> <span class="n">ePointInOctaveX</span><span class="p">;</span>
+      <span class="kt">float</span> <span class="n">ePointInOctaveY</span><span class="p">;</span>
+
+      <span class="cm">/* the length of line */</span>
+      <span class="kt">float</span> <span class="n">lineLength</span><span class="p">;</span>
+
+      <span class="cm">/* number of pixels covered by the line */</span>
+      <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">numOfPixels</span><span class="p">;</span>
+
+      <span class="cm">/* constructor */</span>
+      <span class="n">KeyLine</span><span class="p">(){}</span>
+  <span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="computation-of-binary-descriptors">
+<h2>Computation of binary descriptors<a class="headerlink" href="#computation-of-binary-descriptors" title="Permalink to this headline">¶</a></h2>
+<p>To obtatin a binary descriptor representing a certain line detected from a certain octave of an image, we first compute a non-binary descriptor as described in <a class="reference internal" href="#lbd" id="id1">[LBD]</a>. Such algorithm works on lines extracted using EDLine detector, as explained in <a class="reference internal" href="#edl" id="id2">[EDL]</a>. Given a line, we consider a rectangular region centered at it and called <em>line support region (LSR)</em>. Such region is divided into a set of bands <img class="math" src="../../../_images/math/8414397e2cfb8953ea8faa316648c734e16ec1b4.png" alt="\{B_1, B_2, ..., B_m\}"/>, whose length equals the one of line.</p>
+<p>If we indicate with <img class="math" src="../../../_images/math/9ae55b65db3b1811e33b5b63b799c0b0a62a93d3.png" alt="\bf{d}_L"/> the direction of line, the orthogonal and clockwise direction to line <img class="math" src="../../../_images/math/0a7a65622657227e20ecb37d144e607b773ab51f.png" alt="\bf{d}_{\perp}"/> can be determined; these two directions, are used to construct a reference frame centered in the middle point of line. The gradients of pixels <img class="math" src="../../../_images/math/242cc41c3ea5566c2fad5d7ebd411298571cacc3.png" alt="\bf{g'}"/> inside LSR can be projected to the newly determined frame, obtaining their local equivalent <img class="math" src="../../../_images/math/07dae1f2ed30c42d6e04f2d9b1c62f8282c0f5bb.png" alt="\bf{g'} = (\bf{g}^T \cdot \bf{d}_{\perp}, \bf{g}^T \cdot \bf{d}_L)^T \triangleq (\bf{g'}_{d_{\perp}}, \bf{g'}_{d_L})^T"/>.</p>
+<p>Later on, a Gaussian function is applied to all LSR&#8217;s pixels along <img class="math" src="../../../_images/math/bfc58393e8735a8c8ede310dbbb534b9eaa20917.png" alt="\bf{d}_\perp"/> direction; first, we assign a global weighting coefficient <img class="math" src="../../../_images/math/0497ed4cd60c5192d358200b8a34a38680ab87d7.png" alt="f_g(i) = (1/\sqrt{2\pi}\sigma_g)e^{-d^2_i/2\sigma^2_g}"/> to <em>i</em>-th row in LSR, where <img class="math" src="../../../_images/math/254e1979f53e5a475530458cf0a8e84cf010400f.png" alt="d_i"/> is the distance of <em>i</em>-th row from the center row in LSR, <img class="math" src="../../../_images/math/d9f9c12ae8b1469b5232e6745eae1e5cc2c053ff.png" alt="\sigma_g = 0.5(m \cdot w - 1)"/> and <img class="math" src="../../../_images/math/b812b344d3aac7810b0e17bd7dae12f997bea67f.png" alt="w"/> is the width of bands (the same for every band). Secondly, considering a band <img class="math" src="../../../_images/math/abf099ebc0a857027f612eaa43d8fc25051b10c9.png" alt="B_j"/> and its neighbor bands <img class="math" src="../../../_images/math/5f4906c0b9b6ceef87605524f328e04ea4803db3.png" alt="B_{j-1}, B_{j+1}"/>, we assign a local weighting  <img class="math" src="../../../_images/math/0de47f09765e86563e9c79a6cfe910936998e2d5.png" alt="F_l(k) = (1/\sqrt{2\pi}\sigma_l)e^{-d'^2_k/2\sigma_l^2}"/>, where <img class="math" src="../../../_images/math/8cee2e496101be7583dbd7e2394686806cbcc9d5.png" alt="d'_k"/> is the distance of <em>k</em>-th row from the center row in <img class="math" src="../../../_images/math/abf099ebc0a857027f612eaa43d8fc25051b10c9.png" alt="B_j"/> and <img class="math" src="../../../_images/math/574ca15a7e18ad48f7da1c5434059eb0cefb1b0c.png" alt="\sigma_l = w"/>. Using the global and local weights, we obtain, at the same time, the reduction of role played by gradients far from line and of boundary effect, respectively.</p>
+<p>Each band <img class="math" src="../../../_images/math/abf099ebc0a857027f612eaa43d8fc25051b10c9.png" alt="B_j"/> in LSR has an associated <em>band descriptor(BD)</em> which is computed considering previous and next band (top and bottom bands are ignored when computing descriptor for first and last band). Once each band has been assignen its BD, the LBD descriptor of line is simply given by</p>
+<div class="math">
+<p><img src="../../../_images/math/8f6f8dec197d7a7250b6bbab4c960a54d5a559cb.png" alt="LBD = (BD_1^T, BD_2^T, ... , BD^T_m)^T."/></p>
+</div><p>To compute a band descriptor <img class="math" src="../../../_images/math/abf099ebc0a857027f612eaa43d8fc25051b10c9.png" alt="B_j"/>, each <em>k</em>-th row in it is considered and the gradients in such row are accumulated:</p>
+<div class="math">
+<p><img src="../../../_images/math/bdcd686e3079f2a546d4164b8d0ed1a7c9458532.png" alt="\begin{matrix} \bf{V1}^k_j = \lambda \sum\limits_{\bf{g}'_{d_\perp}&gt;0}\bf{g}'_{d_\perp}, &amp;  \bf{V2}^k_j = \lambda \sum\limits_{\bf{g}'_{d_\perp}&lt;0} -\bf{g}'_{d_\perp}, \\ \bf{V3}^k_j = \lambda \sum\limits_{\bf{g}'_{d_L}&gt;0}\bf{g}'_{d_L}, &amp; \bf{V4}^k_j = \lambda \sum\limits_{\bf{g}'_{d_L}&lt;0} -\bf{g}'_{d_L}\end{matrix}."/></p>
+</div><p>with <img class="math" src="../../../_images/math/d0f40050a7eb6751a682007257d138dd49f627ba.png" alt="\lambda = f_g(k)f_l(k)"/>.</p>
+<p>By stacking previous results, we obtain the <em>band description matrix (BDM)</em></p>
+<div class="math">
+<p><img src="../../../_images/math/a2e0f2074e675bf3cf38d5bc89e6b676f8d9a96a.png" alt="BDM_j = \left(\begin{matrix} \bf{V1}_j^1 &amp; \bf{V1}_j^2 &amp; \ldots &amp; \bf{V1}_j^n \\ \bf{V2}_j^1 &amp; \bf{V2}_j^2 &amp; \ldots &amp; \bf{V2}_j^n \\ \bf{V3}_j^1 &amp; \bf{V3}_j^2 &amp; \ldots &amp; \bf{V3}_j^n \\ \bf{V4}_j^1 &amp; \bf{V4}_j^2 &amp; \ldots &amp; \bf{V4}_j^n \end{matrix} \right) \in \mathbb{R}^{4\times n},"/></p>
+</div><p>with <img class="math" src="../../../_images/math/95984a3ee1c7b534830cfc6a19a5410d83ea85fe.png" alt="n"/> the number of rows in band <img class="math" src="../../../_images/math/abf099ebc0a857027f612eaa43d8fc25051b10c9.png" alt="B_j"/>:</p>
+<div class="math">
+<p><img src="../../../_images/math/7bc668e40990ccb5484b6a99570af83eeb3fec71.png" alt="n = \begin{cases} 2w, &amp; j = 1||m; \\ 3w, &amp; \mbox{else}. \end{cases}"/></p>
+</div><p>Each <img class="math" src="../../../_images/math/4efddff391a024f7476680630927dd22e18b4415.png" alt="BD_j"/> can be obtained using the standard deviation vector <img class="math" src="../../../_images/math/971c7b7405a9021305cb74b7ac65a70900a60fb5.png" alt="S_j"/> and mean vector <img class="math" src="../../../_images/math/a7426e12dbb2275cd45d59296cbfe1c2211f0f96.png" alt="M_j"/> of <img class="math" src="../../../_images/math/843d1fd05e13f8d2fb9dfb6df4b8a3a2f2ff36fd.png" alt="BDM_J"/>. Thus, finally:</p>
+<div class="math">
+<p><img src="../../../_images/math/6c57bb2c120f1adc2c6be6bc192ffb59a8014647.png" alt="LBD = (M_1^T, S_1^T, M_2^T, S_2^T, \ldots, M_m^T, S_m^T)^T \in \mathbb{R}^{8m}"/></p>
+</div><p>Once the LBD has been obtained, it must be converted into a binary form. For such purpose, we consider 32 possible pairs of BD inside it; each couple of BD is compared bit by bit and comparison generates an 8 bit string. Concatenating 32 comparison strings, we get the 256-bit final binary representation of a single LBD.</p>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<table class="docutils citation" frame="void" id="lbd" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[LBD]</a></td><td>Zhang, Lilian, and Reinhard Koch. <em>An efficient and robust line segment matching approach based on LBD descriptor and pairwise geometric consistency</em>, Journal of Visual Communication and Image Representation 24.7 (2013): 794-805.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="edl" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[EDL]</a></td><td>Von Gioi, R. Grompone, et al. <em>LSD: A fast line segment detector with a false detection control</em>, IEEE Transactions on Pattern Analysis and Machine Intelligence 32.4 (2010): 722-732.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="binary_descriptor.html">BinaryDescriptor Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-params">BinaryDescriptor::Params</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-binarydescriptor">BinaryDescriptor::BinaryDescriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-getnumofoctaves">BinaryDescriptor::getNumOfOctaves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-setnumofoctaves">BinaryDescriptor::setNumOfOctaves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-getwidthofband">BinaryDescriptor::getWidthOfBand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-setwidthofband">BinaryDescriptor::setWidthOfBand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-getreductionratio">BinaryDescriptor::getReductionRatio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-setreductionratio">BinaryDescriptor::setReductionRatio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-createbinarydescriptor">BinaryDescriptor::createBinaryDescriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-operator">BinaryDescriptor::operator()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-read">BinaryDescriptor::read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-write">BinaryDescriptor::write</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-defaultnorm">BinaryDescriptor::defaultNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-descriptortype">BinaryDescriptor::descriptorType</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-descriptorsize">BinaryDescriptor::descriptorSize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-detect">BinaryDescriptor::detect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#binarydescriptor-compute">BinaryDescriptor::compute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="binary_descriptor.html#related-pages">Related pages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="LSDDetector.html">Line Segments Detector</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="LSDDetector.html#lines-extraction-methodology">Lines extraction methodology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LSDDetector.html#lsddetector-createlsddetector">LSDDetector::createLSDDetector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LSDDetector.html#lsddetector-detect">LSDDetector::detect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LSDDetector.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="matching.html">Matching with binary descriptors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="matching.html#multi-index-hashing">Multi-Index Hashing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="matching.html#binarydescriptormatcher-class">BinaryDescriptorMatcher Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="matching.html#binarydescriptormatcher-binarydescriptormatcher">BinaryDescriptorMatcher::BinaryDescriptorMatcher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matching.html#binarydescriptormatcher-createbinarydescriptormatcher">BinaryDescriptorMatcher::createBinaryDescriptorMatcher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matching.html#binarydescriptormatcher-add">BinaryDescriptorMatcher::add</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matching.html#binarydescriptormatcher-train">BinaryDescriptorMatcher::train</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matching.html#binarydescriptormatcher-clear">BinaryDescriptorMatcher::clear</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matching.html#binarydescriptormatcher-match">BinaryDescriptorMatcher::match</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matching.html#binarydescriptormatcher-knnmatch">BinaryDescriptorMatcher::knnMatch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matching.html#binarydescriptormatcher-radiusmatch">BinaryDescriptorMatcher::radiusMatch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matching.html#related-pages">Related pages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matching.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="drawing_functions.html">Drawing Functions for Keylines and Matches</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="drawing_functions.html#drawlinematches">drawLineMatches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="drawing_functions.html#drawkeylines">drawKeylines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="drawing_functions.html#related-pages">Related pages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Line Features Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#lines-extraction-and-descriptors-computation">Lines extraction and descriptors computation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#matching-among-descriptors">Matching among descriptors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#querying-internal-database">Querying internal database</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="binary_descriptor.html" title="BinaryDescriptor Class"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../../face/doc/facerec_changelog.html" title="Changelog"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/line_descriptor/doc/line_descriptor.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/line_descriptor/doc/line_descriptor.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:57:47 GMT -->
+</html>

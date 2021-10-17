@@ -1,0 +1,30 @@
+pyspark.resource.ResourceProfile
+================================
+
+.. currentmodule:: pyspark.resource
+
+.. autoclass:: ResourceProfile
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ResourceProfile.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ResourceProfile.executorResources
+      ~ResourceProfile.id
+      ~ResourceProfile.taskResources
+   
+   

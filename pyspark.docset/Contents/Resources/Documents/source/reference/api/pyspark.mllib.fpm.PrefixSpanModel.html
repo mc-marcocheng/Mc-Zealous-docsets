@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>PrefixSpanModel — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="prefixspanmodel">
+<h1>PrefixSpanModel<a class="headerlink" href="#prefixspanmodel" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.fpm.PrefixSpanModel"><a name="//apple_ref/cpp/Class/pyspark.mllib.fpm.PrefixSpanModel"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.fpm.</code><code class="sig-name descname">PrefixSpanModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">java_model</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/fpm.html#PrefixSpanModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.fpm.PrefixSpanModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model fitted by PrefixSpan</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>   <span class="p">[[</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"c"</span><span class="p">]],</span>
+<span class="gp">... </span>   <span class="p">[[</span><span class="s2">"a"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"c"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">]],</span>
+<span class="gp">... </span>   <span class="p">[[</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"e"</span><span class="p">]],</span>
+<span class="gp">... </span>   <span class="p">[[</span><span class="s2">"f"</span><span class="p">]]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdd</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">PrefixSpan</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">rdd</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">freqSequences</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+<span class="go">[FreqSequence(sequence=[['a']], freq=3), FreqSequence(sequence=[['a'], ['a']], freq=1), ...</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.fpm.PrefixSpanModel.call"><a name="//apple_ref/cpp/Method/pyspark.mllib.fpm.PrefixSpanModel.call"></a>
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">a</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.fpm.PrefixSpanModel.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call method of java_model</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.fpm.PrefixSpanModel.freqSequences"><a name="//apple_ref/cpp/Method/pyspark.mllib.fpm.PrefixSpanModel.freqSequences"></a>
+<code class="sig-name descname">freqSequences</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/fpm.html#PrefixSpanModel.freqSequences"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.fpm.PrefixSpanModel.freqSequences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets frequent sequences</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

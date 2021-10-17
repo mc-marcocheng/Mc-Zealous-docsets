@@ -1,0 +1,500 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <title>1.8. Cross decomposition &mdash; scikit-learn 0.24.1 documentation</title>
+  
+  <link rel="canonical" href="http://scikit-learn.org/stable/modules/cross_decomposition.html" />
+
+  
+  <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  <link rel="stylesheet" href="../_static/css/vendor/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-rendered-html.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+<script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script> 
+</head>
+<body>
+<nav id="navbar" class="sk-docs-navbar navbar navbar-expand-md navbar-light bg-light py-0">
+  <div class="container-fluid sk-docs-container px-0">
+      <a class="navbar-brand py-0" href="../index.html">
+        <img
+          class="sk-brand-img"
+          src="../_static/scikit-learn-logo-small.png"
+          alt="logo"/>
+      </a>
+    <button
+      id="sk-navbar-toggler"
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="sk-navbar-collapse collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link" href="../install.html">Install</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link" href="../user_guide.html">User Guide</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link" href="classes.html">API</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link" href="../auto_examples/index.html">Examples</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link nav-more-item-mobile-items" href="../getting_started.html">Getting Started</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link nav-more-item-mobile-items" href="../tutorial/index.html">Tutorial</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link nav-more-item-mobile-items" href="../whats_new/v0.24.html">What's new</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link nav-more-item-mobile-items" href="../glossary.html">Glossary</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link nav-more-item-mobile-items" href="../developers/index.html">Development</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link nav-more-item-mobile-items" href="../faq.html">FAQ</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link nav-more-item-mobile-items" href="../support.html">Support</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link nav-more-item-mobile-items" href="../related_projects.html">Related packages</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link nav-more-item-mobile-items" href="../roadmap.html">Roadmap</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link nav-more-item-mobile-items" href="../about.html">About us</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link nav-more-item-mobile-items" href="https://github.com/scikit-learn/scikit-learn">GitHub</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link nav-more-item-mobile-items" href="https://scikit-learn.org/dev/versions.html">Other Versions and Download</a>
+        </li>
+        <li class="nav-item dropdown nav-more-item-dropdown">
+          <a class="sk-nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="sk-nav-dropdown-item dropdown-item" href="../getting_started.html">Getting Started</a>
+              <a class="sk-nav-dropdown-item dropdown-item" href="../tutorial/index.html">Tutorial</a>
+              <a class="sk-nav-dropdown-item dropdown-item" href="../whats_new/v0.24.html">What's new</a>
+              <a class="sk-nav-dropdown-item dropdown-item" href="../glossary.html">Glossary</a>
+              <a class="sk-nav-dropdown-item dropdown-item" href="../developers/index.html">Development</a>
+              <a class="sk-nav-dropdown-item dropdown-item" href="../faq.html">FAQ</a>
+              <a class="sk-nav-dropdown-item dropdown-item" href="../support.html">Support</a>
+              <a class="sk-nav-dropdown-item dropdown-item" href="../related_projects.html">Related packages</a>
+              <a class="sk-nav-dropdown-item dropdown-item" href="../roadmap.html">Roadmap</a>
+              <a class="sk-nav-dropdown-item dropdown-item" href="../about.html">About us</a>
+              <a class="sk-nav-dropdown-item dropdown-item" href="https://github.com/scikit-learn/scikit-learn">GitHub</a>
+              <a class="sk-nav-dropdown-item dropdown-item" href="https://scikit-learn.org/dev/versions.html">Other Versions and Download</a>
+          </div>
+        </li>
+      </ul>
+      <div id="searchbox" role="search">
+          <div class="searchformwrapper">
+          <form class="search" action="../search.html" method="get">
+            <input class="sk-search-text-input" type="text" name="q" aria-labelledby="searchlabel" />
+            <input class="sk-search-text-btn" type="submit" value="Go" />
+          </form>
+          </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="d-flex" id="sk-doc-wrapper">
+    <input type="checkbox" name="sk-toggle-checkbox" id="sk-toggle-checkbox">
+    <label id="sk-sidemenu-toggle" class="sk-btn-toggle-toc btn sk-btn-primary" for="sk-toggle-checkbox">Toggle Menu</label>
+    <div id="sk-sidebar-wrapper" class="border-right">
+      <div class="sk-sidebar-toc-wrapper">
+        <div class="sk-sidebar-toc-logo">
+          <a href="../index.html">
+            <img
+              class="sk-brand-img"
+              src="../_static/scikit-learn-logo-small.png"
+              alt="logo"/>
+          </a>
+        </div>
+        <div class="btn-group w-100 mb-2" role="group" aria-label="rellinks">
+            <a href="gaussian_process.html" role="button" class="btn sk-btn-rellink py-1" sk-rellink-tooltip="1.7. Gaussian Processes">Prev</a><a href="../supervised_learning.html" role="button" class="btn sk-btn-rellink py-1" sk-rellink-tooltip="1. Supervised learning">Up</a>
+            <a href="naive_bayes.html" role="button" class="btn sk-btn-rellink py-1" sk-rellink-tooltip="1.9. Naive Bayes">Next</a>
+        </div>
+        <div class="alert alert-danger p-1 mb-2" role="alert">
+          <p class="text-center mb-0">
+          <strong>scikit-learn 0.24.1</strong><br/>
+          <a href="http://scikit-learn.org/dev/versions.html">Other versions</a>
+          </p>
+        </div>
+        <div class="alert alert-warning p-1 mb-2" role="alert">
+          <p class="text-center mb-0">
+            Please <a class="font-weight-bold" href="../about.html#citing-scikit-learn"><string>cite us</string></a> if you use the software.
+          </p>
+        </div>
+            <div class="sk-sidebar-toc">
+              <ul>
+<li><a class="reference internal" href="#">1.8. Cross decomposition</a><ul>
+<li><a class="reference internal" href="#plscanonical">1.8.1. PLSCanonical</a><ul>
+<li><a class="reference internal" href="#transforming-data">1.8.1.1. Transforming data</a></li>
+<li><a class="reference internal" href="#predicting-the-targets-y">1.8.1.2. Predicting the targets Y</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#plssvd">1.8.2. PLSSVD</a></li>
+<li><a class="reference internal" href="#plsregression">1.8.3. PLSRegression</a></li>
+<li><a class="reference internal" href="#canonical-correlation-analysis">1.8.4. Canonical Correlation Analysis</a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+      </div>
+    </div>
+    <div id="sk-page-content-wrapper">
+      <div class="sk-page-content container-fluid body px-md-3" role="main">
+        
+  <div class="section" id="cross-decomposition">
+<span id="id1"></span><h1>1.8. Cross decomposition<a class="headerlink" href="#cross-decomposition" title="Permalink to this headline">¶</a></h1>
+<p>The cross decomposition module contains <strong>supervised</strong> estimators for
+dimensionality reduction and regression, belonging to the “Partial Least
+Squares” family.</p>
+<div class="figure align-center">
+<a class="reference external image-reference" href="../auto_examples/cross_decomposition/plot_compare_cross_decomposition.html"><img alt="../_images/sphx_glr_plot_compare_cross_decomposition_0011.png" src="../_images/sphx_glr_plot_compare_cross_decomposition_0011.png" style="width: 900.0px; height: 600.0px;" /></a>
+</div>
+<p>Cross decomposition algorithms find the fundamental relations between two
+matrices (X and Y). They are latent variable approaches to modeling the
+covariance structures in these two spaces. They will try to find the
+multidimensional direction in the X space that explains the maximum
+multidimensional variance direction in the Y space. In other words, PLS
+projects both <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">Y</span></code> into a lower-dimensional subspace such that the
+covariance between <code class="docutils literal notranslate"><span class="pre">transformed(X)</span></code> and <code class="docutils literal notranslate"><span class="pre">transformed(Y)</span></code> is maximal.</p>
+<p>PLS draws similarities with <a class="reference external" href="https://en.wikipedia.org/wiki/Principal_component_regression">Principal Component Regression</a> (PCR), where
+the samples are first projected into a lower-dimensional subspace, and the
+targets <code class="docutils literal notranslate"><span class="pre">y</span></code> are predicted using <code class="docutils literal notranslate"><span class="pre">transformed(X)</span></code>. One issue with PCR is that
+the dimensionality reduction is unsupervized, and may lose some important
+variables: PCR would keep the features with the most variance, but it’s
+possible that features with a small variances are relevant from predicting
+the target. In a way, PLS allows for the same kind of dimensionality
+reduction, but by taking into account the targets <code class="docutils literal notranslate"><span class="pre">y</span></code>. An illustration of
+this fact is given in the following example:
+* <a class="reference internal" href="../auto_examples/cross_decomposition/plot_pcr_vs_pls.html#sphx-glr-auto-examples-cross-decomposition-plot-pcr-vs-pls-py"><span class="std std-ref">Principal Component Regression vs Partial Least Squares Regression</span></a>.</p>
+<p>Apart from CCA, the PLS estimators are particularly suited when the matrix of
+predictors has more variables than observations, and when there is
+multicollinearity among the features. By contrast, standard linear regression
+would fail in these cases unless it is regularized.</p>
+<p>Classes included in this module are <a class="reference internal" href="generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression" title="sklearn.cross_decomposition.PLSRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSRegression</span></code></a>,
+<a class="reference internal" href="generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical" title="sklearn.cross_decomposition.PLSCanonical"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSCanonical</span></code></a>, <a class="reference internal" href="generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA" title="sklearn.cross_decomposition.CCA"><code class="xref py py-class docutils literal notranslate"><span class="pre">CCA</span></code></a> and <a class="reference internal" href="generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD" title="sklearn.cross_decomposition.PLSSVD"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSSVD</span></code></a></p>
+<div class="section" id="plscanonical">
+<h2>1.8.1. PLSCanonical<a class="headerlink" href="#plscanonical" title="Permalink to this headline">¶</a></h2>
+<p>We here describe the algorithm used in <a class="reference internal" href="generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical" title="sklearn.cross_decomposition.PLSCanonical"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSCanonical</span></code></a>. The other
+estimators use variants of this algorithm, and are detailed below.
+We recommend section <a class="footnote-reference brackets" href="#id6" id="id2">1</a> for more details and comparisons between these
+algorithms. In <a class="footnote-reference brackets" href="#id6" id="id3">1</a>, <a class="reference internal" href="generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical" title="sklearn.cross_decomposition.PLSCanonical"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSCanonical</span></code></a> corresponds to “PLSW2A”.</p>
+<p>Given two centered matrices <img class="math" src="../_images/math/335cfa98ddb22aa485716b7fc03e1c6b4852f4b9.svg" alt="X \in \mathbb{R}^{n \times d}"/> and
+<img class="math" src="../_images/math/910a2e1a8ae7ed73e4088ce8b337033e5ec6aa04.svg" alt="Y \in \mathbb{R}^{n \times t}"/>, and a number of components <img class="math" src="../_images/math/52ddc0cde6d632f631533173562fe3ca375b1f32.svg" alt="K"/>,
+<a class="reference internal" href="generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical" title="sklearn.cross_decomposition.PLSCanonical"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSCanonical</span></code></a> proceeds as follows:</p>
+<p>Set <img class="math" src="../_images/math/08fe31609cd48800a8b44af61f352242fc327578.svg" alt="X_1"/> to <img class="math" src="../_images/math/ed38fa24f1c94891bd312012aab3f6673be3eb83.svg" alt="X"/> and <img class="math" src="../_images/math/1a332314913ed02f893f9143fc991f17f1078936.svg" alt="Y_1"/> to <img class="math" src="../_images/math/7daf0d4815e763eb90f0d5f1dc406f668c1e21db.svg" alt="Y"/>. Then, for each
+<img class="math" src="../_images/math/f084fac10662c5b05368f1062d956865cfaab63b.svg" alt="k \in [1, K]"/>:</p>
+<ul class="simple">
+<li><p>a) compute <img class="math" src="../_images/math/1f414976b8b260d87410b1402757b4eea1b6cabb.svg" alt="u_k \in \mathbb{R}^d"/> and <img class="math" src="../_images/math/aea7af5a2881c3b1c43e1aaafd8af5df37232479.svg" alt="v_k \in \mathbb{R}^t"/>,
+the first left and right singular vectors of the cross-covariance matrix
+<img class="math" src="../_images/math/5a31adf0a2facf8748da63ebe3ce573e0938f007.svg" alt="C = X_k^T Y_k"/>.
+<img class="math" src="../_images/math/b7a4e1cce64b41c9f2c8f7bcbd13ea946b15d46b.svg" alt="u_k"/> and <img class="math" src="../_images/math/7fcbb4e4868c64bdac4d460b13399e3e93725d22.svg" alt="v_k"/> are called the <em>weights</em>.
+By definition, <img class="math" src="../_images/math/b7a4e1cce64b41c9f2c8f7bcbd13ea946b15d46b.svg" alt="u_k"/> and <img class="math" src="../_images/math/7fcbb4e4868c64bdac4d460b13399e3e93725d22.svg" alt="v_k"/> are
+choosen so that they maximize the covariance between the projected
+<img class="math" src="../_images/math/0cd5412a1dae914fa0eeda0d0fbd16b4007b387d.svg" alt="X_k"/> and the projected target, that is <img class="math" src="../_images/math/6d66d35e68de34202c7cd6072617d045256d8d01.svg" alt="\text{Cov}(X_k u_k,
+Y_k v_k)"/>.</p></li>
+<li><p>b) Project <img class="math" src="../_images/math/0cd5412a1dae914fa0eeda0d0fbd16b4007b387d.svg" alt="X_k"/> and <img class="math" src="../_images/math/5545c498bfbedca001c087ab059b5dd6e4a9d7f1.svg" alt="Y_k"/> on the singular vectors to obtain
+<em>scores</em>: <img class="math" src="../_images/math/c2a072dc547789944085806525032b4dcd595d3a.svg" alt="\xi_k = X_k u_k"/> and <img class="math" src="../_images/math/7dd4c264b1bede672ce6fff230702a6e27ebd19a.svg" alt="\omega_k = Y_k v_k"/></p></li>
+<li><p>c) Regress <img class="math" src="../_images/math/0cd5412a1dae914fa0eeda0d0fbd16b4007b387d.svg" alt="X_k"/> on <img class="math" src="../_images/math/999f574e4850a5fd448db37095a86fa43840a4e1.svg" alt="\xi_k"/>, i.e. find a vector <img class="math" src="../_images/math/5cf814f789268feecdc7995e73acbb1c96dc6488.svg" alt="\gamma_k
+\in \mathbb{R}^d"/> such that the rank-1 matrix <img class="math" src="../_images/math/f84c7d330398455c012635aa68d01bddb9d4acb9.svg" alt="\xi_k \gamma_k^T"/>
+is as close as possible to <img class="math" src="../_images/math/0cd5412a1dae914fa0eeda0d0fbd16b4007b387d.svg" alt="X_k"/>. Do the same on <img class="math" src="../_images/math/5545c498bfbedca001c087ab059b5dd6e4a9d7f1.svg" alt="Y_k"/> with
+<img class="math" src="../_images/math/6e38baa19ecd870ddee5bb9b3074b65ae5614d88.svg" alt="\omega_k"/> to obtain <img class="math" src="../_images/math/3520baf3174f16430c6ecc8ebb2ab5265107b58a.svg" alt="\delta_k"/>. The vectors
+<img class="math" src="../_images/math/08118c6224490a7df7e150fa14b94ebaa6420c56.svg" alt="\gamma_k"/> and <img class="math" src="../_images/math/3520baf3174f16430c6ecc8ebb2ab5265107b58a.svg" alt="\delta_k"/> are called the <em>loadings</em>.</p></li>
+<li><p>d) <em>deflate</em> <img class="math" src="../_images/math/0cd5412a1dae914fa0eeda0d0fbd16b4007b387d.svg" alt="X_k"/> and <img class="math" src="../_images/math/5545c498bfbedca001c087ab059b5dd6e4a9d7f1.svg" alt="Y_k"/>, i.e. subtract the rank-1
+approximations: <img class="math" src="../_images/math/544ff373a035396b20705e2ccd05c1ca9d5cd937.svg" alt="X_{k+1} = X_k - \xi_k \gamma_k^T"/>, and
+<img class="math" src="../_images/math/cc8c50194d574d8edddb4493023ee0d1ebd06e53.svg" alt="Y_{k + 1} = Y_k - \omega_k \delta_k^T"/>.</p></li>
+</ul>
+<p>At the end, we have approximated <img class="math" src="../_images/math/ed38fa24f1c94891bd312012aab3f6673be3eb83.svg" alt="X"/> as a sum of rank-1 matrices:
+<img class="math" src="../_images/math/b98b18d05326d266494e19816c018c541dc85efc.svg" alt="X = \Xi \Gamma^T"/> where <img class="math" src="../_images/math/7365e308d95911254f6c7a03e6c6825b462a07d0.svg" alt="\Xi \in \mathbb{R}^{n \times K}"/>
+contains the scores in its columns, and <img class="math" src="../_images/math/9093f25fa770220b66e38d05958b8d09300caa65.svg" alt="\Gamma^T \in \mathbb{R}^{K
+\times d}"/> contains the loadings in its rows. Similarly for <img class="math" src="../_images/math/7daf0d4815e763eb90f0d5f1dc406f668c1e21db.svg" alt="Y"/>, we
+have <img class="math" src="../_images/math/02214d912b9f61edf599da721b023aa1f16f4eba.svg" alt="Y = \Omega \Delta^T"/>.</p>
+<p>Note that the scores matrices <img class="math" src="../_images/math/7a99401ea596c7bf6247942978591fc506b4b2c9.svg" alt="\Xi"/> and <img class="math" src="../_images/math/8b79605e88e6ebb950c74a1319cdc046dae2069c.svg" alt="\Omega"/> correspond to
+the projections of the training data <img class="math" src="../_images/math/ed38fa24f1c94891bd312012aab3f6673be3eb83.svg" alt="X"/> and <img class="math" src="../_images/math/7daf0d4815e763eb90f0d5f1dc406f668c1e21db.svg" alt="Y"/>, respectively.</p>
+<p>Step <em>a)</em> may be performed in two ways: either by computing the whole SVD of
+<img class="math" src="../_images/math/4db5b6e16e06f929ce3f675c5e535d06ffb02ff7.svg" alt="C"/> and only retain the singular vectors with the biggest singular
+values, or by directly computing the singular vectors using the power method (cf section 11.3 in <a class="footnote-reference brackets" href="#id6" id="id4">1</a>),
+which corresponds to the <code class="docutils literal notranslate"><span class="pre">'nipals'</span></code> option of the <code class="docutils literal notranslate"><span class="pre">algorithm</span></code> parameter.</p>
+<div class="section" id="transforming-data">
+<h3>1.8.1.1. Transforming data<a class="headerlink" href="#transforming-data" title="Permalink to this headline">¶</a></h3>
+<p>To transform <img class="math" src="../_images/math/ed38fa24f1c94891bd312012aab3f6673be3eb83.svg" alt="X"/> into <img class="math" src="../_images/math/65114d0747cf8313606484e6ae6a6cad96399ea0.svg" alt="\bar{X}"/>, we need to find a projection
+matrix <img class="math" src="../_images/math/c2aa3dff9bffb099e9dff196fd36aed56ec16baf.svg" alt="P"/> such that <img class="math" src="../_images/math/ca5895a8152423e5435ce3e7d84b7860f6896d72.svg" alt="\bar{X} = XP"/>. We know that for the
+training data, <img class="math" src="../_images/math/590c404c092601297a8224539a1261df471c145f.svg" alt="\Xi = XP"/>, and <img class="math" src="../_images/math/b98b18d05326d266494e19816c018c541dc85efc.svg" alt="X = \Xi \Gamma^T"/>. Setting
+<img class="math" src="../_images/math/0ad0d8661e7cc5408c5a145f1f84ffb31116102f.svg" alt="P = U(\Gamma^T U)^{-1}"/> where <img class="math" src="../_images/math/9098c1c4618d7a0f321cee441aabee7f1b57a19b.svg" alt="U"/> is the matrix with the
+<img class="math" src="../_images/math/b7a4e1cce64b41c9f2c8f7bcbd13ea946b15d46b.svg" alt="u_k"/> in the columns, we have <img class="math" src="../_images/math/e3274d84472de7ae16a8910aaf0e014d1faf12c5.svg" alt="XP = X U(\Gamma^T U)^{-1} = \Xi
+(\Gamma^T U) (\Gamma^T U)^{-1} = \Xi"/> as desired. The rotation matrix
+<img class="math" src="../_images/math/c2aa3dff9bffb099e9dff196fd36aed56ec16baf.svg" alt="P"/> can be accessed from the <code class="docutils literal notranslate"><span class="pre">x_rotations_</span></code> attribute.</p>
+<p>Similarly, <img class="math" src="../_images/math/7daf0d4815e763eb90f0d5f1dc406f668c1e21db.svg" alt="Y"/> can be transformed using the rotation matrix
+<img class="math" src="../_images/math/d490e4fe112dc1bc2dd10a3e8551ba9e88f191f5.svg" alt="V(\Delta^T V)^{-1}"/>, accessed via the <code class="docutils literal notranslate"><span class="pre">y_rotations_</span></code> attribute.</p>
+</div>
+<div class="section" id="predicting-the-targets-y">
+<h3>1.8.1.2. Predicting the targets Y<a class="headerlink" href="#predicting-the-targets-y" title="Permalink to this headline">¶</a></h3>
+<p>To predict the targets of some data <img class="math" src="../_images/math/ed38fa24f1c94891bd312012aab3f6673be3eb83.svg" alt="X"/>, we are looking for a
+coefficient matrix <img class="math" src="../_images/math/c6d7202ff9bf4d27217708152086712452e7c780.svg" alt="\beta \in R^{d \times t}"/> such that <img class="math" src="../_images/math/4bd8c4e440fdcdf5ed8a66daa660044c31828758.svg" alt="Y =
+X\beta"/>.</p>
+<p>The idea is to try to predict the transformed targets <img class="math" src="../_images/math/8b79605e88e6ebb950c74a1319cdc046dae2069c.svg" alt="\Omega"/> as a
+function of the transformed samples <img class="math" src="../_images/math/7a99401ea596c7bf6247942978591fc506b4b2c9.svg" alt="\Xi"/>, by computing <img class="math" src="../_images/math/86122f1fd405121740f1a7e7315150444eeb3aae.svg" alt="\alpha
+\in \mathbb{R}"/> such that <img class="math" src="../_images/math/b3751ba5bf7965a9662cd6973650392eb6bd6e6f.svg" alt="\Omega = \alpha \Xi"/>.</p>
+<p>Then, we have <img class="math" src="../_images/math/928c813949210fd211a37c5b4b02ab7ab5a52489.svg" alt="Y = \Omega \Delta^T = \alpha \Xi \Delta^T"/>, and since
+<img class="math" src="../_images/math/7a99401ea596c7bf6247942978591fc506b4b2c9.svg" alt="\Xi"/> is the transformed training data we have that <img class="math" src="../_images/math/e61bb04ecfef6474ba275a80d8b69135d305f3b7.svg" alt="Y = X \alpha
+P \Delta^T"/>, and as a result the coefficient matrix <img class="math" src="../_images/math/83d9d85cd4b04d06912f0962d7920cf044d9047d.svg" alt="\beta = \alpha P
+\Delta^T"/>.</p>
+<p><img class="math" src="../_images/math/7138dad9ac96835665b17f5817eacfcaa9b834c9.svg" alt="\beta"/> can be accessed through the <code class="docutils literal notranslate"><span class="pre">coef_</span></code> attribute.</p>
+</div>
+</div>
+<div class="section" id="plssvd">
+<h2>1.8.2. PLSSVD<a class="headerlink" href="#plssvd" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD" title="sklearn.cross_decomposition.PLSSVD"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSSVD</span></code></a> is a simplified version of <a class="reference internal" href="generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical" title="sklearn.cross_decomposition.PLSCanonical"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSCanonical</span></code></a>
+described earlier: instead of iteratively deflating the matrices <img class="math" src="../_images/math/0cd5412a1dae914fa0eeda0d0fbd16b4007b387d.svg" alt="X_k"/>
+and <img class="math" src="../_images/math/5545c498bfbedca001c087ab059b5dd6e4a9d7f1.svg" alt="Y_k"/>, <a class="reference internal" href="generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD" title="sklearn.cross_decomposition.PLSSVD"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSSVD</span></code></a> computes the SVD of <img class="math" src="../_images/math/c85a565ceeae83c908f11793fcb66aa79cd06a1a.svg" alt="C = X^TY"/>
+only <em>once</em>, and stores the <code class="docutils literal notranslate"><span class="pre">n_components</span></code> singular vectors corresponding to
+the biggest singular values in the matrices <code class="docutils literal notranslate"><span class="pre">U</span></code> and <code class="docutils literal notranslate"><span class="pre">V</span></code>, corresponding to the
+<code class="docutils literal notranslate"><span class="pre">x_weights_</span></code> and <code class="docutils literal notranslate"><span class="pre">y_weights_</span></code> attributes. Here, the transformed data is
+simply <code class="docutils literal notranslate"><span class="pre">transformed(X)</span> <span class="pre">=</span> <span class="pre">XU</span></code> and <code class="docutils literal notranslate"><span class="pre">transformed(Y)</span> <span class="pre">=</span> <span class="pre">YV</span></code>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">n_components</span> <span class="pre">==</span> <span class="pre">1</span></code>, <a class="reference internal" href="generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD" title="sklearn.cross_decomposition.PLSSVD"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSSVD</span></code></a> and <a class="reference internal" href="generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical" title="sklearn.cross_decomposition.PLSCanonical"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSCanonical</span></code></a> are
+strictly equivalent.</p>
+</div>
+<div class="section" id="plsregression">
+<h2>1.8.3. PLSRegression<a class="headerlink" href="#plsregression" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression" title="sklearn.cross_decomposition.PLSRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSRegression</span></code></a> estimator is similar to
+<a class="reference internal" href="generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical" title="sklearn.cross_decomposition.PLSCanonical"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSCanonical</span></code></a> with <code class="docutils literal notranslate"><span class="pre">algorithm='nipals'</span></code>, with 2 significant
+differences:</p>
+<ul class="simple">
+<li><p>at step a) in the power method to compute <img class="math" src="../_images/math/b7a4e1cce64b41c9f2c8f7bcbd13ea946b15d46b.svg" alt="u_k"/> and <img class="math" src="../_images/math/7fcbb4e4868c64bdac4d460b13399e3e93725d22.svg" alt="v_k"/>,
+<img class="math" src="../_images/math/7fcbb4e4868c64bdac4d460b13399e3e93725d22.svg" alt="v_k"/> is never normalized.</p></li>
+<li><p>at step c), the targets <img class="math" src="../_images/math/5545c498bfbedca001c087ab059b5dd6e4a9d7f1.svg" alt="Y_k"/> are approximated using the projection
+of <img class="math" src="../_images/math/0cd5412a1dae914fa0eeda0d0fbd16b4007b387d.svg" alt="X_k"/> (i.e. <img class="math" src="../_images/math/999f574e4850a5fd448db37095a86fa43840a4e1.svg" alt="\xi_k"/>) instead of the projection of
+<img class="math" src="../_images/math/5545c498bfbedca001c087ab059b5dd6e4a9d7f1.svg" alt="Y_k"/> (i.e. <img class="math" src="../_images/math/6e38baa19ecd870ddee5bb9b3074b65ae5614d88.svg" alt="\omega_k"/>). In other words, the loadings
+computation is different. As a result, the deflation in step d) will also
+be affected.</p></li>
+</ul>
+<p>These two modifications affect the output of <code class="docutils literal notranslate"><span class="pre">predict</span></code> and <code class="docutils literal notranslate"><span class="pre">transform</span></code>,
+which are not the same as for <a class="reference internal" href="generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical" title="sklearn.cross_decomposition.PLSCanonical"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSCanonical</span></code></a>. Also, while the number
+of components is limited by <code class="docutils literal notranslate"><span class="pre">min(n_samples,</span> <span class="pre">n_features,</span> <span class="pre">n_targets)</span></code> in
+<a class="reference internal" href="generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical" title="sklearn.cross_decomposition.PLSCanonical"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSCanonical</span></code></a>, here the limit is the rank of <img class="math" src="../_images/math/0e7ef4204c4f6f1df78f3c13ddbc48fc6079b9e3.svg" alt="X^TX"/>, i.e.
+<code class="docutils literal notranslate"><span class="pre">min(n_samples,</span> <span class="pre">n_features)</span></code>.</p>
+<p><a class="reference internal" href="generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression" title="sklearn.cross_decomposition.PLSRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSRegression</span></code></a> is also known as PLS1 (single targets) and PLS2
+(multiple targets). Much like <a class="reference internal" href="generated/sklearn.linear_model.Lasso.html#sklearn.linear_model.Lasso" title="sklearn.linear_model.Lasso"><code class="xref py py-class docutils literal notranslate"><span class="pre">Lasso</span></code></a>,
+<a class="reference internal" href="generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression" title="sklearn.cross_decomposition.PLSRegression"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSRegression</span></code></a> is a form of regularized linear regression where the
+number of components controls the strength of the regularization.</p>
+</div>
+<div class="section" id="canonical-correlation-analysis">
+<h2>1.8.4. Canonical Correlation Analysis<a class="headerlink" href="#canonical-correlation-analysis" title="Permalink to this headline">¶</a></h2>
+<p>Canonical Correlation Analysis was developed prior and independently to PLS.
+But it turns out that <a class="reference internal" href="generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA" title="sklearn.cross_decomposition.CCA"><code class="xref py py-class docutils literal notranslate"><span class="pre">CCA</span></code></a> is a special case of PLS, and corresponds
+to PLS in “Mode B” in the literature.</p>
+<p><a class="reference internal" href="generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA" title="sklearn.cross_decomposition.CCA"><code class="xref py py-class docutils literal notranslate"><span class="pre">CCA</span></code></a> differs from <a class="reference internal" href="generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical" title="sklearn.cross_decomposition.PLSCanonical"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLSCanonical</span></code></a> in the way the weights
+<img class="math" src="../_images/math/b7a4e1cce64b41c9f2c8f7bcbd13ea946b15d46b.svg" alt="u_k"/> and <img class="math" src="../_images/math/7fcbb4e4868c64bdac4d460b13399e3e93725d22.svg" alt="v_k"/> are computed in the power method of step a).
+Details can be found in section 10 of <a class="footnote-reference brackets" href="#id6" id="id5">1</a>.</p>
+<p>Since <a class="reference internal" href="generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA" title="sklearn.cross_decomposition.CCA"><code class="xref py py-class docutils literal notranslate"><span class="pre">CCA</span></code></a> involves the inversion of <img class="math" src="../_images/math/541a29826b8bbf0601319a039cd7ea788e0790e3.svg" alt="X_k^TX_k"/> and
+<img class="math" src="../_images/math/91f847dba8dcc7eeb68fde0644f03b08afd0f57f.svg" alt="Y_k^TY_k"/>, this estimator can be unstable if the number of features or
+targets is greater than the number of samples.</p>
+<div class="topic">
+<p class="topic-title">Reference:</p>
+<dl class="footnote brackets">
+<dt class="label" id="id6"><span class="brackets">1</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id3">2</a>,<a href="#id4">3</a>,<a href="#id5">4</a>)</span></dt>
+<dd><p><a class="reference external" href="https://www.stat.washington.edu/research/reports/2000/tr371.pdf">A survey of Partial Least Squares (PLS) methods, with emphasis on
+the two-block case</a>
+JA Wegelin</p>
+</dd>
+</dl>
+</div>
+<div class="topic">
+<p class="topic-title">Examples:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../auto_examples/cross_decomposition/plot_compare_cross_decomposition.html#sphx-glr-auto-examples-cross-decomposition-plot-compare-cross-decomposition-py"><span class="std std-ref">Compare cross decomposition methods</span></a></p></li>
+<li><p><a class="reference internal" href="../auto_examples/cross_decomposition/plot_pcr_vs_pls.html#sphx-glr-auto-examples-cross-decomposition-plot-pcr-vs-pls-py"><span class="std std-ref">Principal Component Regression vs Partial Least Squares Regression</span></a></p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+      </div>
+    <div class="container">
+      <footer class="sk-content-footer">
+            &copy; 2007 - 2020, scikit-learn developers (BSD License).
+          <a href="../_sources/modules/cross_decomposition.rst.txt" rel="nofollow">Show this page source</a>
+      </footer>
+    </div>
+  </div>
+</div>
+<script src="../_static/js/vendor/bootstrap.min.js"></script>
+
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-22606712-2', 'auto');
+    ga('set', 'anonymizeIp', true);
+    ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script>
+$(document).ready(function() {
+    /* Add a [>>>] button on the top-right corner of code samples to hide
+     * the >>> and ... prompts and the output and thus make the code
+     * copyable. */
+    var div = $('.highlight-python .highlight,' +
+                '.highlight-python3 .highlight,' +
+                '.highlight-pycon .highlight,' +
+		'.highlight-default .highlight')
+    var pre = div.find('pre');
+
+    // get the styles from the current theme
+    pre.parent().parent().css('position', 'relative');
+    var hide_text = 'Hide prompts and outputs';
+    var show_text = 'Show prompts and outputs';
+
+    // create and add the button to all the code blocks that contain >>>
+    div.each(function(index) {
+        var jthis = $(this);
+        if (jthis.find('.gp').length > 0) {
+            var button = $('<span class="copybutton">&gt;&gt;&gt;</span>');
+            button.attr('title', hide_text);
+            button.data('hidden', 'false');
+            jthis.prepend(button);
+        }
+        // tracebacks (.gt) contain bare text elements that need to be
+        // wrapped in a span to work with .nextUntil() (see later)
+        jthis.find('pre:has(.gt)').contents().filter(function() {
+            return ((this.nodeType == 3) && (this.data.trim().length > 0));
+        }).wrap('<span>');
+    });
+
+    // define the behavior of the button when it's clicked
+    $('.copybutton').click(function(e){
+        e.preventDefault();
+        var button = $(this);
+        if (button.data('hidden') === 'false') {
+            // hide the code output
+            button.parent().find('.go, .gp, .gt').hide();
+            button.next('pre').find('.gt').nextUntil('.gp, .go').css('visibility', 'hidden');
+            button.css('text-decoration', 'line-through');
+            button.attr('title', show_text);
+            button.data('hidden', 'true');
+        } else {
+            // show the code output
+            button.parent().find('.go, .gp, .gt').show();
+            button.next('pre').find('.gt').nextUntil('.gp, .go').css('visibility', 'visible');
+            button.css('text-decoration', 'none');
+            button.attr('title', hide_text);
+            button.data('hidden', 'false');
+        }
+    });
+
+	/*** Add permalink buttons next to glossary terms ***/
+	$('dl.glossary > dt[id]').append(function() {
+		return ('<a class="headerlink" href="#' +
+			    this.getAttribute('id') +
+			    '" title="Permalink to this term">¶</a>');
+	});
+  /*** Hide navbar when scrolling down ***/
+  // Returns true when headerlink target matches hash in url
+  (function() {
+    hashTargetOnTop = function() {
+        var hash = window.location.hash;
+        if ( hash.length < 2 ) { return false; }
+
+        var target = document.getElementById( hash.slice(1) );
+        if ( target === null ) { return false; }
+
+        var top = target.getBoundingClientRect().top;
+        return (top < 2) && (top > -2);
+    };
+
+    // Hide navbar on load if hash target is on top
+    var navBar = document.getElementById("navbar");
+    var navBarToggler = document.getElementById("sk-navbar-toggler");
+    var navBarHeightHidden = "-" + navBar.getBoundingClientRect().height + "px";
+    var $window = $(window);
+
+    hideNavBar = function() {
+        navBar.style.top = navBarHeightHidden;
+    };
+
+    showNavBar = function() {
+        navBar.style.top = "0";
+    }
+
+    if (hashTargetOnTop()) {
+        hideNavBar()
+    }
+
+    var prevScrollpos = window.pageYOffset;
+    hideOnScroll = function(lastScrollTop) {
+        if (($window.width() < 768) && (navBarToggler.getAttribute("aria-expanded") === 'true')) {
+            return;
+        }
+        if (lastScrollTop > 2 && (prevScrollpos <= lastScrollTop) || hashTargetOnTop()){
+            hideNavBar()
+        } else {
+            showNavBar()
+        }
+        prevScrollpos = lastScrollTop;
+    };
+
+    /*** high performance scroll event listener***/
+    var raf = window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        window.oRequestAnimationFrame;
+    var lastScrollTop = $window.scrollTop();
+
+    if (raf) {
+        loop();
+    }
+
+    function loop() {
+        var scrollTop = $window.scrollTop();
+        if (lastScrollTop === scrollTop) {
+            raf(loop);
+            return;
+        } else {
+            lastScrollTop = scrollTop;
+            hideOnScroll(lastScrollTop);
+            raf(loop);
+        }
+    }
+  })();
+});
+
+</script>
+    
+</body>
+</html>

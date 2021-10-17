@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>RankingEvaluator — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="rankingevaluator">
+<h1>RankingEvaluator<a class="headerlink" href="#rankingevaluator" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.evaluation.RankingEvaluator"><a name="//apple_ref/cpp/Class/pyspark.ml.evaluation.RankingEvaluator"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.evaluation.</code><code class="sig-name descname">RankingEvaluator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predictionCol</span><span class="o">=</span><span class="default_value">'prediction'</span></em>, <em class="sig-param"><span class="n">labelCol</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">metricName</span><span class="o">=</span><span class="default_value">'meanAveragePrecision'</span></em>, <em class="sig-param"><span class="n">k</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/evaluation.html#RankingEvaluator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Experimental</p>
+</div>
+<p>Evaluator for Ranking, which expects two input
+columns: prediction and label.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scoreAndLabels</span> <span class="o">=</span> <span class="p">[([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">]),</span>
+<span class="gp">... </span>    <span class="p">([</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]),</span>
+<span class="gp">... </span>    <span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="p">[])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">scoreAndLabels</span><span class="p">,</span> <span class="p">[</span><span class="s2">"prediction"</span><span class="p">,</span> <span class="s2">"label"</span><span class="p">])</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluator</span> <span class="o">=</span> <span class="n">RankingEvaluator</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluator</span><span class="o">.</span><span class="n">setPredictionCol</span><span class="p">(</span><span class="s2">"prediction"</span><span class="p">)</span>
+<span class="go">RankingEvaluator...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<span class="go">0.35...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">{</span><span class="n">evaluator</span><span class="o">.</span><span class="n">metricName</span><span class="p">:</span> <span class="s2">"precisionAtK"</span><span class="p">,</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">k</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+<span class="go">0.33...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ranke_path</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/ranke"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluator</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">ranke_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluator2</span> <span class="o">=</span> <span class="n">RankingEvaluator</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ranke_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">evaluator2</span><span class="o">.</span><span class="n">getPredictionCol</span><span class="p">())</span>
+<span class="go">'prediction'</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.clear"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.clear"></a>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears a param from the param map if it has been explicitly set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.copy"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.copy"></a>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a copy of this instance with the same uid and some
+extra params. This implementation first calls Params.copy and
+then make a copy of the companion Java pipeline component with
+extra params. So both the Python wrapper and the Java pipeline
+component get copied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Copy of this instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.evaluate"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.evaluate"></a>
+<code class="sig-name descname">evaluate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the output with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – a dataset that contains labels/observations and
+predictions</p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded
+params</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>metric</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.explainParam"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.explainParam"></a>
+<code class="sig-name descname">explainParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.explainParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explains a single param and returns its name, doc, and optional
+default value and user-supplied value in a string.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.explainParams"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.explainParams"></a>
+<code class="sig-name descname">explainParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.explainParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the documentation of all params with their optionally
+default values and user-supplied values.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.extractParamMap"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.extractParamMap"></a>
+<code class="sig-name descname">extractParamMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the embedded default param values and user-supplied
+values, and then merges them with extra values from input into
+a flat param map, where the latter value is used if there exist
+conflicts, i.e., with ordering: default param values &lt;
+user-supplied values &lt; extra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>merged param map</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.getK"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.getK"></a>
+<code class="sig-name descname">getK</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/evaluation.html#RankingEvaluator.getK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.getK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of k or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.getLabelCol"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.getLabelCol"></a>
+<code class="sig-name descname">getLabelCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.getLabelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of labelCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.getMetricName"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.getMetricName"></a>
+<code class="sig-name descname">getMetricName</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/evaluation.html#RankingEvaluator.getMetricName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.getMetricName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of metricName or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.getOrDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.getOrDefault"></a>
+<code class="sig-name descname">getOrDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a param in the user-supplied param map or its
+default value. Raises an error if neither is set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.getParam"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.getParam"></a>
+<code class="sig-name descname">getParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.getParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a param by its name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.getPredictionCol"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.getPredictionCol"></a>
+<code class="sig-name descname">getPredictionCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.getPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of predictionCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.hasDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.hasDefault"></a>
+<code class="sig-name descname">hasDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.hasDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param has a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.hasParam"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.hasParam"></a>
+<code class="sig-name descname">hasParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.hasParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether this instance contains a param with a given
+(string) name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.isDefined"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.isDefined"></a>
+<code class="sig-name descname">isDefined</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.isDefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user or has
+a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.isLargerBetter"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.isLargerBetter"></a>
+<code class="sig-name descname">isLargerBetter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.isLargerBetter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates whether the metric returned by <a class="reference internal" href="#pyspark.ml.evaluation.RankingEvaluator.evaluate" title="pyspark.ml.evaluation.RankingEvaluator.evaluate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">evaluate()</span></code></a> should be maximized
+(True, default) or minimized (False).
+A given evaluator may support multiple metrics which may be maximized or minimized.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.isSet"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.isSet"></a>
+<code class="sig-name descname">isSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.isSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.load"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.load"></a>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.read"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.read"></a>
+<em class="property">classmethod </em><code class="sig-name descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLReader instance for this class.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.save"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.save"></a>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.set"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.set"></a>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.setK"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.setK"></a>
+<code class="sig-name descname">setK</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/evaluation.html#RankingEvaluator.setK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.setK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.evaluation.RankingEvaluator.k" title="pyspark.ml.evaluation.RankingEvaluator.k"><code class="xref py py-attr docutils literal notranslate"><span class="pre">k</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.setLabelCol"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.setLabelCol"></a>
+<code class="sig-name descname">setLabelCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/evaluation.html#RankingEvaluator.setLabelCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.setLabelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.evaluation.RankingEvaluator.labelCol" title="pyspark.ml.evaluation.RankingEvaluator.labelCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">labelCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.setMetricName"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.setMetricName"></a>
+<code class="sig-name descname">setMetricName</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/evaluation.html#RankingEvaluator.setMetricName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.setMetricName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.evaluation.RankingEvaluator.metricName" title="pyspark.ml.evaluation.RankingEvaluator.metricName"><code class="xref py py-attr docutils literal notranslate"><span class="pre">metricName</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.setParams"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.setParams"></a>
+<code class="sig-name descname">setParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">predictionCol</span><span class="o">=</span><span class="default_value">'prediction'</span></em>, <em class="sig-param"><span class="n">labelCol</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">metricName</span><span class="o">=</span><span class="default_value">'meanAveragePrecision'</span></em>, <em class="sig-param"><span class="n">k</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/evaluation.html#RankingEvaluator.setParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets params for ranking evaluator.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.setPredictionCol"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.setPredictionCol"></a>
+<code class="sig-name descname">setPredictionCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/evaluation.html#RankingEvaluator.setPredictionCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.setPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.evaluation.RankingEvaluator.predictionCol" title="pyspark.ml.evaluation.RankingEvaluator.predictionCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">predictionCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.write"><a name="//apple_ref/cpp/Method/pyspark.ml.evaluation.RankingEvaluator.write"></a>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLWriter instance for this ML instance.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.k"><a name="//apple_ref/cpp/Attribute/pyspark.ml.evaluation.RankingEvaluator.k"></a>
+<code class="sig-name descname">k</code><em class="property"> = Param(parent='undefined', name='k', doc='The ranking position value used in meanAveragePrecisionAtK|precisionAtK|ndcgAtK|recallAtK. Must be &gt; 0. The default value is 10.')</em><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.k" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.labelCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.evaluation.RankingEvaluator.labelCol"></a>
+<code class="sig-name descname">labelCol</code><em class="property"> = Param(parent='undefined', name='labelCol', doc='label column name.')</em><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.labelCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.metricName"><a name="//apple_ref/cpp/Attribute/pyspark.ml.evaluation.RankingEvaluator.metricName"></a>
+<code class="sig-name descname">metricName</code><em class="property"> = Param(parent='undefined', name='metricName', doc='metric name in evaluation (meanAveragePrecision|meanAveragePrecisionAtK|precisionAtK|ndcgAtK|recallAtK)')</em><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.metricName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.params"><a name="//apple_ref/cpp/Attribute/pyspark.ml.evaluation.RankingEvaluator.params"></a>
+<code class="sig-name descname">params</code><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all params ordered by name. The default implementation
+uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.evaluation.RankingEvaluator.predictionCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.evaluation.RankingEvaluator.predictionCol"></a>
+<code class="sig-name descname">predictionCol</code><em class="property"> = Param(parent='undefined', name='predictionCol', doc='prediction column name.')</em><a class="headerlink" href="#pyspark.ml.evaluation.RankingEvaluator.predictionCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

@@ -1,0 +1,414 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>RowMatrix — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="rowmatrix">
+<h1>RowMatrix<a class="headerlink" href="#rowmatrix" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.linalg.distributed.RowMatrix"><a name="//apple_ref/cpp/Class/pyspark.mllib.linalg.distributed.RowMatrix"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.linalg.distributed.</code><code class="sig-name descname">RowMatrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rows</span></em>, <em class="sig-param"><span class="n">numRows</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">numCols</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#RowMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.RowMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a row-oriented distributed Matrix with no meaningful
+row indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rows</strong> – An RDD or DataFrame of vectors. If a DataFrame is provided, it must have a single
+vector typed column.</p></li>
+<li><p><strong>numRows</strong> – Number of rows in the matrix. A non-positive
+value means unknown, at which point the number
+of rows will be determined by the number of
+records in the <cite>rows</cite> RDD.</p></li>
+<li><p><strong>numCols</strong> – Number of columns in the matrix. A non-positive
+value means unknown, at which point the number
+of columns will be determined by the size of
+the first row.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.RowMatrix.columnSimilarities"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.RowMatrix.columnSimilarities"></a>
+<code class="sig-name descname">columnSimilarities</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#RowMatrix.columnSimilarities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.RowMatrix.columnSimilarities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute similarities between columns of this matrix.</p>
+<p>The threshold parameter is a trade-off knob between estimate
+quality and computational cost.</p>
+<p>The default threshold setting of 0 guarantees deterministically
+correct results, but uses the brute-force approach of computing
+normalized dot products.</p>
+<p>Setting the threshold to positive values uses a sampling
+approach and incurs strictly less computational cost than the
+brute-force approach. However the similarities computed will
+be estimates.</p>
+<p>The sampling guarantees relative-error correctness for those
+pairs of columns that have similarity greater than the given
+similarity threshold.</p>
+<dl class="simple">
+<dt>To describe the guarantee, we set some notation:</dt><dd><ul class="simple">
+<li><p>Let A be the smallest in magnitude non-zero element of
+this matrix.</p></li>
+<li><p>Let B be the largest in magnitude non-zero element of
+this matrix.</p></li>
+<li><p>Let L be the maximum number of non-zeros per row.</p></li>
+</ul>
+</dd>
+</dl>
+<p>For example, for {0,1} matrices: A=B=1.
+Another example, for the Netflix matrix: A=1, B=5</p>
+<p>For those column pairs that are above the threshold, the
+computed similarity is correct to within 20% relative error
+with probability at least 1 - (0.981)^10/B^</p>
+<p>The shuffle size is bounded by the <em>smaller</em> of the following
+two expressions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>O(n log(n) L / (threshold * A))</p></li>
+<li><p>O(m L^2^)</p></li>
+</ul>
+</div></blockquote>
+<p>The latter is the cost of the brute-force approach, so for
+non-zero thresholds, the cost is always cheaper than the
+brute-force approach.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param</dt>
+<dd class="field-odd"><p>threshold: Set to 0 for deterministic guaranteed
+correctness. Similarities above this
+threshold are estimated with the cost vs
+estimate quality trade-off described above.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An n x n sparse upper-triangular CoordinateMatrix of
+cosine similarities between columns of this matrix.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rows</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">RowMatrix</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sims</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">columnSimilarities</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sims</span><span class="o">.</span><span class="n">entries</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">value</span>
+<span class="go">0.91914503...</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.RowMatrix.computeColumnSummaryStatistics"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.RowMatrix.computeColumnSummaryStatistics"></a>
+<code class="sig-name descname">computeColumnSummaryStatistics</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#RowMatrix.computeColumnSummaryStatistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.RowMatrix.computeColumnSummaryStatistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes column-wise summary statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MultivariateStatisticalSummary</span></code> object
+containing column-wise summary statistics.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rows</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">RowMatrix</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">colStats</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">computeColumnSummaryStatistics</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">colStats</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="go">array([ 2.5,  3.5,  4.5])</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.RowMatrix.computeCovariance"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.RowMatrix.computeCovariance"></a>
+<code class="sig-name descname">computeCovariance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#RowMatrix.computeCovariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.RowMatrix.computeCovariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the covariance matrix, treating each row as an
+observation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This cannot be computed on matrices with more than 65535 columns.</p>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rows</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">RowMatrix</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span><span class="o">.</span><span class="n">computeCovariance</span><span class="p">()</span>
+<span class="go">DenseMatrix(2, 2, [0.5, -0.5, -0.5, 0.5], 0)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.RowMatrix.computeGramianMatrix"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.RowMatrix.computeGramianMatrix"></a>
+<code class="sig-name descname">computeGramianMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#RowMatrix.computeGramianMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.RowMatrix.computeGramianMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the Gramian matrix <cite>A^T A</cite>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This cannot be computed on matrices with more than 65535 columns.</p>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rows</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">RowMatrix</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span><span class="o">.</span><span class="n">computeGramianMatrix</span><span class="p">()</span>
+<span class="go">DenseMatrix(3, 3, [17.0, 22.0, 27.0, 22.0, 29.0, 36.0, 27.0, 36.0, 45.0], 0)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.RowMatrix.computePrincipalComponents"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.RowMatrix.computePrincipalComponents"></a>
+<code class="sig-name descname">computePrincipalComponents</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#RowMatrix.computePrincipalComponents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.RowMatrix.computePrincipalComponents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the k principal components of the given row matrix</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This cannot be computed on matrices with more than 65535 columns.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>k</strong> – Number of principal components to keep.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference internal" href="pyspark.mllib.linalg.DenseMatrix.html#pyspark.mllib.linalg.DenseMatrix" title="pyspark.mllib.linalg.DenseMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.mllib.linalg.DenseMatrix</span></code></a></p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rows</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rm</span> <span class="o">=</span> <span class="n">RowMatrix</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Returns the two principal components of rm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pca</span> <span class="o">=</span> <span class="n">rm</span><span class="o">.</span><span class="n">computePrincipalComponents</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pca</span>
+<span class="go">DenseMatrix(3, 2, [-0.349, -0.6981, 0.6252, -0.2796, -0.5592, -0.7805], 0)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Transform into new dimensions with the greatest variance.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rm</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">pca</span><span class="p">)</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span> 
+<span class="go">[DenseVector([0.1305, -3.7394]), DenseVector([-0.3642, -6.6983]),         DenseVector([-4.6102, -4.9745])]</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.RowMatrix.computeSVD"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.RowMatrix.computeSVD"></a>
+<code class="sig-name descname">computeSVD</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span></em>, <em class="sig-param"><span class="n">computeU</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">rCond</span><span class="o">=</span><span class="default_value">1e-09</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#RowMatrix.computeSVD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.RowMatrix.computeSVD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the singular value decomposition of the RowMatrix.</p>
+<p>The given row matrix A of dimension (m X n) is decomposed into
+U * s * V’T where</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>U: (m X k) (left singular vectors) is a RowMatrix whose</dt><dd><p>columns are the eigenvectors of (A X A’)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>s: DenseVector consisting of square root of the eigenvalues</dt><dd><p>(singular values) in descending order.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>v: (n X k) (right singular vectors) is a Matrix whose columns</dt><dd><p>are the eigenvectors of (A’ X A)</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>For more specific details on implementation, please refer
+the Scala documentation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> – Number of leading singular values to keep (<cite>0 &lt; k &lt;= n</cite>).
+It might return less than k if there are numerically zero singular values
+or there are not enough Ritz values converged before the maximum number of
+Arnoldi update iterations is reached (in case that matrix A is ill-conditioned).</p></li>
+<li><p><strong>computeU</strong> – Whether or not to compute U. If set to be
+True, then U is computed by A * V * s^-1</p></li>
+<li><p><strong>rCond</strong> – Reciprocal condition number. All singular values
+smaller than rCond * s[0] are treated as zero
+where s[0] is the largest singular value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference internal" href="pyspark.mllib.linalg.distributed.SingularValueDecomposition.html#pyspark.mllib.linalg.distributed.SingularValueDecomposition" title="pyspark.mllib.linalg.distributed.SingularValueDecomposition"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingularValueDecomposition</span></code></a></p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rows</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rm</span> <span class="o">=</span> <span class="n">RowMatrix</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">svd_model</span> <span class="o">=</span> <span class="n">rm</span><span class="o">.</span><span class="n">computeSVD</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">svd_model</span><span class="o">.</span><span class="n">U</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="go">[DenseVector([-0.7071, 0.7071]), DenseVector([-0.7071, -0.7071])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">svd_model</span><span class="o">.</span><span class="n">s</span>
+<span class="go">DenseVector([3.4641, 3.1623])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">svd_model</span><span class="o">.</span><span class="n">V</span>
+<span class="go">DenseMatrix(3, 2, [-0.4082, -0.8165, -0.4082, 0.8944, -0.4472, 0.0], 0)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.RowMatrix.multiply"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.RowMatrix.multiply"></a>
+<code class="sig-name descname">multiply</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#RowMatrix.multiply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.RowMatrix.multiply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiply this matrix by a local dense matrix on the right.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>matrix</strong> – a local dense matrix whose number of rows must match the number of columns
+of this matrix</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyspark.mllib.linalg.distributed.RowMatrix" title="pyspark.mllib.linalg.distributed.RowMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">RowMatrix</span></code></a></p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rm</span> <span class="o">=</span> <span class="n">RowMatrix</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rm</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">DenseMatrix</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="go">[DenseVector([2.0, 3.0]), DenseVector([6.0, 11.0])]</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.RowMatrix.numCols"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.RowMatrix.numCols"></a>
+<code class="sig-name descname">numCols</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#RowMatrix.numCols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.RowMatrix.numCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or compute the number of cols.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rows</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+<span class="gp">... </span>                       <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">RowMatrix</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">numCols</span><span class="p">())</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">RowMatrix</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">numCols</span><span class="p">())</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.RowMatrix.numRows"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.RowMatrix.numRows"></a>
+<code class="sig-name descname">numRows</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#RowMatrix.numRows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.RowMatrix.numRows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or compute the number of rows.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rows</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+<span class="gp">... </span>                       <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">RowMatrix</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">numRows</span><span class="p">())</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">RowMatrix</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">numRows</span><span class="p">())</span>
+<span class="go">7</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.RowMatrix.tallSkinnyQR"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.RowMatrix.tallSkinnyQR"></a>
+<code class="sig-name descname">tallSkinnyQR</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">computeQ</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#RowMatrix.tallSkinnyQR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.RowMatrix.tallSkinnyQR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the QR decomposition of this RowMatrix.</p>
+<p>The implementation is designed to optimize the QR decomposition
+(factorization) for the RowMatrix of a tall and skinny shape.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><p>Paul G. Constantine, David F. Gleich. “Tall and skinny QR
+factorizations in MapReduce architectures”
+([[<a class="reference external" href="https://doi.org/10.1145/1996092.1996103">https://doi.org/10.1145/1996092.1996103</a>]])</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Param</dt>
+<dd class="field-odd"><p>computeQ: whether to computeQ</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>QRDecomposition(Q: RowMatrix, R: Matrix), where
+Q = None if computeQ = false.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rows</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">RowMatrix</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">decomp</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">tallSkinnyQR</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Q</span> <span class="o">=</span> <span class="n">decomp</span><span class="o">.</span><span class="n">Q</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">R</span> <span class="o">=</span> <span class="n">decomp</span><span class="o">.</span><span class="n">R</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test with absolute values</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">absQRows</span> <span class="o">=</span> <span class="n">Q</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">toArray</span><span class="p">())</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">absQRows</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="go">[[0.6..., 0.0], [0.8..., 0.0], [0.0, 1.0]]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Test with absolute values</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">abs</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">toArray</span><span class="p">())</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[[5.0, 10.0], [0.0, 1.0]]</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.mllib.linalg.distributed.RowMatrix.rows"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.linalg.distributed.RowMatrix.rows"></a>
+<code class="sig-name descname">rows</code><a class="headerlink" href="#pyspark.mllib.linalg.distributed.RowMatrix.rows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rows of the RowMatrix stored as an RDD of vectors.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">RowMatrix</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rows</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">rows</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rows</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="go">DenseVector([1.0, 2.0, 3.0])</span>
+</pre></div>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

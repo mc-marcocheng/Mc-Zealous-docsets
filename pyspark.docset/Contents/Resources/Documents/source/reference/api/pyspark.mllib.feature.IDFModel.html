@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>IDFModel — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="idfmodel">
+<h1>IDFModel<a class="headerlink" href="#idfmodel" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.feature.IDFModel"><a name="//apple_ref/cpp/Class/pyspark.mllib.feature.IDFModel"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.feature.</code><code class="sig-name descname">IDFModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">java_model</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#IDFModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.IDFModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents an IDF model that can transform term frequency vectors.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.IDFModel.call"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.IDFModel.call"></a>
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">a</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.feature.IDFModel.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call method of java_model</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.IDFModel.docFreq"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.IDFModel.docFreq"></a>
+<code class="sig-name descname">docFreq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#IDFModel.docFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.IDFModel.docFreq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the document frequency.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.IDFModel.idf"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.IDFModel.idf"></a>
+<code class="sig-name descname">idf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#IDFModel.idf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.IDFModel.idf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current IDF vector.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.IDFModel.numDocs"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.IDFModel.numDocs"></a>
+<code class="sig-name descname">numDocs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#IDFModel.numDocs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.IDFModel.numDocs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns number of documents evaluated to compute idf</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.IDFModel.transform"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.IDFModel.transform"></a>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#IDFModel.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.IDFModel.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms term frequency (TF) vectors to TF-IDF vectors.</p>
+<p>If <cite>minDocFreq</cite> was set for the IDF calculation,
+the terms which occur in fewer than <cite>minDocFreq</cite>
+documents will have an entry of 0.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In Python, transform cannot currently be used within
+an RDD transformation or action.
+Call transform directly on the RDD instead.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> – an RDD of term frequency vectors or a term frequency
+vector</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>an RDD of TF-IDF vectors or a TF-IDF vector</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

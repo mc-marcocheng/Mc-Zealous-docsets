@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.sql.functions.posexplode_outer — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-sql-functions-posexplode-outer">
+<h1>pyspark.sql.functions.posexplode_outer<a class="headerlink" href="#pyspark-sql-functions-posexplode-outer" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="pyspark.sql.functions.posexplode_outer"><a name="//apple_ref/cpp/Function/pyspark.sql.functions.posexplode_outer"></a>
+<code class="sig-prename descclassname">pyspark.sql.functions.</code><code class="sig-name descname">posexplode_outer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/sql/functions.html#posexplode_outer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.sql.functions.posexplode_outer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new row for each element with position in the given array or map.
+Unlike posexplode, if the array/map is null or empty then the row (null, null) is produced.
+Uses the default column name <cite>pos</cite> for position, and <cite>col</cite> for elements in the
+array and <cite>key</cite> and <cite>value</cite> for elements in the map unless specified otherwise.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="s2">"foo"</span><span class="p">,</span> <span class="s2">"bar"</span><span class="p">],</span> <span class="p">{</span><span class="s2">"x"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">[],</span> <span class="p">{}),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"an_array"</span><span class="p">,</span> <span class="s2">"a_map"</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"an_array"</span><span class="p">,</span> <span class="n">posexplode_outer</span><span class="p">(</span><span class="s2">"a_map"</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">+---+----------+----+----+-----+</span>
+<span class="go">| id|  an_array| pos| key|value|</span>
+<span class="go">+---+----------+----+----+-----+</span>
+<span class="go">|  1|[foo, bar]|   0|   x|  1.0|</span>
+<span class="go">|  2|        []|null|null| null|</span>
+<span class="go">|  3|      null|null|null| null|</span>
+<span class="go">+---+----------+----+----+-----+</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"a_map"</span><span class="p">,</span> <span class="n">posexplode_outer</span><span class="p">(</span><span class="s2">"an_array"</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">+---+----------+----+----+</span>
+<span class="go">| id|     a_map| pos| col|</span>
+<span class="go">+---+----------+----+----+</span>
+<span class="go">|  1|[x -&gt; 1.0]|   0| foo|</span>
+<span class="go">|  1|[x -&gt; 1.0]|   1| bar|</span>
+<span class="go">|  2|        []|null|null|</span>
+<span class="go">|  3|      null|null|null|</span>
+<span class="go">+---+----------+----+----+</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.</span></p>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

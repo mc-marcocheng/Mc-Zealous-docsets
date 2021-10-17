@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.Accumulator — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-accumulator">
+<h1>pyspark.Accumulator<a class="headerlink" href="#pyspark-accumulator" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.Accumulator"><a name="//apple_ref/cpp/Class/pyspark.Accumulator"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.</code><code class="sig-name descname">Accumulator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">aid</span></em>, <em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">accum_param</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/accumulators.html#Accumulator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.Accumulator" title="Permalink to this definition">¶</a></dt>
+<dd><p>A shared variable that can be accumulated, i.e., has a commutative and associative “add”
+operation. Worker tasks on a Spark cluster can add values to an Accumulator with the <cite>+=</cite>
+operator, but only the driver program is allowed to access its value, using <cite>value</cite>.
+Updates from the workers get propagated automatically to the driver program.</p>
+<p>While <a class="reference internal" href="pyspark.SparkContext.html#pyspark.SparkContext" title="pyspark.SparkContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">SparkContext</span></code></a> supports accumulators for primitive data types like <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code> and
+<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, users can also define accumulators for custom types by providing a custom
+<a class="reference internal" href="../../../pyspark.html#pyspark.AccumulatorParam" title="pyspark.AccumulatorParam"><code class="xref py py-class docutils literal notranslate"><span class="pre">AccumulatorParam</span></code></a> object. Refer to the doctest of this module for an example.</p>
+<dl class="py method">
+<dt id="pyspark.Accumulator.__init__"><a name="//apple_ref/cpp/Method/pyspark.Accumulator.__init__"></a>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">aid</span></em>, <em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">accum_param</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/accumulators.html#Accumulator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.Accumulator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new Accumulator with a given initial value and AccumulatorParam object</p>
+</dd></dl>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

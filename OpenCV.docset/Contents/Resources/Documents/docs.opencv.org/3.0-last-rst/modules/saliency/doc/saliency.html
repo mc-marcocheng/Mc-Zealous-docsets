@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/saliency/doc/saliency.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:57:49 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Saliency API</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="OpenCV API Reference" href="../../refman.html" />
+    <link rel="next" title="Common Interfaces of Saliency" href="common_interfaces_saliency.html" />
+    <link rel="prev" title="rgbd. RGB-Depth Processing" href="../../rgbd/doc/rgbd.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="common_interfaces_saliency.html" title="Common Interfaces of Saliency"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../../rgbd/doc/rgbd.html" title="rgbd. RGB-Depth Processing"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" accesskey="U">OpenCV API Reference</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Saliency API</a><ul>
+<li><a class="reference internal" href="#saliency-classes">Saliency classes:</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../../rgbd/doc/rgbd.html"
+                        title="previous chapter">rgbd. RGB-Depth Processing</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="common_interfaces_saliency.html"
+                        title="next chapter">Common Interfaces of Saliency</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="saliency-api">
+<h1>Saliency API<a class="headerlink" href="#saliency-api" title="Permalink to this headline">¶</a></h1>
+<p>Many computer vision applications may benefit from understanding where humans focus given a scene. Other than cognitively understanding the way human perceive images and scenes, finding salient regions and objects in the images helps various tasks such as speeding up object detection, object recognition, object tracking and content-aware image editing.</p>
+<p>About the saliency, there is a rich literature but the development is very fragmented. The principal purpose of this API is to give a
+unique interface, a unique framework for use and plug sever saliency algorithms, also with very different nature and methodology, but they share the same purpose, organizing algorithms into three main categories:</p>
+<p><strong>Static Saliency</strong>: algorithms belonging to this category, exploit different image features that allow to detect salient objects in a non dynamic scenarios.</p>
+<p><strong>Motion Saliency</strong>: algorithms belonging to this category, are particularly focused to detect salient objects over time (hence also over frame), then there is a temporal component sealing cosider that allows to detect &#8220;moving&#8221; objects as salient, meaning therefore also the more general sense of detection the changes in the scene.</p>
+<p><strong>Objectness</strong>: Objectness is usually represented as a value which reflects how likely an image window covers an object of any category. Algorithms belonging to this category, avoid making decisions early on, by proposing a small number of category-independent proposals, that are expected to cover all objects in an image. Being able to perceive objects before identifying them is closely related to bottom up visual attention (saliency).</p>
+<p>UML design:</p>
+<hr class="docutils" />
+<p><strong>Saliency diagram</strong></p>
+<a class="reference internal image-reference" href="../../../_images/saliency.png"><img alt="Saliency diagram" class="align-center" src="../../../_images/saliency.png" style="width: 80%;" /></a>
+<p>To see how API works, try tracker demo: <a class="reference external" href="https://github.com/fpuja/opencv_contrib/blob/saliencyModuleDevelop/modules/saliency/samples/computeSaliency.cpp">https://github.com/fpuja/opencv_contrib/blob/saliencyModuleDevelop/modules/saliency/samples/computeSaliency.cpp</a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This Tracking API has been designed with PlantUML. If you modify this API please change UML files under modules/tracking/misc/</p>
+</div>
+<div class="section" id="saliency-classes">
+<h2>Saliency classes:<a class="headerlink" href="#saliency-classes" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common_interfaces_saliency.html">Common Interfaces of Saliency</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_saliency.html#saliency-algorithm">Saliency : Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_saliency.html#saliency-create">Saliency::create</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_saliency.html#saliency-computesaliency">Saliency::computeSaliency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common_interfaces_saliency.html#saliency-getclassname">Saliency::getClassName</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="saliency_categories.html">Saliency categories</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="saliency_categories.html#staticsaliency">StaticSaliency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="saliency_categories.html#staticsaliency-computebinarymap">StaticSaliency::computeBinaryMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="saliency_categories.html#motionsaliency">MotionSaliency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="saliency_categories.html#objectness">Objectness</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="static_saliency_algorithms.html">Static Saliency algorithms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="static_saliency_algorithms.html#spectralresidual">SpectralResidual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="static_saliency_algorithms.html#staticsaliencyspectralresidual-staticsaliencyspectralresidual">StaticSaliencySpectralResidual::StaticSaliencySpectralResidual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="static_saliency_algorithms.html#staticsaliencyspectralresidual-getwsize">StaticSaliencySpectralResidual::getWsize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="static_saliency_algorithms.html#staticsaliencyspectralresidual-setwsize">StaticSaliencySpectralResidual::setWsize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="static_saliency_algorithms.html#staticsaliencyspectralresidual-computesaliency">StaticSaliencySpectralResidual::computeSaliency</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="motion_saliency_algorithms.html">Motion Saliency Algorithms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="motion_saliency_algorithms.html#motionsaliencybinwangapr2014">MotionSaliencyBinWangApr2014</a></li>
+<li class="toctree-l2"><a class="reference internal" href="motion_saliency_algorithms.html#motionsaliencybinwangapr2014-motionsaliencybinwangapr2014">MotionSaliencyBinWangApr2014::MotionSaliencyBinWangApr2014</a></li>
+<li class="toctree-l2"><a class="reference internal" href="motion_saliency_algorithms.html#motionsaliencybinwangapr2014-setimagesize">MotionSaliencyBinWangApr2014::setImagesize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="motion_saliency_algorithms.html#motionsaliencybinwangapr2014-init">MotionSaliencyBinWangApr2014::init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="motion_saliency_algorithms.html#motionsaliencybinwangapr2014-computesaliencyimpl">MotionSaliencyBinWangApr2014::computeSaliencyImpl</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="objectness_algorithms.html">Objectness Algorithms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="objectness_algorithms.html#objectnessbing">ObjectnessBING</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objectness_algorithms.html#objectnessbing-objectnessbing">ObjectnessBING::ObjectnessBING</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objectness_algorithms.html#objectnessbing-getobjectnessvalues">ObjectnessBING::getobjectnessValues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objectness_algorithms.html#objectnessbing-settrainingpath">ObjectnessBING::setTrainingPath</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objectness_algorithms.html#objectnessbing-setbbresdir">ObjectnessBING::setBBResDir</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objectness_algorithms.html#objectnessbing-computesaliencyimpl">ObjectnessBING::computeSaliencyImpl</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="common_interfaces_saliency.html" title="Common Interfaces of Saliency"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../../rgbd/doc/rgbd.html" title="rgbd. RGB-Depth Processing"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/saliency/doc/saliency.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/saliency/doc/saliency.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:57:49 GMT -->
+</html>

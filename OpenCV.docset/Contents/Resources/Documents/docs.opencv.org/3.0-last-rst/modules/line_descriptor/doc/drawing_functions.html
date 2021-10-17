@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/line_descriptor/doc/drawing_functions.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:28 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Drawing Functions for Keylines and Matches</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="Binary descriptors for lines extracted from an image" href="line_descriptor.html" />
+    <link rel="next" title="Line Features Tutorial" href="tutorial.html" />
+    <link rel="prev" title="Matching with binary descriptors" href="matching.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tutorial.html" title="Line Features Tutorial"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="matching.html" title="Matching with binary descriptors"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="line_descriptor.html" accesskey="U">Binary descriptors for lines extracted from an image</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Drawing Functions for Keylines and Matches</a><ul>
+<li><a class="reference internal" href="#drawlinematches">drawLineMatches</a></li>
+<li><a class="reference internal" href="#drawkeylines">drawKeylines</a></li>
+<li><a class="reference internal" href="#related-pages">Related pages</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="matching.html"
+                        title="previous chapter">Matching with binary descriptors</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tutorial.html"
+                        title="next chapter">Line Features Tutorial</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="drawing-functions-for-keylines-and-matches">
+<span id="drawing"></span><h1>Drawing Functions for Keylines and Matches<a class="headerlink" href="#drawing-functions-for-keylines-and-matches" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="drawlinematches">
+<h2>drawLineMatches<a class="headerlink" href="#drawlinematches" title="Permalink to this headline">¶</a></h2>
+<p>Draws the found matches of keylines from two images.</p>
+<dl class="function">
+<dt id="void drawLineMatches(const Mat&amp; img1, const std::vector&lt;KeyLine&gt;&amp; keylines1, const Mat&amp; img2, const std::vector&lt;KeyLine&gt;&amp; keylines2, const std::vector&lt;DMatch&gt;&amp; matches1to2, Mat&amp; outImg, const Scalar&amp; matchColor, const Scalar&amp; singleLineColor, const std::vector&lt;char&gt;&amp; matchesMask, int flags)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">drawLineMatches</tt><big>(</big>const Mat&amp; <strong>img1</strong>, const std::vector&lt;KeyLine&gt;&amp; <strong>keylines1</strong>, const Mat&amp; <strong>img2</strong>, const std::vector&lt;KeyLine&gt;&amp; <strong>keylines2</strong>, const std::vector&lt;DMatch&gt;&amp; <strong>matches1to2</strong>, Mat&amp; <strong>outImg</strong>, const Scalar&amp; <strong>matchColor</strong>=Scalar::all(-1), const Scalar&amp; <strong>singleLineColor</strong>=Scalar::all(-1), const std::vector&lt;char&gt;&amp; <strong>matchesMask</strong>=std::vector&lt;char&gt;(), int <strong>flags</strong>=DrawLinesMatchesFlags::DEFAULT <big>)</big><a class="headerlink" href="#void drawLineMatches(const Mat& img1, const std::vector<KeyLine>& keylines1, const Mat& img2, const std::vector<KeyLine>& keylines2, const std::vector<DMatch>& matches1to2, Mat& outImg, const Scalar& matchColor, const Scalar& singleLineColor, const std::vector<char>& matchesMask, int flags)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>img1</strong> &#8211; first image</li>
+<li><strong>keylines1</strong> &#8211; keylines extracted from first image</li>
+<li><strong>img2</strong> &#8211; second image</li>
+<li><strong>keylines2</strong> &#8211; keylines extracted from second image</li>
+<li><strong>matches1to2</strong> &#8211; vector of matches</li>
+<li><strong>outImg</strong> &#8211; output matrix to draw on</li>
+<li><strong>matchColor</strong> &#8211; drawing color for matches (chosen randomly in case of default value)</li>
+<li><strong>singleLineColor</strong> &#8211; drawing color for keylines (chosen randomly in case of default value)</li>
+<li><strong>matchesMask</strong> &#8211; mask to indicate which matches must be drawn</li>
+<li><strong>flags</strong> &#8211; drawing flags</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If both <em>matchColor</em> and <em>singleLineColor</em> are set to their default values, function draws matched lines and line connecting them with same color</p>
+</div>
+<p>The structure of drawing flags is shown in the following:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cm">/* struct for drawing options */</span>
+<span class="k">struct</span> <span class="n">CV_EXPORTS</span> <span class="n">DrawLinesMatchesFlags</span>
+<span class="p">{</span>
+        <span class="k">enum</span>
+        <span class="p">{</span>
+            <span class="n">DEFAULT</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// Output image matrix will be created (Mat::create),</span>
+                         <span class="c1">// i.e. existing memory of output image may be reused.</span>
+                         <span class="c1">// Two source images, matches, and single keylines</span>
+                         <span class="c1">// will be drawn.</span>
+            <span class="n">DRAW_OVER_OUTIMG</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="c1">// Output image matrix will not be</span>
+                           <span class="c1">// created (using Mat::create). Matches will be drawn</span>
+                           <span class="c1">// on existing content of output image.</span>
+            <span class="n">NOT_DRAW_SINGLE_LINES</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1">// Single keylines will not be drawn.</span>
+        <span class="p">};</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="drawkeylines">
+<h2>drawKeylines<a class="headerlink" href="#drawkeylines" title="Permalink to this headline">¶</a></h2>
+<p>Draws keylines.</p>
+<dl class="function">
+<dt id="void drawKeylines(const Mat&amp; image, const std::vector&lt;KeyLine&gt;&amp; keylines, Mat&amp; outImage, const Scalar&amp; color, int flags)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descname">drawKeylines</tt><big>(</big>const Mat&amp; <strong>image</strong>, const std::vector&lt;KeyLine&gt;&amp; <strong>keylines</strong>, Mat&amp; <strong>outImage</strong>, const Scalar&amp; <strong>color</strong>=Scalar::all(-1), int <strong>flags</strong>=DrawLinesMatchesFlags::DEFAULT <big>)</big><a class="headerlink" href="#void drawKeylines(const Mat& image, const std::vector<KeyLine>& keylines, Mat& outImage, const Scalar& color, int flags)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> &#8211; input image</li>
+<li><strong>keylines</strong> &#8211; keylines to be drawn</li>
+<li><strong>outImage</strong> &#8211; output image to draw on</li>
+<li><strong>color</strong> &#8211; color of lines to be drawn (if set to defaul value, color is chosen randomly)</li>
+<li><strong>flags</strong> &#8211; drawing flags</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="related-pages">
+<h2>Related pages<a class="headerlink" href="#related-pages" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="line_descriptor.html#line-descriptor"><em>Binary descriptors for lines extracted from an image</em></a></li>
+<li><a class="reference internal" href="binary_descriptor.html#binary-descriptor"><em>BinaryDescriptor Class</em></a></li>
+<li><a class="reference internal" href="matching.html#matching"><em>Matching with binary descriptors</em></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tutorial.html" title="Line Features Tutorial"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="matching.html" title="Matching with binary descriptors"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="line_descriptor.html" >Binary descriptors for lines extracted from an image</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/line_descriptor/doc/drawing_functions.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/line_descriptor/doc/drawing_functions.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:28 GMT -->
+</html>

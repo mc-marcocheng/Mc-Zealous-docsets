@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>BisectingKMeansSummary — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="bisectingkmeanssummary">
+<h1>BisectingKMeansSummary<a class="headerlink" href="#bisectingkmeanssummary" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.clustering.BisectingKMeansSummary"><a name="//apple_ref/cpp/Class/pyspark.ml.clustering.BisectingKMeansSummary"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.clustering.</code><code class="sig-name descname">BisectingKMeansSummary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">java_obj</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/clustering.html#BisectingKMeansSummary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.clustering.BisectingKMeansSummary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bisecting KMeans clustering results for a given model.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+<p class="rubric">Attributes</p>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.clustering.BisectingKMeansSummary.cluster"><a name="//apple_ref/cpp/Attribute/pyspark.ml.clustering.BisectingKMeansSummary.cluster"></a>
+<code class="sig-name descname">cluster</code><a class="headerlink" href="#pyspark.ml.clustering.BisectingKMeansSummary.cluster" title="Permalink to this definition">¶</a></dt>
+<dd><p>DataFrame of predicted cluster centers for each training data point.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.clustering.BisectingKMeansSummary.clusterSizes"><a name="//apple_ref/cpp/Attribute/pyspark.ml.clustering.BisectingKMeansSummary.clusterSizes"></a>
+<code class="sig-name descname">clusterSizes</code><a class="headerlink" href="#pyspark.ml.clustering.BisectingKMeansSummary.clusterSizes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of (number of data points in) each cluster.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.clustering.BisectingKMeansSummary.featuresCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.clustering.BisectingKMeansSummary.featuresCol"></a>
+<code class="sig-name descname">featuresCol</code><a class="headerlink" href="#pyspark.ml.clustering.BisectingKMeansSummary.featuresCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name for column of features in <cite>predictions</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.clustering.BisectingKMeansSummary.k"><a name="//apple_ref/cpp/Attribute/pyspark.ml.clustering.BisectingKMeansSummary.k"></a>
+<code class="sig-name descname">k</code><a class="headerlink" href="#pyspark.ml.clustering.BisectingKMeansSummary.k" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of clusters the model was trained with.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.clustering.BisectingKMeansSummary.numIter"><a name="//apple_ref/cpp/Attribute/pyspark.ml.clustering.BisectingKMeansSummary.numIter"></a>
+<code class="sig-name descname">numIter</code><a class="headerlink" href="#pyspark.ml.clustering.BisectingKMeansSummary.numIter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of iterations.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.clustering.BisectingKMeansSummary.predictionCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.clustering.BisectingKMeansSummary.predictionCol"></a>
+<code class="sig-name descname">predictionCol</code><a class="headerlink" href="#pyspark.ml.clustering.BisectingKMeansSummary.predictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name for column of predicted clusters in <cite>predictions</cite>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.clustering.BisectingKMeansSummary.predictions"><a name="//apple_ref/cpp/Attribute/pyspark.ml.clustering.BisectingKMeansSummary.predictions"></a>
+<code class="sig-name descname">predictions</code><a class="headerlink" href="#pyspark.ml.clustering.BisectingKMeansSummary.predictions" title="Permalink to this definition">¶</a></dt>
+<dd><p>DataFrame produced by the model’s <cite>transform</cite> method.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.clustering.BisectingKMeansSummary.trainingCost"><a name="//apple_ref/cpp/Attribute/pyspark.ml.clustering.BisectingKMeansSummary.trainingCost"></a>
+<code class="sig-name descname">trainingCost</code><a class="headerlink" href="#pyspark.ml.clustering.BisectingKMeansSummary.trainingCost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sum of squared distances to the nearest centroid for all points in the training dataset.
+This is equivalent to sklearn’s inertia.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

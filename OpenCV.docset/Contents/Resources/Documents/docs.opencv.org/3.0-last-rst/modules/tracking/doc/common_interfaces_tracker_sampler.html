@@ -1,0 +1,665 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/tracking/doc/common_interfaces_tracker_sampler.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:46 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Common Interfaces of TrackerSampler</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="tracking. Tracking API" href="tracking.html" />
+    <link rel="next" title="Common Interfaces of TrackerFeatureSet" href="common_interfaces_tracker_feature_set.html" />
+    <link rel="prev" title="Common Interfaces of Tracker" href="common_interfaces_tracker.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="common_interfaces_tracker_feature_set.html" title="Common Interfaces of TrackerFeatureSet"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="common_interfaces_tracker.html" title="Common Interfaces of Tracker"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="tracking.html" accesskey="U">tracking. Tracking API</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Common Interfaces of TrackerSampler</a><ul>
+<li><a class="reference internal" href="#trackersampler">TrackerSampler</a></li>
+<li><a class="reference internal" href="#trackersampler-sampling">TrackerSampler::sampling</a></li>
+<li><a class="reference internal" href="#trackersampler-getsamplers">TrackerSampler::getSamplers</a></li>
+<li><a class="reference internal" href="#trackersampler-getsamples">TrackerSampler::getSamples</a></li>
+<li><a class="reference internal" href="#trackersampler-addtrackersampleralgorithm">TrackerSampler::addTrackerSamplerAlgorithm</a></li>
+<li><a class="reference internal" href="#trackersampleralgorithm">TrackerSamplerAlgorithm</a></li>
+<li><a class="reference internal" href="#trackersampleralgorithm-create">TrackerSamplerAlgorithm::create</a></li>
+<li><a class="reference internal" href="#trackersampleralgorithm-sampling">TrackerSamplerAlgorithm::sampling</a></li>
+<li><a class="reference internal" href="#trackersampleralgorithm-getclassname">TrackerSamplerAlgorithm::getClassName</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#specialized-trackersampleralgorithm">Specialized TrackerSamplerAlgorithm</a><ul>
+<li><a class="reference internal" href="#trackersamplercsc-trackersampleralgorithm">TrackerSamplerCSC : TrackerSamplerAlgorithm</a></li>
+<li><a class="reference internal" href="#trackersamplercsc-params">TrackerSamplerCSC::Params</a></li>
+<li><a class="reference internal" href="#trackersamplercsc-trackersamplercsc">TrackerSamplerCSC::TrackerSamplerCSC</a></li>
+<li><a class="reference internal" href="#trackersamplercsc-setmode">TrackerSamplerCSC::setMode</a></li>
+<li><a class="reference internal" href="#trackersamplercs-trackersampleralgorithm">TrackerSamplerCS : TrackerSamplerAlgorithm</a></li>
+<li><a class="reference internal" href="#trackersamplercs-params">TrackerSamplerCS::Params</a></li>
+<li><a class="reference internal" href="#trackersamplercs-trackersamplercs">TrackerSamplerCS::TrackerSamplerCS</a></li>
+<li><a class="reference internal" href="#trackersamplercs-setmode">TrackerSamplerCS::setMode</a></li>
+<li><a class="reference internal" href="#trackersamplerpf-trackersampleralgorithm">TrackerSamplerPF : TrackerSamplerAlgorithm</a></li>
+<li><a class="reference internal" href="#trackersamplerpf-params">TrackerSamplerPF::Params</a></li>
+<li><a class="reference internal" href="#trackersamplerpf-trackersamplerpf">TrackerSamplerPF::TrackerSamplerPF</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="common_interfaces_tracker.html"
+                        title="previous chapter">Common Interfaces of Tracker</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="common_interfaces_tracker_feature_set.html"
+                        title="next chapter">Common Interfaces of TrackerFeatureSet</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="common-interfaces-of-trackersampler">
+<h1>Common Interfaces of TrackerSampler<a class="headerlink" href="#common-interfaces-of-trackersampler" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="trackersampler">
+<h2>TrackerSampler<a class="headerlink" href="#trackersampler" title="Permalink to this headline">¶</a></h2>
+<p>Class that manages the sampler in order to select regions for the update the model of the tracker</p>
+<p><a class="reference internal" href="tracking.html#aam" id="id1">[AAM]</a> Sampling e Labeling. See table I and section III B</p>
+<dl class="class">
+<dt id="TrackerSampler">
+<em class="property">class </em><tt class="descname">TrackerSampler</tt><a class="headerlink" href="#TrackerSampler" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>TrackerSampler class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerSampler</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+
+  <span class="n">TrackerSampler</span><span class="p">();</span>
+  <span class="o">~</span><span class="n">TrackerSampler</span><span class="p">();</span>
+
+  <span class="kt">void</span> <span class="nf">sampling</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="n">Rect</span> <span class="n">boundingBox</span> <span class="p">);</span>
+
+  <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerSamplerAlgorithm</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="o">&gt;&amp;</span> <span class="n">getSamplers</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat</span><span class="o">&gt;&amp;</span> <span class="n">getSamples</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+  <span class="kt">bool</span> <span class="nf">addTrackerSamplerAlgorithm</span><span class="p">(</span> <span class="n">String</span> <span class="n">trackerSamplerAlgorithmType</span> <span class="p">);</span>
+  <span class="kt">bool</span> <span class="nf">addTrackerSamplerAlgorithm</span><span class="p">(</span> <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerSamplerAlgorithm</span><span class="o">&gt;&amp;</span> <span class="n">sampler</span> <span class="p">);</span>
+
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>TrackerSampler is an aggregation of <a class="reference internal" href="#TrackerSamplerAlgorithm" title="class TrackerSamplerAlgorithm"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerSamplerAlgorithm</span></tt></a></p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#TrackerSamplerAlgorithm" title="class TrackerSamplerAlgorithm"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerSamplerAlgorithm</span></tt></a></p>
+</div>
+</div>
+<div class="section" id="trackersampler-sampling">
+<h2>TrackerSampler::sampling<a class="headerlink" href="#trackersampler-sampling" title="Permalink to this headline">¶</a></h2>
+<p>Computes the regions starting from a position in an image</p>
+<dl class="function">
+<dt id="void TrackerSampler::sampling(const Mat&amp; image, Rect boundingBox)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerSampler::</tt><tt class="descname">sampling</tt><big>(</big>const Mat&amp; <strong>image</strong>, Rect <strong>boundingBox</strong><big>)</big><a class="headerlink" href="#void TrackerSampler::sampling(const Mat& image, Rect boundingBox)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> &#8211; The current frame</li>
+<li><strong>boundingBox</strong> &#8211; The bounding box from which regions can be calculated</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackersampler-getsamplers">
+<h2>TrackerSampler::getSamplers<a class="headerlink" href="#trackersampler-getsamplers" title="Permalink to this headline">¶</a></h2>
+<p>Return the collection of the <a class="reference internal" href="#TrackerSamplerAlgorithm" title="class TrackerSamplerAlgorithm"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerSamplerAlgorithm</span></tt></a></p>
+<dl class="function">
+<dt id="const std::vector&lt;std::pair&lt;String, Ptr&lt;TrackerSamplerAlgorithm&gt; &gt; &gt;&amp; TrackerSampler::getSamplers() const">
+<strong>C++:</strong><tt class="descname"> </tt>const std::vector&lt;std::pair&lt;String, Ptr&lt;TrackerSamplerAlgorithm&gt;&gt;&gt;&amp; <tt class="descclassname">TrackerSampler::</tt><tt class="descname">getSamplers</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#const std::vector<std::pair<String, Ptr<TrackerSamplerAlgorithm> > >& TrackerSampler::getSamplers() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackersampler-getsamples">
+<h2>TrackerSampler::getSamples<a class="headerlink" href="#trackersampler-getsamples" title="Permalink to this headline">¶</a></h2>
+<p>Return the samples from all <a class="reference internal" href="#TrackerSamplerAlgorithm" title="class TrackerSamplerAlgorithm"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerSamplerAlgorithm</span></tt></a>, <a class="reference internal" href="tracking.html#aam" id="id2">[AAM]</a> Fig. 1 variable Sk</p>
+<dl class="function">
+<dt id="const std::vector&lt;Mat&gt;&amp; TrackerSampler::getSamples() const">
+<strong>C++:</strong><tt class="descname"> </tt>const std::vector&lt;Mat&gt;&amp; <tt class="descclassname">TrackerSampler::</tt><tt class="descname">getSamples</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#const std::vector<Mat>& TrackerSampler::getSamples() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackersampler-addtrackersampleralgorithm">
+<h2>TrackerSampler::addTrackerSamplerAlgorithm<a class="headerlink" href="#trackersampler-addtrackersampleralgorithm" title="Permalink to this headline">¶</a></h2>
+<p>Add TrackerSamplerAlgorithm in the collection.
+Return true if sampler is added, false otherwise</p>
+<dl class="function">
+<dt id="bool TrackerSampler::addTrackerSamplerAlgorithm(String trackerSamplerAlgorithmType)">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">TrackerSampler::</tt><tt class="descname">addTrackerSamplerAlgorithm</tt><big>(</big>String <strong>trackerSamplerAlgorithmType</strong><big>)</big><a class="headerlink" href="#bool TrackerSampler::addTrackerSamplerAlgorithm(String trackerSamplerAlgorithmType)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>trackerSamplerAlgorithmType</strong> &#8211; The TrackerSamplerAlgorithm name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="bool TrackerSampler::addTrackerSamplerAlgorithm(Ptr&lt;TrackerSamplerAlgorithm&gt;&amp; sampler)">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">TrackerSampler::</tt><tt class="descname">addTrackerSamplerAlgorithm</tt><big>(</big>Ptr&lt;TrackerSamplerAlgorithm&gt;&amp; <strong>sampler</strong><big>)</big><a class="headerlink" href="#bool TrackerSampler::addTrackerSamplerAlgorithm(Ptr<TrackerSamplerAlgorithm>& sampler)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sampler</strong> &#8211; The TrackerSamplerAlgorithm class</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The modes available now:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&quot;CSC&quot;</span></tt> &#8211; Current State Center</li>
+<li><tt class="docutils literal"><span class="pre">&quot;CS&quot;</span></tt> &#8211; Current State</li>
+<li><tt class="docutils literal"><span class="pre">&quot;PF&quot;</span></tt> &#8211; Particle Filtering</li>
+</ul>
+<p>Example <tt class="docutils literal"><span class="pre">TrackerSamplerAlgorithm::addTrackerSamplerAlgorithm</span></tt> :</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">//sample usage:</span>
+
+ <span class="n">TrackerSamplerCSC</span><span class="o">::</span><span class="n">Params</span> <span class="n">CSCparameters</span><span class="p">;</span>
+ <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerSamplerAlgorithm</span><span class="o">&gt;</span> <span class="n">CSCSampler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TrackerSamplerCSC</span><span class="p">(</span> <span class="n">CSCparameters</span> <span class="p">);</span>
+
+ <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="n">sampler</span><span class="o">-&gt;</span><span class="n">addTrackerSamplerAlgorithm</span><span class="p">(</span> <span class="n">CSCSampler</span> <span class="p">)</span> <span class="p">)</span>
+   <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+
+ <span class="c1">//or add CSC sampler with default parameters</span>
+ <span class="c1">//sampler-&gt;addTrackerSamplerAlgorithm( &quot;CSC&quot; );</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you use the second method, you must initialize the TrackerSamplerAlgorithm</p>
+</div>
+</div>
+<div class="section" id="trackersampleralgorithm">
+<h2>TrackerSamplerAlgorithm<a class="headerlink" href="#trackersampleralgorithm" title="Permalink to this headline">¶</a></h2>
+<p>Abstract base class for TrackerSamplerAlgorithm that represents the algorithm for the specific sampler.</p>
+<dl class="class">
+<dt id="TrackerSamplerAlgorithm">
+<em class="property">class </em><tt class="descname">TrackerSamplerAlgorithm</tt><a class="headerlink" href="#TrackerSamplerAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>TrackerSamplerAlgorithm class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerSamplerAlgorithm</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">TrackerSamplerAlgorithm</span><span class="p">();</span>
+
+  <span class="k">static</span> <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerSamplerAlgorithm</span><span class="o">&gt;</span> <span class="n">create</span><span class="p">(</span> <span class="k">const</span> <span class="n">String</span><span class="o">&amp;</span> <span class="n">trackerSamplerType</span> <span class="p">);</span>
+
+  <span class="kt">bool</span> <span class="nf">sampling</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="n">Rect</span> <span class="n">boundingBox</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat</span><span class="o">&gt;&amp;</span> <span class="n">sample</span> <span class="p">);</span>
+  <span class="n">String</span> <span class="n">getClassName</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackersampleralgorithm-create">
+<h2>TrackerSamplerAlgorithm::create<a class="headerlink" href="#trackersampleralgorithm-create" title="Permalink to this headline">¶</a></h2>
+<p>Create TrackerSamplerAlgorithm by tracker sampler type.</p>
+<dl class="function">
+<dt id="static Ptr&lt;TrackerSamplerAlgorithm&gt; TrackerSamplerAlgorithm::create(const String&amp; trackerSamplerType)">
+<strong>C++:</strong><tt class="descname"> </tt><em class="property">static</em> Ptr&lt;TrackerSamplerAlgorithm&gt; <tt class="descclassname">TrackerSamplerAlgorithm::</tt><tt class="descname">create</tt><big>(</big>const String&amp; <strong>trackerSamplerType</strong><big>)</big><a class="headerlink" href="#static Ptr<TrackerSamplerAlgorithm> TrackerSamplerAlgorithm::create(const String& trackerSamplerType)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>trackerSamplerType</strong> &#8211; The trackerSamplerType name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The modes available now:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&quot;CSC&quot;</span></tt> &#8211; Current State Center</li>
+<li><tt class="docutils literal"><span class="pre">&quot;CS&quot;</span></tt> &#8211; Current State</li>
+</ul>
+</div>
+<div class="section" id="trackersampleralgorithm-sampling">
+<h2>TrackerSamplerAlgorithm::sampling<a class="headerlink" href="#trackersampleralgorithm-sampling" title="Permalink to this headline">¶</a></h2>
+<p>Computes the regions starting from a position in an image. Return true if samples are computed, false otherwise</p>
+<dl class="function">
+<dt id="bool TrackerSamplerAlgorithm::sampling(const Mat&amp; image, Rect boundingBox, std::vector&lt;Mat&gt;&amp; sample)">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">TrackerSamplerAlgorithm::</tt><tt class="descname">sampling</tt><big>(</big>const Mat&amp; <strong>image</strong>, Rect <strong>boundingBox</strong>, std::vector&lt;Mat&gt;&amp; <strong>sample</strong><big>)</big><a class="headerlink" href="#bool TrackerSamplerAlgorithm::sampling(const Mat& image, Rect boundingBox, std::vector<Mat>& sample)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>image</strong> &#8211; The current frame</li>
+<li><strong>boundingBox</strong> &#8211; The bounding box from which regions can be calculated</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Sample:</th><td class="field-body"><p class="first last">The computed samples <a class="reference internal" href="tracking.html#aam" id="id3">[AAM]</a> Fig. 1 variable Sk</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackersampleralgorithm-getclassname">
+<h2>TrackerSamplerAlgorithm::getClassName<a class="headerlink" href="#trackersampleralgorithm-getclassname" title="Permalink to this headline">¶</a></h2>
+<p>Get the name of the specific TrackerSamplerAlgorithm</p>
+<dl class="function">
+<dt id="String TrackerSamplerAlgorithm::getClassName() const">
+<strong>C++:</strong><tt class="descname"> </tt>String <tt class="descclassname">TrackerSamplerAlgorithm::</tt><tt class="descname">getClassName</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#String TrackerSamplerAlgorithm::getClassName() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+<div class="section" id="specialized-trackersampleralgorithm">
+<h1>Specialized TrackerSamplerAlgorithm<a class="headerlink" href="#specialized-trackersampleralgorithm" title="Permalink to this headline">¶</a></h1>
+<p>In <a class="reference internal" href="tracking.html#aam" id="id4">[AAM]</a> table I there are described the most known sampling strategies. At moment <a class="reference internal" href="#TrackerSamplerCSC" title="class TrackerSamplerCSC"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerSamplerCSC</span></tt></a> and <a class="reference internal" href="#TrackerSamplerCS" title="class TrackerSamplerCS"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerSamplerCS</span></tt></a> are implemented. Beside these, there is <a class="reference internal" href="#TrackerSamplerPF" title="class TrackerSamplerPF"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerSamplerPF</span></tt></a>, sampler based on particle filtering.</p>
+<div class="section" id="trackersamplercsc-trackersampleralgorithm">
+<h2>TrackerSamplerCSC : TrackerSamplerAlgorithm<a class="headerlink" href="#trackersamplercsc-trackersampleralgorithm" title="Permalink to this headline">¶</a></h2>
+<p>TrackerSampler based on CSC (current state centered), used by MIL algorithm TrackerMIL</p>
+<dl class="class">
+<dt id="TrackerSamplerCSC">
+<em class="property">class </em><tt class="descname">TrackerSamplerCSC</tt><a class="headerlink" href="#TrackerSamplerCSC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>TrackerSamplerCSC class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerSamplerCSC</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+
+  <span class="n">TrackerSamplerCSC</span><span class="p">(</span> <span class="k">const</span> <span class="n">TrackerSamplerCSC</span><span class="o">::</span><span class="n">Params</span> <span class="o">&amp;</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">TrackerSamplerCSC</span><span class="o">::</span><span class="n">Params</span><span class="p">()</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">setMode</span><span class="p">(</span> <span class="kt">int</span> <span class="n">samplingMode</span> <span class="p">);</span>
+
+  <span class="o">~</span><span class="n">TrackerSamplerCSC</span><span class="p">();</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackersamplercsc-params">
+<h2>TrackerSamplerCSC::Params<a class="headerlink" href="#trackersamplercsc-params" title="Permalink to this headline">¶</a></h2>
+<dl class="struct">
+<dt id="TrackerSamplerCSC::Params">
+<em class="property">struct </em><tt class="descclassname">TrackerSamplerCSC::</tt><tt class="descname">Params</tt><a class="headerlink" href="#TrackerSamplerCSC::Params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>List of TrackerSamplerCSC parameters:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">CV_EXPORTS</span> <span class="n">Params</span>
+<span class="p">{</span>
+ <span class="n">Params</span><span class="p">();</span>
+ <span class="kt">float</span> <span class="n">initInRad</span><span class="p">;</span>        <span class="c1">// radius for gathering positive instances during init</span>
+ <span class="kt">float</span> <span class="n">trackInPosRad</span><span class="p">;</span>    <span class="c1">// radius for gathering positive instances during tracking</span>
+ <span class="kt">float</span> <span class="n">searchWinSize</span><span class="p">;</span>    <span class="c1">// size of search window</span>
+ <span class="kt">int</span> <span class="n">initMaxNegNum</span><span class="p">;</span>      <span class="c1">// # negative samples to use during init</span>
+ <span class="kt">int</span> <span class="n">trackMaxPosNum</span><span class="p">;</span>     <span class="c1">// # positive samples to use during training</span>
+ <span class="kt">int</span> <span class="n">trackMaxNegNum</span><span class="p">;</span>     <span class="c1">// # negative samples to use during training</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackersamplercsc-trackersamplercsc">
+<h2>TrackerSamplerCSC::TrackerSamplerCSC<a class="headerlink" href="#trackersamplercsc-trackersamplercsc" title="Permalink to this headline">¶</a></h2>
+<p>Constructor</p>
+<dl class="function">
+<dt id="TrackerSamplerCSC::TrackerSamplerCSC(const TrackerSamplerCSC::Params &amp;parameters)">
+<strong>C++:</strong><tt class="descname"> </tt> <tt class="descclassname">TrackerSamplerCSC::</tt><tt class="descname">TrackerSamplerCSC</tt><big>(</big>const TrackerSamplerCSC::Params&amp; <strong>parameters</strong>=TrackerSamplerCSC::Params() <big>)</big><a class="headerlink" href="#TrackerSamplerCSC::TrackerSamplerCSC(const TrackerSamplerCSC::Params &parameters)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parameters</strong> &#8211; TrackerSamplerCSC parameters <a class="reference internal" href="#TrackerSamplerCSC::Params" title="struct TrackerSamplerCSC::Params"><tt class="xref ocv ocv-struct docutils literal"><span class="pre">TrackerSamplerCSC::Params</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackersamplercsc-setmode">
+<h2>TrackerSamplerCSC::setMode<a class="headerlink" href="#trackersamplercsc-setmode" title="Permalink to this headline">¶</a></h2>
+<p>Set the sampling mode of TrackerSamplerCSC</p>
+<dl class="function">
+<dt id="void TrackerSamplerCSC::setMode(int samplingMode)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerSamplerCSC::</tt><tt class="descname">setMode</tt><big>(</big>int <strong>samplingMode</strong><big>)</big><a class="headerlink" href="#void TrackerSamplerCSC::setMode(int samplingMode)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>samplingMode</strong> &#8211; The sampling mode</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The modes are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&quot;MODE_INIT_POS</span> <span class="pre">=</span> <span class="pre">1&quot;</span></tt> &#8211; for the positive sampling in initialization step</li>
+<li><tt class="docutils literal"><span class="pre">&quot;MODE_INIT_NEG</span> <span class="pre">=</span> <span class="pre">2&quot;</span></tt> &#8211; for the negative sampling in initialization step</li>
+<li><tt class="docutils literal"><span class="pre">&quot;MODE_TRACK_POS</span> <span class="pre">=</span> <span class="pre">3&quot;</span></tt> &#8211; for the positive sampling in update step</li>
+<li><tt class="docutils literal"><span class="pre">&quot;MODE_TRACK_NEG</span> <span class="pre">=</span> <span class="pre">4&quot;</span></tt> &#8211; for the negative sampling in update step</li>
+<li><tt class="docutils literal"><span class="pre">&quot;MODE_DETECT</span> <span class="pre">=</span> <span class="pre">5&quot;</span></tt> &#8211; for the sampling in detection step</li>
+</ul>
+</div>
+<div class="section" id="trackersamplercs-trackersampleralgorithm">
+<h2>TrackerSamplerCS : TrackerSamplerAlgorithm<a class="headerlink" href="#trackersamplercs-trackersampleralgorithm" title="Permalink to this headline">¶</a></h2>
+<p>TrackerSampler based on CS (current state), used by algorithm TrackerBoosting</p>
+<dl class="class">
+<dt id="TrackerSamplerCS">
+<em class="property">class </em><tt class="descname">TrackerSamplerCS</tt><a class="headerlink" href="#TrackerSamplerCS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>TrackerSamplerCS class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerSamplerCS</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+
+  <span class="n">TrackerSamplerCS</span><span class="p">(</span> <span class="k">const</span> <span class="n">TrackerSamplerCS</span><span class="o">::</span><span class="n">Params</span> <span class="o">&amp;</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">TrackerSamplerCS</span><span class="o">::</span><span class="n">Params</span><span class="p">()</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">setMode</span><span class="p">(</span> <span class="kt">int</span> <span class="n">samplingMode</span> <span class="p">);</span>
+
+  <span class="o">~</span><span class="n">TrackerSamplerCS</span><span class="p">();</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackersamplercs-params">
+<h2>TrackerSamplerCS::Params<a class="headerlink" href="#trackersamplercs-params" title="Permalink to this headline">¶</a></h2>
+<dl class="struct">
+<dt id="TrackerSamplerCS::Params">
+<em class="property">struct </em><tt class="descclassname">TrackerSamplerCS::</tt><tt class="descname">Params</tt><a class="headerlink" href="#TrackerSamplerCS::Params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>List of TrackerSamplerCS parameters:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">CV_EXPORTS</span> <span class="n">Params</span>
+<span class="p">{</span>
+ <span class="n">Params</span><span class="p">();</span>
+ <span class="kt">float</span> <span class="n">overlap</span><span class="p">;</span>  <span class="c1">//overlapping for the search windows</span>
+ <span class="kt">float</span> <span class="n">searchFactor</span><span class="p">;</span> <span class="c1">//search region parameter</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackersamplercs-trackersamplercs">
+<h2>TrackerSamplerCS::TrackerSamplerCS<a class="headerlink" href="#trackersamplercs-trackersamplercs" title="Permalink to this headline">¶</a></h2>
+<p>Constructor</p>
+<dl class="function">
+<dt id="TrackerSamplerCS::TrackerSamplerCS(const TrackerSamplerCS::Params &amp;parameters)">
+<strong>C++:</strong><tt class="descname"> </tt> <tt class="descclassname">TrackerSamplerCS::</tt><tt class="descname">TrackerSamplerCS</tt><big>(</big>const TrackerSamplerCS::Params&amp; <strong>parameters</strong>=TrackerSamplerCS::Params() <big>)</big><a class="headerlink" href="#TrackerSamplerCS::TrackerSamplerCS(const TrackerSamplerCS::Params &parameters)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parameters</strong> &#8211; TrackerSamplerCS parameters <a class="reference internal" href="#TrackerSamplerCS::Params" title="struct TrackerSamplerCS::Params"><tt class="xref ocv ocv-struct docutils literal"><span class="pre">TrackerSamplerCS::Params</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackersamplercs-setmode">
+<h2>TrackerSamplerCS::setMode<a class="headerlink" href="#trackersamplercs-setmode" title="Permalink to this headline">¶</a></h2>
+<p>Set the sampling mode of TrackerSamplerCS</p>
+<dl class="function">
+<dt id="void TrackerSamplerCS::setMode(int samplingMode)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerSamplerCS::</tt><tt class="descname">setMode</tt><big>(</big>int <strong>samplingMode</strong><big>)</big><a class="headerlink" href="#void TrackerSamplerCS::setMode(int samplingMode)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>samplingMode</strong> &#8211; The sampling mode</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The modes are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&quot;MODE_POSITIVE</span> <span class="pre">=</span> <span class="pre">1&quot;</span></tt> &#8211; for the positive sampling</li>
+<li><tt class="docutils literal"><span class="pre">&quot;MODE_NEGATIVE</span> <span class="pre">=</span> <span class="pre">2&quot;</span></tt> &#8211; for the negative sampling</li>
+<li><tt class="docutils literal"><span class="pre">&quot;MODE_CLASSIFY</span> <span class="pre">=</span> <span class="pre">3&quot;</span></tt> &#8211; for the sampling in classification step</li>
+</ul>
+</div>
+<div class="section" id="trackersamplerpf-trackersampleralgorithm">
+<h2>TrackerSamplerPF : TrackerSamplerAlgorithm<a class="headerlink" href="#trackersamplerpf-trackersampleralgorithm" title="Permalink to this headline">¶</a></h2>
+<p>This sampler is based on particle filtering. In principle, it can be thought of as performing some sort of optimization (and indeed, this
+tracker uses opencv&#8217;s <tt class="docutils literal"><span class="pre">optim</span></tt> module), where tracker seeks to find the rectangle in given frame, which is the most <em>&#8220;similar&#8221;</em> to the initial
+rectangle (the one, given through the constructor).</p>
+<p>The optimization performed is stochastic and somehow resembles genetic algorithms, where on each new <tt class="docutils literal"><span class="pre">image</span></tt> received (submitted via <tt class="docutils literal"><span class="pre">TrackerSamplerPF::sampling()</span></tt>) we start with the region bounded by <tt class="docutils literal"><span class="pre">boundingBox</span></tt>, then generate several &#8220;perturbed&#8221; boxes, take the ones most similar to the original. This selection round is repeated several times. At the end, we hope that only the most promising box remaining, and these are combined to produce the subrectangle of <tt class="docutils literal"><span class="pre">image</span></tt>, which is put as a sole element in array <tt class="docutils literal"><span class="pre">sample</span></tt>.</p>
+<p>It should be noted, that the definition of &#8220;similarity&#8221; between two rectangles is based on comparing their histograms. As experiments show, tracker is <em>not</em> very succesfull if target is assumed to strongly change its dimensions.</p>
+<dl class="class">
+<dt id="TrackerSamplerPF">
+<em class="property">class </em><tt class="descname">TrackerSamplerPF</tt><a class="headerlink" href="#TrackerSamplerPF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>TrackerSamplerPF class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerSamplerPF</span> <span class="o">:</span> <span class="k">public</span> <span class="n">TrackerSamplerAlgorithm</span><span class="p">{</span>
+<span class="nl">public:</span>
+  <span class="n">TrackerSamplerPF</span><span class="p">(</span><span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">chosenRect</span><span class="p">,</span><span class="k">const</span> <span class="n">TrackerSamplerPF</span><span class="o">::</span><span class="n">Params</span> <span class="o">&amp;</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">TrackerSamplerPF</span><span class="o">::</span><span class="n">Params</span><span class="p">());</span>
+  <span class="kt">void</span> <span class="nf">sampling</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">image</span><span class="p">,</span> <span class="n">Rect</span> <span class="n">boundingBox</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat</span><span class="o">&gt;&amp;</span> <span class="n">sample</span> <span class="p">);</span> <span class="c1">//inherited from TrackerSamplerAlgorithmTrackerSamplerAlgorithm</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackersamplerpf-params">
+<h2>TrackerSamplerPF::Params<a class="headerlink" href="#trackersamplerpf-params" title="Permalink to this headline">¶</a></h2>
+<dl class="struct">
+<dt id="TrackerSamplerPF::Params">
+<em class="property">struct </em><tt class="descclassname">TrackerSamplerPF::</tt><tt class="descname">Params</tt><a class="headerlink" href="#TrackerSamplerPF::Params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>This structure contains all the parameters that can be varied during the course of sampling algorithm. Below is the structure exposed,
+together with its members briefly explained with reference to the above discussion on algorithm&#8217;s working.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">CV_EXPORTS</span> <span class="n">Params</span>
+<span class="p">{</span>
+ <span class="n">Params</span><span class="p">();</span>
+ <span class="kt">int</span> <span class="n">iterationNum</span><span class="p">;</span> <span class="c1">//number of selection rounds</span>
+ <span class="kt">int</span> <span class="n">particlesNum</span><span class="p">;</span> <span class="c1">//number of &quot;perturbed&quot; boxes on each round</span>
+ <span class="kt">double</span> <span class="n">alpha</span><span class="p">;</span> <span class="c1">//with each new round we exponentially decrease the amount of &quot;perturbing&quot; we allow (like in simulated annealing)</span>
+               <span class="c1">//and this very alpha controls how fast annealing happens, ie. how fast perturbing decreases</span>
+ <span class="n">Mat_</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">std</span><span class="p">;</span> <span class="c1">//initial values for perturbing (1-by-4 array, as each rectangle is given by 4 values -- coordinates of opposite vertices,</span>
+                   <span class="c1">//hence we have 4 values to perturb)</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackersamplerpf-trackersamplerpf">
+<h2>TrackerSamplerPF::TrackerSamplerPF<a class="headerlink" href="#trackersamplerpf-trackersamplerpf" title="Permalink to this headline">¶</a></h2>
+<p>Constructor</p>
+<dl class="function">
+<dt id="TrackerSamplerPF(const Mat&amp; chosenRect,const TrackerSamplerPF::Params &amp;parameters)">
+<strong>C++:</strong><tt class="descname"> </tt> <tt class="descname">TrackerSamplerPF</tt><big>(</big>const Mat&amp; <strong>chosenRect</strong>, const TrackerSamplerPF::Params&amp; <strong>parameters</strong>=TrackerSamplerPF::Params()<big>)</big><a class="headerlink" href="#TrackerSamplerPF(const Mat& chosenRect,const TrackerSamplerPF::Params &parameters)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>chosenRect</strong> &#8211; Initial rectangle, that is supposed to contain target we&#8217;d like to track.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="common_interfaces_tracker_feature_set.html" title="Common Interfaces of TrackerFeatureSet"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="common_interfaces_tracker.html" title="Common Interfaces of Tracker"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="tracking.html" >tracking. Tracking API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/tracking/doc/common_interfaces_tracker_sampler.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/tracking/doc/common_interfaces_tracker_sampler.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:46 GMT -->
+</html>

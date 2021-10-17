@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>ChiSquareTest — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="chisquaretest">
+<h1>ChiSquareTest<a class="headerlink" href="#chisquaretest" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.stat.ChiSquareTest"><a name="//apple_ref/cpp/Class/pyspark.ml.stat.ChiSquareTest"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.stat.</code><code class="sig-name descname">ChiSquareTest</code><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#ChiSquareTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.ChiSquareTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Conduct Pearson’s independence test for every feature against the label. For each feature,
+the (feature, label) pairs are converted into a contingency matrix for which the Chi-squared
+statistic is computed. All label and feature values must be categorical.</p>
+<p>The null hypothesis is that the occurrence of the outcomes is statistically independent.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.stat.ChiSquareTest.test"><a name="//apple_ref/cpp/Method/pyspark.ml.stat.ChiSquareTest.test"></a>
+<em class="property">static </em><code class="sig-name descname">test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">featuresCol</span></em>, <em class="sig-param"><span class="n">labelCol</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#ChiSquareTest.test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.ChiSquareTest.test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a Pearson’s independence test using dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – DataFrame of categorical labels and categorical features.
+Real-valued features will be treated as categorical for each distinct value.</p></li>
+<li><p><strong>featuresCol</strong> – Name of features column in dataset, of type <cite>Vector</cite> (<cite>VectorUDT</cite>).</p></li>
+<li><p><strong>labelCol</strong> – Name of label column in dataset, of any numerical type.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataFrame containing the test result for every feature against the label.
+This DataFrame will contain a single Row with the following fields:
+- <cite>pValues: Vector</cite>
+- <cite>degreesOfFreedom: Array[Int]</cite>
+- <cite>statistics: Vector</cite>
+Each of these fields has one value per feature.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.stat</span> <span class="kn">import</span> <span class="n">ChiSquareTest</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])],</span>
+<span class="gp">... </span>           <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])],</span>
+<span class="gp">... </span>           <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])],</span>
+<span class="gp">... </span>           <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="s2">"label"</span><span class="p">,</span> <span class="s2">"features"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chiSqResult</span> <span class="o">=</span> <span class="n">ChiSquareTest</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="s1">'features'</span><span class="p">,</span> <span class="s1">'label'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chiSqResult</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"degreesOfFreedom"</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">Row(degreesOfFreedom=[3, 1, 0])</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

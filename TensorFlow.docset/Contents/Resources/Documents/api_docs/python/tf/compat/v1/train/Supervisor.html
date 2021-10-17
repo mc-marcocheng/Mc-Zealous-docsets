@@ -1,0 +1,1034 @@
+<!DOCTYPE html><html dir="ltr" lang="en"><head>
+<meta content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com" name="google-signin-client-id"/>
+<meta content="profile email" name="google-signin-scope"/>
+<meta content="TensorFlow" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="#ff6f00" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link crossorigin="use-credentials" href="_pwa/tensorflow/manifest.json" rel="manifest"/>
+<link crossorigin="" href="/www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.googleapis.com" rel="preconnect"/>
+<link href="../../../../../../main.css" rel="stylesheet"/>
+
+<noscript>
+
+</noscript>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/favicon.png" rel="shortcut icon"/>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/apple-touch-icon-180x180.png" rel="apple-touch-icon"/><link href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/Supervisor" rel="canonical"/><link href="https://www.tensorflow.org/s/opensearch.xml" rel="search" title="TensorFlow" type="application/opensearchdescription+xml"/>
+<title>tf.compat.v1.train.Supervisor &nbsp;|&nbsp; TensorFlow Core v2.1.0</title>
+<meta content="tf.compat.v1.train.Supervisor &nbsp;|&nbsp; TensorFlow Core v2.1.0" property="og:title"/>
+<meta content="https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/Supervisor" property="og:url"/>
+<meta content="en" property="og:locale"/>
+
+</head>
+<body class="" layout="docs" pending="" theme="tensorflow-theme" type="reference">
+<devsite-progress id="app-progress" type="indeterminate"></devsite-progress>
+<section class="devsite-wrapper"> <devsite-book-nav scrollbars="">
+
+</devsite-book-nav>
+<section id="gc-wrapper">
+<main class="devsite-main-content" has-book-nav="" has-toc="" role="main">
+<devsite-toc class="devsite-nav"></devsite-toc>
+<devsite-content>
+<article class="devsite-article">
+<article class="devsite-article-inner"><style>
+        /* Styles inlined from /site-assets/css/style.css */
+/* override theme */
+table img {
+  max-width: 100%;
+}
+
+/* override var element to differentiate color from comment */
+var, var code, var span, .prettyprint var span {
+  color: #039be5;
+}
+
+/* .devsite-terminal virtualenv prompt */
+.tfo-terminal-venv::before {
+  content: "(venv) $ " !important;
+}
+
+/* .devsite-terminal root prompt */
+.tfo-terminal-root::before {
+  content: "# " !important;
+}
+
+/* .devsite-terminal Windows prompt */
+.tfo-terminal-windows::before {
+  content: "C:\\> " !important;
+}
+
+/* .devsite-terminal Windows prompt w/ virtualenv */
+.tfo-terminal-windows-venv::before {
+  content: "(venv) C:\\> " !important;
+}
+
+.tfo-diff-green-one-level + * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green + * > * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green-list + ul > li:first-of-type {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-red-one-level + * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red + * > * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red-list + ul > li:first-of-type {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+devsite-code .tfo-notebook-code-cell-output {
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(255, 247, 237, 1);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(255, 247, 237, .7);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output {
+  background: rgba(64, 78, 103, 1);  /* medium slate */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(64, 78, 103, .7);  /* medium slate */
+}
+
+/* override default table styles for notebook buttons */
+.devsite-table-wrapper .tfo-notebook-buttons {
+  display: inline-block;
+  margin-left: 3px;
+  width: auto;
+}
+
+.tfo-notebook-buttons td {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.tfo-notebook-buttons a,
+.tfo-notebook-buttons :link,
+.tfo-notebook-buttons :visited {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  color: #202124;
+  padding: 12px 24px;
+  transition: box-shadow 0.2s;
+}
+
+.tfo-notebook-buttons a:hover,
+.tfo-notebook-buttons a:focus {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.tfo-notebook-buttons tr {
+  background: 0;
+  border: 0;
+}
+
+/* on rendered notebook page,
+   remove link to webpage since we're already here */
+.tfo-notebook-buttons:not(.tfo-api) td:first-child {
+  display: none;
+}
+
+.tfo-notebook-buttons td > a {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tfo-notebook-buttons td > a > img {
+  margin-right: 8px;
+}
+
+/* landing pages */
+
+.tfo-landing-row-item-inset-white {
+  background-color: #fff;
+  padding: 32px;
+}
+
+.tfo-landing-row-item-inset-white ol,
+.tfo-landing-row-item-inset-white ul {
+  padding-left: 20px;
+}
+
+/* colab callout button */
+.colab-callout-row devsite-code {
+  border-radius: 8px 8px 0 0;
+  box-shadow: none;
+}
+
+.colab-callout-footer {
+  background: #e3e4e7;
+  border-radius: 0 0 8px 8px;
+  color: #37474f;
+  padding: 20px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer {
+  background: #3f4f66;
+}
+
+
+.colab-callout-footer > .button {
+  margin-top: 4px;
+  color: #ff5c00;
+}
+
+.colab-callout-footer > a > span {
+  padding-top: 10px;
+  vertical-align: middle;
+  color: #37474f;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer > a > span {
+  color: #fff;
+}
+
+a.colab-button {
+  background: rgba(255, 255, 255, .75);
+  border: solid 1px rgba(0, 0, 0, .08);
+  border-bottom-color: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  color: #aaa;
+  display: inline-block;
+  font-size: 11px !important;
+  font-weight: 300;
+  line-height: 16px;
+  padding: 4px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.colab-button:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, .2);
+  color: #666;
+}
+
+a.colab-button span {
+  background: url(/images/colab_logo_button.svg) no-repeat 1px 1px / 20px;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 24px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .tfo-notebook-buttons td {
+    display: block;
+  }
+}
+
+/* guide and tutorials landing page cards and sections */
+
+.tfo-landing-page-card {
+  padding: 16px;
+  box-shadow: 0 0 36px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+/* Page section headings */
+.tfo-landing-page-heading h2, h2.tfo-landing-page-heading {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+/* Item title headings */
+.tfo-landing-page-heading h3, h3.tfo-landing-page-heading,
+.tfo-landing-page-card h3, h3.tfo-landing-page-card {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* List of tutorials notebooks for subsites */
+.tfo-landing-page-resources-ul {
+  padding-left: 15px
+}
+
+.tfo-landing-page-resources-ul > li {
+  margin: 6px 0;
+}
+
+/* Temporary fix to hide product description in header on landing pages */
+devsite-header .devsite-product-description {
+  display: none;
+}
+
+        </style> <div class="devsite-banner devsite-banner-announcement">
+<div class="devsite-banner-message">
+<div class="devsite-banner-message-text">
+            Missed TensorFlow Dev Summit? Check out the video playlist. <a class="button button-primary button-tfo-announcement" href="https://goo.gle/TFDS20AllSessions">Watch recordings</a>
+</div>
+</div>
+</div>
+<div class="devsite-article-meta">
+<ul class="devsite-breadcrumb-list">
+<li class="devsite-breadcrumb-item">
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="1" href="">
+            TensorFlow
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="2" href="api">
+            API
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="3" href="api_docs">
+            TensorFlow Core v2.1.0
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="4" href="api_docs/python/tf">
+            Python
+      
+  </a>
+</li>
+</ul>
+<devsite-page-rating hover-rating-star="0" position="header" selected-rating="0">
+</devsite-page-rating>
+</div>
+<a class="dashingAutolink" name="autolink-1054"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/tf.compat.v1.train.Supervisor"></a><h1 class="dash-class">tf.compat.v1.train.Supervisor</h1>
+<devsite-toc class="devsite-nav" devsite-toc-embedded="">
+</devsite-toc>
+<div class="devsite-article-body clearfix">
+<p></p>
+<!-- DO NOT EDIT! Automatically generated file. -->
+<div itemscope="" itemtype="http://developers.google.com/ReferenceObject">
+<meta content="tf.compat.v1.train.Supervisor" itemprop="name"/>
+<meta content="Stable" itemprop="path"/>
+<meta content="Loop" itemprop="property"/>
+<meta content="PrepareSession" itemprop="property"/>
+<meta content="RequestStop" itemprop="property"/>
+<meta content="ShouldStop" itemprop="property"/>
+<meta content="StartQueueRunners" itemprop="property"/>
+<meta content="StartStandardServices" itemprop="property"/>
+<meta content="Stop" itemprop="property"/>
+<meta content="StopOnException" itemprop="property"/>
+<meta content="SummaryComputed" itemprop="property"/>
+<meta content="WaitForStop" itemprop="property"/>
+<meta content="__init__" itemprop="property"/>
+<meta content="loop" itemprop="property"/>
+<meta content="managed_session" itemprop="property"/>
+<meta content="prepare_or_wait_for_session" itemprop="property"/>
+<meta content="request_stop" itemprop="property"/>
+<meta content="should_stop" itemprop="property"/>
+<meta content="start_queue_runners" itemprop="property"/>
+<meta content="start_standard_services" itemprop="property"/>
+<meta content="stop" itemprop="property"/>
+<meta content="stop_on_exception" itemprop="property"/>
+<meta content="summary_computed" itemprop="property"/>
+<meta content="wait_for_stop" itemprop="property"/>
+<meta content="USE_DEFAULT" itemprop="property"/>
+</div>
+<!-- Insert buttons and diff -->
+<table align="left" class="tfo-notebook-buttons tfo-api">
+<tbody><tr><td>
+<a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L44-L1023" target="_blank">
+<img src="https://www.tensorflow.org/images/GitHub-Mark-32px.png"/>
+    View source on GitHub
+  </a>
+</td></tr></tbody></table>
+<p>A training helper that checkpoints models and computes summaries.</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">tf.compat.v1.train.Supervisor(
+    graph=None, ready_op=USE_DEFAULT, ready_for_local_init_op=USE_DEFAULT,
+    is_chief=True, init_op=USE_DEFAULT, init_feed_dict=None,
+    local_init_op=USE_DEFAULT, logdir=None, summary_op=USE_DEFAULT,
+    saver=USE_DEFAULT, global_step=USE_DEFAULT, save_summaries_secs=120,
+    save_model_secs=600, recovery_wait_secs=30, stop_grace_secs=120,
+    checkpoint_basename=&#39;model.ckpt&#39;, session_manager=None,
+    summary_writer=USE_DEFAULT, init_fn=None, local_init_run_options=None
+)
+</code></pre>
+<!-- Placeholder for "Used in" -->
+<p>This class is deprecated. Please use
+<a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/MonitoredTrainingSession"><code dir="ltr" translate="no">tf.compat.v1.train.MonitoredTrainingSession</code></a> instead.</p>
+<p>The Supervisor is a small wrapper around a <code dir="ltr" translate="no">Coordinator</code>, a <code dir="ltr" translate="no">Saver</code>,
+and a <code dir="ltr" translate="no">SessionManager</code> that takes care of common needs of TensorFlow
+training programs.</p>
+<h4 id="use_for_a_single_program">Use for a single program</h4>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">with tf.Graph().as_default():
+  ...add operations to the graph...
+  # Create a Supervisor that will checkpoint the model in &#39;/tmp/mydir&#39;.
+  sv = Supervisor(logdir=&#39;/tmp/mydir&#39;)
+  # Get a TensorFlow session managed by the supervisor.
+  with sv.managed_session(FLAGS.master) as sess:
+    # Use the session to train the graph.
+    while not sv.should_stop():
+      sess.run(&lt;my_train_op&gt;)
+</code></pre>
+<p>Within the <code dir="ltr" translate="no">with sv.managed_session()</code> block all variables in the graph have
+been initialized.  In addition, a few services have been started to
+checkpoint the model and add summaries to the event log.</p>
+<p>If the program crashes and is restarted, the managed session automatically
+reinitialize variables from the most recent checkpoint.</p>
+<p>The supervisor is notified of any exception raised by one of the services.
+After an exception is raised, <code dir="ltr" translate="no">should_stop()</code> returns <code dir="ltr" translate="no">True</code>.  In that case
+the training loop should also stop.  This is why the training loop has to
+check for <code dir="ltr" translate="no">sv.should_stop()</code>.</p>
+<p>Exceptions that indicate that the training inputs have been exhausted,
+<a href="https://www.tensorflow.org/api_docs/python/tf/errors/OutOfRangeError"><code dir="ltr" translate="no">tf.errors.OutOfRangeError</code></a>, also cause <code dir="ltr" translate="no">sv.should_stop()</code> to return <code dir="ltr" translate="no">True</code>
+but are not re-raised from the <code dir="ltr" translate="no">with</code> block: they indicate a normal
+termination.</p>
+<h4 id="use_for_multiple_replicas">Use for multiple replicas</h4>
+<p>To train with replicas you deploy the same program in a <code dir="ltr" translate="no">Cluster</code>.
+One of the tasks must be identified as the <em>chief</em>: the task that handles
+initialization, checkpoints, summaries, and recovery.  The other tasks
+depend on the <em>chief</em> for these services.</p>
+<p>The only change you have to do to the single program code is to indicate
+if the program is running as the <em>chief</em>.</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no"># Choose a task as the chief. This could be based on server_def.task_index,
+# or job_def.name, or job_def.tasks. It&#39;s entirely up to the end user.
+# But there can be only one *chief*.
+is_chief = (server_def.task_index == 0)
+server = tf.distribute.Server(server_def)
+
+with tf.Graph().as_default():
+  ...add operations to the graph...
+  # Create a Supervisor that uses log directory on a shared file system.
+  # Indicate if you are the &#39;chief&#39;
+  sv = Supervisor(logdir=&#39;/shared_directory/...&#39;, is_chief=is_chief)
+  # Get a Session in a TensorFlow server on the cluster.
+  with sv.managed_session(server.target) as sess:
+    # Use the session to train the graph.
+    while not sv.should_stop():
+      sess.run(&lt;my_train_op&gt;)
+</code></pre>
+<p>In the <em>chief</em> task, the <code dir="ltr" translate="no">Supervisor</code> works exactly as in the first example
+above.  In the other tasks <code dir="ltr" translate="no">sv.managed_session()</code> waits for the Model to have
+been initialized before returning a session to the training code.  The
+non-chief tasks depend on the chief task for initializing the model.</p>
+<p>If one of the tasks crashes and restarts, <code dir="ltr" translate="no">managed_session()</code>
+checks if the Model is initialized.  If yes, it just creates a session and
+returns it to the training code that proceeds normally.  If the model needs
+to be initialized, the chief task takes care of reinitializing it; the other
+tasks just wait for the model to have been initialized.</p>
+<p>NOTE: This modified program still works fine as a single program.
+The single program marks itself as the chief.</p>
+<h4 id="what_master_string_to_use">What <code dir="ltr" translate="no">master</code> string to use</h4>
+<p>Whether you are running on your machine or in the cluster you can use the
+following values for the --master flag:</p>
+<ul>
+<li><p>Specifying <code dir="ltr" translate="no">&#39;&#39;</code> requests an in-process session that does not use RPC.</p></li>
+<li><p>Specifying <code dir="ltr" translate="no">&#39;local&#39;</code> requests a session that uses the RPC-based
+&#34;Master interface&#34; to run TensorFlow programs. See
+<code dir="ltr" translate="no">tf.train.Server.create_local_server</code> for
+details.</p></li>
+<li><p>Specifying <code dir="ltr" translate="no">&#39;grpc://hostname:port&#39;</code> requests a session that uses
+the RPC interface to a specific host, and also allows the in-process
+master to access remote tensorflow workers. Often, it is
+appropriate to pass <code dir="ltr" translate="no">server.target</code> (for some <a href="https://www.tensorflow.org/api_docs/python/tf/distribute/Server"><code dir="ltr" translate="no">tf.distribute.Server</code></a>
+named `server).</p></li>
+</ul>
+<h4 id="advanced_use">Advanced use</h4>
+<h5 id="launching_additional_services">Launching additional services</h5>
+<p><code dir="ltr" translate="no">managed_session()</code> launches the Checkpoint and Summary services (threads).
+If you need more services to run you can simply launch them in the block
+controlled by <code dir="ltr" translate="no">managed_session()</code>.</p>
+<p>Example: Start a thread to print losses.  We want this thread to run
+every 60 seconds, so we launch it with <code dir="ltr" translate="no">sv.loop()</code>.</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">...
+sv = Supervisor(logdir=&#39;/tmp/mydir&#39;)
+with sv.managed_session(FLAGS.master) as sess:
+  sv.loop(60, print_loss, (sess, ))
+  while not sv.should_stop():
+    sess.run(my_train_op)
+</code></pre>
+<h5 id="launching_fewer_services">Launching fewer services</h5>
+<p><code dir="ltr" translate="no">managed_session()</code> launches the &#34;summary&#34; and &#34;checkpoint&#34; threads which use
+either the optionally <code dir="ltr" translate="no">summary_op</code> and <code dir="ltr" translate="no">saver</code> passed to the constructor, or
+default ones created automatically by the supervisor.  If you want to run
+your own summary and checkpointing logic, disable these services by passing
+<code dir="ltr" translate="no">None</code> to the <code dir="ltr" translate="no">summary_op</code> and <code dir="ltr" translate="no">saver</code> parameters.</p>
+<p>Example: Create summaries manually every 100 steps in the chief.</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no"># Create a Supervisor with no automatic summaries.
+sv = Supervisor(logdir=&#39;/tmp/mydir&#39;, is_chief=is_chief, summary_op=None)
+# As summary_op was None, managed_session() does not start the
+# summary thread.
+with sv.managed_session(FLAGS.master) as sess:
+  for step in xrange(1000000):
+    if sv.should_stop():
+      break
+    if is_chief and step % 100 == 0:
+      # Create the summary every 100 chief steps.
+      sv.summary_computed(sess, sess.run(my_summary_op))
+    else:
+      # Train normally
+      sess.run(my_train_op)
+</code></pre>
+<h5 id="custom_model_initialization">Custom model initialization</h5>
+<p><code dir="ltr" translate="no">managed_session()</code> only supports initializing the model by running an
+<code dir="ltr" translate="no">init_op</code> or restoring from the latest checkpoint.  If you have special
+initialization needs, see how to specify a <code dir="ltr" translate="no">local_init_op</code> when creating the
+supervisor.  You can also use the <code dir="ltr" translate="no">SessionManager</code> directly to create a
+session and check if it could be initialized automatically.</p>
+<h4 id="args">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">graph</code></b>: A <code dir="ltr" translate="no">Graph</code>.  The graph that the model will use.  Defaults to the
+default <code dir="ltr" translate="no">Graph</code>.  The supervisor may add operations to the graph before
+creating a session, but the graph should not be modified by the caller
+after passing it to the supervisor.</li>
+<li><b><code dir="ltr" translate="no">ready_op</code></b>: 1-D string <code dir="ltr" translate="no">Tensor</code>.  This tensor is evaluated by supervisors in
+<code dir="ltr" translate="no">prepare_or_wait_for_session()</code> to check if the model is ready to use.
+The model is considered ready if it returns an empty array.  Defaults to
+the tensor returned from <a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/report_uninitialized_variables"><code dir="ltr" translate="no">tf.compat.v1.report_uninitialized_variables()</code></a>
+If <code dir="ltr" translate="no">None</code>, the model is not checked for readiness.</li>
+<li><b><code dir="ltr" translate="no">ready_for_local_init_op</code></b>: 1-D string <code dir="ltr" translate="no">Tensor</code>.  This tensor is evaluated by
+supervisors in <code dir="ltr" translate="no">prepare_or_wait_for_session()</code> to check if the model is
+ready to run the local_init_op. The model is considered ready if it
+returns an empty array. Defaults to <code dir="ltr" translate="no">None</code>. If <code dir="ltr" translate="no">None</code>, the model is not
+checked for readiness before running local_init_op.</li>
+<li><b><code dir="ltr" translate="no">is_chief</code></b>: If True, create a chief supervisor in charge of initializing and
+restoring the model.  If False, create a supervisor that relies on a
+chief supervisor for inits and restore.</li>
+<li><b><code dir="ltr" translate="no">init_op</code></b>: <code dir="ltr" translate="no">Operation</code>.  Used by chief supervisors to initialize the model
+when it can not be recovered.  Defaults to an <code dir="ltr" translate="no">Operation</code> that
+initializes all global variables.  If <code dir="ltr" translate="no">None</code>, no initialization is done
+automatically unless you pass a value for <code dir="ltr" translate="no">init_fn</code>, see below.</li>
+<li><b><code dir="ltr" translate="no">init_feed_dict</code></b>: A dictionary that maps <code dir="ltr" translate="no">Tensor</code> objects to feed values.
+This feed dictionary will be used when <code dir="ltr" translate="no">init_op</code> is evaluated.</li>
+<li><b><code dir="ltr" translate="no">local_init_op</code></b>: <code dir="ltr" translate="no">Operation</code>. Used by all supervisors to run initializations
+that should run for every new supervisor instance. By default these are
+table initializers and initializers for local variables. If <code dir="ltr" translate="no">None</code>, no
+further per supervisor-instance initialization is done automatically.</li>
+<li><b><code dir="ltr" translate="no">logdir</code></b>: A string.  Optional path to a directory where to checkpoint the
+model and log events for the visualizer.  Used by chief supervisors. The
+directory will be created if it does not exist.</li>
+<li><b><code dir="ltr" translate="no">summary_op</code></b>: An <code dir="ltr" translate="no">Operation</code> that returns a Summary for the event logs. Used
+by chief supervisors if a <code dir="ltr" translate="no">logdir</code> was specified.  Defaults to the
+operation returned from summary.merge_all().  If <code dir="ltr" translate="no">None</code>, summaries are
+not computed automatically.</li>
+<li><b><code dir="ltr" translate="no">saver</code></b>: A Saver object.  Used by chief supervisors if a <code dir="ltr" translate="no">logdir</code> was
+specified.  Defaults to the saved returned by Saver(). If <code dir="ltr" translate="no">None</code>, the
+model is not saved automatically.</li>
+<li><b><code dir="ltr" translate="no">global_step</code></b>: An integer Tensor of size 1 that counts steps.  The value
+from &#39;global_step&#39; is used in summaries and checkpoint filenames.
+Default to the op named &#39;global_step&#39; in the graph if it exists, is of
+rank 1, size 1, and of type tf.int32 or tf.int64.  If <code dir="ltr" translate="no">None</code> the global
+step is not recorded in summaries and checkpoint files.  Used by chief
+supervisors if a <code dir="ltr" translate="no">logdir</code> was specified.</li>
+<li><b><code dir="ltr" translate="no">save_summaries_secs</code></b>: Number of seconds between the computation of
+summaries for the event log.  Defaults to 120 seconds.  Pass 0 to
+disable summaries.</li>
+<li><b><code dir="ltr" translate="no">save_model_secs</code></b>: Number of seconds between the creation of model
+checkpoints.  Defaults to 600 seconds.  Pass 0 to disable checkpoints.</li>
+<li><b><code dir="ltr" translate="no">recovery_wait_secs</code></b>: Number of seconds between checks that the model is
+ready.  Used by supervisors when waiting for a chief supervisor to
+initialize or restore the model.  Defaults to 30 seconds.</li>
+<li><b><code dir="ltr" translate="no">stop_grace_secs</code></b>: Grace period, in seconds, given to running threads to
+stop when <code dir="ltr" translate="no">stop()</code> is called.  Defaults to 120 seconds.</li>
+<li><b><code dir="ltr" translate="no">checkpoint_basename</code></b>: The basename for checkpoint saving.</li>
+<li><b><code dir="ltr" translate="no">session_manager</code></b>: <code dir="ltr" translate="no">SessionManager</code>, which manages Session creation and
+recovery. If it is <code dir="ltr" translate="no">None</code>, a default <code dir="ltr" translate="no">SessionManager</code> will be created
+with the set of arguments passed in for backwards compatibility.</li>
+<li><b><code dir="ltr" translate="no">summary_writer</code></b>: <code dir="ltr" translate="no">SummaryWriter</code> to use or <code dir="ltr" translate="no">USE_DEFAULT</code>.  Can be <code dir="ltr" translate="no">None</code> to
+indicate that no summaries should be written.</li>
+<li><b><code dir="ltr" translate="no">init_fn</code></b>: Optional callable used to initialize the model. Called after the
+optional <code dir="ltr" translate="no">init_op</code> is called.  The callable must accept one argument,
+the session being initialized.</li>
+<li><b><code dir="ltr" translate="no">local_init_run_options</code></b>: RunOptions to be passed as the SessionManager
+local_init_run_options parameter.</li>
+</ul>
+<h4 id="attributes">Attributes:</h4>
+<ul>
+<li><p><b><code dir="ltr" translate="no">coord</code></b>:   Return the Coordinator used by the Supervisor.</p>
+<p>The Coordinator can be useful if you want to run multiple threads
+during your training.</p></li>
+<li><p><b><code dir="ltr" translate="no">global_step</code></b>:   Return the global_step Tensor used by the supervisor.</p></li>
+<li><p><b><code dir="ltr" translate="no">init_feed_dict</code></b>:   Return the feed dictionary used when evaluating the <code dir="ltr" translate="no">init_op</code>.</p></li>
+<li><p><b><code dir="ltr" translate="no">init_op</code></b>:   Return the Init Op used by the supervisor.</p></li>
+<li><p><b><code dir="ltr" translate="no">is_chief</code></b>:   Return True if this is a chief supervisor.</p></li>
+<li><p><b><code dir="ltr" translate="no">ready_for_local_init_op</code></b></p></li>
+<li><p><b><code dir="ltr" translate="no">ready_op</code></b>:   Return the Ready Op used by the supervisor.</p></li>
+<li><p><b><code dir="ltr" translate="no">save_model_secs</code></b>:   Return the delay between checkpoints.</p></li>
+<li><p><b><code dir="ltr" translate="no">save_path</code></b>:   Return the save path used by the supervisor.</p></li>
+<li><p><b><code dir="ltr" translate="no">save_summaries_secs</code></b>:   Return the delay between summary computations.</p></li>
+<li><p><b><code dir="ltr" translate="no">saver</code></b>:   Return the Saver used by the supervisor.</p></li>
+<li><p><b><code dir="ltr" translate="no">session_manager</code></b>:   Return the SessionManager used by the Supervisor.</p></li>
+<li><p><b><code dir="ltr" translate="no">summary_op</code></b>:   Return the Summary Tensor used by the chief supervisor.</p></li>
+<li><p><b><code dir="ltr" translate="no">summary_writer</code></b>:   Return the SummaryWriter used by the chief supervisor.</p></li>
+</ul>
+<h4 id="raises">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">RuntimeError</code></b>: If called with eager execution enabled.</li>
+</ul>
+<h2 id="methods">Methods</h2>
+<h3 id="Loop"><code dir="ltr" translate="no">Loop</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L782-L808" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">Loop(
+    timer_interval_secs, target, args=None, kwargs=None
+)
+</code></pre>
+<p>Start a LooperThread that calls a function periodically.</p>
+<p>If <code dir="ltr" translate="no">timer_interval_secs</code> is None the thread calls <code dir="ltr" translate="no">target(*args, **kwargs)</code>
+repeatedly.  Otherwise it calls it every <code dir="ltr" translate="no">timer_interval_secs</code>
+seconds.  The thread terminates when a stop is requested.</p>
+<p>The started thread is added to the list of threads managed by the supervisor
+so it does not need to be passed to the <code dir="ltr" translate="no">stop()</code> method.</p>
+<h4 id="args_2">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">timer_interval_secs</code></b>: Number. Time boundaries at which to call <code dir="ltr" translate="no">target</code>.</li>
+<li><b><code dir="ltr" translate="no">target</code></b>: A callable object.</li>
+<li><b><code dir="ltr" translate="no">args</code></b>: Optional arguments to pass to <code dir="ltr" translate="no">target</code> when calling it.</li>
+<li><b><code dir="ltr" translate="no">kwargs</code></b>: Optional keyword arguments to pass to <code dir="ltr" translate="no">target</code> when calling it.</li>
+</ul>
+<h4 id="returns">Returns:</h4>
+<p>The started thread.</p>
+<h3 id="PrepareSession"><code dir="ltr" translate="no">PrepareSession</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L690-L745" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">PrepareSession(
+    master=&#39;&#39;, config=None, wait_for_checkpoint=False, max_wait_secs=7200,
+    start_standard_services=True
+)
+</code></pre>
+<p>Make sure the model is ready to be used.</p>
+<p>Create a session on &#39;master&#39;, recovering or initializing the model as
+needed, or wait for a session to be ready.  If running as the chief
+and <code dir="ltr" translate="no">start_standard_service</code> is set to True, also call the session
+manager to start the standard services.</p>
+<h4 id="args_3">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">master</code></b>: name of the TensorFlow master to use.  See the
+<a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/Session"><code dir="ltr" translate="no">tf.compat.v1.Session</code></a> constructor for how this is interpreted.</li>
+<li><b><code dir="ltr" translate="no">config</code></b>: Optional ConfigProto proto used to configure the session, which is
+passed as-is to create the session.</li>
+<li><b><code dir="ltr" translate="no">wait_for_checkpoint</code></b>: Whether we should wait for the availability of a
+checkpoint before creating Session. Defaults to False.</li>
+<li><b><code dir="ltr" translate="no">max_wait_secs</code></b>: Maximum time to wait for the session to become available.</li>
+<li><b><code dir="ltr" translate="no">start_standard_services</code></b>: Whether to start the standard services and the
+queue runners.</li>
+</ul>
+<h4 id="returns_2">Returns:</h4>
+<p>A Session object that can be used to drive the model.</p>
+<h3 id="RequestStop"><code dir="ltr" translate="no">RequestStop</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L849-L859" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">RequestStop(
+    ex=None
+)
+</code></pre>
+<p>Request that the coordinator stop the threads.</p>
+<p>See <a href="api_docs/python/tf/train/Coordinator#request_stop"><code dir="ltr" translate="no">Coordinator.request_stop()</code></a>.</p>
+<h4 id="args_4">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">ex</code></b>: Optional <code dir="ltr" translate="no">Exception</code>, or Python <code dir="ltr" translate="no">exc_info</code> tuple as returned by
+<code dir="ltr" translate="no">sys.exc_info()</code>.  If this is the first call to <code dir="ltr" translate="no">request_stop()</code> the
+corresponding exception is recorded and re-raised from <code dir="ltr" translate="no">join()</code>.</li>
+</ul>
+<h3 id="ShouldStop"><code dir="ltr" translate="no">ShouldStop</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L861-L869" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">ShouldStop()
+</code></pre>
+<p>Check if the coordinator was told to stop.</p>
+<p>See <a href="api_docs/python/tf/train/Coordinator#should_stop"><code dir="ltr" translate="no">Coordinator.should_stop()</code></a>.</p>
+<h4 id="returns_3">Returns:</h4>
+<p>True if the coordinator was told to stop, False otherwise.</p>
+<h3 id="StartQueueRunners"><code dir="ltr" translate="no">StartQueueRunners</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L747-L780" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">StartQueueRunners(
+    sess, queue_runners=None
+)
+</code></pre>
+<p>Start threads for <code dir="ltr" translate="no">QueueRunners</code>.</p>
+<p>Note that the queue runners collected in the graph key <code dir="ltr" translate="no">QUEUE_RUNNERS</code>
+are already started automatically when you create a session with the
+supervisor, so unless you have non-collected queue runners to start
+you do not need to call this explicitly.</p>
+<h4 id="args_5">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">sess</code></b>: A <code dir="ltr" translate="no">Session</code>.</li>
+<li><b><code dir="ltr" translate="no">queue_runners</code></b>: A list of <code dir="ltr" translate="no">QueueRunners</code>. If not specified, we&#39;ll use the
+list of queue runners gathered in the graph under the key
+<code dir="ltr" translate="no">GraphKeys.QUEUE_RUNNERS</code>.</li>
+</ul>
+<h4 id="returns_4">Returns:</h4>
+<p>The list of threads started for the <code dir="ltr" translate="no">QueueRunners</code>.</p>
+<h4 id="raises_2">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">RuntimeError</code></b>: If called with eager execution enabled.</li>
+</ul>
+<h4 id="eager_compatibility">Eager Compatibility</h4>
+<p>Queues are not compatible with eager execution. To ingest data when eager
+execution is enabled, use the <a href="https://www.tensorflow.org/api_docs/python/tf/data"><code dir="ltr" translate="no">tf.data</code></a> API.</p>
+<h3 id="StartStandardServices"><code dir="ltr" translate="no">StartStandardServices</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L638-L688" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">StartStandardServices(
+    sess
+)
+</code></pre>
+<p>Start the standard services for &#39;sess&#39;.</p>
+<p>This starts services in the background.  The services started depend
+on the parameters to the constructor and may include:</p>
+<ul>
+<li>A Summary thread computing summaries every save_summaries_secs.</li>
+<li>A Checkpoint thread saving the model every save_model_secs.</li>
+<li>A StepCounter thread measure step time.</li>
+</ul>
+<h4 id="args_6">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">sess</code></b>: A Session.</li>
+</ul>
+<h4 id="returns_5">Returns:</h4>
+<p>A list of threads that are running the standard services.  You can use
+the Supervisor&#39;s Coordinator to join these threads with:
+  sv.coord.Join(<list of="" threads="">)</list></p>
+<h4 id="raises_3">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">RuntimeError</code></b>: If called with a non-chief Supervisor.</li>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>: If not <code dir="ltr" translate="no">logdir</code> was passed to the constructor as the
+services need a log directory.</li>
+</ul>
+<h3 id="Stop"><code dir="ltr" translate="no">Stop</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L810-L847" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">Stop(
+    threads=None, close_summary_writer=True, ignore_live_threads=False
+)
+</code></pre>
+<p>Stop the services and the coordinator.</p>
+<p>This does not close the session.</p>
+<h4 id="args_7">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">threads</code></b>: Optional list of threads to join with the coordinator.  If
+<code dir="ltr" translate="no">None</code>, defaults to the threads running the standard services, the
+threads started for <code dir="ltr" translate="no">QueueRunners</code>, and the threads started by the
+<code dir="ltr" translate="no">loop()</code> method.  To wait on additional threads, pass the list in this
+parameter.</li>
+<li><b><code dir="ltr" translate="no">close_summary_writer</code></b>: Whether to close the <code dir="ltr" translate="no">summary_writer</code>.  Defaults to
+<code dir="ltr" translate="no">True</code> if the summary writer was created by the supervisor, <code dir="ltr" translate="no">False</code>
+otherwise.</li>
+<li><b><code dir="ltr" translate="no">ignore_live_threads</code></b>: If <code dir="ltr" translate="no">True</code> ignores threads that remain running after a
+grace period when joining threads via the coordinator, instead of
+raising a RuntimeError.</li>
+</ul>
+<h3 id="StopOnException"><code dir="ltr" translate="no">StopOnException</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L871-L879" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">StopOnException()
+</code></pre>
+<p>Context handler to stop the supervisor when an exception is raised.</p>
+<p>See <a href="api_docs/python/tf/train/Coordinator#stop_on_exception"><code dir="ltr" translate="no">Coordinator.stop_on_exception()</code></a>.</p>
+<h4 id="returns_6">Returns:</h4>
+<p>A context handler.</p>
+<h3 id="SummaryComputed"><code dir="ltr" translate="no">SummaryComputed</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L885-L902" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">SummaryComputed(
+    sess, summary, global_step=None
+)
+</code></pre>
+<p>Indicate that a summary was computed.</p>
+<h4 id="args_8">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">sess</code></b>: A <code dir="ltr" translate="no">Session</code> object.</li>
+<li><b><code dir="ltr" translate="no">summary</code></b>: A Summary proto, or a string holding a serialized summary proto.</li>
+<li><b><code dir="ltr" translate="no">global_step</code></b>: Int. global step this summary is associated with. If <code dir="ltr" translate="no">None</code>,
+it will try to fetch the current step.</li>
+</ul>
+<h4 id="raises_4">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">TypeError</code></b>: if &#39;summary&#39; is not a Summary proto or a string.</li>
+<li><b><code dir="ltr" translate="no">RuntimeError</code></b>: if the Supervisor was created without a <code dir="ltr" translate="no">logdir</code>.</li>
+</ul>
+<h3 id="WaitForStop"><code dir="ltr" translate="no">WaitForStop</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L881-L883" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">WaitForStop()
+</code></pre>
+<p>Block waiting for the coordinator to stop.</p>
+<h3 id="loop"><code dir="ltr" translate="no">loop</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L782-L808" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">loop(
+    timer_interval_secs, target, args=None, kwargs=None
+)
+</code></pre>
+<p>Start a LooperThread that calls a function periodically.</p>
+<p>If <code dir="ltr" translate="no">timer_interval_secs</code> is None the thread calls <code dir="ltr" translate="no">target(*args, **kwargs)</code>
+repeatedly.  Otherwise it calls it every <code dir="ltr" translate="no">timer_interval_secs</code>
+seconds.  The thread terminates when a stop is requested.</p>
+<p>The started thread is added to the list of threads managed by the supervisor
+so it does not need to be passed to the <code dir="ltr" translate="no">stop()</code> method.</p>
+<h4 id="args_9">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">timer_interval_secs</code></b>: Number. Time boundaries at which to call <code dir="ltr" translate="no">target</code>.</li>
+<li><b><code dir="ltr" translate="no">target</code></b>: A callable object.</li>
+<li><b><code dir="ltr" translate="no">args</code></b>: Optional arguments to pass to <code dir="ltr" translate="no">target</code> when calling it.</li>
+<li><b><code dir="ltr" translate="no">kwargs</code></b>: Optional keyword arguments to pass to <code dir="ltr" translate="no">target</code> when calling it.</li>
+</ul>
+<h4 id="returns_7">Returns:</h4>
+<p>The started thread.</p>
+<h3 class="dash-method" id="managed_session"><a class="dashingAutolink" name="autolink-1053"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.compat.v1.train.Supervisor.managed_session"></a><code dir="ltr" translate="no">tf.compat.v1.train.Supervisor.managed_session</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">managed_session(
+    *args, **kwds
+)
+</code></pre>
+<p>Returns a context manager for a managed session.</p>
+<p>This context manager creates and automatically recovers a session.  It
+optionally starts the standard services that handle checkpoints and
+summaries.  It monitors exceptions raised from the <code dir="ltr" translate="no">with</code> block or from the
+services and stops the supervisor as needed.</p>
+<p>The context manager is typically used as follows:</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">def train():
+  sv = tf.compat.v1.train.Supervisor(...)
+  with sv.managed_session(&lt;master&gt;) as sess:
+    for step in xrange(..):
+      if sv.should_stop():
+        break
+      sess.run(&lt;my training op&gt;)
+      ...do other things needed at each training step...
+</code></pre>
+<p>An exception raised from the <code dir="ltr" translate="no">with</code> block or one of the service threads is
+raised again when the block exits.  This is done after stopping all threads
+and closing the session.  For example, an <code dir="ltr" translate="no">AbortedError</code> exception, raised
+in case of preemption of one of the workers in a distributed model, is
+raised again when the block exits.</p>
+<p>If you want to retry the training loop in case of preemption you can do it
+as follows:</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">def main(...):
+  while True
+    try:
+      train()
+    except tf.errors.Aborted:
+      pass
+</code></pre>
+<p>As a special case, exceptions used for control flow, such as
+<code dir="ltr" translate="no">OutOfRangeError</code> which reports that input queues are exhausted, are not
+raised again from the <code dir="ltr" translate="no">with</code> block: they indicate a clean termination of
+the training loop and are considered normal termination.</p>
+<h4 id="args_10">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">master</code></b>: name of the TensorFlow master to use.  See the
+<a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/Session"><code dir="ltr" translate="no">tf.compat.v1.Session</code></a> constructor for how this is interpreted.</li>
+<li><b><code dir="ltr" translate="no">config</code></b>: Optional <code dir="ltr" translate="no">ConfigProto</code> proto used to configure the session. Passed
+as-is to create the session.</li>
+<li><b><code dir="ltr" translate="no">start_standard_services</code></b>: Whether to start the standard services, such as
+checkpoint, summary and step counter.</li>
+<li><b><code dir="ltr" translate="no">close_summary_writer</code></b>: Whether to close the summary writer when closing the
+session.  Defaults to True.</li>
+</ul>
+<h4 id="returns_8">Returns:</h4>
+<p>A context manager that yields a <code dir="ltr" translate="no">Session</code> restored from the latest
+checkpoint or initialized from scratch if not checkpoint exists.  The
+session is closed when the <code dir="ltr" translate="no">with</code> block exits.</p>
+<h3 id="prepare_or_wait_for_session"><code dir="ltr" translate="no">prepare_or_wait_for_session</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L690-L745" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">prepare_or_wait_for_session(
+    master=&#39;&#39;, config=None, wait_for_checkpoint=False, max_wait_secs=7200,
+    start_standard_services=True
+)
+</code></pre>
+<p>Make sure the model is ready to be used.</p>
+<p>Create a session on &#39;master&#39;, recovering or initializing the model as
+needed, or wait for a session to be ready.  If running as the chief
+and <code dir="ltr" translate="no">start_standard_service</code> is set to True, also call the session
+manager to start the standard services.</p>
+<h4 id="args_11">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">master</code></b>: name of the TensorFlow master to use.  See the
+<a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/Session"><code dir="ltr" translate="no">tf.compat.v1.Session</code></a> constructor for how this is interpreted.</li>
+<li><b><code dir="ltr" translate="no">config</code></b>: Optional ConfigProto proto used to configure the session, which is
+passed as-is to create the session.</li>
+<li><b><code dir="ltr" translate="no">wait_for_checkpoint</code></b>: Whether we should wait for the availability of a
+checkpoint before creating Session. Defaults to False.</li>
+<li><b><code dir="ltr" translate="no">max_wait_secs</code></b>: Maximum time to wait for the session to become available.</li>
+<li><b><code dir="ltr" translate="no">start_standard_services</code></b>: Whether to start the standard services and the
+queue runners.</li>
+</ul>
+<h4 id="returns_9">Returns:</h4>
+<p>A Session object that can be used to drive the model.</p>
+<h3 id="request_stop"><code dir="ltr" translate="no">request_stop</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L849-L859" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">request_stop(
+    ex=None
+)
+</code></pre>
+<p>Request that the coordinator stop the threads.</p>
+<p>See <a href="api_docs/python/tf/train/Coordinator#request_stop"><code dir="ltr" translate="no">Coordinator.request_stop()</code></a>.</p>
+<h4 id="args_12">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">ex</code></b>: Optional <code dir="ltr" translate="no">Exception</code>, or Python <code dir="ltr" translate="no">exc_info</code> tuple as returned by
+<code dir="ltr" translate="no">sys.exc_info()</code>.  If this is the first call to <code dir="ltr" translate="no">request_stop()</code> the
+corresponding exception is recorded and re-raised from <code dir="ltr" translate="no">join()</code>.</li>
+</ul>
+<h3 id="should_stop"><code dir="ltr" translate="no">should_stop</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L861-L869" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">should_stop()
+</code></pre>
+<p>Check if the coordinator was told to stop.</p>
+<p>See <a href="api_docs/python/tf/train/Coordinator#should_stop"><code dir="ltr" translate="no">Coordinator.should_stop()</code></a>.</p>
+<h4 id="returns_10">Returns:</h4>
+<p>True if the coordinator was told to stop, False otherwise.</p>
+<h3 id="start_queue_runners"><code dir="ltr" translate="no">start_queue_runners</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L747-L780" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">start_queue_runners(
+    sess, queue_runners=None
+)
+</code></pre>
+<p>Start threads for <code dir="ltr" translate="no">QueueRunners</code>.</p>
+<p>Note that the queue runners collected in the graph key <code dir="ltr" translate="no">QUEUE_RUNNERS</code>
+are already started automatically when you create a session with the
+supervisor, so unless you have non-collected queue runners to start
+you do not need to call this explicitly.</p>
+<h4 id="args_13">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">sess</code></b>: A <code dir="ltr" translate="no">Session</code>.</li>
+<li><b><code dir="ltr" translate="no">queue_runners</code></b>: A list of <code dir="ltr" translate="no">QueueRunners</code>. If not specified, we&#39;ll use the
+list of queue runners gathered in the graph under the key
+<code dir="ltr" translate="no">GraphKeys.QUEUE_RUNNERS</code>.</li>
+</ul>
+<h4 id="returns_11">Returns:</h4>
+<p>The list of threads started for the <code dir="ltr" translate="no">QueueRunners</code>.</p>
+<h4 id="raises_5">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">RuntimeError</code></b>: If called with eager execution enabled.</li>
+</ul>
+<h4 id="eager_compatibility_2">Eager Compatibility</h4>
+<p>Queues are not compatible with eager execution. To ingest data when eager
+execution is enabled, use the <a href="https://www.tensorflow.org/api_docs/python/tf/data"><code dir="ltr" translate="no">tf.data</code></a> API.</p>
+<h3 id="start_standard_services"><code dir="ltr" translate="no">start_standard_services</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L638-L688" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">start_standard_services(
+    sess
+)
+</code></pre>
+<p>Start the standard services for &#39;sess&#39;.</p>
+<p>This starts services in the background.  The services started depend
+on the parameters to the constructor and may include:</p>
+<ul>
+<li>A Summary thread computing summaries every save_summaries_secs.</li>
+<li>A Checkpoint thread saving the model every save_model_secs.</li>
+<li>A StepCounter thread measure step time.</li>
+</ul>
+<h4 id="args_14">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">sess</code></b>: A Session.</li>
+</ul>
+<h4 id="returns_12">Returns:</h4>
+<p>A list of threads that are running the standard services.  You can use
+the Supervisor&#39;s Coordinator to join these threads with:
+  sv.coord.Join(<list of="" threads="">)</list></p>
+<h4 id="raises_6">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">RuntimeError</code></b>: If called with a non-chief Supervisor.</li>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>: If not <code dir="ltr" translate="no">logdir</code> was passed to the constructor as the
+services need a log directory.</li>
+</ul>
+<h3 id="stop"><code dir="ltr" translate="no">stop</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L810-L847" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">stop(
+    threads=None, close_summary_writer=True, ignore_live_threads=False
+)
+</code></pre>
+<p>Stop the services and the coordinator.</p>
+<p>This does not close the session.</p>
+<h4 id="args_15">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">threads</code></b>: Optional list of threads to join with the coordinator.  If
+<code dir="ltr" translate="no">None</code>, defaults to the threads running the standard services, the
+threads started for <code dir="ltr" translate="no">QueueRunners</code>, and the threads started by the
+<code dir="ltr" translate="no">loop()</code> method.  To wait on additional threads, pass the list in this
+parameter.</li>
+<li><b><code dir="ltr" translate="no">close_summary_writer</code></b>: Whether to close the <code dir="ltr" translate="no">summary_writer</code>.  Defaults to
+<code dir="ltr" translate="no">True</code> if the summary writer was created by the supervisor, <code dir="ltr" translate="no">False</code>
+otherwise.</li>
+<li><b><code dir="ltr" translate="no">ignore_live_threads</code></b>: If <code dir="ltr" translate="no">True</code> ignores threads that remain running after a
+grace period when joining threads via the coordinator, instead of
+raising a RuntimeError.</li>
+</ul>
+<h3 id="stop_on_exception"><code dir="ltr" translate="no">stop_on_exception</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L871-L879" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">stop_on_exception()
+</code></pre>
+<p>Context handler to stop the supervisor when an exception is raised.</p>
+<p>See <a href="api_docs/python/tf/train/Coordinator#stop_on_exception"><code dir="ltr" translate="no">Coordinator.stop_on_exception()</code></a>.</p>
+<h4 id="returns_13">Returns:</h4>
+<p>A context handler.</p>
+<h3 id="summary_computed"><code dir="ltr" translate="no">summary_computed</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L885-L902" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">summary_computed(
+    sess, summary, global_step=None
+)
+</code></pre>
+<p>Indicate that a summary was computed.</p>
+<h4 id="args_16">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">sess</code></b>: A <code dir="ltr" translate="no">Session</code> object.</li>
+<li><b><code dir="ltr" translate="no">summary</code></b>: A Summary proto, or a string holding a serialized summary proto.</li>
+<li><b><code dir="ltr" translate="no">global_step</code></b>: Int. global step this summary is associated with. If <code dir="ltr" translate="no">None</code>,
+it will try to fetch the current step.</li>
+</ul>
+<h4 id="raises_7">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">TypeError</code></b>: if &#39;summary&#39; is not a Summary proto or a string.</li>
+<li><b><code dir="ltr" translate="no">RuntimeError</code></b>: if the Supervisor was created without a <code dir="ltr" translate="no">logdir</code>.</li>
+</ul>
+<h3 id="wait_for_stop"><code dir="ltr" translate="no">wait_for_stop</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/supervisor.py#L881-L883" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">wait_for_stop()
+</code></pre>
+<p>Block waiting for the coordinator to stop.</p>
+<h2 id="class_variables">Class Variables</h2>
+<ul>
+<li><code dir="ltr" translate="no">USE_DEFAULT = 0</code> <a id="USE_DEFAULT"></a></li>
+</ul>
+</div>
+<devsite-page-rating hover-rating-star="0" position="footer" selected-rating="0">
+</devsite-page-rating>
+</article>
+</article>
+
+</devsite-content>
+</main>
+<devsite-footer-promos class="devsite-footer">
+</devsite-footer-promos>
+<devsite-footer-linkboxes class="devsite-footer">
+
+</devsite-footer-linkboxes>
+<devsite-footer-utility class="devsite-footer">
+<div class="devsite-footer-utility nocontent">
+
+</div>
+</devsite-footer-utility>
+</section></section>
+<devsite-sitemask></devsite-sitemask>
+<devsite-snackbar></devsite-snackbar> <devsite-tooltip></devsite-tooltip>
+<devsite-heading-link></devsite-heading-link>
+<devsite-analytics>
+
+
+</devsite-analytics>
+ 
+</body></html>

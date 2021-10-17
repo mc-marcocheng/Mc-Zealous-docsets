@@ -1,0 +1,584 @@
+<!DOCTYPE html><html dir="ltr" lang="en"><head>
+<meta content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com" name="google-signin-client-id"/>
+<meta content="profile email" name="google-signin-scope"/>
+<meta content="TensorFlow" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="#ff6f00" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link crossorigin="use-credentials" href="_pwa/tensorflow/manifest.json" rel="manifest"/>
+<link crossorigin="" href="/www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.googleapis.com" rel="preconnect"/>
+<link href="../../../../../../main.css" rel="stylesheet"/>
+
+<noscript>
+
+</noscript>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/favicon.png" rel="shortcut icon"/>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/apple-touch-icon-180x180.png" rel="apple-touch-icon"/><link href="https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/Tokenizer" rel="canonical"/><link href="https://www.tensorflow.org/s/opensearch.xml" rel="search" title="TensorFlow" type="application/opensearchdescription+xml"/>
+<title>tf.keras.preprocessing.text.Tokenizer &nbsp;|&nbsp; TensorFlow Core v2.1.0</title>
+<meta content="tf.keras.preprocessing.text.Tokenizer &nbsp;|&nbsp; TensorFlow Core v2.1.0" property="og:title"/>
+<meta content="https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/Tokenizer" property="og:url"/>
+<meta content="en" property="og:locale"/>
+
+</head>
+<body class="" layout="docs" pending="" theme="tensorflow-theme" type="reference">
+<devsite-progress id="app-progress" type="indeterminate"></devsite-progress>
+<section class="devsite-wrapper"> <devsite-book-nav scrollbars="">
+
+</devsite-book-nav>
+<section id="gc-wrapper">
+<main class="devsite-main-content" has-book-nav="" has-toc="" role="main">
+<devsite-toc class="devsite-nav"></devsite-toc>
+<devsite-content>
+<article class="devsite-article">
+<article class="devsite-article-inner"><style>
+        /* Styles inlined from /site-assets/css/style.css */
+/* override theme */
+table img {
+  max-width: 100%;
+}
+
+/* override var element to differentiate color from comment */
+var, var code, var span, .prettyprint var span {
+  color: #039be5;
+}
+
+/* .devsite-terminal virtualenv prompt */
+.tfo-terminal-venv::before {
+  content: "(venv) $ " !important;
+}
+
+/* .devsite-terminal root prompt */
+.tfo-terminal-root::before {
+  content: "# " !important;
+}
+
+/* .devsite-terminal Windows prompt */
+.tfo-terminal-windows::before {
+  content: "C:\\> " !important;
+}
+
+/* .devsite-terminal Windows prompt w/ virtualenv */
+.tfo-terminal-windows-venv::before {
+  content: "(venv) C:\\> " !important;
+}
+
+.tfo-diff-green-one-level + * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green + * > * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green-list + ul > li:first-of-type {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-red-one-level + * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red + * > * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red-list + ul > li:first-of-type {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+devsite-code .tfo-notebook-code-cell-output {
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(255, 247, 237, 1);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(255, 247, 237, .7);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output {
+  background: rgba(64, 78, 103, 1);  /* medium slate */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(64, 78, 103, .7);  /* medium slate */
+}
+
+/* override default table styles for notebook buttons */
+.devsite-table-wrapper .tfo-notebook-buttons {
+  display: inline-block;
+  margin-left: 3px;
+  width: auto;
+}
+
+.tfo-notebook-buttons td {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.tfo-notebook-buttons a,
+.tfo-notebook-buttons :link,
+.tfo-notebook-buttons :visited {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  color: #202124;
+  padding: 12px 24px;
+  transition: box-shadow 0.2s;
+}
+
+.tfo-notebook-buttons a:hover,
+.tfo-notebook-buttons a:focus {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.tfo-notebook-buttons tr {
+  background: 0;
+  border: 0;
+}
+
+/* on rendered notebook page,
+   remove link to webpage since we're already here */
+.tfo-notebook-buttons:not(.tfo-api) td:first-child {
+  display: none;
+}
+
+.tfo-notebook-buttons td > a {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tfo-notebook-buttons td > a > img {
+  margin-right: 8px;
+}
+
+/* landing pages */
+
+.tfo-landing-row-item-inset-white {
+  background-color: #fff;
+  padding: 32px;
+}
+
+.tfo-landing-row-item-inset-white ol,
+.tfo-landing-row-item-inset-white ul {
+  padding-left: 20px;
+}
+
+/* colab callout button */
+.colab-callout-row devsite-code {
+  border-radius: 8px 8px 0 0;
+  box-shadow: none;
+}
+
+.colab-callout-footer {
+  background: #e3e4e7;
+  border-radius: 0 0 8px 8px;
+  color: #37474f;
+  padding: 20px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer {
+  background: #3f4f66;
+}
+
+
+.colab-callout-footer > .button {
+  margin-top: 4px;
+  color: #ff5c00;
+}
+
+.colab-callout-footer > a > span {
+  padding-top: 10px;
+  vertical-align: middle;
+  color: #37474f;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer > a > span {
+  color: #fff;
+}
+
+a.colab-button {
+  background: rgba(255, 255, 255, .75);
+  border: solid 1px rgba(0, 0, 0, .08);
+  border-bottom-color: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  color: #aaa;
+  display: inline-block;
+  font-size: 11px !important;
+  font-weight: 300;
+  line-height: 16px;
+  padding: 4px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.colab-button:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, .2);
+  color: #666;
+}
+
+a.colab-button span {
+  background: url(/images/colab_logo_button.svg) no-repeat 1px 1px / 20px;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 24px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .tfo-notebook-buttons td {
+    display: block;
+  }
+}
+
+/* guide and tutorials landing page cards and sections */
+
+.tfo-landing-page-card {
+  padding: 16px;
+  box-shadow: 0 0 36px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+/* Page section headings */
+.tfo-landing-page-heading h2, h2.tfo-landing-page-heading {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+/* Item title headings */
+.tfo-landing-page-heading h3, h3.tfo-landing-page-heading,
+.tfo-landing-page-card h3, h3.tfo-landing-page-card {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* List of tutorials notebooks for subsites */
+.tfo-landing-page-resources-ul {
+  padding-left: 15px
+}
+
+.tfo-landing-page-resources-ul > li {
+  margin: 6px 0;
+}
+
+/* Temporary fix to hide product description in header on landing pages */
+devsite-header .devsite-product-description {
+  display: none;
+}
+
+        </style> <div class="devsite-banner devsite-banner-announcement">
+<div class="devsite-banner-message">
+<div class="devsite-banner-message-text">
+            Missed TensorFlow Dev Summit? Check out the video playlist. <a class="button button-primary button-tfo-announcement" href="https://goo.gle/TFDS20AllSessions">Watch recordings</a>
+</div>
+</div>
+</div>
+<div class="devsite-article-meta">
+<ul class="devsite-breadcrumb-list">
+<li class="devsite-breadcrumb-item">
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="1" href="">
+            TensorFlow
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="2" href="api">
+            API
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="3" href="api_docs">
+            TensorFlow Core v2.1.0
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="4" href="api_docs/python/tf">
+            Python
+      
+  </a>
+</li>
+</ul>
+<devsite-page-rating hover-rating-star="0" position="header" selected-rating="0">
+</devsite-page-rating>
+</div>
+<a class="dashingAutolink" name="autolink-2108"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/tf.keras.preprocessing.text.Tokenizer"></a><h1 class="dash-class">tf.keras.preprocessing.text.Tokenizer</h1>
+<devsite-toc class="devsite-nav" devsite-toc-embedded="">
+</devsite-toc>
+<div class="devsite-article-body clearfix">
+<p><devsite-mathjax config="TeX-AMS-MML_SVG"></devsite-mathjax>
+</p>
+<!-- DO NOT EDIT! Automatically generated file. -->
+<div itemscope="" itemtype="http://developers.google.com/ReferenceObject">
+<meta content="tf.keras.preprocessing.text.Tokenizer" itemprop="name"/>
+<meta content="Stable" itemprop="path"/>
+<meta content="__init__" itemprop="property"/>
+<meta content="fit_on_sequences" itemprop="property"/>
+<meta content="fit_on_texts" itemprop="property"/>
+<meta content="get_config" itemprop="property"/>
+<meta content="sequences_to_matrix" itemprop="property"/>
+<meta content="sequences_to_texts" itemprop="property"/>
+<meta content="sequences_to_texts_generator" itemprop="property"/>
+<meta content="texts_to_matrix" itemprop="property"/>
+<meta content="texts_to_sequences" itemprop="property"/>
+<meta content="texts_to_sequences_generator" itemprop="property"/>
+<meta content="to_json" itemprop="property"/>
+</div>
+<!-- Insert buttons and diff -->
+<table align="left" class="tfo-notebook-buttons tfo-api">
+<tbody><tr><td>
+<a href="versions/r1.15/api_docs/python/tf/keras/preprocessing/text/Tokenizer" target="_blank">
+<img src="https://www.tensorflow.org/images/tf_logo_32px.png"/>
+  TensorFlow 1 version</a>
+</td>
+</tr></tbody></table>
+<p>Text tokenization utility class.</p>
+<section class="expandable">
+<h4 class="showalways">View aliases</h4>
+<p>
+<b>Compat aliases for migration</b>
+</p><p>See
+<a href="https://www.tensorflow.org/guide/migrate">Migration guide</a> for
+more details.</p>
+<p><a href="api_docs/python/tf/keras/preprocessing/text/Tokenizer"><code dir="ltr" translate="no">tf.compat.v1.keras.preprocessing.text.Tokenizer</code></a></p>
+</section>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">tf.keras.preprocessing.text.Tokenizer(
+    num_words=None, filters=&#39;!&#34;#$%&amp;()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~\t\n&#39;, lower=True,
+    split=&#39; &#39;, char_level=False, oov_token=None, document_count=0, **kwargs
+)
+</code></pre>
+<h3>Used in the notebooks</h3>
+<table class="vertical-rules">
+<thead>
+<tr>
+<th>Used in the tutorials</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<ul>
+<li><a href="https://www.tensorflow.org/tutorials/text/image_captioning">Image captioning with visual attention</a></li>
+<li><a href="https://www.tensorflow.org/tutorials/text/nmt_with_attention">Neural machine translation with attention</a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This class allows to vectorize a text corpus, by turning each
+text into either a sequence of integers (each integer being the index
+of a token in a dictionary) or into a vector where the coefficient
+for each token could be binary, based on word count, based on tf-idf...</p>
+<h1 class="page-title" id="arguments">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">num_words: the maximum number of words to keep, based
+    on word frequency. Only the most common `num_words-1` words will
+    be kept.
+filters: a string where each element is a character that will be
+    filtered from the texts. The default is all punctuation, plus
+    tabs and line breaks, minus the `&#39;` character.
+lower: boolean. Whether to convert the texts to lowercase.
+split: str. Separator for word splitting.
+char_level: if True, every character will be treated as a token.
+oov_token: if given, it will be added to word_index and used to
+    replace out-of-vocabulary words during text_to_sequence calls
+</code></pre>
+<p>By default, all punctuation is removed, turning the texts into
+space-separated sequences of words
+(words maybe include the <code dir="ltr" translate="no">&#39;</code> character). These sequences are then
+split into lists of tokens. They will then be indexed or vectorized.</p>
+<p><code dir="ltr" translate="no">0</code> is a reserved index that won&#39;t be assigned to any word.</p>
+<h2 id="methods">Methods</h2>
+<h3 class="dash-method" id="fit_on_sequences"><a class="dashingAutolink" name="autolink-2098"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.text.Tokenizer.fit_on_sequences"></a><code dir="ltr" translate="no">tf.keras.preprocessing.text.Tokenizer.fit_on_sequences</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">fit_on_sequences(
+    sequences
+)
+</code></pre>
+<p>Updates internal vocabulary based on a list of sequences.</p>
+<p>Required before using <code dir="ltr" translate="no">sequences_to_matrix</code>
+(if <code dir="ltr" translate="no">fit_on_texts</code> was never called).</p>
+<h1 class="page-title" id="arguments_2">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">sequences: A list of sequence.
+    A &#34;sequence&#34; is a list of integer word indices.
+</code></pre>
+<h3 class="dash-method" id="fit_on_texts"><a class="dashingAutolink" name="autolink-2099"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.text.Tokenizer.fit_on_texts"></a><code dir="ltr" translate="no">tf.keras.preprocessing.text.Tokenizer.fit_on_texts</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">fit_on_texts(
+    texts
+)
+</code></pre>
+<p>Updates internal vocabulary based on a list of texts.</p>
+<p>In the case where texts contains lists,
+we assume each entry of the lists to be a token.</p>
+<p>Required before using <code dir="ltr" translate="no">texts_to_sequences</code> or <code dir="ltr" translate="no">texts_to_matrix</code>.</p>
+<h1 class="page-title" id="arguments_3">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">texts: can be a list of strings,
+    a generator of strings (for memory-efficiency),
+    or a list of list of strings.
+</code></pre>
+<h3 class="dash-method" id="get_config"><a class="dashingAutolink" name="autolink-2100"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.text.Tokenizer.get_config"></a><code dir="ltr" translate="no">tf.keras.preprocessing.text.Tokenizer.get_config</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">get_config()
+</code></pre>
+<p>Returns the tokenizer configuration as Python dictionary.
+The word count dictionaries used by the tokenizer get serialized
+into plain JSON, so that the configuration can be read by other
+projects.</p>
+<h1 class="page-title" id="returns">Returns</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">A Python dictionary with the tokenizer configuration.
+</code></pre>
+<h3 class="dash-method" id="sequences_to_matrix"><a class="dashingAutolink" name="autolink-2101"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.text.Tokenizer.sequences_to_matrix"></a><code dir="ltr" translate="no">tf.keras.preprocessing.text.Tokenizer.sequences_to_matrix</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">sequences_to_matrix(
+    sequences, mode=&#39;binary&#39;
+)
+</code></pre>
+<p>Converts a list of sequences into a Numpy matrix.</p>
+<h1 class="page-title" id="arguments_4">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">sequences: list of sequences
+    (a sequence is a list of integer word indices).
+mode: one of &#34;binary&#34;, &#34;count&#34;, &#34;tfidf&#34;, &#34;freq&#34;
+</code></pre>
+<h1 class="page-title" id="returns_2">Returns</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">A Numpy matrix.
+</code></pre>
+<h1 class="page-title" id="raises">Raises</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">ValueError: In case of invalid `mode` argument,
+    or if the Tokenizer requires to be fit to sample data.
+</code></pre>
+<h3 class="dash-method" id="sequences_to_texts"><a class="dashingAutolink" name="autolink-2102"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.text.Tokenizer.sequences_to_texts"></a><code dir="ltr" translate="no">tf.keras.preprocessing.text.Tokenizer.sequences_to_texts</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">sequences_to_texts(
+    sequences
+)
+</code></pre>
+<p>Transforms each sequence into a list of text.</p>
+<p>Only top <code dir="ltr" translate="no">num_words-1</code> most frequent words will be taken into account.
+Only words known by the tokenizer will be taken into account.</p>
+<h1 class="page-title" id="arguments_5">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">sequences: A list of sequences (list of integers).
+</code></pre>
+<h1 class="page-title" id="returns_3">Returns</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">A list of texts (strings)
+</code></pre>
+<h3 class="dash-method" id="sequences_to_texts_generator"><a class="dashingAutolink" name="autolink-2103"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.text.Tokenizer.sequences_to_texts_generator"></a><code dir="ltr" translate="no">tf.keras.preprocessing.text.Tokenizer.sequences_to_texts_generator</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">sequences_to_texts_generator(
+    sequences
+)
+</code></pre>
+<p>Transforms each sequence in <code dir="ltr" translate="no">sequences</code> to a list of texts(strings).</p>
+<p>Each sequence has to a list of integers.
+In other words, sequences should be a list of sequences</p>
+<p>Only top <code dir="ltr" translate="no">num_words-1</code> most frequent words will be taken into account.
+Only words known by the tokenizer will be taken into account.</p>
+<h1 class="page-title" id="arguments_6">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">sequences: A list of sequences.
+</code></pre>
+<h1 class="page-title" id="yields">Yields</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">Yields individual texts.
+</code></pre>
+<h3 class="dash-method" id="texts_to_matrix"><a class="dashingAutolink" name="autolink-2104"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.text.Tokenizer.texts_to_matrix"></a><code dir="ltr" translate="no">tf.keras.preprocessing.text.Tokenizer.texts_to_matrix</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">texts_to_matrix(
+    texts, mode=&#39;binary&#39;
+)
+</code></pre>
+<p>Convert a list of texts to a Numpy matrix.</p>
+<h1 class="page-title" id="arguments_7">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">texts: list of strings.
+mode: one of &#34;binary&#34;, &#34;count&#34;, &#34;tfidf&#34;, &#34;freq&#34;.
+</code></pre>
+<h1 class="page-title" id="returns_4">Returns</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">A Numpy matrix.
+</code></pre>
+<h3 class="dash-method" id="texts_to_sequences"><a class="dashingAutolink" name="autolink-2105"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.text.Tokenizer.texts_to_sequences"></a><code dir="ltr" translate="no">tf.keras.preprocessing.text.Tokenizer.texts_to_sequences</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">texts_to_sequences(
+    texts
+)
+</code></pre>
+<p>Transforms each text in texts to a sequence of integers.</p>
+<p>Only top <code dir="ltr" translate="no">num_words-1</code> most frequent words will be taken into account.
+Only words known by the tokenizer will be taken into account.</p>
+<h1 class="page-title" id="arguments_8">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">texts: A list of texts (strings).
+</code></pre>
+<h1 class="page-title" id="returns_5">Returns</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">A list of sequences.
+</code></pre>
+<h3 class="dash-method" id="texts_to_sequences_generator"><a class="dashingAutolink" name="autolink-2106"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.text.Tokenizer.texts_to_sequences_generator"></a><code dir="ltr" translate="no">tf.keras.preprocessing.text.Tokenizer.texts_to_sequences_generator</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">texts_to_sequences_generator(
+    texts
+)
+</code></pre>
+<p>Transforms each text in <code dir="ltr" translate="no">texts</code> to a sequence of integers.</p>
+<p>Each item in texts can also be a list,
+in which case we assume each item of that list to be a token.</p>
+<p>Only top <code dir="ltr" translate="no">num_words-1</code> most frequent words will be taken into account.
+Only words known by the tokenizer will be taken into account.</p>
+<h1 class="page-title" id="arguments_9">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">texts: A list of texts (strings).
+</code></pre>
+<h1 class="page-title" id="yields_2">Yields</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">Yields individual sequences.
+</code></pre>
+<h3 class="dash-method" id="to_json"><a class="dashingAutolink" name="autolink-2107"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.text.Tokenizer.to_json"></a><code dir="ltr" translate="no">tf.keras.preprocessing.text.Tokenizer.to_json</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">to_json(
+    **kwargs
+)
+</code></pre>
+<p>Returns a JSON string containing the tokenizer configuration.
+To load a tokenizer from a JSON string, use
+<a href="https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/tokenizer_from_json"><code dir="ltr" translate="no">keras.preprocessing.text.tokenizer_from_json(json_string)</code></a>.</p>
+<h1 class="page-title" id="arguments_10">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">**kwargs: Additional keyword arguments
+    to be passed to `json.dumps()`.
+</code></pre>
+<h1 class="page-title" id="returns_6">Returns</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">A JSON string containing the tokenizer configuration.
+</code></pre>
+</div>
+<devsite-page-rating hover-rating-star="0" position="footer" selected-rating="0">
+</devsite-page-rating>
+</article>
+</article>
+
+</devsite-content>
+</main>
+<devsite-footer-promos class="devsite-footer">
+</devsite-footer-promos>
+<devsite-footer-linkboxes class="devsite-footer">
+
+</devsite-footer-linkboxes>
+<devsite-footer-utility class="devsite-footer">
+<div class="devsite-footer-utility nocontent">
+
+</div>
+</devsite-footer-utility>
+</section></section>
+<devsite-sitemask></devsite-sitemask>
+<devsite-snackbar></devsite-snackbar> <devsite-tooltip></devsite-tooltip>
+<devsite-heading-link></devsite-heading-link>
+<devsite-analytics>
+
+
+</devsite-analytics>
+ 
+</body></html>

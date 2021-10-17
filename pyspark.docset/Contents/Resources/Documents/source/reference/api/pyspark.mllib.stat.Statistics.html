@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Statistics — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="statistics">
+<h1>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.stat.Statistics"><a name="//apple_ref/cpp/Class/pyspark.mllib.stat.Statistics"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.stat.</code><code class="sig-name descname">Statistics</code><a class="reference internal" href="../../../_modules/pyspark/mllib/stat/_statistics.html#Statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.stat.Statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.stat.Statistics.chiSqTest"><a name="//apple_ref/cpp/Method/pyspark.mllib.stat.Statistics.chiSqTest"></a>
+<em class="property">static </em><code class="sig-name descname">chiSqTest</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">observed</span></em>, <em class="sig-param"><span class="n">expected</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/stat/_statistics.html#Statistics.chiSqTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.stat.Statistics.chiSqTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>If <cite>observed</cite> is Vector, conduct Pearson’s chi-squared goodness
+of fit test of the observed data against the expected distribution,
+or againt the uniform distribution (by default), with each category
+having an expected frequency of <cite>1 / len(observed)</cite>.</p>
+<p>If <cite>observed</cite> is matrix, conduct Pearson’s independence test on the
+input contingency matrix, which cannot contain negative entries or
+columns or rows that sum up to 0.</p>
+<p>If <cite>observed</cite> is an RDD of LabeledPoint, conduct Pearson’s independence
+test for every feature against the label across the input RDD.
+For each feature, the (feature, label) pairs are converted into a
+contingency matrix for which the chi-squared statistic is computed.
+All label and feature values must be categorical.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><cite>observed</cite> cannot contain negative values</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observed</strong> – it could be a vector containing the observed categorical
+counts/relative frequencies, or the contingency matrix
+(containing either counts or relative frequencies),
+or an RDD of LabeledPoint containing the labeled dataset
+with categorical features. Real-valued features will be
+treated as categorical for each distinct value.</p></li>
+<li><p><strong>expected</strong> – Vector containing the expected categorical counts/relative
+frequencies. <cite>expected</cite> is rescaled if the <cite>expected</cite> sum
+differs from the <cite>observed</cite> sum.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ChiSquaredTest object containing the test statistic, degrees
+of freedom, p-value, the method used, and the null hypothesis.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.mllib.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span><span class="p">,</span> <span class="n">Matrices</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">observed</span> <span class="o">=</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pearson</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">.</span><span class="n">chiSqTest</span><span class="p">(</span><span class="n">observed</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pearson</span><span class="o">.</span><span class="n">statistic</span><span class="p">)</span>
+<span class="go">0.4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pearson</span><span class="o">.</span><span class="n">degreesOfFreedom</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">pearson</span><span class="o">.</span><span class="n">pValue</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="go">0.8187</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pearson</span><span class="o">.</span><span class="n">method</span>
+<span class="go">'pearson'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pearson</span><span class="o">.</span><span class="n">nullHypothesis</span>
+<span class="go">'observed follows the same distribution as expected.'</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">observed</span> <span class="o">=</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">21</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">80</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">expected</span> <span class="o">=</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pearson</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">.</span><span class="n">chiSqTest</span><span class="p">(</span><span class="n">observed</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">pearson</span><span class="o">.</span><span class="n">pValue</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="go">0.0027</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">40.0</span><span class="p">,</span> <span class="mf">24.0</span><span class="p">,</span> <span class="mf">29.0</span><span class="p">,</span> <span class="mf">56.0</span><span class="p">,</span> <span class="mf">32.0</span><span class="p">,</span> <span class="mf">42.0</span><span class="p">,</span> <span class="mf">31.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chi</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">.</span><span class="n">chiSqTest</span><span class="p">(</span><span class="n">Matrices</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">chi</span><span class="o">.</span><span class="n">statistic</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="go">21.9958</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">LabeledPoint</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">])),</span>
+<span class="gp">... </span>        <span class="n">LabeledPoint</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">])),</span>
+<span class="gp">... </span>        <span class="n">LabeledPoint</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">])),</span>
+<span class="gp">... </span>        <span class="n">LabeledPoint</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">3.5</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">])),</span>
+<span class="gp">... </span>        <span class="n">LabeledPoint</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">3.5</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">])),</span>
+<span class="gp">... </span>        <span class="n">LabeledPoint</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">3.5</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">])),]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdd</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chi</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">.</span><span class="n">chiSqTest</span><span class="p">(</span><span class="n">rdd</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">chi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">statistic</span><span class="p">)</span>
+<span class="go">0.75</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">chi</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">statistic</span><span class="p">)</span>
+<span class="go">1.5</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.stat.Statistics.colStats"><a name="//apple_ref/cpp/Method/pyspark.mllib.stat.Statistics.colStats"></a>
+<em class="property">static </em><code class="sig-name descname">colStats</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rdd</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/stat/_statistics.html#Statistics.colStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.stat.Statistics.colStats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes column-wise summary statistics for the input RDD[Vector].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>rdd</strong> – an RDD[Vector] for which column-wise summary statistics
+are to be computed.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference internal" href="pyspark.mllib.stat.MultivariateStatisticalSummary.html#pyspark.mllib.stat.MultivariateStatisticalSummary" title="pyspark.mllib.stat.MultivariateStatisticalSummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultivariateStatisticalSummary</span></code></a> object containing
+column-wise summary statistics.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.mllib.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdd</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]),</span>
+<span class="gp">... </span>                      <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">3</span><span class="p">]),</span>
+<span class="gp">... </span>                      <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">8</span><span class="p">])])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cStats</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">.</span><span class="n">colStats</span><span class="p">(</span><span class="n">rdd</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cStats</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="go">array([ 4.,  4.,  0.,  3.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cStats</span><span class="o">.</span><span class="n">variance</span><span class="p">()</span>
+<span class="go">array([  4.,  13.,   0.,  25.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cStats</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cStats</span><span class="o">.</span><span class="n">numNonzeros</span><span class="p">()</span>
+<span class="go">array([ 3.,  2.,  0.,  3.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cStats</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="go">array([ 6.,  7.,  0.,  8.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cStats</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="go">array([ 2.,  0.,  0., -2.])</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.stat.Statistics.corr"><a name="//apple_ref/cpp/Method/pyspark.mllib.stat.Statistics.corr"></a>
+<em class="property">static </em><code class="sig-name descname">corr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/stat/_statistics.html#Statistics.corr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.stat.Statistics.corr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the correlation (matrix) for the input RDD(s) using the
+specified method.
+Methods currently supported: <cite>pearson (default), spearman</cite>.</p>
+<p>If a single RDD of Vectors is passed in, a correlation matrix
+comparing the columns in the input RDD is returned. Use <cite>method</cite>
+to specify the method to be used for single RDD inout.
+If two RDDs of floats are passed in, a single float is returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – an RDD of vector for which the correlation matrix is to be computed,
+or an RDD of float of the same cardinality as y when y is specified.</p></li>
+<li><p><strong>y</strong> – an RDD of float of the same cardinality as x.</p></li>
+<li><p><strong>method</strong> – String specifying the method to use for computing correlation.
+Supported: <cite>pearson</cite> (default), <cite>spearman</cite></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Correlation matrix comparing columns in x.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zeros</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">abs</span><span class="p">(</span><span class="n">Statistics</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.6546537</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-7</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Statistics</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="n">Statistics</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">"pearson"</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Statistics</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">"spearman"</span><span class="p">)</span>
+<span class="go">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">isnan</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">isnan</span><span class="p">(</span><span class="n">Statistics</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">zeros</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.mllib.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdd</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]),</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span>
+<span class="gp">... </span>                      <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">8</span><span class="p">]),</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pearsonCorr</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">rdd</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pearsonCorr</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'nan'</span><span class="p">,</span> <span class="s1">'NaN'</span><span class="p">))</span>
+<span class="go">[[ 1.          0.05564149         NaN  0.40047142]</span>
+<span class="go"> [ 0.05564149  1.                 NaN  0.91359586]</span>
+<span class="go"> [        NaN         NaN  1.                 NaN]</span>
+<span class="go"> [ 0.40047142  0.91359586         NaN  1.        ]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spearmanCorr</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">rdd</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"spearman"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">spearmanCorr</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'nan'</span><span class="p">,</span> <span class="s1">'NaN'</span><span class="p">))</span>
+<span class="go">[[ 1.          0.10540926         NaN  0.4       ]</span>
+<span class="go"> [ 0.10540926  1.                 NaN  0.9486833 ]</span>
+<span class="go"> [        NaN         NaN  1.                 NaN]</span>
+<span class="go"> [ 0.4         0.9486833          NaN  1.        ]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">Statistics</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">rdd</span><span class="p">,</span> <span class="s2">"spearman"</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Method name as second argument without 'method=' shouldn't be allowed."</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.stat.Statistics.kolmogorovSmirnovTest"><a name="//apple_ref/cpp/Method/pyspark.mllib.stat.Statistics.kolmogorovSmirnovTest"></a>
+<em class="property">static </em><code class="sig-name descname">kolmogorovSmirnovTest</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">distName</span><span class="o">=</span><span class="default_value">'norm'</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">params</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/stat/_statistics.html#Statistics.kolmogorovSmirnovTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.stat.Statistics.kolmogorovSmirnovTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the Kolmogorov-Smirnov (KS) test for data sampled from
+a continuous distribution. It tests the null hypothesis that
+the data is generated from a particular distribution.</p>
+<p>The given data is sorted and the Empirical Cumulative
+Distribution Function (ECDF) is calculated
+which for a given point is the number of points having a CDF
+value lesser than it divided by the total number of points.</p>
+<p>Since the data is sorted, this is a step function
+that rises by (1 / length of data) for every ordered point.</p>
+<p>The KS statistic gives us the maximum distance between the
+ECDF and the CDF. Intuitively if this statistic is large, the
+probability that the null hypothesis is true becomes small.
+For specific details of the implementation, please have a look
+at the Scala documentation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – RDD, samples from the data</p></li>
+<li><p><strong>distName</strong> – string, currently only “norm” is supported.
+(Normal distribution) to calculate the
+theoretical distribution of the data.</p></li>
+<li><p><strong>params</strong> – additional values which need to be provided for
+a certain distribution.
+If not provided, the default values are used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>KolmogorovSmirnovTestResult object containing the test
+statistic, degrees of freedom, p-value,
+the method used, and the null hypothesis.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kstest</span> <span class="o">=</span> <span class="n">Statistics</span><span class="o">.</span><span class="n">kolmogorovSmirnovTest</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ksmodel</span> <span class="o">=</span> <span class="n">kstest</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"norm"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">ksmodel</span><span class="o">.</span><span class="n">pValue</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">ksmodel</span><span class="o">.</span><span class="n">statistic</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">0.175</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ksmodel</span><span class="o">.</span><span class="n">nullHypothesis</span>
+<span class="go">'Sample follows theoretical distribution'</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ksmodel</span> <span class="o">=</span> <span class="n">kstest</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">"norm"</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">ksmodel</span><span class="o">.</span><span class="n">pValue</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">ksmodel</span><span class="o">.</span><span class="n">statistic</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="go">0.175</span>
+</pre></div>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

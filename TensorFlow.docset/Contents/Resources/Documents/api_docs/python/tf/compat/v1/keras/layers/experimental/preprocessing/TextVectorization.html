@@ -1,0 +1,482 @@
+<!DOCTYPE html><html dir="ltr" lang="en"><head>
+<meta content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com" name="google-signin-client-id"/>
+<meta content="profile email" name="google-signin-scope"/>
+<meta content="TensorFlow" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="#ff6f00" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link crossorigin="use-credentials" href="_pwa/tensorflow/manifest.json" rel="manifest"/>
+<link crossorigin="" href="/www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.googleapis.com" rel="preconnect"/>
+<link href="../../../../../../../../../main.css" rel="stylesheet"/>
+
+<noscript>
+
+</noscript>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/favicon.png" rel="shortcut icon"/>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/apple-touch-icon-180x180.png" rel="apple-touch-icon"/><link href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/keras/layers/experimental/preprocessing/TextVectorization" rel="canonical"/><link href="https://www.tensorflow.org/s/opensearch.xml" rel="search" title="TensorFlow" type="application/opensearchdescription+xml"/>
+<title>tf.compat.v1.keras.layers.experimental.preprocessing.TextVectorization</title>
+<meta content="tf.compat.v1.keras.layers.experimental.preprocessing.TextVectorization" property="og:title"/>
+<meta content="https://www.tensorflow.org/api_docs/python/tf/compat/v1/keras/layers/experimental/preprocessing/TextVectorization" property="og:url"/>
+<meta content="en" property="og:locale"/>
+
+</head>
+<body class="" layout="docs" pending="" theme="tensorflow-theme" type="reference">
+<devsite-progress id="app-progress" type="indeterminate"></devsite-progress>
+<section class="devsite-wrapper"> <devsite-book-nav scrollbars="">
+
+</devsite-book-nav>
+<section id="gc-wrapper">
+<main class="devsite-main-content" has-book-nav="" has-toc="" role="main">
+<devsite-toc class="devsite-nav"></devsite-toc>
+<devsite-content>
+<article class="devsite-article">
+<article class="devsite-article-inner"><style>
+        /* Styles inlined from /site-assets/css/style.css */
+/* override theme */
+table img {
+  max-width: 100%;
+}
+
+/* override var element to differentiate color from comment */
+var, var code, var span, .prettyprint var span {
+  color: #039be5;
+}
+
+/* .devsite-terminal virtualenv prompt */
+.tfo-terminal-venv::before {
+  content: "(venv) $ " !important;
+}
+
+/* .devsite-terminal root prompt */
+.tfo-terminal-root::before {
+  content: "# " !important;
+}
+
+/* .devsite-terminal Windows prompt */
+.tfo-terminal-windows::before {
+  content: "C:\\> " !important;
+}
+
+/* .devsite-terminal Windows prompt w/ virtualenv */
+.tfo-terminal-windows-venv::before {
+  content: "(venv) C:\\> " !important;
+}
+
+.tfo-diff-green-one-level + * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green + * > * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green-list + ul > li:first-of-type {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-red-one-level + * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red + * > * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red-list + ul > li:first-of-type {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+devsite-code .tfo-notebook-code-cell-output {
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(255, 247, 237, 1);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(255, 247, 237, .7);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output {
+  background: rgba(64, 78, 103, 1);  /* medium slate */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(64, 78, 103, .7);  /* medium slate */
+}
+
+/* override default table styles for notebook buttons */
+.devsite-table-wrapper .tfo-notebook-buttons {
+  display: inline-block;
+  margin-left: 3px;
+  width: auto;
+}
+
+.tfo-notebook-buttons td {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.tfo-notebook-buttons a,
+.tfo-notebook-buttons :link,
+.tfo-notebook-buttons :visited {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  color: #202124;
+  padding: 12px 24px;
+  transition: box-shadow 0.2s;
+}
+
+.tfo-notebook-buttons a:hover,
+.tfo-notebook-buttons a:focus {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.tfo-notebook-buttons tr {
+  background: 0;
+  border: 0;
+}
+
+/* on rendered notebook page,
+   remove link to webpage since we're already here */
+.tfo-notebook-buttons:not(.tfo-api) td:first-child {
+  display: none;
+}
+
+.tfo-notebook-buttons td > a {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tfo-notebook-buttons td > a > img {
+  margin-right: 8px;
+}
+
+/* landing pages */
+
+.tfo-landing-row-item-inset-white {
+  background-color: #fff;
+  padding: 32px;
+}
+
+.tfo-landing-row-item-inset-white ol,
+.tfo-landing-row-item-inset-white ul {
+  padding-left: 20px;
+}
+
+/* colab callout button */
+.colab-callout-row devsite-code {
+  border-radius: 8px 8px 0 0;
+  box-shadow: none;
+}
+
+.colab-callout-footer {
+  background: #e3e4e7;
+  border-radius: 0 0 8px 8px;
+  color: #37474f;
+  padding: 20px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer {
+  background: #3f4f66;
+}
+
+
+.colab-callout-footer > .button {
+  margin-top: 4px;
+  color: #ff5c00;
+}
+
+.colab-callout-footer > a > span {
+  padding-top: 10px;
+  vertical-align: middle;
+  color: #37474f;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer > a > span {
+  color: #fff;
+}
+
+a.colab-button {
+  background: rgba(255, 255, 255, .75);
+  border: solid 1px rgba(0, 0, 0, .08);
+  border-bottom-color: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  color: #aaa;
+  display: inline-block;
+  font-size: 11px !important;
+  font-weight: 300;
+  line-height: 16px;
+  padding: 4px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.colab-button:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, .2);
+  color: #666;
+}
+
+a.colab-button span {
+  background: url(/images/colab_logo_button.svg) no-repeat 1px 1px / 20px;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 24px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .tfo-notebook-buttons td {
+    display: block;
+  }
+}
+
+/* guide and tutorials landing page cards and sections */
+
+.tfo-landing-page-card {
+  padding: 16px;
+  box-shadow: 0 0 36px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+/* Page section headings */
+.tfo-landing-page-heading h2, h2.tfo-landing-page-heading {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+/* Item title headings */
+.tfo-landing-page-heading h3, h3.tfo-landing-page-heading,
+.tfo-landing-page-card h3, h3.tfo-landing-page-card {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* List of tutorials notebooks for subsites */
+.tfo-landing-page-resources-ul {
+  padding-left: 15px
+}
+
+.tfo-landing-page-resources-ul > li {
+  margin: 6px 0;
+}
+
+/* Temporary fix to hide product description in header on landing pages */
+devsite-header .devsite-product-description {
+  display: none;
+}
+
+        </style> <div class="devsite-banner devsite-banner-announcement">
+<div class="devsite-banner-message">
+<div class="devsite-banner-message-text">
+            Missed TensorFlow Dev Summit? Check out the video playlist. <a class="button button-primary button-tfo-announcement" href="https://goo.gle/TFDS20AllSessions">Watch recordings</a>
+</div>
+</div>
+</div>
+<div class="devsite-article-meta">
+<ul class="devsite-breadcrumb-list">
+<li class="devsite-breadcrumb-item">
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="1" href="">
+            TensorFlow
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="2" href="api">
+            API
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="3" href="api_docs">
+            TensorFlow Core v2.1.0
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="4" href="api_docs/python/tf">
+            Python
+      
+  </a>
+</li>
+</ul>
+<devsite-page-rating hover-rating-star="0" position="header" selected-rating="0">
+</devsite-page-rating>
+</div>
+<a class="dashingAutolink" name="autolink-615"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/tf.compat.v1.keras.layers.experimental.preprocessing.TextVectorization"></a><h1 class="dash-class">tf.compat.v1.keras.layers.experimental.preprocessing.TextVectorization</h1>
+<devsite-toc class="devsite-nav" devsite-toc-embedded="">
+</devsite-toc>
+<div class="devsite-article-body clearfix">
+<p></p>
+<!-- DO NOT EDIT! Automatically generated file. -->
+<div itemscope="" itemtype="http://developers.google.com/ReferenceObject">
+<meta content="tf.compat.v1.keras.layers.experimental.preprocessing.TextVectorization" itemprop="name"/>
+<meta content="Stable" itemprop="path"/>
+<meta content="__init__" itemprop="property"/>
+<meta content="adapt" itemprop="property"/>
+<meta content="get_vocabulary" itemprop="property"/>
+<meta content="set_vocabulary" itemprop="property"/>
+</div>
+<!-- Insert buttons and diff -->
+<table align="left" class="tfo-notebook-buttons tfo-api">
+<tbody><tr><td>
+<a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/keras/layers/preprocessing/text_vectorization_v1.py#L31-L107" target="_blank">
+<img src="https://www.tensorflow.org/images/GitHub-Mark-32px.png"/>
+    View source on GitHub
+  </a>
+</td></tr></tbody></table>
+<p>Text vectorization layer.</p>
+<p>Inherits From: <a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/experimental/preprocessing/TextVectorization"><code dir="ltr" translate="no">TextVectorization</code></a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">tf.compat.v1.keras.layers.experimental.preprocessing.TextVectorization(
+    max_tokens=None, standardize=LOWER_AND_STRIP_PUNCTUATION,
+    split=SPLIT_ON_WHITESPACE, ngrams=None, output_mode=INT,
+    output_sequence_length=None, pad_to_max_tokens=True, **kwargs
+)
+</code></pre>
+<!-- Placeholder for "Used in" -->
+<p>This layer has basic options for managing text in a Keras model. It
+transforms a batch of strings (one sample = one string) into either a list of
+token indices (one sample = 1D tensor of integer token indices) or a dense
+representation (one sample = 1D tensor of float values representing data about
+the sample&#39;s tokens).</p>
+<p>The processing of each sample contains the following steps:
+  1) standardize each sample (usually lowercasing + punctuation stripping)
+  2) split each sample into substrings (usually words)
+  3) recombine substrings into tokens (usually ngrams)
+  4) index tokens (associate a unique int value with each token)
+  5) transform each sample using this index, either into a vector of ints or
+     a dense float vector.</p>
+<h4 id="attributes">Attributes:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">max_tokens</code></b>: The maximum size of the vocabulary for this layer. If None,
+there is no cap on the size of the vocabulary.</li>
+<li><b><code dir="ltr" translate="no">standardize</code></b>: Optional specification for standardization to apply to the
+input text. Values can be None (no standardization),
+LOWER_AND_STRIP_PUNCTUATION (lowercase and remove punctuation) or a
+Callable.</li>
+<li><b><code dir="ltr" translate="no">split</code></b>: Optional specification for splitting the input text. Values can be
+None (no splitting), SPLIT_ON_WHITESPACE (split on ASCII whitespace), or a
+Callable.</li>
+<li><b><code dir="ltr" translate="no">ngrams</code></b>: Optional specification for ngrams to create from the possibly-split
+input text. Values can be None, an integer or tuple of integers; passing
+an integer will create ngrams up to that integer, and passing a tuple of
+integers will create ngrams for the specified values in the tuple. Passing
+None means that no ngrams will be created.</li>
+<li><b><code dir="ltr" translate="no">output_mode</code></b>: Optional specification for the output of the layer. Values can
+be INT, BINARY, COUNT or TFIDF, which control the outputs as follows:
+INT: Outputs integer indices, one integer index per split string token.
+BINARY: Outputs a single int array per batch, of either vocab_size or
+  max_tokens size, containing 1s in all elements where the token mapped
+  to that index exists at least once in the batch item.
+COUNT: As BINARY, but the int array contains a count of the number of
+  times the token at that index appeared in the batch item.
+TFIDF: As BINARY, but the TF-IDF algorithm is applied to find the value
+  in each token slot.</li>
+<li><b><code dir="ltr" translate="no">output_sequence_length</code></b>: Optional length for the output tensor. If set,
+the output will be padded or truncated to this value in INT mode.</li>
+<li><b><code dir="ltr" translate="no">pad_to_max_tokens</code></b>: If True, BINARY, COUNT, and TFIDF modes will have their
+outputs padded to max_tokens, even if the number of unique tokens in the
+vocabulary is less than max_tokens.</li>
+</ul>
+<h2 id="methods">Methods</h2>
+<h3 id="adapt"><code dir="ltr" translate="no">adapt</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/keras/layers/preprocessing/text_vectorization.py#L364-L402" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">adapt(
+    data, reset_state=True
+)
+</code></pre>
+<p>Fits the state of the preprocessing layer to the dataset.</p>
+<p>Overrides the default adapt method to apply relevant preprocessing to the
+inputs before passing to the combiner.</p>
+<h4 id="arguments">Arguments:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">data</code></b>: The data to train on. It can be passed either as a tf.data Dataset,
+or as a numpy array.</li>
+<li><b><code dir="ltr" translate="no">reset_state</code></b>: Optional argument specifying whether to clear the state of
+the layer at the start of the call to <code dir="ltr" translate="no">adapt</code>. This must be True for
+this layer, which does not support repeated calls to <code dir="ltr" translate="no">adapt</code>.</li>
+</ul>
+<h3 id="get_vocabulary"><code dir="ltr" translate="no">get_vocabulary</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/keras/layers/preprocessing/text_vectorization.py#L404-L411" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">get_vocabulary()
+</code></pre>
+<h3 id="set_vocabulary"><code dir="ltr" translate="no">set_vocabulary</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/keras/layers/preprocessing/text_vectorization.py#L426-L526" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">set_vocabulary(
+    vocab, df_data=None, oov_df_value=None, append=False
+)
+</code></pre>
+<p>Sets vocabulary (and optionally document frequency) data for this layer.</p>
+<p>This method sets the vocabulary and DF data for this layer directly, instead
+of analyzing a dataset through &#39;adapt&#39;. It should be used whenever the vocab
+(and optionally document frequency) information is already known. If
+vocabulary data is already present in the layer, this method will either
+replace it, if &#39;append&#39; is set to False, or append to it (if &#39;append&#39; is set
+to True).</p>
+<h4 id="arguments_2">Arguments:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">vocab</code></b>: An array of string tokens.</li>
+<li><b><code dir="ltr" translate="no">df_data</code></b>: An array of document frequency data. Only necessary if the layer
+output_mode is TFIDF.</li>
+<li><b><code dir="ltr" translate="no">oov_df_value</code></b>: The document frequency of the OOV token. Only necessary if
+output_mode is TFIDF. OOV data is optional when appending additional
+data in TFIDF mode; if an OOV value is supplied it will overwrite the
+existing OOV value.</li>
+<li><b><code dir="ltr" translate="no">append</code></b>: Whether to overwrite or append any existing vocabulary data.</li>
+</ul>
+<h4 id="raises">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>: If there are too many inputs, the inputs do not match, or
+input data is missing.</li>
+</ul>
+</div>
+<devsite-page-rating hover-rating-star="0" position="footer" selected-rating="0">
+</devsite-page-rating>
+</article>
+</article>
+
+</devsite-content>
+</main>
+<devsite-footer-promos class="devsite-footer">
+</devsite-footer-promos>
+<devsite-footer-linkboxes class="devsite-footer">
+
+</devsite-footer-linkboxes>
+<devsite-footer-utility class="devsite-footer">
+<div class="devsite-footer-utility nocontent">
+
+</div>
+</devsite-footer-utility>
+</section></section>
+<devsite-sitemask></devsite-sitemask>
+<devsite-snackbar></devsite-snackbar> <devsite-tooltip></devsite-tooltip>
+<devsite-heading-link></devsite-heading-link>
+<devsite-analytics>
+
+
+</devsite-analytics>
+ 
+</body></html>

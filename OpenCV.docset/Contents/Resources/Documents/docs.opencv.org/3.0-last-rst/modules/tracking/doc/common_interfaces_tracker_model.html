@@ -1,0 +1,935 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/tracking/doc/common_interfaces_tracker_model.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:26 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Common Interfaces of TrackerModel</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="tracking. Tracking API" href="tracking.html" />
+    <link rel="next" title="xfeatures2d. Extra 2D Features Framework" href="../../xfeatures2d/doc/xfeatures2d.html" />
+    <link rel="prev" title="Common Interfaces of TrackerFeatureSet" href="common_interfaces_tracker_feature_set.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../xfeatures2d/doc/xfeatures2d.html" title="xfeatures2d. Extra 2D Features Framework"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="common_interfaces_tracker_feature_set.html" title="Common Interfaces of TrackerFeatureSet"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="tracking.html" accesskey="U">tracking. Tracking API</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Common Interfaces of TrackerModel</a><ul>
+<li><a class="reference internal" href="#confidencemap">ConfidenceMap</a></li>
+<li><a class="reference internal" href="#trajectory">Trajectory</a></li>
+<li><a class="reference internal" href="#trackertargetstate">TrackerTargetState</a></li>
+<li><a class="reference internal" href="#trackerstateestimator">TrackerStateEstimator</a></li>
+<li><a class="reference internal" href="#trackerstateestimator-create">TrackerStateEstimator::create</a></li>
+<li><a class="reference internal" href="#trackerstateestimator-estimate">TrackerStateEstimator::estimate</a></li>
+<li><a class="reference internal" href="#trackerstateestimator-update">TrackerStateEstimator::update</a></li>
+<li><a class="reference internal" href="#trackerstateestimator-getclassname">TrackerStateEstimator::getClassName</a></li>
+<li><a class="reference internal" href="#trackermodel">TrackerModel</a></li>
+<li><a class="reference internal" href="#trackermodel-modelestimation">TrackerModel::modelEstimation</a></li>
+<li><a class="reference internal" href="#trackermodel-modelupdate">TrackerModel::modelUpdate</a></li>
+<li><a class="reference internal" href="#trackermodel-runstateestimator">TrackerModel::runStateEstimator</a></li>
+<li><a class="reference internal" href="#trackermodel-settrackerstateestimator">TrackerModel::setTrackerStateEstimator</a></li>
+<li><a class="reference internal" href="#trackermodel-setlasttargetstate">TrackerModel::setLastTargetState</a></li>
+<li><a class="reference internal" href="#trackermodel-getlasttargetstate">TrackerModel::getLastTargetState</a></li>
+<li><a class="reference internal" href="#trackermodel-getconfidencemaps">TrackerModel::getConfidenceMaps</a></li>
+<li><a class="reference internal" href="#trackermodel-getlastconfidencemap">TrackerModel::getLastConfidenceMap</a></li>
+<li><a class="reference internal" href="#trackermodel-gettrackerstateestimator">TrackerModel::getTrackerStateEstimator</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#specialized-trackerstateestimator">Specialized TrackerStateEstimator</a><ul>
+<li><a class="reference internal" href="#trackerstateestimatormilboosting-trackerstateestimator">TrackerStateEstimatorMILBoosting : TrackerStateEstimator</a></li>
+<li><a class="reference internal" href="#trackermiltargetstate-trackertargetstate">TrackerMILTargetState : TrackerTargetState</a></li>
+<li><a class="reference internal" href="#trackerstateestimatormilboosting-trackermiltargetstate-settargetfg">TrackerStateEstimatorMILBoosting::TrackerMILTargetState::setTargetFg</a></li>
+<li><a class="reference internal" href="#trackerstateestimatormilboosting-trackermiltargetstate-setfeatures">TrackerStateEstimatorMILBoosting::TrackerMILTargetState::setFeatures</a></li>
+<li><a class="reference internal" href="#trackerstateestimatormilboosting-trackermiltargetstate-istargetfg">TrackerStateEstimatorMILBoosting::TrackerMILTargetState::isTargetFg</a></li>
+<li><a class="reference internal" href="#trackerstateestimatormilboosting-trackermiltargetstate-getfeatures">TrackerStateEstimatorMILBoosting::TrackerMILTargetState::getFeatures</a></li>
+<li><a class="reference internal" href="#trackerstateestimatormilboosting-trackerstateestimatormilboosting">TrackerStateEstimatorMILBoosting::TrackerStateEstimatorMILBoosting</a></li>
+<li><a class="reference internal" href="#trackerstateestimatormilboosting-setcurrentconfidencemap">TrackerStateEstimatorMILBoosting::setCurrentConfidenceMap</a></li>
+<li><a class="reference internal" href="#trackerstateestimatoradaboosting-trackerstateestimator">TrackerStateEstimatorAdaBoosting : TrackerStateEstimator</a></li>
+<li><a class="reference internal" href="#trackeradaboostingtargetstate-trackertargetstate">TrackerAdaBoostingTargetState : TrackerTargetState</a></li>
+<li><a class="reference internal" href="#trackerstateestimatoradaboosting-trackeradaboostingtargetstate-settargetfg">TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::setTargetFg</a></li>
+<li><a class="reference internal" href="#trackerstateestimatoradaboosting-trackeradaboostingtargetstate-settargetresponses">TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::setTargetResponses</a></li>
+<li><a class="reference internal" href="#trackerstateestimatoradaboosting-trackeradaboostingtargetstate-istargetfg">TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::isTargetFg</a></li>
+<li><a class="reference internal" href="#trackerstateestimatoradaboosting-trackeradaboostingtargetstate-gettargetresponses">TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::getTargetResponses</a></li>
+<li><a class="reference internal" href="#trackerstateestimatoradaboosting-trackerstateestimatoradaboosting">TrackerStateEstimatorAdaBoosting::TrackerStateEstimatorAdaBoosting</a></li>
+<li><a class="reference internal" href="#trackerstateestimatoradaboosting-setcurrentconfidencemap">TrackerStateEstimatorAdaBoosting::setCurrentConfidenceMap</a></li>
+<li><a class="reference internal" href="#trackerstateestimatoradaboosting-getsampleroi">TrackerStateEstimatorAdaBoosting::getSampleROI</a></li>
+<li><a class="reference internal" href="#trackerstateestimatoradaboosting-setsampleroi">TrackerStateEstimatorAdaBoosting::setSampleROI</a></li>
+<li><a class="reference internal" href="#trackerstateestimatoradaboosting-computeselectedweakclassifier">TrackerStateEstimatorAdaBoosting::computeSelectedWeakClassifier</a></li>
+<li><a class="reference internal" href="#trackerstateestimatoradaboosting-computereplacedclassifier">TrackerStateEstimatorAdaBoosting::computeReplacedClassifier</a></li>
+<li><a class="reference internal" href="#trackerstateestimatoradaboosting-computeswappedclassifier">TrackerStateEstimatorAdaBoosting::computeSwappedClassifier</a></li>
+<li><a class="reference internal" href="#trackerstateestimatoradaboosting-setmeansigmapair">TrackerStateEstimatorAdaBoosting::setMeanSigmaPair</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="common_interfaces_tracker_feature_set.html"
+                        title="previous chapter">Common Interfaces of TrackerFeatureSet</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../xfeatures2d/doc/xfeatures2d.html"
+                        title="next chapter">xfeatures2d. Extra 2D Features Framework</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="common-interfaces-of-trackermodel">
+<h1>Common Interfaces of TrackerModel<a class="headerlink" href="#common-interfaces-of-trackermodel" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="confidencemap">
+<h2>ConfidenceMap<a class="headerlink" href="#confidencemap" title="Permalink to this headline">¶</a></h2>
+<p>Represents the model of the target at frame <img class="math" src="../../../_images/math/b48130bd55bf7a75e095fda3d9f9ff1ac1b4ccef.png" alt="k"/> (all states and scores)</p>
+<p><a class="reference internal" href="tracking.html#aam" id="id1">[AAM]</a> The set of the pair  <img class="math" src="../../../_images/math/96688fba047bfcf764094acaad2c6077e0ac5374.png" alt="\langle \hat{x}^{i}_{k}, C^{i}_{k} \rangle"/></p>
+<dl class="type">
+<dt id="c.ConfidenceMap">
+<tt class="descname">ConfidenceMap</tt><a class="headerlink" href="#c.ConfidenceMap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>ConfidenceMap:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerTargetState</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">ConfidenceMap</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#TrackerTargetState" title="class TrackerTargetState"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerTargetState</span></tt></a></p>
+</div>
+</div>
+<div class="section" id="trajectory">
+<h2>Trajectory<a class="headerlink" href="#trajectory" title="Permalink to this headline">¶</a></h2>
+<p>Represents the estimate states for all frames</p>
+<p><a class="reference internal" href="tracking.html#aam" id="id2">[AAM]</a> <img class="math" src="../../../_images/math/4e214a858d540231c96020b2f12c2d4157b2ae5c.png" alt="x_{k}"/> is the trajectory of the target up to time <img class="math" src="../../../_images/math/b48130bd55bf7a75e095fda3d9f9ff1ac1b4ccef.png" alt="k"/></p>
+<dl class="type">
+<dt id="c.Trajectory">
+<tt class="descname">Trajectory</tt><a class="headerlink" href="#c.Trajectory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Trajectory:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerTargetState</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">Trajectory</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#TrackerTargetState" title="class TrackerTargetState"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerTargetState</span></tt></a></p>
+</div>
+</div>
+<div class="section" id="trackertargetstate">
+<h2>TrackerTargetState<a class="headerlink" href="#trackertargetstate" title="Permalink to this headline">¶</a></h2>
+<p>Abstract base class for TrackerTargetState that represents a possible state of the target.</p>
+<p><a class="reference internal" href="tracking.html#aam" id="id3">[AAM]</a> <img class="math" src="../../../_images/math/1c8fe9ac95be4cc525a89d5f6345df9c157de0df.png" alt="\hat{x}^{i}_{k}"/> all the states candidates.</p>
+<p>Inherits this class with your Target state</p>
+<dl class="class">
+<dt id="TrackerTargetState">
+<em class="property">class </em><tt class="descname">TrackerTargetState</tt><a class="headerlink" href="#TrackerTargetState" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>TrackerTargetState class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerTargetState</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">TrackerTargetState</span><span class="p">(){};</span>
+
+  <span class="n">Point2f</span> <span class="n">getTargetPosition</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">void</span> <span class="nf">setTargetPosition</span><span class="p">(</span> <span class="k">const</span> <span class="n">Point2f</span><span class="o">&amp;</span> <span class="n">position</span> <span class="p">);</span>
+
+  <span class="kt">int</span> <span class="n">getTargetWidth</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">void</span> <span class="nf">setTargetWidth</span><span class="p">(</span> <span class="kt">int</span> <span class="n">width</span> <span class="p">);</span>
+
+  <span class="kt">int</span> <span class="n">getTargetHeight</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">void</span> <span class="nf">setTargetHeight</span><span class="p">(</span> <span class="kt">int</span> <span class="n">height</span> <span class="p">);</span>
+
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>In own implementation you can add scale variation, width, height, orientation, etc.</p>
+</div>
+<div class="section" id="trackerstateestimator">
+<h2>TrackerStateEstimator<a class="headerlink" href="#trackerstateestimator" title="Permalink to this headline">¶</a></h2>
+<p>Abstract base class for TrackerStateEstimator that estimates the most likely target state.</p>
+<p><a class="reference internal" href="tracking.html#aam" id="id4">[AAM]</a> State estimator</p>
+<p><a class="reference internal" href="tracking.html#amvot" id="id5">[AMVOT]</a> Statistical modeling (Fig. 3), Table III (generative) - IV (discriminative) - V (hybrid)</p>
+<dl class="class">
+<dt id="TrackerStateEstimator">
+<em class="property">class </em><tt class="descname">TrackerStateEstimator</tt><a class="headerlink" href="#TrackerStateEstimator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>TrackerStateEstimator class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerStateEstimator</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">TrackerStateEstimator</span><span class="p">();</span>
+
+  <span class="k">static</span> <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerStateEstimator</span><span class="o">&gt;</span> <span class="n">create</span><span class="p">(</span> <span class="k">const</span> <span class="n">String</span><span class="o">&amp;</span> <span class="n">trackeStateEstimatorType</span> <span class="p">);</span>
+
+  <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerTargetState</span><span class="o">&gt;</span> <span class="n">estimate</span><span class="p">(</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ConfidenceMap</span><span class="o">&gt;&amp;</span> <span class="n">confidenceMaps</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">update</span><span class="p">(</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ConfidenceMap</span><span class="o">&gt;&amp;</span> <span class="n">confidenceMaps</span> <span class="p">);</span>
+
+  <span class="n">String</span> <span class="n">getClassName</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackerstateestimator-create">
+<h2>TrackerStateEstimator::create<a class="headerlink" href="#trackerstateestimator-create" title="Permalink to this headline">¶</a></h2>
+<p>Create TrackerStateEstimator by tracker state estimator type</p>
+<dl class="function">
+<dt id="static Ptr&lt;TrackerStateEstimator&gt; TrackerStateEstimator::create(const String&amp; trackeStateEstimatorType)">
+<strong>C++:</strong><tt class="descname"> </tt><em class="property">static</em> Ptr&lt;TrackerStateEstimator&gt; <tt class="descclassname">TrackerStateEstimator::</tt><tt class="descname">create</tt><big>(</big>const String&amp; <strong>trackeStateEstimatorType</strong><big>)</big><a class="headerlink" href="#static Ptr<TrackerStateEstimator> TrackerStateEstimator::create(const String& trackeStateEstimatorType)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>trackeStateEstimatorType</strong> &#8211; The TrackerStateEstimator name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The modes available now:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&quot;BOOSTING&quot;</span></tt> &#8211; Boosting-based discriminative appearance models. See <a class="reference internal" href="tracking.html#amvot" id="id6">[AMVOT]</a> section 4.4</li>
+</ul>
+<p>The modes available soon:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&quot;SVM&quot;</span></tt> &#8211; SVM-based discriminative appearance models. See <a class="reference internal" href="tracking.html#amvot" id="id7">[AMVOT]</a> section 4.5</li>
+</ul>
+</div>
+<div class="section" id="trackerstateestimator-estimate">
+<h2>TrackerStateEstimator::estimate<a class="headerlink" href="#trackerstateestimator-estimate" title="Permalink to this headline">¶</a></h2>
+<p>Estimate the most likely target state, return the estimated state</p>
+<dl class="function">
+<dt id="Ptr&lt;TrackerTargetState&gt; TrackerStateEstimator::estimate(const std::vector&lt;ConfidenceMap&gt;&amp; confidenceMaps)">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;TrackerTargetState&gt; <tt class="descclassname">TrackerStateEstimator::</tt><tt class="descname">estimate</tt><big>(</big>const std::vector&lt;ConfidenceMap&gt;&amp; <strong>confidenceMaps</strong><big>)</big><a class="headerlink" href="#Ptr<TrackerTargetState> TrackerStateEstimator::estimate(const std::vector<ConfidenceMap>& confidenceMaps)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>confidenceMaps</strong> &#8211; The overall appearance model as a list of <a class="reference internal" href="#c.ConfidenceMap" title="ConfidenceMap"><tt class="xref c c-type docutils literal"><span class="pre">ConfidenceMap</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimator-update">
+<h2>TrackerStateEstimator::update<a class="headerlink" href="#trackerstateestimator-update" title="Permalink to this headline">¶</a></h2>
+<p>Update the ConfidenceMap with the scores</p>
+<dl class="function">
+<dt id="void TrackerStateEstimator::update(std::vector&lt;ConfidenceMap&gt;&amp; confidenceMaps)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerStateEstimator::</tt><tt class="descname">update</tt><big>(</big>std::vector&lt;ConfidenceMap&gt;&amp; <strong>confidenceMaps</strong><big>)</big><a class="headerlink" href="#void TrackerStateEstimator::update(std::vector<ConfidenceMap>& confidenceMaps)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>confidenceMaps</strong> &#8211; The overall appearance model as a list of <a class="reference internal" href="#c.ConfidenceMap" title="ConfidenceMap"><tt class="xref c c-type docutils literal"><span class="pre">ConfidenceMap</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimator-getclassname">
+<h2>TrackerStateEstimator::getClassName<a class="headerlink" href="#trackerstateestimator-getclassname" title="Permalink to this headline">¶</a></h2>
+<p>Get the name of the specific TrackerStateEstimator</p>
+<dl class="function">
+<dt id="String TrackerStateEstimator::getClassName() const">
+<strong>C++:</strong><tt class="descname"> </tt>String <tt class="descclassname">TrackerStateEstimator::</tt><tt class="descname">getClassName</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#String TrackerStateEstimator::getClassName() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackermodel">
+<h2>TrackerModel<a class="headerlink" href="#trackermodel" title="Permalink to this headline">¶</a></h2>
+<p>Abstract class that represents the model of the target. It must be instantiated by specialized tracker</p>
+<p><a class="reference internal" href="tracking.html#aam" id="id8">[AAM]</a> Ak</p>
+<p>Inherits this with your TrackerModel</p>
+<dl class="class">
+<dt id="TrackerModel">
+<em class="property">class </em><tt class="descname">TrackerModel</tt><a class="headerlink" href="#TrackerModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>TrackerModel class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerModel</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+
+  <span class="n">TrackerModel</span><span class="p">();</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">TrackerModel</span><span class="p">();</span>
+
+  <span class="kt">void</span> <span class="nf">modelEstimation</span><span class="p">(</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat</span><span class="o">&gt;&amp;</span> <span class="n">responses</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">modelUpdate</span><span class="p">();</span>
+  <span class="kt">bool</span> <span class="nf">runStateEstimator</span><span class="p">();</span>
+
+  <span class="kt">bool</span> <span class="nf">setTrackerStateEstimator</span><span class="p">(</span> <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerStateEstimator</span><span class="o">&gt;</span> <span class="n">trackerStateEstimator</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">setLastTargetState</span><span class="p">(</span> <span class="k">const</span> <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerTargetState</span><span class="o">&gt;&amp;</span> <span class="n">lastTargetState</span> <span class="p">);</span>
+
+  <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerTargetState</span><span class="o">&gt;</span> <span class="n">getLastTargetState</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ConfidenceMap</span><span class="o">&gt;&amp;</span> <span class="n">getConfidenceMaps</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">const</span> <span class="n">ConfidenceMap</span><span class="o">&amp;</span> <span class="n">getLastConfidenceMap</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">TrackerStateEstimator</span><span class="o">&gt;</span> <span class="n">getTrackerStateEstimator</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackermodel-modelestimation">
+<h2>TrackerModel::modelEstimation<a class="headerlink" href="#trackermodel-modelestimation" title="Permalink to this headline">¶</a></h2>
+<p>Estimate the most likely target location</p>
+<p><a class="reference internal" href="tracking.html#aam" id="id9">[AAM]</a> ME, Model Estimation table I</p>
+<dl class="function">
+<dt id="void TrackerModel::modelEstimation(const std::vector&lt;Mat&gt;&amp; responses)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerModel::</tt><tt class="descname">modelEstimation</tt><big>(</big>const std::vector&lt;Mat&gt;&amp; <strong>responses</strong><big>)</big><a class="headerlink" href="#void TrackerModel::modelEstimation(const std::vector<Mat>& responses)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>responses</strong> &#8211; Features extracted from <a class="reference internal" href="common_interfaces_tracker_feature_set.html#TrackerFeatureSet" title="class TrackerFeatureSet"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerFeatureSet</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackermodel-modelupdate">
+<h2>TrackerModel::modelUpdate<a class="headerlink" href="#trackermodel-modelupdate" title="Permalink to this headline">¶</a></h2>
+<p>Update the model</p>
+<p><a class="reference internal" href="tracking.html#aam" id="id10">[AAM]</a> MU, Model Update table I</p>
+<dl class="function">
+<dt id="void TrackerModel::modelUpdate()">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerModel::</tt><tt class="descname">modelUpdate</tt><big>(</big><big>)</big><a class="headerlink" href="#void TrackerModel::modelUpdate()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackermodel-runstateestimator">
+<h2>TrackerModel::runStateEstimator<a class="headerlink" href="#trackermodel-runstateestimator" title="Permalink to this headline">¶</a></h2>
+<p>Run the TrackerStateEstimator, return true if is possible to estimate a new state, false otherwise</p>
+<dl class="function">
+<dt id="bool TrackerModel::runStateEstimator()">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">TrackerModel::</tt><tt class="descname">runStateEstimator</tt><big>(</big><big>)</big><a class="headerlink" href="#bool TrackerModel::runStateEstimator()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackermodel-settrackerstateestimator">
+<h2>TrackerModel::setTrackerStateEstimator<a class="headerlink" href="#trackermodel-settrackerstateestimator" title="Permalink to this headline">¶</a></h2>
+<p>Set TrackerEstimator, return true if the tracker state estimator is added, false otherwise</p>
+<dl class="function">
+<dt id="bool TrackerModel::setTrackerStateEstimator(Ptr&lt;TrackerStateEstimator&gt; trackerStateEstimator)">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">TrackerModel::</tt><tt class="descname">setTrackerStateEstimator</tt><big>(</big>Ptr&lt;TrackerStateEstimator&gt; <strong>trackerStateEstimator</strong><big>)</big><a class="headerlink" href="#bool TrackerModel::setTrackerStateEstimator(Ptr<TrackerStateEstimator> trackerStateEstimator)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>trackerStateEstimator</strong> &#8211; The <a class="reference internal" href="#TrackerStateEstimator" title="class TrackerStateEstimator"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerStateEstimator</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can add only one  <a class="reference internal" href="#TrackerStateEstimator" title="class TrackerStateEstimator"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerStateEstimator</span></tt></a></p>
+</div>
+</div>
+<div class="section" id="trackermodel-setlasttargetstate">
+<h2>TrackerModel::setLastTargetState<a class="headerlink" href="#trackermodel-setlasttargetstate" title="Permalink to this headline">¶</a></h2>
+<p>Set the current <a class="reference internal" href="#TrackerTargetState" title="class TrackerTargetState"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerTargetState</span></tt></a> in the <a class="reference internal" href="#c.Trajectory" title="Trajectory"><tt class="xref c c-type docutils literal"><span class="pre">Trajectory</span></tt></a></p>
+<dl class="function">
+<dt id="void TrackerModel::setLastTargetState(const Ptr&lt;TrackerTargetState&gt;&amp; lastTargetState)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerModel::</tt><tt class="descname">setLastTargetState</tt><big>(</big>const Ptr&lt;TrackerTargetState&gt;&amp; <strong>lastTargetState</strong><big>)</big><a class="headerlink" href="#void TrackerModel::setLastTargetState(const Ptr<TrackerTargetState>& lastTargetState)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lastTargetState</strong> &#8211; The current <a class="reference internal" href="#TrackerTargetState" title="class TrackerTargetState"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerTargetState</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackermodel-getlasttargetstate">
+<h2>TrackerModel::getLastTargetState<a class="headerlink" href="#trackermodel-getlasttargetstate" title="Permalink to this headline">¶</a></h2>
+<p>Get the last <a class="reference internal" href="#TrackerTargetState" title="class TrackerTargetState"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerTargetState</span></tt></a> from <a class="reference internal" href="#c.Trajectory" title="Trajectory"><tt class="xref c c-type docutils literal"><span class="pre">Trajectory</span></tt></a></p>
+<dl class="function">
+<dt id="Ptr&lt;TrackerTargetState&gt; TrackerModel::getLastTargetState() const">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;TrackerTargetState&gt; <tt class="descclassname">TrackerModel::</tt><tt class="descname">getLastTargetState</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#Ptr<TrackerTargetState> TrackerModel::getLastTargetState() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackermodel-getconfidencemaps">
+<h2>TrackerModel::getConfidenceMaps<a class="headerlink" href="#trackermodel-getconfidencemaps" title="Permalink to this headline">¶</a></h2>
+<p>Get the list of the <a class="reference internal" href="#c.ConfidenceMap" title="ConfidenceMap"><tt class="xref c c-type docutils literal"><span class="pre">ConfidenceMap</span></tt></a></p>
+<dl class="function">
+<dt id="const std::vector&lt;ConfidenceMap&gt;&amp; TrackerModel::getConfidenceMaps() const">
+<strong>C++:</strong><tt class="descname"> </tt>const std::vector&lt;ConfidenceMap&gt;&amp; <tt class="descclassname">TrackerModel::</tt><tt class="descname">getConfidenceMaps</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#const std::vector<ConfidenceMap>& TrackerModel::getConfidenceMaps() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackermodel-getlastconfidencemap">
+<h2>TrackerModel::getLastConfidenceMap<a class="headerlink" href="#trackermodel-getlastconfidencemap" title="Permalink to this headline">¶</a></h2>
+<p>Get the last <a class="reference internal" href="#c.ConfidenceMap" title="ConfidenceMap"><tt class="xref c c-type docutils literal"><span class="pre">ConfidenceMap</span></tt></a> for the current frame</p>
+<dl class="function">
+<dt id="const ConfidenceMap&amp; TrackerModel::getLastConfidenceMap() const">
+<strong>C++:</strong><tt class="descname"> </tt>const ConfidenceMap&amp; <tt class="descclassname">TrackerModel::</tt><tt class="descname">getLastConfidenceMap</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#const ConfidenceMap& TrackerModel::getLastConfidenceMap() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackermodel-gettrackerstateestimator">
+<h2>TrackerModel::getTrackerStateEstimator<a class="headerlink" href="#trackermodel-gettrackerstateestimator" title="Permalink to this headline">¶</a></h2>
+<p>Get the <a class="reference internal" href="#TrackerStateEstimator" title="class TrackerStateEstimator"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerStateEstimator</span></tt></a></p>
+<dl class="function">
+<dt id="Ptr&lt;TrackerStateEstimator&gt; TrackerModel::getTrackerStateEstimator() const">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;TrackerStateEstimator&gt; <tt class="descclassname">TrackerModel::</tt><tt class="descname">getTrackerStateEstimator</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#Ptr<TrackerStateEstimator> TrackerModel::getTrackerStateEstimator() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+<div class="section" id="specialized-trackerstateestimator">
+<h1>Specialized TrackerStateEstimator<a class="headerlink" href="#specialized-trackerstateestimator" title="Permalink to this headline">¶</a></h1>
+<p>In <a class="reference internal" href="tracking.html#amvot" id="id11">[AMVOT]</a>  Statistical modeling (Fig. 3), Table III (generative) - IV (discriminative) - V (hybrid) are described the most known statistical model.</p>
+<p>At moment <a class="reference internal" href="#TrackerStateEstimatorMILBoosting" title="class TrackerStateEstimatorMILBoosting"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerStateEstimatorMILBoosting</span></tt></a> and <a class="reference internal" href="#TrackerStateEstimatorAdaBoosting" title="class TrackerStateEstimatorAdaBoosting"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerStateEstimatorAdaBoosting</span></tt></a> are implemented.</p>
+<div class="section" id="trackerstateestimatormilboosting-trackerstateestimator">
+<h2>TrackerStateEstimatorMILBoosting : TrackerStateEstimator<a class="headerlink" href="#trackerstateestimatormilboosting-trackerstateestimator" title="Permalink to this headline">¶</a></h2>
+<p>TrackerStateEstimator based on Boosting</p>
+<dl class="class">
+<dt id="TrackerStateEstimatorMILBoosting">
+<em class="property">class </em><tt class="descname">TrackerStateEstimatorMILBoosting</tt><a class="headerlink" href="#TrackerStateEstimatorMILBoosting" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>TrackerStateEstimatorMILBoosting class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerStateEstimatorMILBoosting</span> <span class="o">:</span> <span class="k">public</span> <span class="n">TrackerStateEstimator</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="k">class</span> <span class="nc">TrackerMILTargetState</span> <span class="o">:</span> <span class="k">public</span> <span class="n">TrackerTargetState</span>
+  <span class="p">{</span>
+   <span class="p">...</span>
+  <span class="p">};</span>
+  <span class="n">TrackerStateEstimatorMILBoosting</span><span class="p">(</span> <span class="kt">int</span> <span class="n">nFeatures</span> <span class="o">=</span> <span class="mi">250</span> <span class="p">);</span>
+  <span class="o">~</span><span class="n">TrackerStateEstimatorMILBoosting</span><span class="p">();</span>
+
+  <span class="kt">void</span> <span class="nf">setCurrentConfidenceMap</span><span class="p">(</span> <span class="n">ConfidenceMap</span><span class="o">&amp;</span> <span class="n">confidenceMap</span> <span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackermiltargetstate-trackertargetstate">
+<h2>TrackerMILTargetState : TrackerTargetState<a class="headerlink" href="#trackermiltargetstate-trackertargetstate" title="Permalink to this headline">¶</a></h2>
+<p>Implementation of the target state for TrackerMILTargetState</p>
+<dl class="class">
+<dt id="TrackerMILTargetState">
+<em class="property">class </em><tt class="descname">TrackerMILTargetState</tt><a class="headerlink" href="#TrackerMILTargetState" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>TrackerMILTargetState class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">TrackerMILTargetState</span> <span class="o">:</span> <span class="k">public</span> <span class="n">TrackerTargetState</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+ <span class="n">TrackerMILTargetState</span><span class="p">(</span> <span class="k">const</span> <span class="n">Point2f</span><span class="o">&amp;</span> <span class="n">position</span><span class="p">,</span> <span class="kt">int</span> <span class="n">targetWidth</span><span class="p">,</span> <span class="kt">int</span> <span class="n">targetHeight</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">foreground</span><span class="p">,</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">features</span> <span class="p">);</span>
+ <span class="o">~</span><span class="n">TrackerMILTargetState</span><span class="p">(){};</span>
+
+ <span class="kt">void</span> <span class="nf">setTargetFg</span><span class="p">(</span> <span class="kt">bool</span> <span class="n">foreground</span> <span class="p">);</span>
+ <span class="kt">void</span> <span class="nf">setFeatures</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">features</span> <span class="p">);</span>
+ <span class="kt">bool</span> <span class="n">isTargetFg</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+ <span class="n">Mat</span> <span class="n">getFeatures</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackerstateestimatormilboosting-trackermiltargetstate-settargetfg">
+<h2>TrackerStateEstimatorMILBoosting::TrackerMILTargetState::setTargetFg<a class="headerlink" href="#trackerstateestimatormilboosting-trackermiltargetstate-settargetfg" title="Permalink to this headline">¶</a></h2>
+<p>Set label: true for target foreground, false for background</p>
+<dl class="function">
+<dt id="void TrackerStateEstimatorMILBoosting::TrackerMILTargetState::setTargetFg(bool foreground)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerStateEstimatorMILBoosting::TrackerMILTargetState::</tt><tt class="descname">setTargetFg</tt><big>(</big>bool <strong>foreground</strong><big>)</big><a class="headerlink" href="#void TrackerStateEstimatorMILBoosting::TrackerMILTargetState::setTargetFg(bool foreground)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>foreground</strong> &#8211; Label for background/foreground</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatormilboosting-trackermiltargetstate-setfeatures">
+<h2>TrackerStateEstimatorMILBoosting::TrackerMILTargetState::setFeatures<a class="headerlink" href="#trackerstateestimatormilboosting-trackermiltargetstate-setfeatures" title="Permalink to this headline">¶</a></h2>
+<p>Set the features extracted from <a class="reference internal" href="common_interfaces_tracker_feature_set.html#TrackerFeatureSet" title="class TrackerFeatureSet"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerFeatureSet</span></tt></a></p>
+<dl class="function">
+<dt id="void TrackerStateEstimatorMILBoosting::TrackerMILTargetState::setFeatures(const Mat&amp; features)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerStateEstimatorMILBoosting::TrackerMILTargetState::</tt><tt class="descname">setFeatures</tt><big>(</big>const Mat&amp; <strong>features</strong><big>)</big><a class="headerlink" href="#void TrackerStateEstimatorMILBoosting::TrackerMILTargetState::setFeatures(const Mat& features)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>features</strong> &#8211; The features extracted</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatormilboosting-trackermiltargetstate-istargetfg">
+<h2>TrackerStateEstimatorMILBoosting::TrackerMILTargetState::isTargetFg<a class="headerlink" href="#trackerstateestimatormilboosting-trackermiltargetstate-istargetfg" title="Permalink to this headline">¶</a></h2>
+<p>Get the label. Return true for target foreground, false for background</p>
+<dl class="function">
+<dt id="bool TrackerStateEstimatorMILBoosting::TrackerMILTargetState::isTargetFg() const">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">TrackerStateEstimatorMILBoosting::TrackerMILTargetState::</tt><tt class="descname">isTargetFg</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#bool TrackerStateEstimatorMILBoosting::TrackerMILTargetState::isTargetFg() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatormilboosting-trackermiltargetstate-getfeatures">
+<h2>TrackerStateEstimatorMILBoosting::TrackerMILTargetState::getFeatures<a class="headerlink" href="#trackerstateestimatormilboosting-trackermiltargetstate-getfeatures" title="Permalink to this headline">¶</a></h2>
+<p>Get the features extracted</p>
+<dl class="function">
+<dt>
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerStateEstimatorMILBoosting::TrackerMILTargetState::</tt><tt class="descname">setFeatures</tt><big>(</big>const Mat&amp; <strong>features</strong><big>)</big></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatormilboosting-trackerstateestimatormilboosting">
+<h2>TrackerStateEstimatorMILBoosting::TrackerStateEstimatorMILBoosting<a class="headerlink" href="#trackerstateestimatormilboosting-trackerstateestimatormilboosting" title="Permalink to this headline">¶</a></h2>
+<p>Constructor</p>
+<dl class="function">
+<dt id="TrackerStateEstimatorMILBoosting::TrackerStateEstimatorMILBoosting(int nFeatures)">
+<strong>C++:</strong><tt class="descname"> </tt> <tt class="descclassname">TrackerStateEstimatorMILBoosting::</tt><tt class="descname">TrackerStateEstimatorMILBoosting</tt><big>(</big>int <strong>nFeatures</strong>=250 <big>)</big><a class="headerlink" href="#TrackerStateEstimatorMILBoosting::TrackerStateEstimatorMILBoosting(int nFeatures)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>nFeatures</strong> &#8211; Number of features for each sample</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatormilboosting-setcurrentconfidencemap">
+<h2>TrackerStateEstimatorMILBoosting::setCurrentConfidenceMap<a class="headerlink" href="#trackerstateestimatormilboosting-setcurrentconfidencemap" title="Permalink to this headline">¶</a></h2>
+<p>Set the current confidenceMap</p>
+<dl class="function">
+<dt id="void TrackerStateEstimatorMILBoosting::setCurrentConfidenceMap(ConfidenceMap&amp; confidenceMap)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerStateEstimatorMILBoosting::</tt><tt class="descname">setCurrentConfidenceMap</tt><big>(</big>ConfidenceMap&amp; <strong>confidenceMap</strong><big>)</big><a class="headerlink" href="#void TrackerStateEstimatorMILBoosting::setCurrentConfidenceMap(ConfidenceMap& confidenceMap)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>confidenceMap</strong> &#8211; The current <a class="reference internal" href="#c.ConfidenceMap" title="ConfidenceMap"><tt class="xref c c-type docutils literal"><span class="pre">ConfidenceMap</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatoradaboosting-trackerstateestimator">
+<h2>TrackerStateEstimatorAdaBoosting : TrackerStateEstimator<a class="headerlink" href="#trackerstateestimatoradaboosting-trackerstateestimator" title="Permalink to this headline">¶</a></h2>
+<p>TrackerStateEstimatorAdaBoosting based on ADA-Boosting</p>
+<dl class="class">
+<dt id="TrackerStateEstimatorAdaBoosting">
+<em class="property">class </em><tt class="descname">TrackerStateEstimatorAdaBoosting</tt><a class="headerlink" href="#TrackerStateEstimatorAdaBoosting" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>TrackerStateEstimatorAdaBoosting class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CV_EXPORTS_W</span> <span class="n">TrackerStateEstimatorAdaBoosting</span> <span class="o">:</span> <span class="k">public</span> <span class="n">TrackerStateEstimator</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="k">class</span> <span class="nc">TrackerAdaBoostingTargetState</span> <span class="o">:</span> <span class="k">public</span> <span class="n">TrackerTargetState</span>
+  <span class="p">{</span>
+   <span class="p">...</span>
+  <span class="p">};</span>
+  <span class="n">TrackerStateEstimatorAdaBoosting</span><span class="p">(</span> <span class="kt">int</span> <span class="n">numClassifer</span><span class="p">,</span> <span class="kt">int</span> <span class="n">initIterations</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nFeatures</span><span class="p">,</span> <span class="n">Size</span> <span class="n">patchSize</span><span class="p">,</span> <span class="k">const</span> <span class="n">Rect</span><span class="o">&amp;</span> <span class="n">ROI</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span> <span class="o">&gt;&amp;</span> <span class="n">meanSigma</span> <span class="p">);</span>
+  <span class="o">~</span><span class="n">TrackerStateEstimatorAdaBoosting</span><span class="p">();</span>
+
+  <span class="n">Rect</span> <span class="n">getSampleROI</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">void</span> <span class="nf">setSampleROI</span><span class="p">(</span> <span class="k">const</span> <span class="n">Rect</span><span class="o">&amp;</span> <span class="n">ROI</span> <span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">setCurrentConfidenceMap</span><span class="p">(</span> <span class="n">ConfidenceMap</span><span class="o">&amp;</span> <span class="n">confidenceMap</span> <span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">computeSelectedWeakClassifier</span><span class="p">();</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">computeReplacedClassifier</span><span class="p">();</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">computeSwappedClassifier</span><span class="p">();</span>
+  <span class="kt">void</span> <span class="nf">setMeanSigmaPair</span><span class="p">(</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span> <span class="o">&gt;&amp;</span> <span class="n">meanSigmaPair</span> <span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackeradaboostingtargetstate-trackertargetstate">
+<h2>TrackerAdaBoostingTargetState : TrackerTargetState<a class="headerlink" href="#trackeradaboostingtargetstate-trackertargetstate" title="Permalink to this headline">¶</a></h2>
+<p>Implementation of the target state for TrackerAdaBoostingTargetState</p>
+<dl class="class">
+<dt id="TrackerAdaBoostingTargetState">
+<em class="property">class </em><tt class="descname">TrackerAdaBoostingTargetState</tt><a class="headerlink" href="#TrackerAdaBoostingTargetState" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>TrackerAdaBoostingTargetState class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">class</span> <span class="nc">TrackerAdaBoostingTargetState</span> <span class="o">:</span> <span class="k">public</span> <span class="n">TrackerTargetState</span>
+<span class="p">{</span>
+ <span class="nl">public:</span>
+ <span class="n">TrackerAdaBoostingTargetState</span><span class="p">(</span> <span class="k">const</span> <span class="n">Point2f</span><span class="o">&amp;</span> <span class="n">position</span><span class="p">,</span> <span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="kt">int</span> <span class="n">height</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">foreground</span><span class="p">,</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">responses</span> <span class="p">);</span>
+ <span class="o">~</span><span class="n">TrackerAdaBoostingTargetState</span><span class="p">(){};</span>
+
+ <span class="kt">void</span> <span class="nf">setTargetResponses</span><span class="p">(</span> <span class="k">const</span> <span class="n">Mat</span><span class="o">&amp;</span> <span class="n">responses</span> <span class="p">);</span>
+ <span class="kt">void</span> <span class="nf">setTargetFg</span><span class="p">(</span> <span class="kt">bool</span> <span class="n">foreground</span> <span class="p">);</span>
+ <span class="n">Mat</span> <span class="n">getTargetResponses</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+ <span class="kt">bool</span> <span class="n">isTargetFg</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trackerstateestimatoradaboosting-trackeradaboostingtargetstate-settargetfg">
+<h2>TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::setTargetFg<a class="headerlink" href="#trackerstateestimatoradaboosting-trackeradaboostingtargetstate-settargetfg" title="Permalink to this headline">¶</a></h2>
+<p>Set label: true for target foreground, false for background</p>
+<dl class="function">
+<dt id="void TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::setTargetFg(bool foreground)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::</tt><tt class="descname">setTargetFg</tt><big>(</big>bool <strong>foreground</strong><big>)</big><a class="headerlink" href="#void TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::setTargetFg(bool foreground)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>foreground</strong> &#8211; Label for background/foreground</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatoradaboosting-trackeradaboostingtargetstate-settargetresponses">
+<h2>TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::setTargetResponses<a class="headerlink" href="#trackerstateestimatoradaboosting-trackeradaboostingtargetstate-settargetresponses" title="Permalink to this headline">¶</a></h2>
+<p>Set the features extracted from <a class="reference internal" href="common_interfaces_tracker_feature_set.html#TrackerFeatureSet" title="class TrackerFeatureSet"><tt class="xref ocv ocv-class docutils literal"><span class="pre">TrackerFeatureSet</span></tt></a></p>
+<dl class="function">
+<dt id="void TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::setTargetResponses(const Mat&amp; responses)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::</tt><tt class="descname">setTargetResponses</tt><big>(</big>const Mat&amp; <strong>responses</strong><big>)</big><a class="headerlink" href="#void TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::setTargetResponses(const Mat& responses)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>responses</strong> &#8211; The features extracted</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatoradaboosting-trackeradaboostingtargetstate-istargetfg">
+<h2>TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::isTargetFg<a class="headerlink" href="#trackerstateestimatoradaboosting-trackeradaboostingtargetstate-istargetfg" title="Permalink to this headline">¶</a></h2>
+<p>Get the label. Return true for target foreground, false for background</p>
+<dl class="function">
+<dt id="bool TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::isTargetFg() const">
+<strong>C++:</strong><tt class="descname"> </tt>bool <tt class="descclassname">TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::</tt><tt class="descname">isTargetFg</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#bool TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::isTargetFg() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatoradaboosting-trackeradaboostingtargetstate-gettargetresponses">
+<h2>TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::getTargetResponses<a class="headerlink" href="#trackerstateestimatoradaboosting-trackeradaboostingtargetstate-gettargetresponses" title="Permalink to this headline">¶</a></h2>
+<p>Get the features extracted</p>
+<dl class="function">
+<dt id="Mat TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::getTargetResponses()">
+<strong>C++:</strong><tt class="descname"> </tt>Mat <tt class="descclassname">TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::</tt><tt class="descname">getTargetResponses</tt><big>(</big><big>)</big><a class="headerlink" href="#Mat TrackerStateEstimatorAdaBoosting::TrackerAdaBoostingTargetState::getTargetResponses()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatoradaboosting-trackerstateestimatoradaboosting">
+<h2>TrackerStateEstimatorAdaBoosting::TrackerStateEstimatorAdaBoosting<a class="headerlink" href="#trackerstateestimatoradaboosting-trackerstateestimatoradaboosting" title="Permalink to this headline">¶</a></h2>
+<p>Constructor</p>
+<dl class="function">
+<dt id="TrackerStateEstimatorAdaBoosting::TrackerStateEstimatorAdaBoosting(int numClassifer, int initIterations, int nFeatures, Size patchSize, const Rect&amp; ROI, const std::vector&lt;std::pair&lt;float, float&gt; &gt;&amp; meanSigma)">
+<strong>C++:</strong><tt class="descname"> </tt> <tt class="descclassname">TrackerStateEstimatorAdaBoosting::</tt><tt class="descname">TrackerStateEstimatorAdaBoosting</tt><big>(</big>int <strong>numClassifer</strong>, int <strong>initIterations</strong>, int <strong>nFeatures</strong>, Size <strong>patchSize</strong>, const Rect&amp; <strong>ROI</strong>, const std::vector&lt;std::pair&lt;float, float&gt;&gt;&amp; <strong>meanSigma</strong><big>)</big><a class="headerlink" href="#TrackerStateEstimatorAdaBoosting::TrackerStateEstimatorAdaBoosting(int numClassifer, int initIterations, int nFeatures, Size patchSize, const Rect& ROI, const std::vector<std::pair<float, float> >& meanSigma)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>numClassifer</strong> &#8211; Number of base classifiers</li>
+<li><strong>initIterations</strong> &#8211; Number of iterations in the initialization</li>
+<li><strong>nFeatures</strong> &#8211; Number of features/weak classifiers</li>
+<li><strong>patchSize</strong> &#8211; tracking rect</li>
+<li><strong>ROI</strong> &#8211; initial ROI</li>
+<li><strong>meanSigma</strong> &#8211; pairs of mean/sigma</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatoradaboosting-setcurrentconfidencemap">
+<h2>TrackerStateEstimatorAdaBoosting::setCurrentConfidenceMap<a class="headerlink" href="#trackerstateestimatoradaboosting-setcurrentconfidencemap" title="Permalink to this headline">¶</a></h2>
+<p>Set the current confidenceMap</p>
+<dl class="function">
+<dt id="void TrackerStateEstimatorAdaBoosting::setCurrentConfidenceMap(ConfidenceMap&amp; confidenceMap)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerStateEstimatorAdaBoosting::</tt><tt class="descname">setCurrentConfidenceMap</tt><big>(</big>ConfidenceMap&amp; <strong>confidenceMap</strong><big>)</big><a class="headerlink" href="#void TrackerStateEstimatorAdaBoosting::setCurrentConfidenceMap(ConfidenceMap& confidenceMap)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>confidenceMap</strong> &#8211; The current <a class="reference internal" href="#c.ConfidenceMap" title="ConfidenceMap"><tt class="xref c c-type docutils literal"><span class="pre">ConfidenceMap</span></tt></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatoradaboosting-getsampleroi">
+<h2>TrackerStateEstimatorAdaBoosting::getSampleROI<a class="headerlink" href="#trackerstateestimatoradaboosting-getsampleroi" title="Permalink to this headline">¶</a></h2>
+<p>Get the sampling ROI</p>
+<dl class="function">
+<dt id="Rect TrackerStateEstimatorAdaBoosting::getSampleROI() const">
+<strong>C++:</strong><tt class="descname"> </tt>Rect <tt class="descclassname">TrackerStateEstimatorAdaBoosting::</tt><tt class="descname">getSampleROI</tt><big>(</big><big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#Rect TrackerStateEstimatorAdaBoosting::getSampleROI() const" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatoradaboosting-setsampleroi">
+<h2>TrackerStateEstimatorAdaBoosting::setSampleROI<a class="headerlink" href="#trackerstateestimatoradaboosting-setsampleroi" title="Permalink to this headline">¶</a></h2>
+<p>Set the sampling ROI</p>
+<dl class="function">
+<dt id="void TrackerStateEstimatorAdaBoosting::setSampleROI(const Rect&amp; ROI)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerStateEstimatorAdaBoosting::</tt><tt class="descname">setSampleROI</tt><big>(</big>const Rect&amp; <strong>ROI</strong><big>)</big><a class="headerlink" href="#void TrackerStateEstimatorAdaBoosting::setSampleROI(const Rect& ROI)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ROI</strong> &#8211; the sampling ROI</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatoradaboosting-computeselectedweakclassifier">
+<h2>TrackerStateEstimatorAdaBoosting::computeSelectedWeakClassifier<a class="headerlink" href="#trackerstateestimatoradaboosting-computeselectedweakclassifier" title="Permalink to this headline">¶</a></h2>
+<p>Get the list of the selected weak classifiers for the classification step</p>
+<dl class="function">
+<dt id="std::vector&lt;int&gt; TrackerStateEstimatorAdaBoosting::computeSelectedWeakClassifier()">
+<strong>C++:</strong><tt class="descname"> </tt>std::vector&lt;int&gt; <tt class="descclassname">TrackerStateEstimatorAdaBoosting::</tt><tt class="descname">computeSelectedWeakClassifier</tt><big>(</big><big>)</big><a class="headerlink" href="#std::vector<int> TrackerStateEstimatorAdaBoosting::computeSelectedWeakClassifier()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatoradaboosting-computereplacedclassifier">
+<h2>TrackerStateEstimatorAdaBoosting::computeReplacedClassifier<a class="headerlink" href="#trackerstateestimatoradaboosting-computereplacedclassifier" title="Permalink to this headline">¶</a></h2>
+<p>Get the list of the weak classifiers that should be replaced</p>
+<dl class="function">
+<dt id="std::vector&lt;int&gt; TrackerStateEstimatorAdaBoosting::computeReplacedClassifier()">
+<strong>C++:</strong><tt class="descname"> </tt>std::vector&lt;int&gt; <tt class="descclassname">TrackerStateEstimatorAdaBoosting::</tt><tt class="descname">computeReplacedClassifier</tt><big>(</big><big>)</big><a class="headerlink" href="#std::vector<int> TrackerStateEstimatorAdaBoosting::computeReplacedClassifier()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatoradaboosting-computeswappedclassifier">
+<h2>TrackerStateEstimatorAdaBoosting::computeSwappedClassifier<a class="headerlink" href="#trackerstateestimatoradaboosting-computeswappedclassifier" title="Permalink to this headline">¶</a></h2>
+<p>Get the list of the weak classifiers that replace those to be replaced</p>
+<dl class="function">
+<dt id="std::vector&lt;int&gt; TrackerStateEstimatorAdaBoosting::computeSwappedClassifier()">
+<strong>C++:</strong><tt class="descname"> </tt>std::vector&lt;int&gt; <tt class="descclassname">TrackerStateEstimatorAdaBoosting::</tt><tt class="descname">computeSwappedClassifier</tt><big>(</big><big>)</big><a class="headerlink" href="#std::vector<int> TrackerStateEstimatorAdaBoosting::computeSwappedClassifier()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="trackerstateestimatoradaboosting-setmeansigmapair">
+<h2>TrackerStateEstimatorAdaBoosting::setMeanSigmaPair<a class="headerlink" href="#trackerstateestimatoradaboosting-setmeansigmapair" title="Permalink to this headline">¶</a></h2>
+<p>Set the mean/sigma to instantiate possibly new classifiers</p>
+<dl class="function">
+<dt id="void TrackerStateEstimatorAdaBoosting::setMeanSigmaPair(const std::vector&lt;std::pair&lt;float, float&gt; &gt;&amp; meanSigmaPair)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">TrackerStateEstimatorAdaBoosting::</tt><tt class="descname">setMeanSigmaPair</tt><big>(</big>const std::vector&lt;std::pair&lt;float, float&gt;&gt;&amp; <strong>meanSigmaPair</strong><big>)</big><a class="headerlink" href="#void TrackerStateEstimatorAdaBoosting::setMeanSigmaPair(const std::vector<std::pair<float, float> >& meanSigmaPair)" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>meanSigmaPair</strong> &#8211; the mean/sigma pairs</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../xfeatures2d/doc/xfeatures2d.html" title="xfeatures2d. Extra 2D Features Framework"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="common_interfaces_tracker_feature_set.html" title="Common Interfaces of TrackerFeatureSet"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="tracking.html" >tracking. Tracking API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/tracking/doc/common_interfaces_tracker_model.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/tracking/doc/common_interfaces_tracker_model.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:26 GMT -->
+</html>

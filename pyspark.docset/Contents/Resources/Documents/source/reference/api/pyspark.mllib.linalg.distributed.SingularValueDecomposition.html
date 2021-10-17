@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>SingularValueDecomposition — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="singularvaluedecomposition">
+<h1>SingularValueDecomposition<a class="headerlink" href="#singularvaluedecomposition" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.linalg.distributed.SingularValueDecomposition"><a name="//apple_ref/cpp/Class/pyspark.mllib.linalg.distributed.SingularValueDecomposition"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.linalg.distributed.</code><code class="sig-name descname">SingularValueDecomposition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">java_model</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg/distributed.html#SingularValueDecomposition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.distributed.SingularValueDecomposition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents singular value decomposition (SVD) factors.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.distributed.SingularValueDecomposition.call"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.distributed.SingularValueDecomposition.call"></a>
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">a</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.linalg.distributed.SingularValueDecomposition.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call method of java_model</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.mllib.linalg.distributed.SingularValueDecomposition.U"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.linalg.distributed.SingularValueDecomposition.U"></a>
+<code class="sig-name descname">U</code><a class="headerlink" href="#pyspark.mllib.linalg.distributed.SingularValueDecomposition.U" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a distributed matrix whose columns are the left
+singular vectors of the SingularValueDecomposition if computeU was set to be True.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.linalg.distributed.SingularValueDecomposition.V"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.linalg.distributed.SingularValueDecomposition.V"></a>
+<code class="sig-name descname">V</code><a class="headerlink" href="#pyspark.mllib.linalg.distributed.SingularValueDecomposition.V" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a DenseMatrix whose columns are the right singular
+vectors of the SingularValueDecomposition.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.linalg.distributed.SingularValueDecomposition.s"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.linalg.distributed.SingularValueDecomposition.s"></a>
+<code class="sig-name descname">s</code><a class="headerlink" href="#pyspark.mllib.linalg.distributed.SingularValueDecomposition.s" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a DenseVector with singular values in descending order.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

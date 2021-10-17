@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.RDD.combineByKey — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-rdd-combinebykey">
+<h1>pyspark.RDD.combineByKey<a class="headerlink" href="#pyspark-rdd-combinebykey" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.RDD.combineByKey"><a name="//apple_ref/cpp/Method/pyspark.RDD.combineByKey"></a>
+<code class="sig-prename descclassname">RDD.</code><code class="sig-name descname">combineByKey</code><span class="sig-paren">(</span><em class="sig-param">createCombiner</em>, <em class="sig-param">mergeValue</em>, <em class="sig-param">mergeCombiners</em>, <em class="sig-param">numPartitions=None</em>, <em class="sig-param">partitionFunc=&lt;function portable_hash&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/rdd.html#RDD.combineByKey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.RDD.combineByKey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generic function to combine the elements for each key using a custom
+set of aggregation functions.</p>
+<p>Turns an RDD[(K, V)] into a result of type RDD[(K, C)], for a “combined
+type” C.</p>
+<p>Users provide three functions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>createCombiner</cite>, which turns a V into a C (e.g., creates
+a one-element list)</p></li>
+<li><p><cite>mergeValue</cite>, to merge a V into a C (e.g., adds it to the end of
+a list)</p></li>
+<li><p><cite>mergeCombiners</cite>, to combine two C’s into a single one (e.g., merges
+the lists)</p></li>
+</ul>
+</div></blockquote>
+<p>To avoid memory allocation, both mergeValue and mergeCombiners are allowed to
+modify and return their first argument instead of creating a new C.</p>
+<p>In addition, users can control the partitioning of the output RDD.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>V and C can be different – for example, one might group an RDD of type
+(Int, Int) into an RDD of type (Int, List[Int]).</p>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([(</span><span class="s2">"a"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">a</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">a</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">a</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">combineByKey</span><span class="p">(</span><span class="n">to_list</span><span class="p">,</span> <span class="n">append</span><span class="p">,</span> <span class="n">extend</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+<span class="go">[('a', [1, 2]), ('b', [1])]</span>
+</pre></div>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

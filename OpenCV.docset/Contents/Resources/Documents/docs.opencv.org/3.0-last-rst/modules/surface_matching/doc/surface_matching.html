@@ -1,0 +1,795 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/surface_matching/doc/surface_matching.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:57:50 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>surface_matching. Surface Matching</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="OpenCV API Reference" href="../../refman.html" />
+    <link rel="next" title="text. Scene Text Detection and Recognition" href="../../text/doc/text.html" />
+    <link rel="prev" title="Objectness Algorithms" href="../../saliency/doc/objectness_algorithms.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../text/doc/text.html" title="text. Scene Text Detection and Recognition"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../../saliency/doc/objectness_algorithms.html" title="Objectness Algorithms"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" accesskey="U">OpenCV API Reference</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">surface_matching. Surface Matching</a><ul>
+<li><a class="reference internal" href="#introduction-to-surface-matching">Introduction to Surface Matching</a></li>
+<li><a class="reference internal" href="#surface-matching-algorithm-through-3d-features">Surface Matching Algorithm Through 3D Features</a></li>
+<li><a class="reference internal" href="#rough-computation-of-object-pose-given-ppf">Rough Computation of Object Pose Given PPF</a><ul>
+<li><a class="reference internal" href="#hough-like-voting-scheme">Hough-like Voting Scheme</a></li>
+<li><a class="reference internal" href="#source-code-for-ppf-matching">Source Code for PPF Matching</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pose-registration-via-icp">Pose Registration via ICP</a><ul>
+<li><a class="reference internal" href="#sampling">Sampling</a></li>
+<li><a class="reference internal" href="#correspondence-search">Correspondence Search</a></li>
+<li><a class="reference internal" href="#weighting-of-pairs">Weighting of Pairs</a></li>
+<li><a class="reference internal" href="#rejection-of-pairs">Rejection of Pairs</a></li>
+<li><a class="reference internal" href="#error-metric">Error Metric</a></li>
+<li><a class="reference internal" href="#minimization">Minimization</a></li>
+<li><a class="reference internal" href="#icp-algorithm">ICP Algorithm</a><ul>
+<li><a class="reference internal" href="#efficient-icp-through-point-cloud-pyramids">Efficient ICP Through Point Cloud Pyramids</a></li>
+<li><a class="reference internal" href="#visual-results">Visual Results</a><ul>
+<li><a class="reference internal" href="#results-on-synthetic-data">Results on Synthetic Data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#source-code-for-pose-refinement-using-icp">Source Code for Pose Refinement Using ICP</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#results">Results</a></li>
+<li><a class="reference internal" href="#a-complete-sample">A Complete Sample</a><ul>
+<li><a class="reference internal" href="#parameter-tuning">Parameter Tuning</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../../saliency/doc/objectness_algorithms.html"
+                        title="previous chapter">Objectness Algorithms</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../text/doc/text.html"
+                        title="next chapter">text. Scene Text Detection and Recognition</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="surface-matching-surface-matching">
+<span id="surfacematching"></span><h1>surface_matching. Surface Matching<a class="headerlink" href="#surface-matching-surface-matching" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction-to-surface-matching">
+<h2>Introduction to Surface Matching<a class="headerlink" href="#introduction-to-surface-matching" title="Permalink to this headline">¶</a></h2>
+<p>Cameras and similar devices with the capability of sensation of 3D structure are becoming more common. Thus, using depth and intensity information for matching 3D objects (or parts) are of crucial importance for computer vision. Applications range from industrial control to guiding everyday actions for visually impaired people. The task in recognition and pose estimation in range images aims to identify and localize a queried 3D free-form object by matching it to the acquired database.</p>
+<p>From an industrial perspective, enabling robots to automatically locate and pick up randomly placed and oriented objects from a bin is an important challenge in factory automation, replacing tedious and heavy manual labor. A system should be able to recognize and locate objects with a predefined shape and estimate the position with the precision necessary for a gripping robot to pick it up. This is where vision guided robotics takes the stage. Similar tools are also capable of guiding robots (and even people) through unstructured environments, leading to automated navigation. These properties make 3D matching from point clouds a ubiquitous necessity. Within this context, I will now describe the OpenCV implementation of a 3D object recognition and pose estimation algorithm using 3D features.</p>
+</div>
+<div class="section" id="surface-matching-algorithm-through-3d-features">
+<h2>Surface Matching Algorithm Through 3D Features<a class="headerlink" href="#surface-matching-algorithm-through-3d-features" title="Permalink to this headline">¶</a></h2>
+<p>The state of the algorithms in order to achieve the task 3D matching is heavily based on <a class="reference internal" href="#drost2010" id="id1">[drost2010]</a>, which is one of the first and main practical methods presented in this area. The approach is composed of extracting 3D feature points randomly from depth images or generic point clouds, indexing them and later in runtime querying them efficiently. Only the 3D structure is considered, and a trivial hash table is used for feature queries.</p>
+<p>While being fully aware that utilization of the nice CAD model structure in order to achieve a smart point sampling, I will be leaving that aside now in order to respect the generalizability of the methods (Typically for such algorithms training on a CAD model is not needed, and a point cloud would be sufficient). Below is the outline of the entire algorithm:</p>
+<a class="reference internal image-reference" href="../../../_images/outline.jpg"><img alt="Outline of the Algorithm" class="align-center" src="../../../_images/outline.jpg" style="width: 970.5px; height: 532.5px;" /></a>
+<p>As explained, the algorithm relies on the extraction and indexing of point pair features, which are defined as follows:</p>
+<div class="math">
+<p><img src="../../../_images/math/91f7683541802e8b8479045cc23fe4b235afa5fb.png" alt="\bf{{F}}(\bf{{m1}}, \bf{{m2}}) = (||\bf{{d}}||_2, &lt;(\bf{{n1}},\bf{{d}}), &lt;(\bf{{n2}},\bf{{d}}), &lt;(\bf{{n1}},\bf{{n2}}))"/></p>
+</div><p>where <img class="math" src="../../../_images/math/211ee866d49e08381943bb044671bd09e79220eb.png" alt="\bf{{m1}}"/> and <img class="math" src="../../../_images/math/286d10c2204ab422f73f5c54607543a6c9db4984.png" alt="\bf{{m2}}"/> are feature two selected
+points on the model (or scene), <img class="math" src="../../../_images/math/b3ee6de8d3dfd9e0599e08de66660c8f4ca73fe2.png" alt="\bf{{d}}"/> is the difference
+vector, <img class="math" src="../../../_images/math/e0ca47ee3edc594143d7614864fbad67cb3a3058.png" alt="\bf{{n1}}"/> and <img class="math" src="../../../_images/math/de8901f23e524a072d56c4a8068bb5ee650b796f.png" alt="\bf{{n2}}"/> are the normals at
+<img class="math" src="../../../_images/math/211ee866d49e08381943bb044671bd09e79220eb.png" alt="\bf{{m1}}"/> and <img class="math" src="../../../_images/math/d611c8879754f743d4df7abf9edf766564446e3b.png" alt="\bf{m2}"/>. During the training stage, this
+vector is quantized, indexed. In the test stage, same features are
+extracted from the scene and compared to the database. With a few tricks
+like separation of the rotational components, the pose estimation part
+can also be made efficient (check the reference for more details). A
+Hough-like voting and clustering is employed to estimate the object
+pose. To cluster the poses, the raw pose hypotheses are sorted in decreasing order
+of the number of votes. From the highest vote, a
+new cluster is created. If the next pose hypothesis is close to one of
+the existing clusters, the hypothesis is added to the cluster
+and the cluster center is updated as the average of the pose
+hypotheses within the cluster. If the next hypothesis is not
+close to any of the clusters, it creates a new cluster. The
+proximity testing is done with fixed thresholds in translation
+and rotation. Distance computation and averaging for translation are performed in the 3D Euclidean space, while those
+for rotation are performed using quaternion representation.
+After clustering, the clusters are sorted in decreasing order
+of the total number of votes which determines confidence of
+the estimated poses.</p>
+<p>This pose is further refined using <img class="math" src="../../../_images/math/4b3ecfc51a0440833a7bec87fc530167c6e87053.png" alt="ICP"/> in order to obtain
+the final pose.</p>
+<p>PPF presented above depends largely on robust computation of angles
+between 3D vectors. Even though not reported in the paper, the naive way
+of doing this (<img class="math" src="../../../_images/math/9c554f5bc43b7ce0650c94330e2dffb88ec818b1.png" alt="\theta = cos^{-1}({\bf{a}}\cdot{\bf{b}})"/> remains
+numerically unstable. A better way to do this is then use inverse
+tangents, like:</p>
+<div class="math">
+<p><img src="../../../_images/math/42a5266e9ddf40b13c4e73dfdaac7af54938f984.png" alt="&lt;(\bf{n1},\bf{n2})=tan^{-1}(||{\bf{n1}  \wedge \bf{n2}}||_2, \bf{n1} \cdot \bf{n2})"/></p>
+</div></div>
+<div class="section" id="rough-computation-of-object-pose-given-ppf">
+<h2>Rough Computation of Object Pose Given PPF<a class="headerlink" href="#rough-computation-of-object-pose-given-ppf" title="Permalink to this headline">¶</a></h2>
+<p>Let me summarize the following notation:</p>
+<ul class="simple">
+<li><img class="math" src="../../../_images/math/ef0f4a97f8a63d20c0dd3d3476236eb95eaa9fa0.png" alt="p^i_m"/>: <img class="math" src="../../../_images/math/6957f7dfca367070ef804a1b0e3f8c79955e90fc.png" alt="i^{th}"/> point of the model (<img class="math" src="../../../_images/math/ea601e3d9bb34e1a43225d0698e28d3e55f1e684.png" alt="p^j_m"/>
+accordingly)</li>
+<li><img class="math" src="../../../_images/math/d674ee5382a3d7b8bb86f0213cc63b9e77c28a17.png" alt="n^i_m"/>: Normal of the <img class="math" src="../../../_images/math/6957f7dfca367070ef804a1b0e3f8c79955e90fc.png" alt="i^{th}"/> point of the model
+(<img class="math" src="../../../_images/math/1e1946b03402e96a79e38ca6291b813d18aa2e90.png" alt="n^j_m"/> accordingly)</li>
+<li><img class="math" src="../../../_images/math/98e950cbd778ea0e9c24c301a2042ae199b4156d.png" alt="p^i_s"/>: <img class="math" src="../../../_images/math/6957f7dfca367070ef804a1b0e3f8c79955e90fc.png" alt="i^{th}"/> point of the scene (<img class="math" src="../../../_images/math/a0d7c9b935104da9f87a5609439b1101653abf0c.png" alt="p^j_s"/>
+accordingly)</li>
+<li><img class="math" src="../../../_images/math/627af653fb65231ece71e16fca5db2c9950baf36.png" alt="n^i_s"/>: Normal of the <img class="math" src="../../../_images/math/6957f7dfca367070ef804a1b0e3f8c79955e90fc.png" alt="i^{th}"/> point of the scene
+(<img class="math" src="../../../_images/math/c9d7ee822e71612fc5b5219d8284c47e013d81b7.png" alt="n^j_s"/> accordingly)</li>
+<li><img class="math" src="../../../_images/math/8f5ec68b11635d7ada7cd2f21815d68594c85385.png" alt="T_{m\rightarrow g}"/>: The transformation required to translate
+<img class="math" src="../../../_images/math/ef0f4a97f8a63d20c0dd3d3476236eb95eaa9fa0.png" alt="p^i_m"/> to the origin and rotate its normal <img class="math" src="../../../_images/math/d674ee5382a3d7b8bb86f0213cc63b9e77c28a17.png" alt="n^i_m"/> onto
+the <img class="math" src="../../../_images/math/275d1cfd2234a22c171bcf9ee37dd451fffd5e1b.png" alt="x"/>-axis.</li>
+<li><img class="math" src="../../../_images/math/173803f07f564b493513fa1cd855634b6b4f1d17.png" alt="R_{m\rightarrow g}"/>: Rotational component of
+<img class="math" src="../../../_images/math/8f5ec68b11635d7ada7cd2f21815d68594c85385.png" alt="T_{m\rightarrow g}"/>.</li>
+<li><img class="math" src="../../../_images/math/2d97d164b0f1876a93d9477320ee43687f1a3735.png" alt="t_{m\rightarrow g}"/>: Translational component of
+<img class="math" src="../../../_images/math/8f5ec68b11635d7ada7cd2f21815d68594c85385.png" alt="T_{m\rightarrow g}"/>.</li>
+<li><img class="math" src="../../../_images/math/8e87cb09d77bbbafbb49acbd42bb11cf73e22a3f.png" alt="(p^i_m)^{'}"/>: <img class="math" src="../../../_images/math/6957f7dfca367070ef804a1b0e3f8c79955e90fc.png" alt="i^{th}"/> point of the model transformed by
+<img class="math" src="../../../_images/math/8f5ec68b11635d7ada7cd2f21815d68594c85385.png" alt="T_{m\rightarrow g}"/>. (<img class="math" src="../../../_images/math/d93b8edf38e1b22cfc443029b8be90db586b9a9e.png" alt="(p^j_m)^{'}"/> accordingly).</li>
+<li><img class="math" src="../../../_images/math/d5032b3e60957ad0f04f9115e4b5917b96a55c4b.png" alt="{\bf{R_{m\rightarrow g}}}"/>: Axis angle representation of
+rotation <img class="math" src="../../../_images/math/173803f07f564b493513fa1cd855634b6b4f1d17.png" alt="R_{m\rightarrow g}"/>.</li>
+<li><img class="math" src="../../../_images/math/20d20b5683105018139ca47a87c6e86931cd26c8.png" alt="\theta_{m\rightarrow g}"/>: The angular component of the axis
+angle representation <img class="math" src="../../../_images/math/d5032b3e60957ad0f04f9115e4b5917b96a55c4b.png" alt="{\bf{R_{m\rightarrow g}}}"/>.</li>
+</ul>
+<p>The transformation in a point pair feature is computed by first finding the transformation <img class="math" src="../../../_images/math/8f5ec68b11635d7ada7cd2f21815d68594c85385.png" alt="T_{m\rightarrow g}"/> from the first point, and applying the same transformation to the second one. Transforming each point, together with the normal, to the ground plane leaves us with an angle to find out, during a comparison with a new point pair.</p>
+<p>We could now simply start writing</p>
+<div class="math">
+<p><img src="../../../_images/math/440601c320814ff7c5a6d2e4f27d2a85a653a423.png" alt="(p^i_m)^{'} = T_{m\rightarrow g} p^i_m"/></p>
+</div><p>where</p>
+<div class="math">
+<p><img src="../../../_images/math/50c845ec0aa94675639faa0cfceee0dff26c8b1b.png" alt="T_{m\rightarrow g} = -t_{m\rightarrow g}R_{m\rightarrow g}"/></p>
+</div><p>Note that this is nothing but a stacked transformation. The translational component <img class="math" src="../../../_images/math/2d97d164b0f1876a93d9477320ee43687f1a3735.png" alt="t_{m\rightarrow g}"/> reads</p>
+<div class="math">
+<p><img src="../../../_images/math/2d1d2aaef560dcf9335a448d2b1a77832926e4fe.png" alt="t_{m\rightarrow g} = -R_{m\rightarrow g}p^i_m"/></p>
+</div><p>and the rotational being</p>
+<div class="math">
+<p><img src="../../../_images/math/ad9424ad1add72a8bcf7ab0345986cabe03cceb1.png" alt="\theta_{m\rightarrow g} = \cos^{-1}(n^i_m \cdot {\bf{x}})\\
+{\bf{R_{m\rightarrow g}}} = n^i_m \wedge {\bf{x}}"/></p>
+</div><p>in axis angle format. Note that bold refers to the vector form. After this transformation, the feature vectors of the model are registered onto the ground plane X and the angle with respect to <img class="math" src="../../../_images/math/b8641f804a1c44815d4c8ce824ad01de38963478.png" alt="x=0"/> is called <img class="math" src="../../../_images/math/0a9cec6760be1067c980cebd6b09c2ebec020ba0.png" alt="\alpha_m"/>. Similarly, for the scene, it is called <img class="math" src="../../../_images/math/961265d2c65356bf75e9877489a7d559bb4c7645.png" alt="\alpha_s"/>.</p>
+<div class="section" id="hough-like-voting-scheme">
+<h3>Hough-like Voting Scheme<a class="headerlink" href="#hough-like-voting-scheme" title="Permalink to this headline">¶</a></h3>
+<p>As shown in the outline, PPF (point pair features) are extracted from the model, quantized, stored in the hashtable and indexed, during the training stage. During the runtime however, the similar operation is perfomed on the input scene with the exception that this time a similarity lookup over the hashtable is performed, instead of an insertion. This lookup also allows us to compute a transformation to the ground plane for the scene pairs. After this point, computing the rotational component of the pose reduces to computation of the difference <img class="math" src="../../../_images/math/326341907b897552c97d3aea2149e4472b9d409a.png" alt="\alpha=\alpha_m-\alpha_s"/>. This component carries
+the cue about the object pose. A Hough-like voting scheme is performed over the local model coordinate vector and <img class="math" src="../../../_images/math/69777408db155ee0fca9cc9dee60a269df6d1f96.png" alt="\alpha"/>. The highest poses achieved for every scene point lets us recover the object pose.</p>
+</div>
+<div class="section" id="source-code-for-ppf-matching">
+<h3>Source Code for PPF Matching<a class="headerlink" href="#source-code-for-ppf-matching" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// pc is the loaded point cloud of the model</span>
+<span class="c1">// (Nx6) and pcTest is a loaded point cloud of</span>
+<span class="c1">// the scene (Mx6)</span>
+<span class="n">ppf_match_3d</span><span class="o">::</span><span class="n">PPF3DDetector</span> <span class="n">detector</span><span class="p">(</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">);</span>
+<span class="n">detector</span><span class="p">.</span><span class="n">trainModel</span><span class="p">(</span><span class="n">pc</span><span class="p">);</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">Pose3DPtr</span><span class="o">&gt;</span> <span class="n">results</span><span class="p">;</span>
+<span class="n">detector</span><span class="p">.</span><span class="n">match</span><span class="p">(</span><span class="n">pcTest</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">);</span>
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Poses: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="c1">// print the poses</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">results</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Pose3DPtr</span> <span class="n">pose</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Pose Result &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">pose</span><span class="o">-&gt;</span><span class="n">printPose</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="pose-registration-via-icp">
+<h2>Pose Registration via ICP<a class="headerlink" href="#pose-registration-via-icp" title="Permalink to this headline">¶</a></h2>
+<p>The matching process terminates with the attainment of the pose.
+However, due to the multiple matching points, erroneous hypothesis, pose
+averaging and etc. such pose is very open to noise and many times is far
+from being perfect. Although the visual results obtained in that stage
+are pleasing, the quantitative evaluation shows <img class="math" src="../../../_images/math/13e90c63bc83d11c8c6ec9ec1b5a6dd51735d66f.png" alt="~10"/> degrees
+variation (error), which is an acceptable level of matching. Many times, the requirement
+might be set well beyond this margin and it is desired to refine the
+computed pose.</p>
+<p>Furthermore, in typical RGBD scenes and point clouds, 3D structure can capture only
+less than half of the model due to the visibility in the scene.
+Therefore, a robust pose refinement algorithm, which can register
+occluded and partially visible shapes quickly and correctly is not an
+unrealistic wish.</p>
+<p>At this point, a trivial option would be to use the well known iterative
+closest point algorithm . However, utilization of the basic ICP leads to
+slow convergence, bad registration, outlier sensitivity and failure to
+register partial shapes. Thus, it is definitely not suited to the
+problem. For this reason, many variants have been proposed . Different
+variants contribute to different stages of the pose estimation process.</p>
+<p>ICP is composed of <img class="math" src="../../../_images/math/f025229bc51fe8b4045865170a2e12d0a3efd3b5.png" alt="6"/> stages and the improvements I propose for
+each stage is summarized below.</p>
+<div class="section" id="sampling">
+<h3>Sampling<a class="headerlink" href="#sampling" title="Permalink to this headline">¶</a></h3>
+<p>To improve convergence speed and computation time, it is common to use
+less points than the model actually has. However, sampling the correct
+points to register is an issue in itself. The naive way would be to
+sample uniformly and hope to get a reasonable subset. More smarter ways
+try to identify the critical points, which are found to highly
+contribute to the registration process. Gelfand et. al. exploit the
+covariance matrix in order to constrain the eigenspace, so that a set of
+points which affect both translation and rotation are used. This is a
+clever way of subsampling, which I will optionally be using in the
+implementation.</p>
+</div>
+<div class="section" id="correspondence-search">
+<h3>Correspondence Search<a class="headerlink" href="#correspondence-search" title="Permalink to this headline">¶</a></h3>
+<p>As the name implies, this step is actually the assignment of the points
+in the data and the model in a closest point fashion. Correct
+assignments will lead to a correct pose, where wrong assignments
+strongly degrade the result. In general, KD-trees are used in the search
+of nearest neighbors, to increase the speed. However this is not an
+optimality guarantee and many times causes wrong points to be matched.
+Luckily the assignments are corrected over iterations.</p>
+<p>To overcome some of the limitations, Picky ICP <a class="reference internal" href="#pickyicp" id="id2">[pickyicp]</a> and BC-ICP (ICP using
+bi-unique correspondences) are two well-known methods. Picky ICP first
+finds the correspondences in the old-fashioned way and then among the
+resulting corresponding pairs, if more than one scene point <img class="math" src="../../../_images/math/e726c85891aff38330c54fcbaf3d4244f5ad8395.png" alt="p_i"/>
+is assigned to the same model point <img class="math" src="../../../_images/math/a0d89dabc1364dc44feaf1061be88143168b10e7.png" alt="m_j"/>, it selects <img class="math" src="../../../_images/math/e726c85891aff38330c54fcbaf3d4244f5ad8395.png" alt="p_i"/>
+that corresponds to the minimum distance. BC-ICP on the other hand,
+allows multiple correspondences first and then resolves the assignments
+by establishing bi-unique correspondences. It also defines a novel
+no-correspondence outlier, which intrinsically eases the process of
+identifying outliers.</p>
+<p>For reference, both methods are used. Because P-ICP is a bit faster,
+with not-so-significant performance drawback, it will be the method of
+choice in refinment of correspondences.</p>
+</div>
+<div class="section" id="weighting-of-pairs">
+<h3>Weighting of Pairs<a class="headerlink" href="#weighting-of-pairs" title="Permalink to this headline">¶</a></h3>
+<p>In my implementation, I currently do not use a weighting scheme. But the
+common approaches involve <em>normal compatibility</em>
+(<img class="math" src="../../../_images/math/a818b4e2b0c7ef063fbe315d7fca2ea18da5860f.png" alt="w_i=n^1_i\cdot n^2_j"/>) or assigning lower weights to point pairs
+with greater distances
+(<img class="math" src="../../../_images/math/867108db7cb7eb6cc1618fd87b4012740c0946ab.png" alt="w=1-\frac{||dist(m_i,s_i)||_2}{dist_{max}}"/>).</p>
+</div>
+<div class="section" id="rejection-of-pairs">
+<h3>Rejection of Pairs<a class="headerlink" href="#rejection-of-pairs" title="Permalink to this headline">¶</a></h3>
+<p>The rejections are done using a dynamic thresholding based on a robust
+estimate of the standard deviation. In other words, in each iteration, I
+find the MAD estimate of the Std. Dev. I denote this as <img class="math" src="../../../_images/math/ea95657878fb1455c7e0ee9f0af7c15332a93617.png" alt="mad_i"/>. I
+reject the pairs with distances <img class="math" src="../../../_images/math/066c86be97e3b915bb5222e321323c9697f0998e.png" alt="d_i&gt;\tau mad_i"/>. Here
+<img class="math" src="../../../_images/math/ab512bb079e94d5ba23c1c2457e4497702c421fe.png" alt="\tau"/> is the threshold of rejection and by default set to
+<img class="math" src="../../../_images/math/abcc75d8b6dc5ee8559a21d41ca5e3ad7114504e.png" alt="3"/>. The weighting is applied prior to Picky refinement, explained
+in the previous stage.</p>
+</div>
+<div class="section" id="error-metric">
+<h3>Error Metric<a class="headerlink" href="#error-metric" title="Permalink to this headline">¶</a></h3>
+<p>As described in , a linearization of point to plane as in <a class="reference internal" href="#koklimlow" id="id3">[koklimlow]</a> error metric is
+used. This both speeds up the registration process and improves convergence.</p>
+</div>
+<div class="section" id="minimization">
+<h3>Minimization<a class="headerlink" href="#minimization" title="Permalink to this headline">¶</a></h3>
+<p>Even though many non-linear optimizers (such as Levenberg Mardquardt)
+are proposed, due to the linearization in the previous step, pose
+estimation reduces to solving a linear system of equations. This is what
+I do exactly using cv::solve with DECOMP_SVD option.</p>
+</div>
+<div class="section" id="icp-algorithm">
+<h3>ICP Algorithm<a class="headerlink" href="#icp-algorithm" title="Permalink to this headline">¶</a></h3>
+<p>Having described the steps above, here I summarize the layout of the ICP
+algorithm.</p>
+<div class="section" id="efficient-icp-through-point-cloud-pyramids">
+<h4>Efficient ICP Through Point Cloud Pyramids<a class="headerlink" href="#efficient-icp-through-point-cloud-pyramids" title="Permalink to this headline">¶</a></h4>
+<p>While the up-to-now-proposed variants deal well with some outliers and
+bad initializations, they require significant number of iterations. Yet,
+multi-resolution scheme can help reducing the number of iterations by
+allowing the registration to start from a coarse level and propagate to
+the lower and finer levels. Such approach both improves the performances
+and enhances the runtime.</p>
+<p>The search is done through multiple levels, in a hierarchical fashion.
+The registration starts with a very coarse set of samples of the model.
+Iteratively, the points are densified and sought. After each iteration
+the previously estimated pose is used as an initial pose and refined
+with the ICP.</p>
+</div>
+<div class="section" id="visual-results">
+<h4>Visual Results<a class="headerlink" href="#visual-results" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="results-on-synthetic-data">
+<h5>Results on Synthetic Data<a class="headerlink" href="#results-on-synthetic-data" title="Permalink to this headline">¶</a></h5>
+<p>In all of the results, the pose is initiated by PPF and the rest is left as:
+<img class="math" src="../../../_images/math/408dae668ab90af35e2039237aedfe3963b6efeb.png" alt="[\theta_x, \theta_y, \theta_z, t_x, t_y, t_z]=[0]"/></p>
+</div>
+</div>
+</div>
+<div class="section" id="source-code-for-pose-refinement-using-icp">
+<h3>Source Code for Pose Refinement Using ICP<a class="headerlink" href="#source-code-for-pose-refinement-using-icp" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">ICP</span> <span class="nf">icp</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mf">0.001f</span><span class="p">,</span> <span class="mf">2.5f</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
+<span class="c1">// Using the previously declared pc and pcTest</span>
+<span class="c1">// This will perform registration for every pose</span>
+<span class="c1">// contained in results</span>
+<span class="n">icp</span><span class="p">.</span><span class="n">registerModelToScene</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="n">pcTest</span><span class="p">,</span> <span class="n">results</span><span class="p">);</span>
+
+<span class="c1">// results now contain the refined poses</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="results">
+<h2>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h2>
+<p>This section is dedicated to the results of surface matching (point-pair-feature matching
+and a following ICP refinement):</p>
+<a class="reference internal image-reference" href="../../../_images/gsoc_forg_matches.jpg"><img alt="Several matches of a single frog model using ppf + icp" class="align-center" src="../../../_images/gsoc_forg_matches.jpg" style="width: 832.0px; height: 468.0px;" /></a>
+<p>Matches of different models for Mian dataset is presented below:</p>
+<a class="reference internal image-reference" href="../../../_images/snapshot27.jpg"><img alt="Matches of different models for Mian dataset" class="align-center" src="../../../_images/snapshot27.jpg" style="width: 775.0px; height: 469.5px;" /></a>
+<p>You might checkout the video on <a class="reference external" href="http://www.youtube.com/watch?v=uFnqLFznuZU">youTube here</a>.</p>
+<div align="center">
+<iframe width="775" height="436" src="http://www.youtube.com/embed/uFnqLFznuZU?list=UUMSqZYDAmbiaAhyvLPJGhsg" frameborder="0" allowfullscreen></iframe>
+</div></div>
+<div class="section" id="a-complete-sample">
+<h2>A Complete Sample<a class="headerlink" href="#a-complete-sample" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-cpp"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">//</span>
+<span class="c1">//  IMPORTANT: READ BEFORE DOWNLOADING, COPYING, INSTALLING OR USING.</span>
+<span class="c1">//</span>
+<span class="c1">//  By downloading, copying, installing or using the software you agree to this license.</span>
+<span class="c1">//  If you do not agree to this license, do not download, install,</span>
+<span class="c1">//  copy or use the software.</span>
+<span class="c1">//</span>
+<span class="c1">//</span>
+<span class="c1">//                          License Agreement</span>
+<span class="c1">//                For Open Source Computer Vision Library</span>
+<span class="c1">//</span>
+<span class="c1">// Copyright (C) 2014, OpenCV Foundation, all rights reserved.</span>
+<span class="c1">// Third party copyrights are property of their respective owners.</span>
+<span class="c1">//</span>
+<span class="c1">// Redistribution and use in source and binary forms, with or without modification,</span>
+<span class="c1">// are permitted provided that the following conditions are met:</span>
+<span class="c1">//</span>
+<span class="c1">//   * Redistribution&#39;s of source code must retain the above copyright notice,</span>
+<span class="c1">//     this list of conditions and the following disclaimer.</span>
+<span class="c1">//</span>
+<span class="c1">//   * Redistribution&#39;s in binary form must reproduce the above copyright notice,</span>
+<span class="c1">//     this list of conditions and the following disclaimer in the documentation</span>
+<span class="c1">//     and/or other materials provided with the distribution.</span>
+<span class="c1">//</span>
+<span class="c1">//   * The name of the copyright holders may not be used to endorse or promote products</span>
+<span class="c1">//     derived from this software without specific prior written permission.</span>
+<span class="c1">//</span>
+<span class="c1">// This software is provided by the copyright holders and contributors &quot;as is&quot; and</span>
+<span class="c1">// any express or implied warranties, including, but not limited to, the implied</span>
+<span class="c1">// warranties of merchantability and fitness for a particular purpose are disclaimed.</span>
+<span class="c1">// In no event shall the Intel Corporation or contributors be liable for any direct,</span>
+<span class="c1">// indirect, incidental, special, exemplary, or consequential damages</span>
+<span class="c1">// (including, but not limited to, procurement of substitute goods or services;</span>
+<span class="c1">// loss of use, data, or profits; or business interruption) however caused</span>
+<span class="c1">// and on any theory of liability, whether in contract, strict liability,</span>
+<span class="c1">// or tort (including negligence or otherwise) arising in any way out of</span>
+<span class="c1">// the use of this software, even if advised of the possibility of such damage.</span>
+<span class="c1">//</span>
+<span class="c1">// Author: Tolga Birdal &lt;tbirdal AT gmail.com&gt;</span>
+
+<span class="cp">#include &quot;opencv2/surface_matching.hpp&quot;</span>
+<span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &quot;opencv2/surface_matching/ppf_helpers.hpp&quot;</span>
+<span class="cp">#include &quot;opencv2/core/utility.hpp&quot;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">cv</span><span class="p">;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">ppf_match_3d</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">help</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">errorMessage</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Program init error : &quot;</span><span class="o">&lt;&lt;</span> <span class="n">errorMessage</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Usage : ppf_matching [input model file] [input scene file]&quot;</span><span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Please start again with new parameters&quot;</span><span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// welcome message</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;****************************************************&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;* Surface Matching demonstration : demonstrates the use of surface matching&quot;</span>
+             <span class="s">&quot; using point pair features.&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;* The sample loads a model and a scene, where the model lies in a different&quot;</span>
+             <span class="s">&quot; pose than the training.</span><span class="se">\n</span><span class="s">* It then trains the model and searches for it in the&quot;</span>
+             <span class="s">&quot; input scene. The detected poses are further refined by ICP</span><span class="se">\n</span><span class="s">* and printed to the &quot;</span>
+             <span class="s">&quot; standard output.&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;****************************************************&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">help</span><span class="p">(</span><span class="s">&quot;Not enough input arguments&quot;</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+<span class="cp">#if (defined __x86_64__ || defined _M_X64)</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Running on 64 bits&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="cp">#else</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Running on 32 bits&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="cp">#endif</span>
+    
+<span class="cp">#ifdef _OPENMP</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Running with OpenMP&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="cp">#else</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Running without OpenMP and without TBB&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="cp">#endif</span>
+    
+    <span class="n">string</span> <span class="n">modelFileName</span> <span class="o">=</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+    <span class="n">string</span> <span class="n">sceneFileName</span> <span class="o">=</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+    
+    <span class="n">Mat</span> <span class="n">pc</span> <span class="o">=</span> <span class="n">loadPLYSimple</span><span class="p">(</span><span class="n">modelFileName</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="mi">1</span><span class="p">);</span>
+    
+    <span class="c1">// Now train the model</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Training...&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">int64</span> <span class="n">tick1</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">getTickCount</span><span class="p">();</span>
+    <span class="n">ppf_match_3d</span><span class="o">::</span><span class="n">PPF3DDetector</span> <span class="n">detector</span><span class="p">(</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">);</span>
+    <span class="n">detector</span><span class="p">.</span><span class="n">trainModel</span><span class="p">(</span><span class="n">pc</span><span class="p">);</span>
+    <span class="n">int64</span> <span class="n">tick2</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">getTickCount</span><span class="p">();</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Training complete in &quot;</span>
+         <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="kt">double</span><span class="p">)(</span><span class="n">tick2</span><span class="o">-</span><span class="n">tick1</span><span class="p">)</span><span class="o">/</span> <span class="n">cv</span><span class="o">::</span><span class="n">getTickFrequency</span><span class="p">()</span>
+         <span class="o">&lt;&lt;</span> <span class="s">&quot; sec&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Loading model...&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+         
+    <span class="c1">// Read the scene</span>
+    <span class="n">Mat</span> <span class="n">pcTest</span> <span class="o">=</span> <span class="n">loadPLYSimple</span><span class="p">(</span><span class="n">sceneFileName</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="mi">1</span><span class="p">);</span>
+    
+    <span class="c1">// Match the model to the scene and get the pose</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Starting matching...&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">Pose3DPtr</span><span class="o">&gt;</span> <span class="n">results</span><span class="p">;</span>
+    <span class="n">tick1</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">getTickCount</span><span class="p">();</span>
+    <span class="n">detector</span><span class="p">.</span><span class="n">match</span><span class="p">(</span><span class="n">pcTest</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">40.0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">);</span>
+    <span class="n">tick2</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">getTickCount</span><span class="p">();</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;PPF Elapsed Time &quot;</span> <span class="o">&lt;&lt;</span>
+         <span class="p">(</span><span class="n">tick2</span><span class="o">-</span><span class="n">tick1</span><span class="p">)</span><span class="o">/</span><span class="n">cv</span><span class="o">::</span><span class="n">getTickFrequency</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; sec&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+         
+    <span class="c1">// Get only first N results</span>
+    <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">Pose3DPtr</span><span class="o">&gt;</span> <span class="n">resultsSub</span><span class="p">(</span><span class="n">results</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">results</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span><span class="o">+</span><span class="n">N</span><span class="p">);</span>
+    
+    <span class="c1">// Create an instance of ICP</span>
+    <span class="n">ICP</span> <span class="n">icp</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mf">0.005f</span><span class="p">,</span> <span class="mf">2.5f</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
+    <span class="n">int64</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">getTickCount</span><span class="p">();</span>
+    
+    <span class="c1">// Register for all selected poses</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Performing ICP on &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">N</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; poses...&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">icp</span><span class="p">.</span><span class="n">registerModelToScene</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="n">pcTest</span><span class="p">,</span> <span class="n">resultsSub</span><span class="p">);</span>
+    <span class="n">int64</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">getTickCount</span><span class="p">();</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ICP Elapsed Time &quot;</span> <span class="o">&lt;&lt;</span>
+         <span class="p">(</span><span class="n">t2</span><span class="o">-</span><span class="n">t1</span><span class="p">)</span><span class="o">/</span><span class="n">cv</span><span class="o">::</span><span class="n">getTickFrequency</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; sec&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+         
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Poses: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="c1">// debug first five poses</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">resultsSub</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Pose3DPtr</span> <span class="n">result</span> <span class="o">=</span> <span class="n">resultsSub</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Pose Result &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">result</span><span class="o">-&gt;</span><span class="n">printPose</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">Mat</span> <span class="n">pct</span> <span class="o">=</span> <span class="n">transformPCPose</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="n">result</span><span class="o">-&gt;</span><span class="n">pose</span><span class="p">);</span>
+            <span class="n">writePLY</span><span class="p">(</span><span class="n">pct</span><span class="p">,</span> <span class="s">&quot;para6700PCTrans.ply&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<div class="section" id="parameter-tuning">
+<h3>Parameter Tuning<a class="headerlink" href="#parameter-tuning" title="Permalink to this headline">¶</a></h3>
+<p>Surface matching module treats its parameters relative to the model diameter (diameter of the axis parallel bounding box), whenever it can. This makes the parameters independent from the model size. This is why, both model and scene cloud were subsampled such that all points have a minimum distance of <img class="math" src="../../../_images/math/a963de19eb2ed79f031b7651da8b4864d1c21ab1.png" alt="RelativeSamplingStep*DimensionRange"/>, where <img class="math" src="../../../_images/math/a276bfba0e5aca5323694f72a5334c4c7ab5f992.png" alt="DimensionRange"/> is the distance along a given dimension. All three dimensions are sampled in similar manner. For example, if <img class="math" src="../../../_images/math/fa7eb92842faea74fcd33315a4bfc9dead06f418.png" alt="RelativeSamplingStep"/> is set to 0.05 and the diameter of model is 1m (1000mm), the points sampled from the object&#8217;s surface will be approximately 50 mm apart. From another point of view, if the sampling RelativeSamplingStep is set to 0.05, at most <img class="math" src="../../../_images/math/7fcdbd6402bda9d78350421994e61f8cb2bc397c.png" alt="20x20x20 = 8000"/> model points are generated (depending on how the model fills in the volume). Consequently this results in at most 8000x8000 pairs. In practice, because the models are not uniformly distributed over a rectangular prism, much less points are to be expected. Decreasing this value, results in more model points and thus a more accurate representation. However, note that number of point pair features to be computed is now quadratically increased as the complexity is O(N^2). This is especially a concern for 32 bit systems, where large models can easily overshoot the available memory. Typically, values in the range of 0.025 - 0.05 seem adequate for most of the applications, where the default value is 0.03. (Note that there is a difference in this paremeter with the one presented in <a class="reference internal" href="#drost2010" id="id4">[drost2010]</a>. In <a class="reference internal" href="#drost2010" id="id5">[drost2010]</a> a uniform cuboid is used for quantization and model diameter is used for reference of sampling. In my implementation, the cuboid is a rectangular prism, and each dimension is quantized independently. I do not take reference from the diameter but along the individual dimensions.</p>
+<p>It would very wise to remove the outliers from the model and prepare an ideal model initially. This is because, the outliers directly affect the relative computations and degrade the matching accuracy.</p>
+<p>During runtime stage, the scene is again sampled by <img class="math" src="../../../_images/math/fa7eb92842faea74fcd33315a4bfc9dead06f418.png" alt="RelativeSamplingStep"/>, as described above. However this time, only a portion of the scene points are used as reference. This portion is controlled by the parameter <img class="math" src="../../../_images/math/ac7e18b6ab3814bd56aae735d57257ca58bb21d7.png" alt="RelativeSceneSampleStep"/>, where <img class="math" src="../../../_images/math/ee448ea1a1a225e2a484613078868a0f1d4402ad.png" alt="SceneSampleStep = (int)(1.0/RelativeSceneSampleStep)"/>. In other words, if the <img class="math" src="../../../_images/math/f043815cc88bb00641ea0d7a1252b59ec3837f62.png" alt="RelativeSceneSampleStep = 1.0/5.0"/>, the subsampled scene will once again be uniformly sampled to 1/5 of the number of points. Maximum value of this parameter is 1 and increasing this parameter also increases the stability, but decreases the speed. Again, because of the initial scene-independent relative sampling, fine tuning this parameter is not a big concern. This would only be an issue when the model shape occupies a volume uniformly, or when the model shape is condensed in a tiny place within the quantization volume (e.g. The octree representation would have too much empty cells).</p>
+<p><img class="math" src="../../../_images/math/eb12864706a3278924bd82c87d2fca68f5f0b9df.png" alt="RelativeDistanceStep"/> acts as a step of discretization over the hash table. The point pair features are quantized to be mapped to the buckets of the hashtable. This discretization involves a multiplication and a casting to the integer. Adjusting RelativeDistanceStep in theory controls the collision rate. Note that, more collisions on the hashtable results in less accurate estimations. Reducing this parameter increases the affect of quantization but starts to assign non-similar point pairs to the same bins. Increasing it however, wanes the ability to group the similar pairs. Generally, because during the sampling stage, the training model points are selected uniformly with a distance controlled by RelativeSamplingStep, RelativeDistanceStep is expected to equate to this value. Yet again, values in the range of 0.025-0.05 are sensible. This time however, when the model is dense, it is not advised to decrease this value. For noisy scenes, the value can be increased to improve the robustness of the matching against noisy points.</p>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<table class="docutils citation" frame="void" id="drost2010" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[drost2010]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id4">2</a>, <a class="fn-backref" href="#id5">3</a>)</em> <ol class="last upperalpha simple" start="2">
+<li>Drost, S. Ilic 3D Object Detection and Localization Using Multimodal Point Pair Features Second Joint 3DIM/3DPVT Conference: 3D Imaging, Modeling, Processing, Visualization &amp; Transmission (3DIMPVT), Zurich, Switzerland, October 2012</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="pickyicp" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[pickyicp]</a></td><td>Zinsser, Timo and Schmidt, Jochen and Niemann, Heinrich A refined ICP algorithm for robust 3-D correspondence estimation Image Processing, 2003. ICIP 2003. Proceedings. 2003 International Conference on Image Processing, IEEE.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="koklimlow" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[koklimlow]</a></td><td>Kok Lim Low, Linear Least-Squares Optimization for Point-to-Plane ICP Surface Registration Technical Report TR04-004, Department of Computer Science, University of North Carolina at Chapel Hill, February 2004</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../text/doc/text.html" title="text. Scene Text Detection and Recognition"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../../saliency/doc/objectness_algorithms.html" title="Objectness Algorithms"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/surface_matching/doc/surface_matching.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/surface_matching/doc/surface_matching.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:57:50 GMT -->
+</html>

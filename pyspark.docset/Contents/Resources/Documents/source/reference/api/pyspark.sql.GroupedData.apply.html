@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.sql.GroupedData.apply — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-sql-groupeddata-apply">
+<h1>pyspark.sql.GroupedData.apply<a class="headerlink" href="#pyspark-sql-groupeddata-apply" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.sql.GroupedData.apply"><a name="//apple_ref/cpp/Method/pyspark.sql.GroupedData.apply"></a>
+<code class="sig-prename descclassname">GroupedData.</code><code class="sig-name descname">apply</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">udf</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.sql.GroupedData.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>It is an alias of <a class="reference internal" href="pyspark.sql.GroupedData.applyInPandas.html#pyspark.sql.GroupedData.applyInPandas" title="pyspark.sql.GroupedData.applyInPandas"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyspark.sql.GroupedData.applyInPandas()</span></code></a>; however, it takes a
+<a class="reference internal" href="pyspark.sql.functions.pandas_udf.html#pyspark.sql.functions.pandas_udf" title="pyspark.sql.functions.pandas_udf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyspark.sql.functions.pandas_udf()</span></code></a> whereas
+<a class="reference internal" href="pyspark.sql.GroupedData.applyInPandas.html#pyspark.sql.GroupedData.applyInPandas" title="pyspark.sql.GroupedData.applyInPandas"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyspark.sql.GroupedData.applyInPandas()</span></code></a> takes a Python native function.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is preferred to use <a class="reference internal" href="pyspark.sql.GroupedData.applyInPandas.html#pyspark.sql.GroupedData.applyInPandas" title="pyspark.sql.GroupedData.applyInPandas"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyspark.sql.GroupedData.applyInPandas()</span></code></a> over this
+API. This API will be deprecated in the future releases.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>udf</strong> – a grouped map user-defined function returned by
+<a class="reference internal" href="pyspark.sql.functions.pandas_udf.html#pyspark.sql.functions.pandas_udf" title="pyspark.sql.functions.pandas_udf"><code class="xref py py-func docutils literal notranslate"><span class="pre">pyspark.sql.functions.pandas_udf()</span></code></a>.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">pandas_udf</span><span class="p">,</span> <span class="n">PandasUDFType</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)],</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"v"</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@pandas_udf</span><span class="p">(</span><span class="s2">"id long, v double"</span><span class="p">,</span> <span class="n">PandasUDFType</span><span class="o">.</span><span class="n">GROUPED_MAP</span><span class="p">)</span>  
+<span class="gp">... </span><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">pdf</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">v</span> <span class="o">=</span> <span class="n">pdf</span><span class="o">.</span><span class="n">v</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">pdf</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="p">(</span><span class="n">v</span> <span class="o">-</span> <span class="n">v</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">v</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">normalize</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  
+<span class="go">+---+-------------------+</span>
+<span class="go">| id|                  v|</span>
+<span class="go">+---+-------------------+</span>
+<span class="go">|  1|-0.7071067811865475|</span>
+<span class="go">|  1| 0.7071067811865475|</span>
+<span class="go">|  2|-0.8320502943378437|</span>
+<span class="go">|  2|-0.2773500981126146|</span>
+<span class="go">|  2| 1.1094003924504583|</span>
+<span class="go">+---+-------------------+</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pyspark.sql.functions.pandas_udf.html#pyspark.sql.functions.pandas_udf" title="pyspark.sql.functions.pandas_udf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyspark.sql.functions.pandas_udf()</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.</span></p>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+pyspark.sql.streaming.ForeachBatchFunction
+==========================================
+
+.. currentmodule:: pyspark.sql.streaming
+
+.. autoclass:: ForeachBatchFunction
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ForeachBatchFunction.__init__
+      ~ForeachBatchFunction.call
+   
+   
+
+   
+   
+   

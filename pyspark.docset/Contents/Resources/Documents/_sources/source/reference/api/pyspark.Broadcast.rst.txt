@@ -1,0 +1,33 @@
+pyspark.Broadcast
+=================
+
+.. currentmodule:: pyspark
+
+.. autoclass:: Broadcast
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Broadcast.__init__
+      ~Broadcast.destroy
+      ~Broadcast.dump
+      ~Broadcast.load
+      ~Broadcast.load_from_path
+      ~Broadcast.unpersist
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Broadcast.value
+   
+   

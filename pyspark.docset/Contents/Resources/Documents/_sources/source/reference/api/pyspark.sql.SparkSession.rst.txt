@@ -1,0 +1,43 @@
+pyspark.sql.SparkSession
+========================
+
+.. currentmodule:: pyspark.sql
+
+.. autoclass:: SparkSession
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SparkSession.__init__
+      ~SparkSession.createDataFrame
+      ~SparkSession.getActiveSession
+      ~SparkSession.newSession
+      ~SparkSession.range
+      ~SparkSession.sql
+      ~SparkSession.stop
+      ~SparkSession.table
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SparkSession.builder
+      ~SparkSession.catalog
+      ~SparkSession.conf
+      ~SparkSession.read
+      ~SparkSession.readStream
+      ~SparkSession.sparkContext
+      ~SparkSession.streams
+      ~SparkSession.udf
+      ~SparkSession.version
+   
+   

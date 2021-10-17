@@ -1,0 +1,567 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/line_descriptor/doc/tutorial.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 07:00:09 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Line Features Tutorial</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="Binary descriptors for lines extracted from an image" href="line_descriptor.html" />
+    <link rel="next" title="optflow. Optical Flow Algorithms" href="../../optflow/doc/optflow.html" />
+    <link rel="prev" title="Drawing Functions for Keylines and Matches" href="drawing_functions.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../optflow/doc/optflow.html" title="optflow. Optical Flow Algorithms"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="drawing_functions.html" title="Drawing Functions for Keylines and Matches"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="line_descriptor.html" accesskey="U">Binary descriptors for lines extracted from an image</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Line Features Tutorial</a><ul>
+<li><a class="reference internal" href="#lines-extraction-and-descriptors-computation">Lines extraction and descriptors computation</a></li>
+<li><a class="reference internal" href="#matching-among-descriptors">Matching among descriptors</a></li>
+<li><a class="reference internal" href="#querying-internal-database">Querying internal database</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="drawing_functions.html"
+                        title="previous chapter">Drawing Functions for Keylines and Matches</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../optflow/doc/optflow.html"
+                        title="next chapter">optflow. Optical Flow Algorithms</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="line-features-tutorial">
+<h1>Line Features Tutorial<a class="headerlink" href="#line-features-tutorial" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial it will be shown how to:</p>
+<ul class="simple">
+<li>use the <em>BinaryDescriptor</em> interface to extract lines and store them in <em>KeyLine</em> objects</li>
+<li>use the same interface to compute descriptors for every extracted line</li>
+<li>use the <em>BynaryDescriptorMatcher</em> to determine matches among descriptors obtained from different images</li>
+</ul>
+<div class="section" id="lines-extraction-and-descriptors-computation">
+<h2>Lines extraction and descriptors computation<a class="headerlink" href="#lines-extraction-and-descriptors-computation" title="Permalink to this headline">¶</a></h2>
+<p>In the following snippet of code, it is shown how to detect lines from an image. The LSD extractor is initialized with <em>LSD_REFINE_ADV</em> option; remaining parameters are left to their default values. A mask of ones is used in order to accept all extracted lines, which, at the end, are displayed using random colors for octave 0.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;opencv2/line_descriptor.hpp&gt;</span>
+
+<span class="cp">#include &quot;opencv2/core/utility.hpp&quot;</span>
+<span class="cp">#include &quot;opencv2/core/private.hpp&quot;</span>
+<span class="cp">#include &lt;opencv2/imgproc.hpp&gt;</span>
+<span class="cp">#include &lt;opencv2/features2d.hpp&gt;</span>
+<span class="cp">#include &lt;opencv2/highgui.hpp&gt;</span>
+
+<span class="cp">#include &lt;iostream&gt;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">cv</span><span class="p">;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">keys</span> <span class="o">=</span>
+<span class="p">{</span> <span class="s">&quot;{@image_path | | Image path }&quot;</span> <span class="p">};</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">help</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">This example shows the functionalities of lines extraction &quot;</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;furnished by BinaryDescriptor class</span><span class="se">\n</span><span class="s">&quot;</span>
+           <span class="o">&lt;&lt;</span> <span class="s">&quot;Please, run this sample using a command in the form</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;./example_line_descriptor_lines_extraction &lt;path_to_input_image&gt;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span> <span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span> <span class="p">)</span>
+<span class="p">{</span>
+  <span class="cm">/* get parameters from comand line */</span>
+  <span class="n">CommandLineParser</span> <span class="n">parser</span><span class="p">(</span> <span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">,</span> <span class="n">keys</span> <span class="p">);</span>
+  <span class="n">String</span> <span class="n">image_path</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="n">get</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">(</span> <span class="mi">0</span> <span class="p">);</span>
+
+  <span class="k">if</span><span class="p">(</span> <span class="n">image_path</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="p">)</span>
+  <span class="p">{</span>
+        <span class="n">help</span><span class="p">();</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="cm">/* load image */</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">imageMat</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span> <span class="n">image_path</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+  <span class="k">if</span><span class="p">(</span> <span class="n">imageMat</span><span class="p">.</span><span class="n">data</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="p">)</span>
+  <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Error, image could not be loaded. Please, check its path&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="cm">/* create a ramdom binary mask */</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">Mat</span><span class="o">::</span><span class="n">ones</span><span class="p">(</span> <span class="n">imageMat</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">CV_8UC1</span> <span class="p">);</span>
+
+  <span class="cm">/* create a pointer to a BinaryDescriptor object with deafult parameters */</span>
+  <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">BinaryDescriptor</span><span class="o">&gt;</span> <span class="n">bd</span> <span class="o">=</span> <span class="n">BinaryDescriptor</span><span class="o">::</span><span class="n">createBinaryDescriptor</span><span class="p">();</span>
+
+  <span class="cm">/* create a structure to store extracted lines */</span>
+  <span class="n">vector</span><span class="o">&lt;</span><span class="n">KeyLine</span><span class="o">&gt;</span> <span class="n">lines</span><span class="p">;</span>
+
+  <span class="cm">/* extract lines */</span>
+  <span class="n">bd</span><span class="o">-&gt;</span><span class="n">detect</span><span class="p">(</span> <span class="n">imageMat</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">mask</span> <span class="p">);</span>
+
+  <span class="cm">/* draw lines extracted from octave 0 */</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">output</span> <span class="o">=</span> <span class="n">imageMat</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span>
+  <span class="k">if</span><span class="p">(</span> <span class="n">output</span><span class="p">.</span><span class="n">channels</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">)</span>
+        <span class="n">cvtColor</span><span class="p">(</span> <span class="n">output</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">COLOR_GRAY2BGR</span> <span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">lines</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span> <span class="p">)</span>
+  <span class="p">{</span>
+        <span class="n">KeyLine</span> <span class="n">kl</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">kl</span><span class="p">.</span><span class="n">octave</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="p">{</span>
+          <span class="cm">/* get a random color */</span>
+          <span class="kt">int</span> <span class="n">R</span> <span class="o">=</span> <span class="p">(</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">(</span> <span class="mi">255</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">);</span>
+          <span class="kt">int</span> <span class="n">G</span> <span class="o">=</span> <span class="p">(</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">(</span> <span class="mi">255</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">);</span>
+          <span class="kt">int</span> <span class="n">B</span> <span class="o">=</span> <span class="p">(</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">(</span> <span class="mi">255</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">);</span>
+
+          <span class="cm">/* get extremes of line */</span>
+          <span class="n">Point</span> <span class="n">pt1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span> <span class="n">kl</span><span class="p">.</span><span class="n">startPointX</span><span class="p">,</span> <span class="n">kl</span><span class="p">.</span><span class="n">startPointY</span> <span class="p">);</span>
+          <span class="n">Point</span> <span class="n">pt2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span> <span class="n">kl</span><span class="p">.</span><span class="n">endPointX</span><span class="p">,</span> <span class="n">kl</span><span class="p">.</span><span class="n">endPointY</span> <span class="p">);</span>
+
+          <span class="cm">/* draw line */</span>
+          <span class="n">line</span><span class="p">(</span> <span class="n">output</span><span class="p">,</span> <span class="n">pt1</span><span class="p">,</span> <span class="n">pt2</span><span class="p">,</span> <span class="n">Scalar</span><span class="p">(</span> <span class="n">B</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">R</span> <span class="p">),</span> <span class="mi">5</span> <span class="p">);</span>
+        <span class="p">}</span>
+
+  <span class="p">}</span>
+
+  <span class="cm">/* show lines on image */</span>
+  <span class="n">imshow</span><span class="p">(</span> <span class="s">&quot;Lines&quot;</span><span class="p">,</span> <span class="n">output</span> <span class="p">);</span>
+  <span class="n">waitKey</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This is the result obtained for famous cameraman image:</p>
+<a class="reference internal image-reference" href="../../../_images/lines_cameraman_edl.png"><img alt="alternate text" class="align-center" src="../../../_images/lines_cameraman_edl.png" style="width: 512px; height: 512px;" /></a>
+<p>Another way to extract lines is using <em>LSDDetector</em> class; such class uses the LSD extractor to compute lines. To obtain this result, it is sufficient to use the snippet code seen above, just modifying it by the rows</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cm">/* create a pointer to an LSDDetector object */</span>
+<span class="n">Ptr</span><span class="o">&lt;</span><span class="n">LSDDetector</span><span class="o">&gt;</span> <span class="n">lsd</span> <span class="o">=</span> <span class="n">LSDDetector</span><span class="o">::</span><span class="n">createLSDDetector</span><span class="p">();</span>
+
+<span class="cm">/* compute lines */</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">KeyLine</span><span class="o">&gt;</span> <span class="n">keylines</span><span class="p">;</span>
+<span class="n">lsd</span><span class="o">-&gt;</span><span class="n">detect</span><span class="p">(</span> <span class="n">imageMat</span><span class="p">,</span> <span class="n">keylines</span><span class="p">,</span> <span class="n">mask</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>Here&#8217;s the result returned by LSD detector again on cameraman picture:</p>
+<a class="reference internal image-reference" href="../../../_images/cameraman_lines2.png"><img alt="alternate text" class="align-center" src="../../../_images/cameraman_lines2.png" style="width: 512px; height: 512px;" /></a>
+<p>Once keylines have been detected, it is possible to compute their descriptors as shown in the following:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;opencv2/line_descriptor.hpp&gt;</span>
+
+<span class="cp">#include &quot;opencv2/core/utility.hpp&quot;</span>
+<span class="cp">#include &quot;opencv2/core/private.hpp&quot;</span>
+<span class="cp">#include &lt;opencv2/imgproc.hpp&gt;</span>
+<span class="cp">#include &lt;opencv2/features2d.hpp&gt;</span>
+<span class="cp">#include &lt;opencv2/highgui.hpp&gt;</span>
+
+<span class="cp">#include &lt;iostream&gt;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">cv</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">keys</span> <span class="o">=</span>
+<span class="p">{</span> <span class="s">&quot;{@image_path | | Image path }&quot;</span> <span class="p">};</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">help</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">This example shows the functionalities of lines extraction &quot;</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;and descriptors computation furnished by BinaryDescriptor class</span><span class="se">\n</span><span class="s">&quot;</span>
+                <span class="o">&lt;&lt;</span> <span class="s">&quot;Please, run this sample using a command in the form</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;./example_line_descriptor_compute_descriptors &lt;path_to_input_image&gt;&quot;</span>
+                <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span> <span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span> <span class="p">)</span>
+<span class="p">{</span>
+  <span class="cm">/* get parameters from command line */</span>
+  <span class="n">CommandLineParser</span> <span class="n">parser</span><span class="p">(</span> <span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">,</span> <span class="n">keys</span> <span class="p">);</span>
+  <span class="n">String</span> <span class="n">image_path</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="n">get</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">(</span> <span class="mi">0</span> <span class="p">);</span>
+
+  <span class="k">if</span><span class="p">(</span> <span class="n">image_path</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="p">)</span>
+  <span class="p">{</span>
+        <span class="n">help</span><span class="p">();</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="cm">/* load image */</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">imageMat</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span> <span class="n">image_path</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+  <span class="k">if</span><span class="p">(</span> <span class="n">imageMat</span><span class="p">.</span><span class="n">data</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="p">)</span>
+  <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Error, image could not be loaded. Please, check its path&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="cm">/* create a binary mask */</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">Mat</span><span class="o">::</span><span class="n">ones</span><span class="p">(</span> <span class="n">imageMat</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">CV_8UC1</span> <span class="p">);</span>
+
+  <span class="cm">/* create a pointer to a BinaryDescriptor object with default parameters */</span>
+  <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">BinaryDescriptor</span><span class="o">&gt;</span> <span class="n">bd</span> <span class="o">=</span> <span class="n">BinaryDescriptor</span><span class="o">::</span><span class="n">createBinaryDescriptor</span><span class="p">();</span>
+
+  <span class="cm">/* compute lines */</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">KeyLine</span><span class="o">&gt;</span> <span class="n">keylines</span><span class="p">;</span>
+  <span class="n">bd</span><span class="o">-&gt;</span><span class="n">detect</span><span class="p">(</span> <span class="n">imageMat</span><span class="p">,</span> <span class="n">keylines</span><span class="p">,</span> <span class="n">mask</span> <span class="p">);</span>
+
+  <span class="cm">/* compute descriptors */</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">descriptors</span><span class="p">;</span>
+  <span class="n">bd</span><span class="o">-&gt;</span><span class="n">compute</span><span class="p">(</span> <span class="n">imageMat</span><span class="p">,</span> <span class="n">keylines</span><span class="p">,</span> <span class="n">descriptors</span> <span class="p">);</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="matching-among-descriptors">
+<h2>Matching among descriptors<a class="headerlink" href="#matching-among-descriptors" title="Permalink to this headline">¶</a></h2>
+<p>If we have extracted descriptors from two different images, it is possible to search for matches among them. One way of doing it is matching exactly a descriptor to each input query descriptor, choosing the one at closest distance:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;opencv2/line_descriptor.hpp&gt;</span>
+
+<span class="cp">#include &quot;opencv2/core/utility.hpp&quot;</span>
+<span class="cp">#include &quot;opencv2/core/private.hpp&quot;</span>
+<span class="cp">#include &lt;opencv2/imgproc.hpp&gt;</span>
+<span class="cp">#include &lt;opencv2/features2d.hpp&gt;</span>
+<span class="cp">#include &lt;opencv2/highgui.hpp&gt;</span>
+
+<span class="cp">#include &lt;iostream&gt;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">cv</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">keys</span> <span class="o">=</span>
+<span class="p">{</span> <span class="s">&quot;{@image_path1 | | Image path 1 }&quot;</span>
+        <span class="s">&quot;{@image_path2 | | Image path 2 }&quot;</span> <span class="p">};</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">help</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">This example shows the functionalities of lines extraction &quot;</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;and descriptors computation furnished by BinaryDescriptor class</span><span class="se">\n</span><span class="s">&quot;</span>
+                <span class="o">&lt;&lt;</span> <span class="s">&quot;Please, run this sample using a command in the form</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;./example_line_descriptor_compute_descriptors &lt;path_to_input_image 1&gt;&quot;</span>
+                <span class="o">&lt;&lt;</span> <span class="s">&quot;&lt;path_to_input_image 2&gt;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span> <span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span> <span class="p">)</span>
+<span class="p">{</span>
+  <span class="cm">/* get parameters from comand line */</span>
+  <span class="n">CommandLineParser</span> <span class="n">parser</span><span class="p">(</span> <span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">,</span> <span class="n">keys</span> <span class="p">);</span>
+  <span class="n">String</span> <span class="n">image_path1</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="n">get</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">(</span> <span class="mi">0</span> <span class="p">);</span>
+  <span class="n">String</span> <span class="n">image_path2</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="n">get</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+
+  <span class="k">if</span><span class="p">(</span> <span class="n">image_path1</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">||</span> <span class="n">image_path2</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="p">)</span>
+  <span class="p">{</span>
+        <span class="n">help</span><span class="p">();</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="cm">/* load image */</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">imageMat1</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span> <span class="n">image_path1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">imageMat2</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span> <span class="n">image_path2</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
+
+  <span class="n">waitKey</span><span class="p">();</span>
+  <span class="k">if</span><span class="p">(</span> <span class="n">imageMat1</span><span class="p">.</span><span class="n">data</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">||</span> <span class="n">imageMat2</span><span class="p">.</span><span class="n">data</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="p">)</span>
+  <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Error, images could not be loaded. Please, check their path&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="cm">/* create binary masks */</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">mask1</span> <span class="o">=</span> <span class="n">Mat</span><span class="o">::</span><span class="n">ones</span><span class="p">(</span> <span class="n">imageMat1</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">CV_8UC1</span> <span class="p">);</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">mask2</span> <span class="o">=</span> <span class="n">Mat</span><span class="o">::</span><span class="n">ones</span><span class="p">(</span> <span class="n">imageMat2</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">CV_8UC1</span> <span class="p">);</span>
+
+  <span class="cm">/* create a pointer to a BinaryDescriptor object with default parameters */</span>
+  <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">BinaryDescriptor</span><span class="o">&gt;</span> <span class="n">bd</span> <span class="o">=</span> <span class="n">BinaryDescriptor</span><span class="o">::</span><span class="n">createBinaryDescriptor</span><span class="p">();</span>
+
+  <span class="cm">/* compute lines */</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">KeyLine</span><span class="o">&gt;</span> <span class="n">keylines1</span><span class="p">,</span> <span class="n">keylines2</span><span class="p">;</span>
+  <span class="n">bd</span><span class="o">-&gt;</span><span class="n">detect</span><span class="p">(</span> <span class="n">imageMat1</span><span class="p">,</span> <span class="n">keylines1</span><span class="p">,</span> <span class="n">mask1</span> <span class="p">);</span>
+  <span class="n">bd</span><span class="o">-&gt;</span><span class="n">detect</span><span class="p">(</span> <span class="n">imageMat2</span><span class="p">,</span> <span class="n">keylines2</span><span class="p">,</span> <span class="n">mask2</span> <span class="p">);</span>
+
+  <span class="cm">/* compute descriptors */</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">descr1</span><span class="p">,</span> <span class="n">descr2</span><span class="p">;</span>
+  <span class="n">bd</span><span class="o">-&gt;</span><span class="n">compute</span><span class="p">(</span> <span class="n">imageMat1</span><span class="p">,</span> <span class="n">keylines1</span><span class="p">,</span> <span class="n">descr1</span> <span class="p">);</span>
+  <span class="n">bd</span><span class="o">-&gt;</span><span class="n">compute</span><span class="p">(</span> <span class="n">imageMat2</span><span class="p">,</span> <span class="n">keylines2</span><span class="p">,</span> <span class="n">descr2</span> <span class="p">);</span>
+
+  <span class="cm">/* create a BinaryDescriptorMatcher object */</span>
+  <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">BinaryDescriptorMatcher</span><span class="o">&gt;</span> <span class="n">bdm</span> <span class="o">=</span> <span class="n">BinaryDescriptorMatcher</span><span class="o">::</span><span class="n">createBinaryDescriptorMatcher</span><span class="p">();</span>
+
+  <span class="cm">/* require match */</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">DMatch</span><span class="o">&gt;</span> <span class="n">matches</span><span class="p">;</span>
+  <span class="n">bdm</span><span class="o">-&gt;</span><span class="n">match</span><span class="p">(</span> <span class="n">descr1</span><span class="p">,</span> <span class="n">descr2</span><span class="p">,</span> <span class="n">matches</span> <span class="p">);</span>
+
+  <span class="cm">/* plot matches */</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">outImg</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">mask</span><span class="p">(</span> <span class="n">matches</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="mi">1</span> <span class="p">);</span>
+  <span class="n">drawLineMatches</span><span class="p">(</span> <span class="n">imageMat1</span><span class="p">,</span> <span class="n">keylines1</span><span class="p">,</span> <span class="n">imageMat2</span><span class="p">,</span> <span class="n">keylines2</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="n">outImg</span><span class="p">,</span> <span class="n">Scalar</span><span class="o">::</span><span class="n">all</span><span class="p">(</span> <span class="o">-</span><span class="mi">1</span> <span class="p">),</span> <span class="n">Scalar</span><span class="o">::</span><span class="n">all</span><span class="p">(</span> <span class="o">-</span><span class="mi">1</span> <span class="p">),</span> <span class="n">mask</span><span class="p">,</span>
+                       <span class="n">DrawLinesMatchesFlags</span><span class="o">::</span><span class="n">DEFAULT</span> <span class="p">);</span>
+
+  <span class="n">imshow</span><span class="p">(</span> <span class="s">&quot;Matches&quot;</span><span class="p">,</span> <span class="n">outImg</span> <span class="p">);</span>
+  <span class="n">waitKey</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Sometimes, we could be interested in searching for the closest <em>k</em> descriptors, given an input one. This requires to modify slightly previous code:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cm">/* prepare a structure to host matches */</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">DMatch</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">matches</span><span class="p">;</span>
+
+<span class="cm">/* require knn match */</span>
+<span class="n">bdm</span><span class="o">-&gt;</span><span class="n">knnMatch</span><span class="p">(</span> <span class="n">descr1</span><span class="p">,</span> <span class="n">descr2</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="mi">6</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>In the above example, the closest 6 descriptors are returned for every query. In some cases, we could have a search radius and look for all descriptors distant at the most <em>r</em> from input query. Previous code must me modified:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cm">/* prepare a structure to host matches */</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">DMatch</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">matches</span><span class="p">;</span>
+
+<span class="cm">/* compute matches */</span>
+<span class="n">bdm</span><span class="o">-&gt;</span><span class="n">radiusMatch</span><span class="p">(</span> <span class="n">queries</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="mi">30</span> <span class="p">);</span>
+</pre></div>
+</div>
+<p>Here&#8217;s an example om matching among descriptors extratced from original cameraman image and its downsampled (and blurred) version:</p>
+<a class="reference internal image-reference" href="../../../_images/matching2.png"><img alt="alternate text" class="align-center" src="../../../_images/matching2.png" style="width: 765px; height: 540px;" /></a>
+</div>
+<div class="section" id="querying-internal-database">
+<h2>Querying internal database<a class="headerlink" href="#querying-internal-database" title="Permalink to this headline">¶</a></h2>
+<p>The <em>BynaryDescriptorMatcher</em> class, owns an internal database that can be populated with descriptors extracted from different images and queried using one of the modalities described in previous section.
+Population of internal dataset can be done using the <em>add</em> function; such function doesn&#8217;t directly add new data to database, but it just stores it them locally. The real update happens when function <em>train</em> is invoked or when any querying function is executed, since each of them invokes <em>train</em> before querying.
+When queried, internal database not only returns required descriptors, but, for every returned match, it is able to tell which image matched descriptor was extracted from.
+An example of internal dataset usage is described in the following code; after adding locally new descriptors, a radius search is invoked. This provokes local data to be transferred to dataset, which, in turn, is then queried.</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;opencv2/line_descriptor.hpp&gt;</span>
+
+<span class="cp">#include &quot;opencv2/core/utility.hpp&quot;</span>
+<span class="cp">#include &quot;opencv2/core/private.hpp&quot;</span>
+<span class="cp">#include &lt;opencv2/imgproc.hpp&gt;</span>
+<span class="cp">#include &lt;opencv2/features2d.hpp&gt;</span>
+<span class="cp">#include &lt;opencv2/highgui.hpp&gt;</span>
+
+<span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;vector&gt;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">cv</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">images</span><span class="p">[]</span> <span class="o">=</span>
+<span class="p">{</span> <span class="s">&quot;cameraman.jpg&quot;</span><span class="p">,</span> <span class="s">&quot;church.jpg&quot;</span><span class="p">,</span> <span class="s">&quot;church2.png&quot;</span><span class="p">,</span> <span class="s">&quot;einstein.jpg&quot;</span><span class="p">,</span> <span class="s">&quot;stuff.jpg&quot;</span> <span class="p">};</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">keys</span> <span class="o">=</span>
+<span class="p">{</span> <span class="s">&quot;{@image_path | | Image path }&quot;</span> <span class="p">};</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">help</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">This example shows the functionalities of radius matching &quot;</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Please, run this sample using a command in the form</span><span class="se">\n</span><span class="s">&quot;</span>
+                <span class="o">&lt;&lt;</span> <span class="s">&quot;./example_line_descriptor_radius_matching &lt;path_to_input_images&gt;/&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span> <span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span> <span class="p">)</span>
+<span class="p">{</span>
+  <span class="cm">/* get parameters from comand line */</span>
+  <span class="n">CommandLineParser</span> <span class="n">parser</span><span class="p">(</span> <span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">,</span> <span class="n">keys</span> <span class="p">);</span>
+  <span class="n">String</span> <span class="n">pathToImages</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="n">get</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">(</span> <span class="mi">0</span> <span class="p">);</span>
+
+  <span class="cm">/* create structures for hosting KeyLines and descriptors */</span>
+  <span class="kt">int</span> <span class="n">num_elements</span> <span class="o">=</span> <span class="k">sizeof</span> <span class="p">(</span> <span class="n">images</span> <span class="p">)</span> <span class="o">/</span> <span class="k">sizeof</span> <span class="p">(</span> <span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Mat</span><span class="o">&gt;</span> <span class="n">descriptorsMat</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">KeyLine</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">linesMat</span><span class="p">;</span>
+
+  <span class="cm">/*create a pointer to a BinaryDescriptor object */</span>
+  <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">BinaryDescriptor</span><span class="o">&gt;</span> <span class="n">bd</span> <span class="o">=</span> <span class="n">BinaryDescriptor</span><span class="o">::</span><span class="n">createBinaryDescriptor</span><span class="p">();</span>
+
+  <span class="cm">/* compute lines and descriptors */</span>
+  <span class="k">for</span> <span class="p">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_elements</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">)</span>
+  <span class="p">{</span>
+        <span class="cm">/* get path to image */</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">stringstream</span> <span class="n">image_path</span><span class="p">;</span>
+        <span class="n">image_path</span> <span class="o">&lt;&lt;</span> <span class="n">pathToImages</span> <span class="o">&lt;&lt;</span> <span class="n">images</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+        <span class="cm">/* load image */</span>
+        <span class="n">Mat</span> <span class="n">loadedImage</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span> <span class="n">image_path</span><span class="p">.</span><span class="n">str</span><span class="p">().</span><span class="n">c_str</span><span class="p">(),</span> <span class="mi">1</span> <span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">loadedImage</span><span class="p">.</span><span class="n">data</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="p">)</span>
+        <span class="p">{</span>
+          <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Could not load images.&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+          <span class="n">help</span><span class="p">();</span>
+          <span class="n">exit</span><span class="p">(</span> <span class="o">-</span><span class="mi">1</span> <span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="cm">/* compute lines and descriptors */</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">KeyLine</span><span class="o">&gt;</span> <span class="n">lines</span><span class="p">;</span>
+        <span class="n">Mat</span> <span class="n">computedDescr</span><span class="p">;</span>
+        <span class="n">bd</span><span class="o">-&gt;</span><span class="n">detect</span><span class="p">(</span> <span class="n">loadedImage</span><span class="p">,</span> <span class="n">lines</span> <span class="p">);</span>
+        <span class="n">bd</span><span class="o">-&gt;</span><span class="n">compute</span><span class="p">(</span> <span class="n">loadedImage</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">computedDescr</span> <span class="p">);</span>
+
+        <span class="n">descriptorsMat</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="n">computedDescr</span> <span class="p">);</span>
+        <span class="n">linesMat</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="n">lines</span> <span class="p">);</span>
+
+  <span class="p">}</span>
+
+  <span class="cm">/* compose a queries matrix */</span>
+  <span class="n">Mat</span> <span class="n">queries</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">descriptorsMat</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">j</span><span class="o">++</span> <span class="p">)</span>
+  <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">descriptorsMat</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">rows</span> <span class="o">&gt;=</span> <span class="mi">5</span> <span class="p">)</span>
+          <span class="n">queries</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="n">descriptorsMat</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">rowRange</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span> <span class="p">)</span> <span class="p">);</span>
+
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="n">descriptorsMat</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">rows</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">descriptorsMat</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">rows</span> <span class="o">&lt;</span> <span class="mi">5</span> <span class="p">)</span>
+          <span class="n">queries</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="n">descriptorsMat</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;It has been generated a matrix of &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">queries</span><span class="p">.</span><span class="n">rows</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; descriptors&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="cm">/* create a BinaryDescriptorMatcher object */</span>
+  <span class="n">Ptr</span><span class="o">&lt;</span><span class="n">BinaryDescriptorMatcher</span><span class="o">&gt;</span> <span class="n">bdm</span> <span class="o">=</span> <span class="n">BinaryDescriptorMatcher</span><span class="o">::</span><span class="n">createBinaryDescriptorMatcher</span><span class="p">();</span>
+
+  <span class="cm">/* populate matcher */</span>
+  <span class="n">bdm</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span> <span class="n">descriptorsMat</span> <span class="p">);</span>
+
+  <span class="cm">/* compute matches */</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">DMatch</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">matches</span><span class="p">;</span>
+  <span class="n">bdm</span><span class="o">-&gt;</span><span class="n">radiusMatch</span><span class="p">(</span> <span class="n">queries</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="mi">30</span> <span class="p">);</span>
+
+  <span class="cm">/* print matches */</span>
+  <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">q</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">q</span> <span class="o">&lt;</span> <span class="n">matches</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">q</span><span class="o">++</span> <span class="p">)</span>
+  <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span> <span class="kt">size_t</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">matches</span><span class="p">[</span><span class="n">q</span><span class="p">].</span><span class="n">size</span><span class="p">();</span> <span class="n">m</span><span class="o">++</span> <span class="p">)</span>
+        <span class="p">{</span>
+          <span class="n">DMatch</span> <span class="n">dm</span> <span class="o">=</span> <span class="n">matches</span><span class="p">[</span><span class="n">q</span><span class="p">][</span><span class="n">m</span><span class="p">];</span>
+          <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Descriptor: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">q</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; Image: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">dm</span><span class="p">.</span><span class="n">imgIdx</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; Distance: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">dm</span><span class="p">.</span><span class="n">distance</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../optflow/doc/optflow.html" title="optflow. Optical Flow Algorithms"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="drawing_functions.html" title="Drawing Functions for Keylines and Matches"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="line_descriptor.html" >Binary descriptors for lines extracted from an image</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/line_descriptor/doc/tutorial.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/line_descriptor/doc/tutorial.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 07:00:09 GMT -->
+</html>

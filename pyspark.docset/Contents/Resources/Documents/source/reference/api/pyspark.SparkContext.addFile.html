@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.SparkContext.addFile — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-sparkcontext-addfile">
+<h1>pyspark.SparkContext.addFile<a class="headerlink" href="#pyspark-sparkcontext-addfile" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.SparkContext.addFile"><a name="//apple_ref/cpp/Method/pyspark.SparkContext.addFile"></a>
+<code class="sig-prename descclassname">SparkContext.</code><code class="sig-name descname">addFile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/context.html#SparkContext.addFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.SparkContext.addFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a file to be downloaded with this Spark job on every node.
+The <cite>path</cite> passed can be either a local file, a file in HDFS
+(or other Hadoop-supported filesystems), or an HTTP, HTTPS or
+FTP URI.</p>
+<p>To access the file in Spark jobs, use <a class="reference internal" href="pyspark.SparkFiles.get.html#pyspark.SparkFiles.get" title="pyspark.SparkFiles.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SparkFiles.get()</span></code></a> with the
+filename to find its download location.</p>
+<p>A directory can be given if the recursive option is set to True.
+Currently directories are only supported for Hadoop-supported filesystems.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A path can be added only once. Subsequent additions of the same path are ignored.</p>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">SparkFiles</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempdir</span><span class="p">,</span> <span class="s2">"test.txt"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">testFile</span><span class="p">:</span>
+<span class="gp">... </span>   <span class="n">_</span> <span class="o">=</span> <span class="n">testFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"100"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sc</span><span class="o">.</span><span class="n">addFile</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">iterator</span><span class="p">):</span>
+<span class="gp">... </span>   <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">SparkFiles</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"test.txt"</span><span class="p">))</span> <span class="k">as</span> <span class="n">testFile</span><span class="p">:</span>
+<span class="gp">... </span>       <span class="n">fileVal</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">testFile</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span>
+<span class="gp">... </span>       <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="n">fileVal</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">mapPartitions</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="go">[100, 200, 300, 400]</span>
+</pre></div>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

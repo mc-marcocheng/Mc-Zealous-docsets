@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KolmogorovSmirnovTest — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="kolmogorovsmirnovtest">
+<h1>KolmogorovSmirnovTest<a class="headerlink" href="#kolmogorovsmirnovtest" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.stat.KolmogorovSmirnovTest"><a name="//apple_ref/cpp/Class/pyspark.ml.stat.KolmogorovSmirnovTest"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.stat.</code><code class="sig-name descname">KolmogorovSmirnovTest</code><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#KolmogorovSmirnovTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.KolmogorovSmirnovTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Conduct the two-sided Kolmogorov Smirnov (KS) test for data sampled from a continuous
+distribution.</p>
+<p>By comparing the largest difference between the empirical cumulative
+distribution of the sample data and the theoretical distribution we can provide a test for the
+the null hypothesis that the sample data comes from that theoretical distribution.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.stat.KolmogorovSmirnovTest.test"><a name="//apple_ref/cpp/Method/pyspark.ml.stat.KolmogorovSmirnovTest.test"></a>
+<em class="property">static </em><code class="sig-name descname">test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">sampleCol</span></em>, <em class="sig-param"><span class="n">distName</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">params</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/stat.html#KolmogorovSmirnovTest.test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.stat.KolmogorovSmirnovTest.test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Conduct a one-sample, two-sided Kolmogorov-Smirnov test for probability distribution
+equality. Currently supports the normal distribution, taking as parameters the mean and
+standard deviation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – a Dataset or a DataFrame containing the sample of data to test.</p></li>
+<li><p><strong>sampleCol</strong> – Name of sample column in dataset, of any numerical type.</p></li>
+<li><p><strong>distName</strong> – a <cite>string</cite> name for a theoretical distribution, currently only support “norm”.</p></li>
+<li><p><strong>params</strong> – a list of <cite>Double</cite> values specifying the parameters to be used for the theoretical
+distribution. For “norm” distribution, the parameters includes mean and variance.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A DataFrame that contains the Kolmogorov-Smirnov test result for the input sampled data.
+This DataFrame will contain a single Row with the following fields:
+- <cite>pValue: Double</cite>
+- <cite>statistic: Double</cite></p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.stat</span> <span class="kn">import</span> <span class="n">KolmogorovSmirnovTest</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="s1">'sample'</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ksResult</span> <span class="o">=</span> <span class="n">KolmogorovSmirnovTest</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="s1">'sample'</span><span class="p">,</span> <span class="s1">'norm'</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">ksResult</span><span class="o">.</span><span class="n">pValue</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">ksResult</span><span class="o">.</span><span class="n">statistic</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">0.175</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">4.0</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="s1">'sample'</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ksResult</span> <span class="o">=</span> <span class="n">KolmogorovSmirnovTest</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="s1">'sample'</span><span class="p">,</span> <span class="s1">'norm'</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">ksResult</span><span class="o">.</span><span class="n">pValue</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">ksResult</span><span class="o">.</span><span class="n">statistic</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">0.175</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

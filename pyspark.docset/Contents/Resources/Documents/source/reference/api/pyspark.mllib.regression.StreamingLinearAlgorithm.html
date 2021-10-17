@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>StreamingLinearAlgorithm — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="streaminglinearalgorithm">
+<h1>StreamingLinearAlgorithm<a class="headerlink" href="#streaminglinearalgorithm" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.regression.StreamingLinearAlgorithm"><a name="//apple_ref/cpp/Class/pyspark.mllib.regression.StreamingLinearAlgorithm"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.regression.</code><code class="sig-name descname">StreamingLinearAlgorithm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/regression.html#StreamingLinearAlgorithm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.regression.StreamingLinearAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class that has to be inherited by any StreamingLinearAlgorithm.</p>
+<p>Prevents reimplementation of methods predictOn and predictOnValues.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.regression.StreamingLinearAlgorithm.latestModel"><a name="//apple_ref/cpp/Method/pyspark.mllib.regression.StreamingLinearAlgorithm.latestModel"></a>
+<code class="sig-name descname">latestModel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/regression.html#StreamingLinearAlgorithm.latestModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.regression.StreamingLinearAlgorithm.latestModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the latest model.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.regression.StreamingLinearAlgorithm.predictOn"><a name="//apple_ref/cpp/Method/pyspark.mllib.regression.StreamingLinearAlgorithm.predictOn"></a>
+<code class="sig-name descname">predictOn</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dstream</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/regression.html#StreamingLinearAlgorithm.predictOn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.regression.StreamingLinearAlgorithm.predictOn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the model to make predictions on batches of data from a
+DStream.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>DStream containing predictions.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.regression.StreamingLinearAlgorithm.predictOnValues"><a name="//apple_ref/cpp/Method/pyspark.mllib.regression.StreamingLinearAlgorithm.predictOnValues"></a>
+<code class="sig-name descname">predictOnValues</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dstream</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/regression.html#StreamingLinearAlgorithm.predictOnValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.regression.StreamingLinearAlgorithm.predictOnValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the model to make predictions on the values of a DStream and
+carry over its keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>DStream containing the input keys and the predictions as values.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

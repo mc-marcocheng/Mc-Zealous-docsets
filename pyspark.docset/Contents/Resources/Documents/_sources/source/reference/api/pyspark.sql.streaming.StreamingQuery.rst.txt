@@ -1,0 +1,39 @@
+pyspark.sql.streaming.StreamingQuery
+====================================
+
+.. currentmodule:: pyspark.sql.streaming
+
+.. autoclass:: StreamingQuery
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~StreamingQuery.__init__
+      ~StreamingQuery.awaitTermination
+      ~StreamingQuery.exception
+      ~StreamingQuery.explain
+      ~StreamingQuery.processAllAvailable
+      ~StreamingQuery.stop
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~StreamingQuery.id
+      ~StreamingQuery.isActive
+      ~StreamingQuery.lastProgress
+      ~StreamingQuery.name
+      ~StreamingQuery.recentProgress
+      ~StreamingQuery.runId
+      ~StreamingQuery.status
+   
+   

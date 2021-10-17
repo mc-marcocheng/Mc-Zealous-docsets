@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/face/doc/facerec_changelog.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 07:00:02 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Changelog</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="FaceRecognizer - Face Recognition with OpenCV" href="index.html" />
+    <link rel="next" title="Binary descriptors for lines extracted from an image" href="../../line_descriptor/doc/line_descriptor.html" />
+    <link rel="prev" title="Saving and Loading a FaceRecognizer" href="tutorial/facerec_save_load.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../line_descriptor/doc/line_descriptor.html" title="Binary descriptors for lines extracted from an image"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tutorial/facerec_save_load.html" title="Saving and Loading a FaceRecognizer"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="face.html" >face. Face Recognition</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">FaceRecognizer - Face Recognition with OpenCV</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#release-0-05">Release 0.05</a><ul>
+<li><a class="reference internal" href="#release-highlights">Release highlights</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#release-0-04">Release 0.04</a><ul>
+<li><a class="reference internal" href="#id1">Release highlights</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#release-0-03">Release 0.03</a><ul>
+<li><a class="reference internal" href="#id2">Release highlights</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#release-0-02">Release 0.02</a><ul>
+<li><a class="reference internal" href="#id3">Release highlights</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#release-0-01">Release 0.01</a><ul>
+<li><a class="reference internal" href="#id4">Release highlights</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tutorial/facerec_save_load.html"
+                        title="previous chapter">Saving and Loading a FaceRecognizer</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../line_descriptor/doc/line_descriptor.html"
+                        title="next chapter">Binary descriptors for lines extracted from an image</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="release-0-05">
+<h2>Release 0.05<a class="headerlink" href="#release-0-05" title="Permalink to this headline">¶</a></h2>
+<p>This library is now included in the official OpenCV distribution (from 2.4 on).
+The :ocv:class`FaceRecognizer` is now an <a class="reference internal" href="../../core/doc/basic_structures.html#Algorithm" title="class Algorithm"><tt class="xref ocv ocv-class docutils literal"><span class="pre">Algorithm</span></tt></a>, which better fits into the overall
+OpenCV API.</p>
+<p>To reduce the confusion on user side and minimize my work, libfacerec and OpenCV
+have been synchronized and are now based on the same interfaces and implementation.</p>
+<p>The library now has an extensive documentation:</p>
+<ul class="simple">
+<li>The API is explained in detail and with a lot of code examples.</li>
+<li>The face recognition guide I had written for Python and GNU Octave/MATLAB has been adapted to the new OpenCV C++ <tt class="docutils literal"><span class="pre">cv::FaceRecognizer</span></tt>.</li>
+<li>A tutorial for gender classification with Fisherfaces.</li>
+<li>A tutorial for face recognition in videos (e.g. webcam).</li>
+</ul>
+<div class="section" id="release-highlights">
+<h3>Release highlights<a class="headerlink" href="#release-highlights" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>There are no single highlights to pick from, this release is a highlight itself.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-0-04">
+<h2>Release 0.04<a class="headerlink" href="#release-0-04" title="Permalink to this headline">¶</a></h2>
+<p>This version is fully Windows-compatible and works with OpenCV 2.3.1. Several
+bugfixes, but none influenced the recognition rate.</p>
+<div class="section" id="id1">
+<h3>Release highlights<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>A whole lot of exceptions with meaningful error messages.</li>
+<li>A tutorial for Windows users: <a class="reference external" href="http://bytefish.de/blog/opencv_visual_studio_and_libfacerec">http://bytefish.de/blog/opencv_visual_studio_and_libfacerec</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-0-03">
+<h2>Release 0.03<a class="headerlink" href="#release-0-03" title="Permalink to this headline">¶</a></h2>
+<p>Reworked the library to provide separate implementations in cpp files, because
+it&#8217;s the preferred way of contributing OpenCV libraries. This means the library
+is not header-only anymore. Slight API changes were done, please see the
+documentation for details.</p>
+<div class="section" id="id2">
+<h3>Release highlights<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>New Unit Tests (for LBP Histograms) make the library more robust.</li>
+<li>Added more documentation.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-0-02">
+<h2>Release 0.02<a class="headerlink" href="#release-0-02" title="Permalink to this headline">¶</a></h2>
+<p>Reworked the library to provide separate implementations in cpp files, because
+it&#8217;s the preferred way of contributing OpenCV libraries. This means the library
+is not header-only anymore. Slight API changes were done, please see the
+documentation for details.</p>
+<div class="section" id="id3">
+<h3>Release highlights<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>New Unit Tests (for LBP Histograms) make the library more robust.</li>
+<li>Added a documentation and changelog in reStructuredText.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-0-01">
+<h2>Release 0.01<a class="headerlink" href="#release-0-01" title="Permalink to this headline">¶</a></h2>
+<p>Initial release as header-only library.</p>
+<div class="section" id="id4">
+<h3>Release highlights<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Colormaps for OpenCV to enhance the visualization.</li>
+<li>Face Recognition algorithms implemented:<ul>
+<li>Eigenfaces <a class="reference internal" href="facerec_tutorial.html#tp91" id="id5">[TP91]</a></li>
+<li>Fisherfaces <a class="reference internal" href="facerec_tutorial.html#bhk97" id="id6">[BHK97]</a></li>
+<li>Local Binary Patterns Histograms <a class="reference internal" href="facerec_tutorial.html#ahp04" id="id7">[AHP04]</a></li>
+</ul>
+</li>
+<li>Added persistence facilities to store the models with a common API.</li>
+<li>Unit Tests (using <a class="reference external" href="http://code.google.com/p/googletest/">gtest</a>).</li>
+<li>Providing a CMakeLists.txt to enable easy cross-platform building.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../line_descriptor/doc/line_descriptor.html" title="Binary descriptors for lines extracted from an image"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tutorial/facerec_save_load.html" title="Saving and Loading a FaceRecognizer"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="face.html" >face. Face Recognition</a> &raquo;</li>
+          <li><a href="index.html" >FaceRecognizer - Face Recognition with OpenCV</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/face/doc/facerec_changelog.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/face/doc/facerec_changelog.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 07:00:02 GMT -->
+</html>

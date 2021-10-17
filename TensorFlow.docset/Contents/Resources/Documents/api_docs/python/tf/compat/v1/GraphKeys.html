@@ -1,0 +1,491 @@
+<!DOCTYPE html><html dir="ltr" lang="en"><head>
+<meta content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com" name="google-signin-client-id"/>
+<meta content="profile email" name="google-signin-scope"/>
+<meta content="TensorFlow" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="#ff6f00" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link crossorigin="use-credentials" href="_pwa/tensorflow/manifest.json" rel="manifest"/>
+<link crossorigin="" href="/www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.googleapis.com" rel="preconnect"/>
+<link href="../../../../../main.css" rel="stylesheet"/>
+
+<noscript>
+
+</noscript>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/favicon.png" rel="shortcut icon"/>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/apple-touch-icon-180x180.png" rel="apple-touch-icon"/><link href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/GraphKeys" rel="canonical"/><link href="https://www.tensorflow.org/s/opensearch.xml" rel="search" title="TensorFlow" type="application/opensearchdescription+xml"/>
+<title>tf.compat.v1.GraphKeys &nbsp;|&nbsp; TensorFlow Core v2.1.0</title>
+<meta content="tf.compat.v1.GraphKeys &nbsp;|&nbsp; TensorFlow Core v2.1.0" property="og:title"/>
+<meta content="https://www.tensorflow.org/api_docs/python/tf/compat/v1/GraphKeys" property="og:url"/>
+<meta content="en" property="og:locale"/>
+
+</head>
+<body class="" layout="docs" pending="" theme="tensorflow-theme" type="reference">
+<devsite-progress id="app-progress" type="indeterminate"></devsite-progress>
+<section class="devsite-wrapper"> <devsite-book-nav scrollbars="">
+
+</devsite-book-nav>
+<section id="gc-wrapper">
+<main class="devsite-main-content" has-book-nav="" has-toc="" role="main">
+<devsite-toc class="devsite-nav"></devsite-toc>
+<devsite-content>
+<article class="devsite-article">
+<article class="devsite-article-inner"><style>
+        /* Styles inlined from /site-assets/css/style.css */
+/* override theme */
+table img {
+  max-width: 100%;
+}
+
+/* override var element to differentiate color from comment */
+var, var code, var span, .prettyprint var span {
+  color: #039be5;
+}
+
+/* .devsite-terminal virtualenv prompt */
+.tfo-terminal-venv::before {
+  content: "(venv) $ " !important;
+}
+
+/* .devsite-terminal root prompt */
+.tfo-terminal-root::before {
+  content: "# " !important;
+}
+
+/* .devsite-terminal Windows prompt */
+.tfo-terminal-windows::before {
+  content: "C:\\> " !important;
+}
+
+/* .devsite-terminal Windows prompt w/ virtualenv */
+.tfo-terminal-windows-venv::before {
+  content: "(venv) C:\\> " !important;
+}
+
+.tfo-diff-green-one-level + * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green + * > * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green-list + ul > li:first-of-type {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-red-one-level + * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red + * > * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red-list + ul > li:first-of-type {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+devsite-code .tfo-notebook-code-cell-output {
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(255, 247, 237, 1);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(255, 247, 237, .7);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output {
+  background: rgba(64, 78, 103, 1);  /* medium slate */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(64, 78, 103, .7);  /* medium slate */
+}
+
+/* override default table styles for notebook buttons */
+.devsite-table-wrapper .tfo-notebook-buttons {
+  display: inline-block;
+  margin-left: 3px;
+  width: auto;
+}
+
+.tfo-notebook-buttons td {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.tfo-notebook-buttons a,
+.tfo-notebook-buttons :link,
+.tfo-notebook-buttons :visited {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  color: #202124;
+  padding: 12px 24px;
+  transition: box-shadow 0.2s;
+}
+
+.tfo-notebook-buttons a:hover,
+.tfo-notebook-buttons a:focus {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.tfo-notebook-buttons tr {
+  background: 0;
+  border: 0;
+}
+
+/* on rendered notebook page,
+   remove link to webpage since we're already here */
+.tfo-notebook-buttons:not(.tfo-api) td:first-child {
+  display: none;
+}
+
+.tfo-notebook-buttons td > a {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tfo-notebook-buttons td > a > img {
+  margin-right: 8px;
+}
+
+/* landing pages */
+
+.tfo-landing-row-item-inset-white {
+  background-color: #fff;
+  padding: 32px;
+}
+
+.tfo-landing-row-item-inset-white ol,
+.tfo-landing-row-item-inset-white ul {
+  padding-left: 20px;
+}
+
+/* colab callout button */
+.colab-callout-row devsite-code {
+  border-radius: 8px 8px 0 0;
+  box-shadow: none;
+}
+
+.colab-callout-footer {
+  background: #e3e4e7;
+  border-radius: 0 0 8px 8px;
+  color: #37474f;
+  padding: 20px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer {
+  background: #3f4f66;
+}
+
+
+.colab-callout-footer > .button {
+  margin-top: 4px;
+  color: #ff5c00;
+}
+
+.colab-callout-footer > a > span {
+  padding-top: 10px;
+  vertical-align: middle;
+  color: #37474f;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer > a > span {
+  color: #fff;
+}
+
+a.colab-button {
+  background: rgba(255, 255, 255, .75);
+  border: solid 1px rgba(0, 0, 0, .08);
+  border-bottom-color: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  color: #aaa;
+  display: inline-block;
+  font-size: 11px !important;
+  font-weight: 300;
+  line-height: 16px;
+  padding: 4px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.colab-button:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, .2);
+  color: #666;
+}
+
+a.colab-button span {
+  background: url(/images/colab_logo_button.svg) no-repeat 1px 1px / 20px;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 24px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .tfo-notebook-buttons td {
+    display: block;
+  }
+}
+
+/* guide and tutorials landing page cards and sections */
+
+.tfo-landing-page-card {
+  padding: 16px;
+  box-shadow: 0 0 36px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+/* Page section headings */
+.tfo-landing-page-heading h2, h2.tfo-landing-page-heading {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+/* Item title headings */
+.tfo-landing-page-heading h3, h3.tfo-landing-page-heading,
+.tfo-landing-page-card h3, h3.tfo-landing-page-card {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* List of tutorials notebooks for subsites */
+.tfo-landing-page-resources-ul {
+  padding-left: 15px
+}
+
+.tfo-landing-page-resources-ul > li {
+  margin: 6px 0;
+}
+
+/* Temporary fix to hide product description in header on landing pages */
+devsite-header .devsite-product-description {
+  display: none;
+}
+
+        </style> <div class="devsite-banner devsite-banner-announcement">
+<div class="devsite-banner-message">
+<div class="devsite-banner-message-text">
+            Missed TensorFlow Dev Summit? Check out the video playlist. <a class="button button-primary button-tfo-announcement" href="https://goo.gle/TFDS20AllSessions">Watch recordings</a>
+</div>
+</div>
+</div>
+<div class="devsite-article-meta">
+<ul class="devsite-breadcrumb-list">
+<li class="devsite-breadcrumb-item">
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="1" href="">
+            TensorFlow
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="2" href="api">
+            API
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="3" href="api_docs">
+            TensorFlow Core v2.1.0
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="4" href="api_docs/python/tf">
+            Python
+      
+  </a>
+</li>
+</ul>
+<devsite-page-rating hover-rating-star="0" position="header" selected-rating="0">
+</devsite-page-rating>
+</div>
+<a class="dashingAutolink" name="autolink-82"></a><a class="dashAnchor" name="//apple_ref/cpp/Function/tf.compat.v1.GraphKeys"></a><h1 class="dash-function">tf.compat.v1.GraphKeys</h1>
+<devsite-toc class="devsite-nav" devsite-toc-embedded="">
+</devsite-toc>
+<div class="devsite-article-body clearfix">
+<p></p>
+<!-- DO NOT EDIT! Automatically generated file. -->
+<div itemscope="" itemtype="http://developers.google.com/ReferenceObject">
+<meta content="tf.compat.v1.GraphKeys" itemprop="name"/>
+<meta content="Stable" itemprop="path"/>
+<meta content="ACTIVATIONS" itemprop="property"/>
+<meta content="ASSET_FILEPATHS" itemprop="property"/>
+<meta content="BIASES" itemprop="property"/>
+<meta content="CONCATENATED_VARIABLES" itemprop="property"/>
+<meta content="COND_CONTEXT" itemprop="property"/>
+<meta content="EVAL_STEP" itemprop="property"/>
+<meta content="GLOBAL_STEP" itemprop="property"/>
+<meta content="GLOBAL_VARIABLES" itemprop="property"/>
+<meta content="INIT_OP" itemprop="property"/>
+<meta content="LOCAL_INIT_OP" itemprop="property"/>
+<meta content="LOCAL_RESOURCES" itemprop="property"/>
+<meta content="LOCAL_VARIABLES" itemprop="property"/>
+<meta content="LOSSES" itemprop="property"/>
+<meta content="METRIC_VARIABLES" itemprop="property"/>
+<meta content="MODEL_VARIABLES" itemprop="property"/>
+<meta content="MOVING_AVERAGE_VARIABLES" itemprop="property"/>
+<meta content="QUEUE_RUNNERS" itemprop="property"/>
+<meta content="READY_FOR_LOCAL_INIT_OP" itemprop="property"/>
+<meta content="READY_OP" itemprop="property"/>
+<meta content="REGULARIZATION_LOSSES" itemprop="property"/>
+<meta content="RESOURCES" itemprop="property"/>
+<meta content="SAVEABLE_OBJECTS" itemprop="property"/>
+<meta content="SAVERS" itemprop="property"/>
+<meta content="SUMMARIES" itemprop="property"/>
+<meta content="SUMMARY_OP" itemprop="property"/>
+<meta content="TABLE_INITIALIZERS" itemprop="property"/>
+<meta content="TRAINABLE_RESOURCE_VARIABLES" itemprop="property"/>
+<meta content="TRAINABLE_VARIABLES" itemprop="property"/>
+<meta content="TRAIN_OP" itemprop="property"/>
+<meta content="UPDATE_OPS" itemprop="property"/>
+<meta content="VARIABLES" itemprop="property"/>
+<meta content="WEIGHTS" itemprop="property"/>
+<meta content="WHILE_CONTEXT" itemprop="property"/>
+</div>
+<!-- Insert buttons and diff -->
+<table align="left" class="tfo-notebook-buttons tfo-api">
+<tbody><tr><td>
+<a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/framework/ops.py#L5892-L6034" target="_blank">
+<img src="https://www.tensorflow.org/images/GitHub-Mark-32px.png"/>
+    View source on GitHub
+  </a>
+</td></tr></tbody></table>
+<p>Standard names to use for graph collections.</p>
+<!-- Placeholder for "Used in" -->
+<p>The standard library uses various well-known names to collect and
+retrieve values associated with a graph. For example, the
+<code dir="ltr" translate="no">tf.Optimizer</code> subclasses default to optimizing the variables
+collected under <code dir="ltr" translate="no">tf.GraphKeys.TRAINABLE_VARIABLES</code> if none is
+specified, but it is also possible to pass an explicit list of
+variables.</p>
+<p>The following standard keys are defined:</p>
+<ul>
+<li><code dir="ltr" translate="no">GLOBAL_VARIABLES</code>: the default collection of <code dir="ltr" translate="no">Variable</code> objects, shared
+across distributed environment (model variables are subset of these). See
+<a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/global_variables"><code dir="ltr" translate="no">tf.compat.v1.global_variables</code></a>
+for more details.
+Commonly, all <code dir="ltr" translate="no">TRAINABLE_VARIABLES</code> variables will be in <code dir="ltr" translate="no">MODEL_VARIABLES</code>,
+and all <code dir="ltr" translate="no">MODEL_VARIABLES</code> variables will be in <code dir="ltr" translate="no">GLOBAL_VARIABLES</code>.</li>
+<li><code dir="ltr" translate="no">LOCAL_VARIABLES</code>: the subset of <code dir="ltr" translate="no">Variable</code> objects that are local to each
+machine. Usually used for temporarily variables, like counters.
+Note: use <code dir="ltr" translate="no">tf.contrib.framework.local_variable</code> to add to this collection.</li>
+<li><code dir="ltr" translate="no">MODEL_VARIABLES</code>: the subset of <code dir="ltr" translate="no">Variable</code> objects that are used in the
+model for inference (feed forward). Note: use
+<code dir="ltr" translate="no">tf.contrib.framework.model_variable</code> to add to this collection.</li>
+<li><code dir="ltr" translate="no">TRAINABLE_VARIABLES</code>: the subset of <code dir="ltr" translate="no">Variable</code> objects that will
+be trained by an optimizer. See
+<a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/trainable_variables"><code dir="ltr" translate="no">tf.compat.v1.trainable_variables</code></a>
+for more details.</li>
+<li><code dir="ltr" translate="no">SUMMARIES</code>: the summary <code dir="ltr" translate="no">Tensor</code> objects that have been created in the
+graph. See
+<a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/summary/merge_all"><code dir="ltr" translate="no">tf.compat.v1.summary.merge_all</code></a>
+for more details.</li>
+<li><code dir="ltr" translate="no">QUEUE_RUNNERS</code>: the <code dir="ltr" translate="no">QueueRunner</code> objects that are used to
+produce input for a computation. See
+<a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/start_queue_runners"><code dir="ltr" translate="no">tf.compat.v1.train.start_queue_runners</code></a>
+for more details.</li>
+<li><code dir="ltr" translate="no">MOVING_AVERAGE_VARIABLES</code>: the subset of <code dir="ltr" translate="no">Variable</code> objects that will also
+keep moving averages.  See
+<a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/moving_average_variables"><code dir="ltr" translate="no">tf.compat.v1.moving_average_variables</code></a>
+for more details.</li>
+<li><code dir="ltr" translate="no">REGULARIZATION_LOSSES</code>: regularization losses collected during graph
+construction.</li>
+</ul>
+<p>The following standard keys are <em>defined</em>, but their collections are <strong>not</strong>
+automatically populated as many of the others are:</p>
+<ul>
+<li><code dir="ltr" translate="no">WEIGHTS</code></li>
+<li><code dir="ltr" translate="no">BIASES</code></li>
+<li><code dir="ltr" translate="no">ACTIVATIONS</code></li>
+</ul>
+<h2 id="class_variables">Class Variables</h2>
+<ul>
+<li><code dir="ltr" translate="no">ACTIVATIONS = &#39;activations&#39;</code> <a id="ACTIVATIONS"></a></li>
+<li><code dir="ltr" translate="no">ASSET_FILEPATHS = &#39;asset_filepaths&#39;</code> <a id="ASSET_FILEPATHS"></a></li>
+<li><code dir="ltr" translate="no">BIASES = &#39;biases&#39;</code> <a id="BIASES"></a></li>
+<li><code dir="ltr" translate="no">CONCATENATED_VARIABLES = &#39;concatenated_variables&#39;</code> <a id="CONCATENATED_VARIABLES"></a></li>
+<li><code dir="ltr" translate="no">COND_CONTEXT = &#39;cond_context&#39;</code> <a id="COND_CONTEXT"></a></li>
+<li><code dir="ltr" translate="no">EVAL_STEP = &#39;eval_step&#39;</code> <a id="EVAL_STEP"></a></li>
+<li><code dir="ltr" translate="no">GLOBAL_STEP = &#39;global_step&#39;</code> <a id="GLOBAL_STEP"></a></li>
+<li><code dir="ltr" translate="no">GLOBAL_VARIABLES = &#39;variables&#39;</code> <a id="GLOBAL_VARIABLES"></a></li>
+<li><code dir="ltr" translate="no">INIT_OP = &#39;init_op&#39;</code> <a id="INIT_OP"></a></li>
+<li><code dir="ltr" translate="no">LOCAL_INIT_OP = &#39;local_init_op&#39;</code> <a id="LOCAL_INIT_OP"></a></li>
+<li><code dir="ltr" translate="no">LOCAL_RESOURCES = &#39;local_resources&#39;</code> <a id="LOCAL_RESOURCES"></a></li>
+<li><code dir="ltr" translate="no">LOCAL_VARIABLES = &#39;local_variables&#39;</code> <a id="LOCAL_VARIABLES"></a></li>
+<li><code dir="ltr" translate="no">LOSSES = &#39;losses&#39;</code> <a id="LOSSES"></a></li>
+<li><code dir="ltr" translate="no">METRIC_VARIABLES = &#39;metric_variables&#39;</code> <a id="METRIC_VARIABLES"></a></li>
+<li><code dir="ltr" translate="no">MODEL_VARIABLES = &#39;model_variables&#39;</code> <a id="MODEL_VARIABLES"></a></li>
+<li><code dir="ltr" translate="no">MOVING_AVERAGE_VARIABLES = &#39;moving_average_variables&#39;</code> <a id="MOVING_AVERAGE_VARIABLES"></a></li>
+<li><code dir="ltr" translate="no">QUEUE_RUNNERS = &#39;queue_runners&#39;</code> <a id="QUEUE_RUNNERS"></a></li>
+<li><code dir="ltr" translate="no">READY_FOR_LOCAL_INIT_OP = &#39;ready_for_local_init_op&#39;</code> <a id="READY_FOR_LOCAL_INIT_OP"></a></li>
+<li><code dir="ltr" translate="no">READY_OP = &#39;ready_op&#39;</code> <a id="READY_OP"></a></li>
+<li><code dir="ltr" translate="no">REGULARIZATION_LOSSES = &#39;regularization_losses&#39;</code> <a id="REGULARIZATION_LOSSES"></a></li>
+<li><code dir="ltr" translate="no">RESOURCES = &#39;resources&#39;</code> <a id="RESOURCES"></a></li>
+<li><code dir="ltr" translate="no">SAVEABLE_OBJECTS = &#39;saveable_objects&#39;</code> <a id="SAVEABLE_OBJECTS"></a></li>
+<li><code dir="ltr" translate="no">SAVERS = &#39;savers&#39;</code> <a id="SAVERS"></a></li>
+<li><code dir="ltr" translate="no">SUMMARIES = &#39;summaries&#39;</code> <a id="SUMMARIES"></a></li>
+<li><code dir="ltr" translate="no">SUMMARY_OP = &#39;summary_op&#39;</code> <a id="SUMMARY_OP"></a></li>
+<li><code dir="ltr" translate="no">TABLE_INITIALIZERS = &#39;table_initializer&#39;</code> <a id="TABLE_INITIALIZERS"></a></li>
+<li><code dir="ltr" translate="no">TRAINABLE_RESOURCE_VARIABLES = &#39;trainable_resource_variables&#39;</code> <a id="TRAINABLE_RESOURCE_VARIABLES"></a></li>
+<li><code dir="ltr" translate="no">TRAINABLE_VARIABLES = &#39;trainable_variables&#39;</code> <a id="TRAINABLE_VARIABLES"></a></li>
+<li><code dir="ltr" translate="no">TRAIN_OP = &#39;train_op&#39;</code> <a id="TRAIN_OP"></a></li>
+<li><code dir="ltr" translate="no">UPDATE_OPS = &#39;update_ops&#39;</code> <a id="UPDATE_OPS"></a></li>
+<li><code dir="ltr" translate="no">VARIABLES = &#39;variables&#39;</code> <a id="VARIABLES"></a></li>
+<li><code dir="ltr" translate="no">WEIGHTS = &#39;weights&#39;</code> <a id="WEIGHTS"></a></li>
+<li><code dir="ltr" translate="no">WHILE_CONTEXT = &#39;while_context&#39;</code> <a id="WHILE_CONTEXT"></a></li>
+</ul>
+</div>
+<devsite-page-rating hover-rating-star="0" position="footer" selected-rating="0">
+</devsite-page-rating>
+</article>
+</article>
+
+</devsite-content>
+</main>
+<devsite-footer-promos class="devsite-footer">
+</devsite-footer-promos>
+<devsite-footer-linkboxes class="devsite-footer">
+
+</devsite-footer-linkboxes>
+<devsite-footer-utility class="devsite-footer">
+<div class="devsite-footer-utility nocontent">
+
+</div>
+</devsite-footer-utility>
+</section></section>
+<devsite-sitemask></devsite-sitemask>
+<devsite-snackbar></devsite-snackbar> <devsite-tooltip></devsite-tooltip>
+<devsite-heading-link></devsite-heading-link>
+<devsite-analytics>
+
+
+</devsite-analytics>
+ 
+</body></html>

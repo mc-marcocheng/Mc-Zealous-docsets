@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>ChiSqSelector — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="chisqselector">
+<h1>ChiSqSelector<a class="headerlink" href="#chisqselector" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.feature.ChiSqSelector"><a name="//apple_ref/cpp/Class/pyspark.mllib.feature.ChiSqSelector"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.feature.</code><code class="sig-name descname">ChiSqSelector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">numTopFeatures</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">selectorType</span><span class="o">=</span><span class="default_value">'numTopFeatures'</span></em>, <em class="sig-param"><span class="n">percentile</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">fpr</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">fdr</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">fwe</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#ChiSqSelector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.ChiSqSelector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a ChiSquared feature selector.
+The selector supports different selection methods: <cite>numTopFeatures</cite>, <cite>percentile</cite>, <cite>fpr</cite>,
+<cite>fdr</cite>, <cite>fwe</cite>.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>numTopFeatures</cite> chooses a fixed number of top features according to a chi-squared test.</p></li>
+<li><p><cite>percentile</cite> is similar but chooses a fraction of all features
+instead of a fixed number.</p></li>
+<li><p><cite>fpr</cite> chooses all features whose p-values are below a threshold,
+thus controlling the false positive rate of selection.</p></li>
+<li><p><cite>fdr</cite> uses the <a class="reference external" href="https://en.wikipedia.org/wiki/False_discovery_rate#Benjamini.E2.80.93Hochberg_procedure">Benjamini-Hochberg procedure</a>
+to choose all features whose false discovery rate is below a threshold.</p></li>
+<li><p><cite>fwe</cite> chooses all features whose p-values are below a threshold. The threshold is scaled by
+1/numFeatures, thus controlling the family-wise error rate of selection.</p></li>
+</ul>
+</div></blockquote>
+<p>By default, the selection method is <cite>numTopFeatures</cite>, with the default number of top features
+set to 50.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">LabeledPoint</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">SparseVector</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mf">7.0</span><span class="p">})),</span>
+<span class="gp">... </span>    <span class="n">LabeledPoint</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">SparseVector</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">})),</span>
+<span class="gp">... </span>    <span class="n">LabeledPoint</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">]),</span>
+<span class="gp">... </span>    <span class="n">LabeledPoint</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">]),</span>
+<span class="gp">... </span>    <span class="n">LabeledPoint</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="p">[</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ChiSqSelector</span><span class="p">(</span><span class="n">numTopFeatures</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">SparseVector</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">}))</span>
+<span class="go">SparseVector(1, {})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">DenseVector</span><span class="p">([</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">]))</span>
+<span class="go">DenseVector([7.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ChiSqSelector</span><span class="p">(</span><span class="n">selectorType</span><span class="o">=</span><span class="s2">"fpr"</span><span class="p">,</span> <span class="n">fpr</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">SparseVector</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">}))</span>
+<span class="go">SparseVector(1, {})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">DenseVector</span><span class="p">([</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">]))</span>
+<span class="go">DenseVector([7.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ChiSqSelector</span><span class="p">(</span><span class="n">selectorType</span><span class="o">=</span><span class="s2">"percentile"</span><span class="p">,</span> <span class="n">percentile</span><span class="o">=</span><span class="mf">0.34</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">DenseVector</span><span class="p">([</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">]))</span>
+<span class="go">DenseVector([7.0])</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.ChiSqSelector.fit"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.ChiSqSelector.fit"></a>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#ChiSqSelector.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.ChiSqSelector.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a ChiSquared feature selector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – an <cite>RDD[LabeledPoint]</cite> containing the labeled dataset
+with categorical features. Real-valued features will be
+treated as categorical for each distinct value.
+Apply feature discretizer before using this function.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.ChiSqSelector.setFdr"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.ChiSqSelector.setFdr"></a>
+<code class="sig-name descname">setFdr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fdr</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#ChiSqSelector.setFdr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.ChiSqSelector.setFdr" title="Permalink to this definition">¶</a></dt>
+<dd><p>set FDR [0.0, 1.0] for feature selection by FDR.
+Only applicable when selectorType = “fdr”.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.ChiSqSelector.setFpr"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.ChiSqSelector.setFpr"></a>
+<code class="sig-name descname">setFpr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fpr</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#ChiSqSelector.setFpr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.ChiSqSelector.setFpr" title="Permalink to this definition">¶</a></dt>
+<dd><p>set FPR [0.0, 1.0] for feature selection by FPR.
+Only applicable when selectorType = “fpr”.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.ChiSqSelector.setFwe"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.ChiSqSelector.setFwe"></a>
+<code class="sig-name descname">setFwe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fwe</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#ChiSqSelector.setFwe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.ChiSqSelector.setFwe" title="Permalink to this definition">¶</a></dt>
+<dd><p>set FWE [0.0, 1.0] for feature selection by FWE.
+Only applicable when selectorType = “fwe”.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.ChiSqSelector.setNumTopFeatures"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.ChiSqSelector.setNumTopFeatures"></a>
+<code class="sig-name descname">setNumTopFeatures</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">numTopFeatures</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#ChiSqSelector.setNumTopFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.ChiSqSelector.setNumTopFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>set numTopFeature for feature selection by number of top features.
+Only applicable when selectorType = “numTopFeatures”.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.ChiSqSelector.setPercentile"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.ChiSqSelector.setPercentile"></a>
+<code class="sig-name descname">setPercentile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">percentile</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#ChiSqSelector.setPercentile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.ChiSqSelector.setPercentile" title="Permalink to this definition">¶</a></dt>
+<dd><p>set percentile [0.0, 1.0] for feature selection by percentile.
+Only applicable when selectorType = “percentile”.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.ChiSqSelector.setSelectorType"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.ChiSqSelector.setSelectorType"></a>
+<code class="sig-name descname">setSelectorType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">selectorType</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#ChiSqSelector.setSelectorType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.ChiSqSelector.setSelectorType" title="Permalink to this definition">¶</a></dt>
+<dd><p>set the selector type of the ChisqSelector.
+Supported options: “numTopFeatures” (default), “percentile”, “fpr”, “fdr”, “fwe”.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

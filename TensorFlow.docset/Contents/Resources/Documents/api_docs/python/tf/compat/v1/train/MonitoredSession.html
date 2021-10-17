@@ -1,0 +1,548 @@
+<!DOCTYPE html><html dir="ltr" lang="en"><head>
+<meta content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com" name="google-signin-client-id"/>
+<meta content="profile email" name="google-signin-scope"/>
+<meta content="TensorFlow" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="#ff6f00" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link crossorigin="use-credentials" href="_pwa/tensorflow/manifest.json" rel="manifest"/>
+<link crossorigin="" href="/www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.googleapis.com" rel="preconnect"/>
+<link href="../../../../../../main.css" rel="stylesheet"/>
+
+<noscript>
+
+</noscript>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/favicon.png" rel="shortcut icon"/>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/apple-touch-icon-180x180.png" rel="apple-touch-icon"/><link href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/MonitoredSession" rel="canonical"/><link href="https://www.tensorflow.org/s/opensearch.xml" rel="search" title="TensorFlow" type="application/opensearchdescription+xml"/>
+<title>tf.compat.v1.train.MonitoredSession &nbsp;|&nbsp; TensorFlow Core v2.1.0</title>
+<meta content="tf.compat.v1.train.MonitoredSession &nbsp;|&nbsp; TensorFlow Core v2.1.0" property="og:title"/>
+<meta content="https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/MonitoredSession" property="og:url"/>
+<meta content="en" property="og:locale"/>
+
+</head>
+<body class="" layout="docs" pending="" theme="tensorflow-theme" type="reference">
+<devsite-progress id="app-progress" type="indeterminate"></devsite-progress>
+<section class="devsite-wrapper"> <devsite-book-nav scrollbars="">
+
+</devsite-book-nav>
+<section id="gc-wrapper">
+<main class="devsite-main-content" has-book-nav="" has-toc="" role="main">
+<devsite-toc class="devsite-nav"></devsite-toc>
+<devsite-content>
+<article class="devsite-article">
+<article class="devsite-article-inner"><style>
+        /* Styles inlined from /site-assets/css/style.css */
+/* override theme */
+table img {
+  max-width: 100%;
+}
+
+/* override var element to differentiate color from comment */
+var, var code, var span, .prettyprint var span {
+  color: #039be5;
+}
+
+/* .devsite-terminal virtualenv prompt */
+.tfo-terminal-venv::before {
+  content: "(venv) $ " !important;
+}
+
+/* .devsite-terminal root prompt */
+.tfo-terminal-root::before {
+  content: "# " !important;
+}
+
+/* .devsite-terminal Windows prompt */
+.tfo-terminal-windows::before {
+  content: "C:\\> " !important;
+}
+
+/* .devsite-terminal Windows prompt w/ virtualenv */
+.tfo-terminal-windows-venv::before {
+  content: "(venv) C:\\> " !important;
+}
+
+.tfo-diff-green-one-level + * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green + * > * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green-list + ul > li:first-of-type {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-red-one-level + * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red + * > * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red-list + ul > li:first-of-type {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+devsite-code .tfo-notebook-code-cell-output {
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(255, 247, 237, 1);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(255, 247, 237, .7);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output {
+  background: rgba(64, 78, 103, 1);  /* medium slate */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(64, 78, 103, .7);  /* medium slate */
+}
+
+/* override default table styles for notebook buttons */
+.devsite-table-wrapper .tfo-notebook-buttons {
+  display: inline-block;
+  margin-left: 3px;
+  width: auto;
+}
+
+.tfo-notebook-buttons td {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.tfo-notebook-buttons a,
+.tfo-notebook-buttons :link,
+.tfo-notebook-buttons :visited {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  color: #202124;
+  padding: 12px 24px;
+  transition: box-shadow 0.2s;
+}
+
+.tfo-notebook-buttons a:hover,
+.tfo-notebook-buttons a:focus {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.tfo-notebook-buttons tr {
+  background: 0;
+  border: 0;
+}
+
+/* on rendered notebook page,
+   remove link to webpage since we're already here */
+.tfo-notebook-buttons:not(.tfo-api) td:first-child {
+  display: none;
+}
+
+.tfo-notebook-buttons td > a {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tfo-notebook-buttons td > a > img {
+  margin-right: 8px;
+}
+
+/* landing pages */
+
+.tfo-landing-row-item-inset-white {
+  background-color: #fff;
+  padding: 32px;
+}
+
+.tfo-landing-row-item-inset-white ol,
+.tfo-landing-row-item-inset-white ul {
+  padding-left: 20px;
+}
+
+/* colab callout button */
+.colab-callout-row devsite-code {
+  border-radius: 8px 8px 0 0;
+  box-shadow: none;
+}
+
+.colab-callout-footer {
+  background: #e3e4e7;
+  border-radius: 0 0 8px 8px;
+  color: #37474f;
+  padding: 20px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer {
+  background: #3f4f66;
+}
+
+
+.colab-callout-footer > .button {
+  margin-top: 4px;
+  color: #ff5c00;
+}
+
+.colab-callout-footer > a > span {
+  padding-top: 10px;
+  vertical-align: middle;
+  color: #37474f;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer > a > span {
+  color: #fff;
+}
+
+a.colab-button {
+  background: rgba(255, 255, 255, .75);
+  border: solid 1px rgba(0, 0, 0, .08);
+  border-bottom-color: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  color: #aaa;
+  display: inline-block;
+  font-size: 11px !important;
+  font-weight: 300;
+  line-height: 16px;
+  padding: 4px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.colab-button:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, .2);
+  color: #666;
+}
+
+a.colab-button span {
+  background: url(/images/colab_logo_button.svg) no-repeat 1px 1px / 20px;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 24px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .tfo-notebook-buttons td {
+    display: block;
+  }
+}
+
+/* guide and tutorials landing page cards and sections */
+
+.tfo-landing-page-card {
+  padding: 16px;
+  box-shadow: 0 0 36px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+/* Page section headings */
+.tfo-landing-page-heading h2, h2.tfo-landing-page-heading {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+/* Item title headings */
+.tfo-landing-page-heading h3, h3.tfo-landing-page-heading,
+.tfo-landing-page-card h3, h3.tfo-landing-page-card {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* List of tutorials notebooks for subsites */
+.tfo-landing-page-resources-ul {
+  padding-left: 15px
+}
+
+.tfo-landing-page-resources-ul > li {
+  margin: 6px 0;
+}
+
+/* Temporary fix to hide product description in header on landing pages */
+devsite-header .devsite-product-description {
+  display: none;
+}
+
+        </style> <div class="devsite-banner devsite-banner-announcement">
+<div class="devsite-banner-message">
+<div class="devsite-banner-message-text">
+            Missed TensorFlow Dev Summit? Check out the video playlist. <a class="button button-primary button-tfo-announcement" href="https://goo.gle/TFDS20AllSessions">Watch recordings</a>
+</div>
+</div>
+</div>
+<div class="devsite-article-meta">
+<ul class="devsite-breadcrumb-list">
+<li class="devsite-breadcrumb-item">
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="1" href="">
+            TensorFlow
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="2" href="api">
+            API
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="3" href="api_docs">
+            TensorFlow Core v2.1.0
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="4" href="api_docs/python/tf">
+            Python
+      
+  </a>
+</li>
+</ul>
+<devsite-page-rating hover-rating-star="0" position="header" selected-rating="0">
+</devsite-page-rating>
+</div>
+<a class="dashingAutolink" name="autolink-1039"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/tf.compat.v1.train.MonitoredSession"></a><h1 class="dash-class">tf.compat.v1.train.MonitoredSession</h1>
+<devsite-toc class="devsite-nav" devsite-toc-embedded="">
+</devsite-toc>
+<div class="devsite-article-body clearfix">
+<p></p>
+<!-- DO NOT EDIT! Automatically generated file. -->
+<div itemscope="" itemtype="http://developers.google.com/ReferenceObject">
+<meta content="tf.compat.v1.train.MonitoredSession" itemprop="name"/>
+<meta content="Stable" itemprop="path"/>
+<meta content="StepContext" itemprop="property"/>
+<meta content="__enter__" itemprop="property"/>
+<meta content="__exit__" itemprop="property"/>
+<meta content="__init__" itemprop="property"/>
+<meta content="close" itemprop="property"/>
+<meta content="run" itemprop="property"/>
+<meta content="run_step_fn" itemprop="property"/>
+<meta content="should_stop" itemprop="property"/>
+</div>
+<!-- Insert buttons and diff -->
+<table align="left" class="tfo-notebook-buttons tfo-api">
+<tbody><tr><td>
+<a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/monitored_session.py#L954-L1038" target="_blank">
+<img src="https://www.tensorflow.org/images/GitHub-Mark-32px.png"/>
+    View source on GitHub
+  </a>
+</td></tr></tbody></table>
+<p>Session-like object that handles initialization, recovery and hooks.</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">tf.compat.v1.train.MonitoredSession(
+    session_creator=None, hooks=None, stop_grace_period_secs=120
+)
+</code></pre>
+<!-- Placeholder for "Used in" -->
+<h4 id="example_usage">Example usage:</h4>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">saver_hook = CheckpointSaverHook(...)
+summary_hook = SummarySaverHook(...)
+with MonitoredSession(session_creator=ChiefSessionCreator(...),
+                      hooks=[saver_hook, summary_hook]) as sess:
+  while not sess.should_stop():
+    sess.run(train_op)
+</code></pre>
+<p>Initialization: At creation time the monitored session does following things
+in given order:</p>
+<ul>
+<li>calls <code dir="ltr" translate="no">hook.begin()</code> for each given hook</li>
+<li>finalizes the graph via <code dir="ltr" translate="no">scaffold.finalize()</code></li>
+<li>create session</li>
+<li>initializes the model via initialization ops provided by <code dir="ltr" translate="no">Scaffold</code></li>
+<li>restores variables if a checkpoint exists</li>
+<li>launches queue runners</li>
+<li>calls <code dir="ltr" translate="no">hook.after_create_session()</code></li>
+</ul>
+<p>Run: When <code dir="ltr" translate="no">run()</code> is called, the monitored session does following things:</p>
+<ul>
+<li>calls <code dir="ltr" translate="no">hook.before_run()</code></li>
+<li>calls TensorFlow <code dir="ltr" translate="no">session.run()</code> with merged fetches and feed_dict</li>
+<li>calls <code dir="ltr" translate="no">hook.after_run()</code></li>
+<li>returns result of <code dir="ltr" translate="no">session.run()</code> asked by user</li>
+<li>if <code dir="ltr" translate="no">AbortedError</code> or <code dir="ltr" translate="no">UnavailableError</code> occurs, it recovers or
+reinitializes the session before executing the run() call again</li>
+</ul>
+<p>Exit: At the <code dir="ltr" translate="no">close()</code>, the monitored session does following things in order:</p>
+<ul>
+<li>calls <code dir="ltr" translate="no">hook.end()</code></li>
+<li>closes the queue runners and the session</li>
+<li>suppresses <code dir="ltr" translate="no">OutOfRange</code> error which indicates that all inputs have been
+processed if the monitored_session is used as a context</li>
+</ul>
+<p>How to set <a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/Session"><code dir="ltr" translate="no">tf.compat.v1.Session</code></a> arguments:</p>
+<ul>
+<li>In most cases you can set session arguments as follows:</li>
+</ul>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">MonitoredSession(
+  session_creator=ChiefSessionCreator(master=..., config=...))
+</code></pre>
+<ul>
+<li>In distributed setting for a non-chief worker, you can use following:</li>
+</ul>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">MonitoredSession(
+  session_creator=WorkerSessionCreator(master=..., config=...))
+</code></pre>
+<p>See <code dir="ltr" translate="no">MonitoredTrainingSession</code> for an example usage based on chief or worker.</p>
+<aside class="note"><strong>Note:</strong><span> This is not a <a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/Session"><code dir="ltr" translate="no">tf.compat.v1.Session</code></a>. For example, it cannot do
+following:</span></aside>
+<ul>
+<li>it cannot be set as default session.</li>
+<li>it cannot be sent to saver.save.</li>
+<li>it cannot be sent to tf.train.start_queue_runners.</li>
+</ul>
+<h4 id="args">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">session_creator</code></b>: A factory object to create session. Typically a
+<code dir="ltr" translate="no">ChiefSessionCreator</code> which is the default one.</li>
+<li><b><code dir="ltr" translate="no">hooks</code></b>: An iterable of `SessionRunHook&#39; objects.</li>
+</ul>
+<h4 id="returns">Returns:</h4>
+<p>A MonitoredSession object.</p>
+<h4 id="args_2">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">session_creator</code></b>: A factory object to create session. Typically a
+<code dir="ltr" translate="no">ChiefSessionCreator</code> or a <code dir="ltr" translate="no">WorkerSessionCreator</code>.</li>
+<li><b><code dir="ltr" translate="no">hooks</code></b>: An iterable of `SessionRunHook&#39; objects.</li>
+<li><b><code dir="ltr" translate="no">should_recover</code></b>: A bool. Indicates whether to recover from <code dir="ltr" translate="no">AbortedError</code>
+and <code dir="ltr" translate="no">UnavailableError</code> or not.</li>
+<li><b><code dir="ltr" translate="no">stop_grace_period_secs</code></b>: Number of seconds given to threads to stop after
+<code dir="ltr" translate="no">close()</code> has been called.</li>
+</ul>
+<h4 id="attributes">Attributes:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">graph</code></b>:   The graph that was launched in this session.</li>
+</ul>
+<h2 id="child_classes">Child Classes</h2>
+<p><a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/MonitoredSession/StepContext"><code dir="ltr" translate="no">class StepContext</code></a></p>
+<h2 id="methods">Methods</h2>
+<h3 id="__enter__"><code dir="ltr" translate="no">__enter__</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/monitored_session.py#L879-L880" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">__enter__()
+</code></pre>
+<h3 id="__exit__"><code dir="ltr" translate="no">__exit__</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/monitored_session.py#L882-L887" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">__exit__(
+    exception_type, exception_value, traceback
+)
+</code></pre>
+<h3 id="close"><code dir="ltr" translate="no">close</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/monitored_session.py#L876-L877" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">close()
+</code></pre>
+<h3 id="run"><code dir="ltr" translate="no">run</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/monitored_session.py#L760-L778" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">run(
+    fetches, feed_dict=None, options=None, run_metadata=None
+)
+</code></pre>
+<p>Run ops in the monitored session.</p>
+<p>This method is completely compatible with the <code dir="ltr" translate="no">tf.Session.run()</code> method.</p>
+<h4 id="args_3">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">fetches</code></b>: Same as <code dir="ltr" translate="no">tf.Session.run()</code>.</li>
+<li><b><code dir="ltr" translate="no">feed_dict</code></b>: Same as <code dir="ltr" translate="no">tf.Session.run()</code>.</li>
+<li><b><code dir="ltr" translate="no">options</code></b>: Same as <code dir="ltr" translate="no">tf.Session.run()</code>.</li>
+<li><b><code dir="ltr" translate="no">run_metadata</code></b>: Same as <code dir="ltr" translate="no">tf.Session.run()</code>.</li>
+</ul>
+<h4 id="returns_2">Returns:</h4>
+<p>Same as <code dir="ltr" translate="no">tf.Session.run()</code>.</p>
+<h3 id="run_step_fn"><code dir="ltr" translate="no">run_step_fn</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/monitored_session.py#L780-L834" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">run_step_fn(
+    step_fn
+)
+</code></pre>
+<p>Run ops using a step function.</p>
+<h4 id="args_4">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">step_fn</code></b>: A function or a method with a single argument of type
+<code dir="ltr" translate="no">StepContext</code>.  The function may use methods of the argument to perform
+computations with access to a raw session.  The returned value of the
+<code dir="ltr" translate="no">step_fn</code> will be returned from <code dir="ltr" translate="no">run_step_fn</code>, unless a stop is
+requested.  In that case, the next <code dir="ltr" translate="no">should_stop</code> call will return True.
+Example usage:</li>
+</ul>
+<blockquote>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">with tf.Graph().as_default():
+  c = tf.compat.v1.placeholder(dtypes.float32)
+  v = tf.add(c, 4.0)
+  w = tf.add(c, 0.5)
+  def step_fn(step_context):
+    a = step_context.session.run(fetches=v, feed_dict={c: 0.5})
+    if a &lt;= 4.5:
+      step_context.request_stop()
+      return step_context.run_with_hooks(fetches=w,
+                                         feed_dict={c: 0.1})
+
+  with tf.MonitoredSession() as session:
+    while not session.should_stop():
+      a = session.run_step_fn(step_fn)
+  Hooks interact with the `run_with_hooks()` call inside the
+       `step_fn` as they do with a `MonitoredSession.run` call.
+</code></pre></blockquote>
+<h4 id="returns_3">Returns:</h4>
+<p>Returns the returned value of <code dir="ltr" translate="no">step_fn</code>.</p>
+<h4 id="raises">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">StopIteration</code></b>: if <code dir="ltr" translate="no">step_fn</code> has called <code dir="ltr" translate="no">request_stop()</code>.  It may be
+caught by <code dir="ltr" translate="no">with tf.MonitoredSession()</code> to close the session.</li>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>: if <code dir="ltr" translate="no">step_fn</code> doesn&#39;t have a single argument called
+<code dir="ltr" translate="no">step_context</code>. It may also optionally have <code dir="ltr" translate="no">self</code> for cases when it
+belongs to an object.</li>
+</ul>
+<h3 id="should_stop"><code dir="ltr" translate="no">should_stop</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/training/monitored_session.py#L873-L874" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">should_stop()
+</code></pre>
+</div>
+<devsite-page-rating hover-rating-star="0" position="footer" selected-rating="0">
+</devsite-page-rating>
+</article>
+</article>
+
+</devsite-content>
+</main>
+<devsite-footer-promos class="devsite-footer">
+</devsite-footer-promos>
+<devsite-footer-linkboxes class="devsite-footer">
+
+</devsite-footer-linkboxes>
+<devsite-footer-utility class="devsite-footer">
+<div class="devsite-footer-utility nocontent">
+
+</div>
+</devsite-footer-utility>
+</section></section>
+<devsite-sitemask></devsite-sitemask>
+<devsite-snackbar></devsite-snackbar> <devsite-tooltip></devsite-tooltip>
+<devsite-heading-link></devsite-heading-link>
+<devsite-analytics>
+
+
+</devsite-analytics>
+ 
+</body></html>

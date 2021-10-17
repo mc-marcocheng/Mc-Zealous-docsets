@@ -1,0 +1,452 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>AFTSurvivalRegression — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="aftsurvivalregression">
+<h1>AFTSurvivalRegression<a class="headerlink" href="#aftsurvivalregression" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression"><a name="//apple_ref/cpp/Class/pyspark.ml.regression.AFTSurvivalRegression"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.regression.</code><code class="sig-name descname">AFTSurvivalRegression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">featuresCol</span><span class="o">=</span><span class="default_value">'features'</span></em>, <em class="sig-param"><span class="n">labelCol</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">predictionCol</span><span class="o">=</span><span class="default_value">'prediction'</span></em>, <em class="sig-param"><span class="n">fitIntercept</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">maxIter</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">1e-06</span></em>, <em class="sig-param"><span class="n">censorCol</span><span class="o">=</span><span class="default_value">'censor'</span></em>, <em class="sig-param"><span class="n">quantileProbabilities</span><span class="o">=</span><span class="default_value">[0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.99]</span></em>, <em class="sig-param"><span class="n">quantilesCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">aggregationDepth</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#AFTSurvivalRegression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accelerated Failure Time (AFT) Model Survival Regression</p>
+<p>Fit a parametric AFT survival regression model based on the Weibull distribution
+of the survival time.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Accelerated_failure_time_model">AFT Model</a></p>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mf">1.0</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="mf">1e-40</span><span class="p">,</span> <span class="n">Vectors</span><span class="o">.</span><span class="n">sparse</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[]),</span> <span class="mf">0.0</span><span class="p">)],</span> <span class="p">[</span><span class="s2">"label"</span><span class="p">,</span> <span class="s2">"features"</span><span class="p">,</span> <span class="s2">"censor"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">aftsr</span> <span class="o">=</span> <span class="n">AFTSurvivalRegression</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">aftsr</span><span class="o">.</span><span class="n">setMaxIter</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">AFTSurvivalRegression...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">aftsr</span><span class="o">.</span><span class="n">getMaxIter</span><span class="p">()</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">aftsr</span><span class="o">.</span><span class="n">clear</span><span class="p">(</span><span class="n">aftsr</span><span class="o">.</span><span class="n">maxIter</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">aftsr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">setFeaturesCol</span><span class="p">(</span><span class="s2">"features"</span><span class="p">)</span>
+<span class="go">AFTSurvivalRegressionModel...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mf">6.3</span><span class="p">))</span>
+<span class="go">1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">predictQuantiles</span><span class="p">(</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="mf">6.3</span><span class="p">))</span>
+<span class="go">DenseVector([0.0101, 0.0513, 0.1054, 0.2877, 0.6931, 1.3863, 2.3026, 2.9957, 4.6052])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">+-------+---------+------+----------+</span>
+<span class="go">|  label| features|censor|prediction|</span>
+<span class="go">+-------+---------+------+----------+</span>
+<span class="go">|    1.0|    [1.0]|   1.0|       1.0|</span>
+<span class="go">|1.0E-40|(1,[],[])|   0.0|       1.0|</span>
+<span class="go">+-------+---------+------+----------+</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">aftsr_path</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/aftsr"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">aftsr</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">aftsr_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">aftsr2</span> <span class="o">=</span> <span class="n">AFTSurvivalRegression</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">aftsr_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">aftsr2</span><span class="o">.</span><span class="n">getMaxIter</span><span class="p">()</span>
+<span class="go">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model_path</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/aftsr_model"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model2</span> <span class="o">=</span> <span class="n">AFTSurvivalRegressionModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">coefficients</span> <span class="o">==</span> <span class="n">model2</span><span class="o">.</span><span class="n">coefficients</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">intercept</span> <span class="o">==</span> <span class="n">model2</span><span class="o">.</span><span class="n">intercept</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">scale</span> <span class="o">==</span> <span class="n">model2</span><span class="o">.</span><span class="n">scale</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.clear"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.clear"></a>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears a param from the param map if it has been explicitly set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.copy"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.copy"></a>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a copy of this instance with the same uid and some
+extra params. This implementation first calls Params.copy and
+then make a copy of the companion Java pipeline component with
+extra params. So both the Python wrapper and the Java pipeline
+component get copied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Copy of this instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.explainParam"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.explainParam"></a>
+<code class="sig-name descname">explainParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.explainParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explains a single param and returns its name, doc, and optional
+default value and user-supplied value in a string.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.explainParams"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.explainParams"></a>
+<code class="sig-name descname">explainParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.explainParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the documentation of all params with their optionally
+default values and user-supplied values.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.extractParamMap"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.extractParamMap"></a>
+<code class="sig-name descname">extractParamMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the embedded default param values and user-supplied
+values, and then merges them with extra values from input into
+a flat param map, where the latter value is used if there exist
+conflicts, i.e., with ordering: default param values &lt;
+user-supplied values &lt; extra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>merged param map</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.fit"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.fit"></a>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the input dataset with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded params. If a list/tuple of
+param maps is given, this calls fit on each param map and returns a list of
+models.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fitted model(s)</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.fitMultiple"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.fitMultiple"></a>
+<code class="sig-name descname">fitMultiple</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">paramMaps</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.fitMultiple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a>.</p></li>
+<li><p><strong>paramMaps</strong> – A Sequence of param maps.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A thread safe iterable which contains one model for each param map. Each
+call to <cite>next(modelIterator)</cite> will return <cite>(index, model)</cite> where model was fit
+using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequential.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.getAggregationDepth"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.getAggregationDepth"></a>
+<code class="sig-name descname">getAggregationDepth</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.getAggregationDepth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of aggregationDepth or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.getCensorCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.getCensorCol"></a>
+<code class="sig-name descname">getCensorCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.getCensorCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of censorCol or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.getFeaturesCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.getFeaturesCol"></a>
+<code class="sig-name descname">getFeaturesCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.getFeaturesCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of featuresCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.getFitIntercept"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.getFitIntercept"></a>
+<code class="sig-name descname">getFitIntercept</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.getFitIntercept" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of fitIntercept or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.getLabelCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.getLabelCol"></a>
+<code class="sig-name descname">getLabelCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.getLabelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of labelCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.getMaxIter"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.getMaxIter"></a>
+<code class="sig-name descname">getMaxIter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.getMaxIter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of maxIter or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.getOrDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.getOrDefault"></a>
+<code class="sig-name descname">getOrDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a param in the user-supplied param map or its
+default value. Raises an error if neither is set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.getParam"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.getParam"></a>
+<code class="sig-name descname">getParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.getParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a param by its name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.getPredictionCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.getPredictionCol"></a>
+<code class="sig-name descname">getPredictionCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.getPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of predictionCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.getQuantileProbabilities"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.getQuantileProbabilities"></a>
+<code class="sig-name descname">getQuantileProbabilities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.getQuantileProbabilities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of quantileProbabilities or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.getQuantilesCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.getQuantilesCol"></a>
+<code class="sig-name descname">getQuantilesCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.getQuantilesCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of quantilesCol or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.getTol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.getTol"></a>
+<code class="sig-name descname">getTol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.getTol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of tol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.hasDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.hasDefault"></a>
+<code class="sig-name descname">hasDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.hasDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param has a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.hasParam"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.hasParam"></a>
+<code class="sig-name descname">hasParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.hasParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether this instance contains a param with a given
+(string) name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.isDefined"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.isDefined"></a>
+<code class="sig-name descname">isDefined</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.isDefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user or has
+a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.isSet"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.isSet"></a>
+<code class="sig-name descname">isSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.isSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.load"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.load"></a>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.read"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.read"></a>
+<em class="property">classmethod </em><code class="sig-name descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLReader instance for this class.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.save"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.save"></a>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.set"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.set"></a>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.setAggregationDepth"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.setAggregationDepth"></a>
+<code class="sig-name descname">setAggregationDepth</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#AFTSurvivalRegression.setAggregationDepth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.setAggregationDepth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.AFTSurvivalRegression.aggregationDepth" title="pyspark.ml.regression.AFTSurvivalRegression.aggregationDepth"><code class="xref py py-attr docutils literal notranslate"><span class="pre">aggregationDepth</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.setCensorCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.setCensorCol"></a>
+<code class="sig-name descname">setCensorCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#AFTSurvivalRegression.setCensorCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.setCensorCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.AFTSurvivalRegression.censorCol" title="pyspark.ml.regression.AFTSurvivalRegression.censorCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">censorCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.setFeaturesCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.setFeaturesCol"></a>
+<code class="sig-name descname">setFeaturesCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.setFeaturesCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.AFTSurvivalRegression.featuresCol" title="pyspark.ml.regression.AFTSurvivalRegression.featuresCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">featuresCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.setFitIntercept"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.setFitIntercept"></a>
+<code class="sig-name descname">setFitIntercept</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#AFTSurvivalRegression.setFitIntercept"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.setFitIntercept" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.AFTSurvivalRegression.fitIntercept" title="pyspark.ml.regression.AFTSurvivalRegression.fitIntercept"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fitIntercept</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.setLabelCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.setLabelCol"></a>
+<code class="sig-name descname">setLabelCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.setLabelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.AFTSurvivalRegression.labelCol" title="pyspark.ml.regression.AFTSurvivalRegression.labelCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">labelCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.setMaxIter"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.setMaxIter"></a>
+<code class="sig-name descname">setMaxIter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#AFTSurvivalRegression.setMaxIter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.setMaxIter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.AFTSurvivalRegression.maxIter" title="pyspark.ml.regression.AFTSurvivalRegression.maxIter"><code class="xref py py-attr docutils literal notranslate"><span class="pre">maxIter</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.setParams"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.setParams"></a>
+<code class="sig-name descname">setParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">featuresCol</span><span class="o">=</span><span class="default_value">'features'</span></em>, <em class="sig-param"><span class="n">labelCol</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">predictionCol</span><span class="o">=</span><span class="default_value">'prediction'</span></em>, <em class="sig-param"><span class="n">fitIntercept</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">maxIter</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">1e-06</span></em>, <em class="sig-param"><span class="n">censorCol</span><span class="o">=</span><span class="default_value">'censor'</span></em>, <em class="sig-param"><span class="n">quantileProbabilities</span><span class="o">=</span><span class="default_value">[0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.99]</span></em>, <em class="sig-param"><span class="n">quantilesCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">aggregationDepth</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#AFTSurvivalRegression.setParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>setParams(self, featuresCol=”features”, labelCol=”label”, predictionCol=”prediction”,                   fitIntercept=True, maxIter=100, tol=1E-6, censorCol=”censor”,                   quantileProbabilities=[0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.99],                   quantilesCol=None, aggregationDepth=2):</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.setPredictionCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.setPredictionCol"></a>
+<code class="sig-name descname">setPredictionCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.setPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.AFTSurvivalRegression.predictionCol" title="pyspark.ml.regression.AFTSurvivalRegression.predictionCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">predictionCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.setQuantileProbabilities"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.setQuantileProbabilities"></a>
+<code class="sig-name descname">setQuantileProbabilities</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#AFTSurvivalRegression.setQuantileProbabilities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.setQuantileProbabilities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.AFTSurvivalRegression.quantileProbabilities" title="pyspark.ml.regression.AFTSurvivalRegression.quantileProbabilities"><code class="xref py py-attr docutils literal notranslate"><span class="pre">quantileProbabilities</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.setQuantilesCol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.setQuantilesCol"></a>
+<code class="sig-name descname">setQuantilesCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#AFTSurvivalRegression.setQuantilesCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.setQuantilesCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.AFTSurvivalRegression.quantilesCol" title="pyspark.ml.regression.AFTSurvivalRegression.quantilesCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">quantilesCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.setTol"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.setTol"></a>
+<code class="sig-name descname">setTol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/regression.html#AFTSurvivalRegression.setTol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.setTol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.regression.AFTSurvivalRegression.tol" title="pyspark.ml.regression.AFTSurvivalRegression.tol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.write"><a name="//apple_ref/cpp/Method/pyspark.ml.regression.AFTSurvivalRegression.write"></a>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLWriter instance for this ML instance.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.aggregationDepth"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.AFTSurvivalRegression.aggregationDepth"></a>
+<code class="sig-name descname">aggregationDepth</code><em class="property"> = Param(parent='undefined', name='aggregationDepth', doc='suggested depth for treeAggregate (&gt;= 2).')</em><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.aggregationDepth" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.censorCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.AFTSurvivalRegression.censorCol"></a>
+<code class="sig-name descname">censorCol</code><em class="property"> = Param(parent='undefined', name='censorCol', doc='censor column name. The value of this column could be 0 or 1. If the value is 1, it means the event has occurred i.e. uncensored; otherwise censored.')</em><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.censorCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.featuresCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.AFTSurvivalRegression.featuresCol"></a>
+<code class="sig-name descname">featuresCol</code><em class="property"> = Param(parent='undefined', name='featuresCol', doc='features column name.')</em><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.featuresCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.fitIntercept"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.AFTSurvivalRegression.fitIntercept"></a>
+<code class="sig-name descname">fitIntercept</code><em class="property"> = Param(parent='undefined', name='fitIntercept', doc='whether to fit an intercept term.')</em><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.fitIntercept" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.labelCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.AFTSurvivalRegression.labelCol"></a>
+<code class="sig-name descname">labelCol</code><em class="property"> = Param(parent='undefined', name='labelCol', doc='label column name.')</em><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.labelCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.maxIter"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.AFTSurvivalRegression.maxIter"></a>
+<code class="sig-name descname">maxIter</code><em class="property"> = Param(parent='undefined', name='maxIter', doc='max number of iterations (&gt;= 0).')</em><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.maxIter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.params"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.AFTSurvivalRegression.params"></a>
+<code class="sig-name descname">params</code><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all params ordered by name. The default implementation
+uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.predictionCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.AFTSurvivalRegression.predictionCol"></a>
+<code class="sig-name descname">predictionCol</code><em class="property"> = Param(parent='undefined', name='predictionCol', doc='prediction column name.')</em><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.predictionCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.quantileProbabilities"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.AFTSurvivalRegression.quantileProbabilities"></a>
+<code class="sig-name descname">quantileProbabilities</code><em class="property"> = Param(parent='undefined', name='quantileProbabilities', doc='quantile probabilities array. Values of the quantile probabilities array should be in the range (0, 1) and the array should be non-empty.')</em><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.quantileProbabilities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.quantilesCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.AFTSurvivalRegression.quantilesCol"></a>
+<code class="sig-name descname">quantilesCol</code><em class="property"> = Param(parent='undefined', name='quantilesCol', doc='quantiles column name. This column will output quantiles of corresponding quantileProbabilities if it is set.')</em><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.quantilesCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.regression.AFTSurvivalRegression.tol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.regression.AFTSurvivalRegression.tol"></a>
+<code class="sig-name descname">tol</code><em class="property"> = Param(parent='undefined', name='tol', doc='the convergence tolerance for iterative algorithms (&gt;= 0).')</em><a class="headerlink" href="#pyspark.ml.regression.AFTSurvivalRegression.tol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

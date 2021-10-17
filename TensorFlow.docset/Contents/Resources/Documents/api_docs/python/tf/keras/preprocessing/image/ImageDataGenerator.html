@@ -1,0 +1,912 @@
+<!DOCTYPE html><html dir="ltr" lang="en"><head>
+<meta content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com" name="google-signin-client-id"/>
+<meta content="profile email" name="google-signin-scope"/>
+<meta content="TensorFlow" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="#ff6f00" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link crossorigin="use-credentials" href="_pwa/tensorflow/manifest.json" rel="manifest"/>
+<link crossorigin="" href="/www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.googleapis.com" rel="preconnect"/>
+<link href="../../../../../../main.css" rel="stylesheet"/>
+
+<noscript>
+
+</noscript>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/favicon.png" rel="shortcut icon"/>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/apple-touch-icon-180x180.png" rel="apple-touch-icon"/><link href="https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator" rel="canonical"/><link href="https://www.tensorflow.org/s/opensearch.xml" rel="search" title="TensorFlow" type="application/opensearchdescription+xml"/>
+<title>tf.keras.preprocessing.image.ImageDataGenerator</title>
+<meta content="tf.keras.preprocessing.image.ImageDataGenerator" property="og:title"/>
+<meta content="https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator" property="og:url"/>
+<meta content="en" property="og:locale"/>
+
+</head>
+<body class="" layout="docs" pending="" theme="tensorflow-theme" type="reference">
+<devsite-progress id="app-progress" type="indeterminate"></devsite-progress>
+<section class="devsite-wrapper"> <devsite-book-nav scrollbars="">
+
+</devsite-book-nav>
+<section id="gc-wrapper">
+<main class="devsite-main-content" has-book-nav="" has-toc="" role="main">
+<devsite-toc class="devsite-nav"></devsite-toc>
+<devsite-content>
+<article class="devsite-article">
+<article class="devsite-article-inner"><style>
+        /* Styles inlined from /site-assets/css/style.css */
+/* override theme */
+table img {
+  max-width: 100%;
+}
+
+/* override var element to differentiate color from comment */
+var, var code, var span, .prettyprint var span {
+  color: #039be5;
+}
+
+/* .devsite-terminal virtualenv prompt */
+.tfo-terminal-venv::before {
+  content: "(venv) $ " !important;
+}
+
+/* .devsite-terminal root prompt */
+.tfo-terminal-root::before {
+  content: "# " !important;
+}
+
+/* .devsite-terminal Windows prompt */
+.tfo-terminal-windows::before {
+  content: "C:\\> " !important;
+}
+
+/* .devsite-terminal Windows prompt w/ virtualenv */
+.tfo-terminal-windows-venv::before {
+  content: "(venv) C:\\> " !important;
+}
+
+.tfo-diff-green-one-level + * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green + * > * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green-list + ul > li:first-of-type {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-red-one-level + * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red + * > * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red-list + ul > li:first-of-type {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+devsite-code .tfo-notebook-code-cell-output {
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(255, 247, 237, 1);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(255, 247, 237, .7);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output {
+  background: rgba(64, 78, 103, 1);  /* medium slate */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(64, 78, 103, .7);  /* medium slate */
+}
+
+/* override default table styles for notebook buttons */
+.devsite-table-wrapper .tfo-notebook-buttons {
+  display: inline-block;
+  margin-left: 3px;
+  width: auto;
+}
+
+.tfo-notebook-buttons td {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.tfo-notebook-buttons a,
+.tfo-notebook-buttons :link,
+.tfo-notebook-buttons :visited {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  color: #202124;
+  padding: 12px 24px;
+  transition: box-shadow 0.2s;
+}
+
+.tfo-notebook-buttons a:hover,
+.tfo-notebook-buttons a:focus {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.tfo-notebook-buttons tr {
+  background: 0;
+  border: 0;
+}
+
+/* on rendered notebook page,
+   remove link to webpage since we're already here */
+.tfo-notebook-buttons:not(.tfo-api) td:first-child {
+  display: none;
+}
+
+.tfo-notebook-buttons td > a {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tfo-notebook-buttons td > a > img {
+  margin-right: 8px;
+}
+
+/* landing pages */
+
+.tfo-landing-row-item-inset-white {
+  background-color: #fff;
+  padding: 32px;
+}
+
+.tfo-landing-row-item-inset-white ol,
+.tfo-landing-row-item-inset-white ul {
+  padding-left: 20px;
+}
+
+/* colab callout button */
+.colab-callout-row devsite-code {
+  border-radius: 8px 8px 0 0;
+  box-shadow: none;
+}
+
+.colab-callout-footer {
+  background: #e3e4e7;
+  border-radius: 0 0 8px 8px;
+  color: #37474f;
+  padding: 20px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer {
+  background: #3f4f66;
+}
+
+
+.colab-callout-footer > .button {
+  margin-top: 4px;
+  color: #ff5c00;
+}
+
+.colab-callout-footer > a > span {
+  padding-top: 10px;
+  vertical-align: middle;
+  color: #37474f;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer > a > span {
+  color: #fff;
+}
+
+a.colab-button {
+  background: rgba(255, 255, 255, .75);
+  border: solid 1px rgba(0, 0, 0, .08);
+  border-bottom-color: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  color: #aaa;
+  display: inline-block;
+  font-size: 11px !important;
+  font-weight: 300;
+  line-height: 16px;
+  padding: 4px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.colab-button:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, .2);
+  color: #666;
+}
+
+a.colab-button span {
+  background: url(/images/colab_logo_button.svg) no-repeat 1px 1px / 20px;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 24px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .tfo-notebook-buttons td {
+    display: block;
+  }
+}
+
+/* guide and tutorials landing page cards and sections */
+
+.tfo-landing-page-card {
+  padding: 16px;
+  box-shadow: 0 0 36px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+/* Page section headings */
+.tfo-landing-page-heading h2, h2.tfo-landing-page-heading {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+/* Item title headings */
+.tfo-landing-page-heading h3, h3.tfo-landing-page-heading,
+.tfo-landing-page-card h3, h3.tfo-landing-page-card {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* List of tutorials notebooks for subsites */
+.tfo-landing-page-resources-ul {
+  padding-left: 15px
+}
+
+.tfo-landing-page-resources-ul > li {
+  margin: 6px 0;
+}
+
+/* Temporary fix to hide product description in header on landing pages */
+devsite-header .devsite-product-description {
+  display: none;
+}
+
+        </style> <div class="devsite-banner devsite-banner-announcement">
+<div class="devsite-banner-message">
+<div class="devsite-banner-message-text">
+            Missed TensorFlow Dev Summit? Check out the video playlist. <a class="button button-primary button-tfo-announcement" href="https://goo.gle/TFDS20AllSessions">Watch recordings</a>
+</div>
+</div>
+</div>
+<div class="devsite-article-meta">
+<ul class="devsite-breadcrumb-list">
+<li class="devsite-breadcrumb-item">
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="1" href="">
+            TensorFlow
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="2" href="api">
+            API
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="3" href="api_docs">
+            TensorFlow Core v2.1.0
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="4" href="api_docs/python/tf">
+            Python
+      
+  </a>
+</li>
+</ul>
+<devsite-page-rating hover-rating-star="0" position="header" selected-rating="0">
+</devsite-page-rating>
+</div>
+<a class="dashingAutolink" name="autolink-2072"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/tf.keras.preprocessing.image.ImageDataGenerator"></a><h1 class="dash-class">tf.keras.preprocessing.image.ImageDataGenerator</h1>
+<devsite-toc class="devsite-nav" devsite-toc-embedded="">
+</devsite-toc>
+<div class="devsite-article-body clearfix">
+<p></p>
+<!-- DO NOT EDIT! Automatically generated file. -->
+<div itemscope="" itemtype="http://developers.google.com/ReferenceObject">
+<meta content="tf.keras.preprocessing.image.ImageDataGenerator" itemprop="name"/>
+<meta content="Stable" itemprop="path"/>
+<meta content="__init__" itemprop="property"/>
+<meta content="apply_transform" itemprop="property"/>
+<meta content="fit" itemprop="property"/>
+<meta content="flow" itemprop="property"/>
+<meta content="flow_from_dataframe" itemprop="property"/>
+<meta content="flow_from_directory" itemprop="property"/>
+<meta content="get_random_transform" itemprop="property"/>
+<meta content="random_transform" itemprop="property"/>
+<meta content="standardize" itemprop="property"/>
+</div>
+<!-- Insert buttons and diff -->
+<table align="left" class="tfo-notebook-buttons tfo-api">
+<tbody><tr><td>
+<a href="versions/r1.15/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator" target="_blank">
+<img src="https://www.tensorflow.org/images/tf_logo_32px.png"/>
+  TensorFlow 1 version</a>
+</td>
+<td>
+<a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/keras/preprocessing/image.py#L295-L519" target="_blank">
+<img src="https://www.tensorflow.org/images/GitHub-Mark-32px.png"/>
+    View source on GitHub
+  </a>
+</td></tr></tbody></table>
+<p>Generate batches of tensor image data with real-time data augmentation.</p>
+<section class="expandable">
+<h4 class="showalways">View aliases</h4>
+<p>
+<b>Compat aliases for migration</b>
+</p><p>See
+<a href="https://www.tensorflow.org/guide/migrate">Migration guide</a> for
+more details.</p>
+<p><a href="api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator"><code dir="ltr" translate="no">tf.compat.v1.keras.preprocessing.image.ImageDataGenerator</code></a></p>
+</section>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">tf.keras.preprocessing.image.ImageDataGenerator(
+    featurewise_center=False, samplewise_center=False,
+    featurewise_std_normalization=False, samplewise_std_normalization=False,
+    zca_whitening=False, zca_epsilon=1e-06, rotation_range=0, width_shift_range=0.0,
+    height_shift_range=0.0, brightness_range=None, shear_range=0.0, zoom_range=0.0,
+    channel_shift_range=0.0, fill_mode=&#39;nearest&#39;, cval=0.0, horizontal_flip=False,
+    vertical_flip=False, rescale=None, preprocessing_function=None,
+    data_format=None, validation_split=0.0, dtype=None
+)
+</code></pre>
+<h3>Used in the notebooks</h3>
+<table class="vertical-rules">
+<thead>
+<tr>
+<th>Used in the guide</th>
+<th>Used in the tutorials</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<ul>
+<li><a href="https://www.tensorflow.org/guide/data">tf.data: Build TensorFlow input pipelines</a></li>
+</ul>
+</td>
+<td>
+<ul>
+<li><a href="https://www.tensorflow.org/tutorials/images/classification">Image classification</a></li>
+<li><a href="https://www.tensorflow.org/tutorials/images/transfer_learning_with_hub">Transfer learning with TensorFlow Hub</a></li>
+<li><a href="https://www.tensorflow.org/tutorials/load_data/images">Load images</a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The data will be looped over (in batches).</p>
+<h4 id="arguments">Arguments:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">featurewise_center</code></b>: Boolean.
+Set input mean to 0 over the dataset, feature-wise.</li>
+<li><b><code dir="ltr" translate="no">samplewise_center</code></b>: Boolean. Set each sample mean to 0.</li>
+<li><b><code dir="ltr" translate="no">featurewise_std_normalization</code></b>: Boolean.
+Divide inputs by std of the dataset, feature-wise.</li>
+<li><b><code dir="ltr" translate="no">samplewise_std_normalization</code></b>: Boolean. Divide each input by its std.</li>
+<li><b><code dir="ltr" translate="no">zca_epsilon</code></b>: epsilon for ZCA whitening. Default is 1e-6.</li>
+<li><b><code dir="ltr" translate="no">zca_whitening</code></b>: Boolean. Apply ZCA whitening.</li>
+<li><b><code dir="ltr" translate="no">rotation_range</code></b>: Int. Degree range for random rotations.</li>
+<li><b><code dir="ltr" translate="no">width_shift_range</code></b>: Float, 1-D array-like or int
+<ul>
+<li>float: fraction of total width, if &lt; 1, or pixels if &gt;= 1.</li>
+<li>1-D array-like: random elements from the array.</li>
+<li>int: integer number of pixels from interval
+<code dir="ltr" translate="no">(-width_shift_range, +width_shift_range)</code></li>
+<li>With <code dir="ltr" translate="no">width_shift_range=2</code> possible values
+are integers <code dir="ltr" translate="no">[-1, 0, +1]</code>,
+same as with <code dir="ltr" translate="no">width_shift_range=[-1, 0, +1]</code>,
+while with <code dir="ltr" translate="no">width_shift_range=1.0</code> possible values are floats
+in the interval [-1.0, +1.0).</li>
+</ul></li>
+<li><b><code dir="ltr" translate="no">height_shift_range</code></b>: Float, 1-D array-like or int
+<ul>
+<li>float: fraction of total height, if &lt; 1, or pixels if &gt;= 1.</li>
+<li>1-D array-like: random elements from the array.</li>
+<li>int: integer number of pixels from interval
+<code dir="ltr" translate="no">(-height_shift_range, +height_shift_range)</code></li>
+<li>With <code dir="ltr" translate="no">height_shift_range=2</code> possible values
+are integers <code dir="ltr" translate="no">[-1, 0, +1]</code>,
+same as with <code dir="ltr" translate="no">height_shift_range=[-1, 0, +1]</code>,
+while with <code dir="ltr" translate="no">height_shift_range=1.0</code> possible values are floats
+in the interval [-1.0, +1.0).</li>
+</ul></li>
+<li><b><code dir="ltr" translate="no">brightness_range</code></b>: Tuple or list of two floats. Range for picking
+a brightness shift value from.</li>
+<li><b><code dir="ltr" translate="no">shear_range</code></b>: Float. Shear Intensity
+(Shear angle in counter-clockwise direction in degrees)</li>
+<li><b><code dir="ltr" translate="no">zoom_range</code></b>: Float or [lower, upper]. Range for random zoom.
+If a float, <code dir="ltr" translate="no">[lower, upper] = [1-zoom_range, 1+zoom_range]</code>.</li>
+<li><b><code dir="ltr" translate="no">channel_shift_range</code></b>: Float. Range for random channel shifts.</li>
+<li><b><code dir="ltr" translate="no">fill_mode</code></b>: One of {&#34;constant&#34;, &#34;nearest&#34;, &#34;reflect&#34; or &#34;wrap&#34;}.
+Default is &#39;nearest&#39;.
+Points outside the boundaries of the input are filled
+according to the given mode:
+<ul>
+<li>&#39;constant&#39;: kkkkkkkk|abcd|kkkkkkkk (cval=k)</li>
+<li>&#39;nearest&#39;:  aaaaaaaa|abcd|dddddddd</li>
+<li>&#39;reflect&#39;:  abcddcba|abcd|dcbaabcd</li>
+<li>&#39;wrap&#39;:  abcdabcd|abcd|abcdabcd</li>
+</ul></li>
+<li><b><code dir="ltr" translate="no">cval</code></b>: Float or Int.
+Value used for points outside the boundaries
+when <code dir="ltr" translate="no">fill_mode = &#34;constant&#34;</code>.</li>
+<li><b><code dir="ltr" translate="no">horizontal_flip</code></b>: Boolean. Randomly flip inputs horizontally.</li>
+<li><b><code dir="ltr" translate="no">vertical_flip</code></b>: Boolean. Randomly flip inputs vertically.</li>
+<li><b><code dir="ltr" translate="no">rescale</code></b>: rescaling factor. Defaults to None.
+If None or 0, no rescaling is applied,
+otherwise we multiply the data by the value provided
+(after applying all other transformations).</li>
+<li><b><code dir="ltr" translate="no">preprocessing_function</code></b>: function that will be applied on each input.
+The function will run after the image is resized and augmented.
+The function should take one argument:
+one image (Numpy tensor with rank 3),
+and should output a Numpy tensor with the same shape.</li>
+<li><b><code dir="ltr" translate="no">data_format</code></b>: Image data format,
+either &#34;channels_first&#34; or &#34;channels_last&#34;.
+&#34;channels_last&#34; mode means that the images should have shape
+<code dir="ltr" translate="no">(samples, height, width, channels)</code>,
+&#34;channels_first&#34; mode means that the images should have shape
+<code dir="ltr" translate="no">(samples, channels, height, width)</code>.
+It defaults to the <code dir="ltr" translate="no">image_data_format</code> value found in your
+Keras config file at <code dir="ltr" translate="no">~/.keras/keras.json</code>.
+If you never set it, then it will be &#34;channels_last&#34;.</li>
+<li><b><code dir="ltr" translate="no">validation_split</code></b>: Float. Fraction of images reserved for validation
+(strictly between 0 and 1).</li>
+<li><b><code dir="ltr" translate="no">dtype</code></b>: Dtype to use for the generated arrays.</li>
+</ul>
+<h4 id="examples">Examples:</h4>
+<p>Example of using <code dir="ltr" translate="no">.flow(x, y)</code>:</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+y_train = np_utils.to_categorical(y_train, num_classes)
+y_test = np_utils.to_categorical(y_test, num_classes)
+datagen = ImageDataGenerator(
+    featurewise_center=True,
+    featurewise_std_normalization=True,
+    rotation_range=20,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    horizontal_flip=True)
+# compute quantities required for featurewise normalization
+# (std, mean, and principal components if ZCA whitening is applied)
+datagen.fit(x_train)
+# fits the model on batches with real-time data augmentation:
+model.fit_generator(datagen.flow(x_train, y_train, batch_size=32),
+                    steps_per_epoch=len(x_train) / 32, epochs=epochs)
+# here&#39;s a more &#34;manual&#34; example
+for e in range(epochs):
+    print(&#39;Epoch&#39;, e)
+    batches = 0
+    for x_batch, y_batch in datagen.flow(x_train, y_train, batch_size=32):
+        model.fit(x_batch, y_batch)
+        batches += 1
+        if batches &gt;= len(x_train) / 32:
+            # we need to break the loop by hand because
+            # the generator loops indefinitely
+            break
+</code></pre>
+<p>Example of using <code dir="ltr" translate="no">.flow_from_directory(directory)</code>:</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">train_datagen = ImageDataGenerator(
+        rescale=1./255,
+        shear_range=0.2,
+        zoom_range=0.2,
+        horizontal_flip=True)
+test_datagen = ImageDataGenerator(rescale=1./255)
+train_generator = train_datagen.flow_from_directory(
+        &#39;data/train&#39;,
+        target_size=(150, 150),
+        batch_size=32,
+        class_mode=&#39;binary&#39;)
+validation_generator = test_datagen.flow_from_directory(
+        &#39;data/validation&#39;,
+        target_size=(150, 150),
+        batch_size=32,
+        class_mode=&#39;binary&#39;)
+model.fit_generator(
+        train_generator,
+        steps_per_epoch=2000,
+        epochs=50,
+        validation_data=validation_generator,
+        validation_steps=800)
+</code></pre>
+<p>Example of transforming images and masks together.</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no"># we create two instances with the same arguments
+data_gen_args = dict(featurewise_center=True,
+                     featurewise_std_normalization=True,
+                     rotation_range=90,
+                     width_shift_range=0.1,
+                     height_shift_range=0.1,
+                     zoom_range=0.2)
+image_datagen = ImageDataGenerator(**data_gen_args)
+mask_datagen = ImageDataGenerator(**data_gen_args)
+# Provide the same seed and keyword arguments to the fit and flow methods
+seed = 1
+image_datagen.fit(images, augment=True, seed=seed)
+mask_datagen.fit(masks, augment=True, seed=seed)
+image_generator = image_datagen.flow_from_directory(
+    &#39;data/images&#39;,
+    class_mode=None,
+    seed=seed)
+mask_generator = mask_datagen.flow_from_directory(
+    &#39;data/masks&#39;,
+    class_mode=None,
+    seed=seed)
+# combine generators into one which yields image and masks
+train_generator = zip(image_generator, mask_generator)
+model.fit_generator(
+    train_generator,
+    steps_per_epoch=2000,
+    epochs=50)
+</code></pre>
+<h2 id="methods">Methods</h2>
+<h3 class="dash-method" id="apply_transform"><a class="dashingAutolink" name="autolink-2064"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.image.ImageDataGenerator.apply_transform"></a><code dir="ltr" translate="no">tf.keras.preprocessing.image.ImageDataGenerator.apply_transform</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">apply_transform(
+    x, transform_parameters
+)
+</code></pre>
+<p>Applies a transformation to an image according to given parameters.</p>
+<h1 class="page-title" id="arguments">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">x: 3D tensor, single image.
+transform_parameters: Dictionary with string - parameter pairs
+    describing the transformation.
+    Currently, the following parameters
+    from the dictionary are used:
+
+    - `&#39;theta&#39;`: Float. Rotation angle in degrees.
+    - `&#39;tx&#39;`: Float. Shift in the x direction.
+    - `&#39;ty&#39;`: Float. Shift in the y direction.
+    - `&#39;shear&#39;`: Float. Shear angle in degrees.
+    - `&#39;zx&#39;`: Float. Zoom in the x direction.
+    - `&#39;zy&#39;`: Float. Zoom in the y direction.
+    - `&#39;flip_horizontal&#39;`: Boolean. Horizontal flip.
+    - `&#39;flip_vertical&#39;`: Boolean. Vertical flip.
+    - `&#39;channel_shift_intencity&#39;`: Float. Channel shift intensity.
+    - `&#39;brightness&#39;`: Float. Brightness shift intensity.
+</code></pre>
+<h1 class="page-title" id="returns">Returns</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">A transformed version of the input (same shape).
+</code></pre>
+<h3 class="dash-method" id="fit"><a class="dashingAutolink" name="autolink-2065"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.image.ImageDataGenerator.fit"></a><code dir="ltr" translate="no">tf.keras.preprocessing.image.ImageDataGenerator.fit</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">fit(
+    x, augment=False, rounds=1, seed=None
+)
+</code></pre>
+<p>Fits the data generator to some sample data.</p>
+<p>This computes the internal data stats related to the
+data-dependent transformations, based on an array of sample data.</p>
+<p>Only required if <code dir="ltr" translate="no">featurewise_center</code> or
+<code dir="ltr" translate="no">featurewise_std_normalization</code> or <code dir="ltr" translate="no">zca_whitening</code> are set to True.</p>
+<h1 class="page-title" id="arguments_2">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">x: Sample data. Should have rank 4.
+ In case of grayscale data,
+ the channels axis should have value 1, in case
+ of RGB data, it should have value 3, and in case
+ of RGBA data, it should have value 4.
+augment: Boolean (default: False).
+    Whether to fit on randomly augmented samples.
+rounds: Int (default: 1).
+    If using data augmentation (`augment=True`),
+    this is how many augmentation passes over the data to use.
+seed: Int (default: None). Random seed.
+</code></pre>
+<h3 class="dash-method" id="flow"><a class="dashingAutolink" name="autolink-2066"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.image.ImageDataGenerator.flow"></a><code dir="ltr" translate="no">tf.keras.preprocessing.image.ImageDataGenerator.flow</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">flow(
+    x, y=None, batch_size=32, shuffle=True, sample_weight=None, seed=None,
+    save_to_dir=None, save_prefix=&#39;&#39;, save_format=&#39;png&#39;, subset=None
+)
+</code></pre>
+<p>Takes data &amp; label arrays, generates batches of augmented data.</p>
+<h1 class="page-title" id="arguments_3">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">x: Input data. Numpy array of rank 4 or a tuple.
+    If tuple, the first element
+    should contain the images and the second element
+    another numpy array or a list of numpy arrays
+    that gets passed to the output
+    without any modifications.
+    Can be used to feed the model miscellaneous data
+    along with the images.
+    In case of grayscale data, the channels axis of the image array
+    should have value 1, in case
+    of RGB data, it should have value 3, and in case
+    of RGBA data, it should have value 4.
+y: Labels.
+batch_size: Int (default: 32).
+shuffle: Boolean (default: True).
+sample_weight: Sample weights.
+seed: Int (default: None).
+save_to_dir: None or str (default: None).
+    This allows you to optionally specify a directory
+    to which to save the augmented pictures being generated
+    (useful for visualizing what you are doing).
+save_prefix: Str (default: `&#39;&#39;`).
+    Prefix to use for filenames of saved pictures
+    (only relevant if `save_to_dir` is set).
+save_format: one of &#34;png&#34;, &#34;jpeg&#34;
+    (only relevant if `save_to_dir` is set). Default: &#34;png&#34;.
+subset: Subset of data (`&#34;training&#34;` or `&#34;validation&#34;`) if
+    `validation_split` is set in `ImageDataGenerator`.
+</code></pre>
+<h1 class="page-title" id="returns_2">Returns</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">An `Iterator` yielding tuples of `(x, y)`
+    where `x` is a numpy array of image data
+    (in the case of a single image input) or a list
+    of numpy arrays (in the case with
+    additional inputs) and `y` is a numpy array
+    of corresponding labels. If &#39;sample_weight&#39; is not None,
+    the yielded tuples are of the form `(x, y, sample_weight)`.
+    If `y` is None, only the numpy array `x` is returned.
+</code></pre>
+<h3 class="dash-method" id="flow_from_dataframe"><a class="dashingAutolink" name="autolink-2067"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.image.ImageDataGenerator.flow_from_dataframe"></a><code dir="ltr" translate="no">tf.keras.preprocessing.image.ImageDataGenerator.flow_from_dataframe</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">flow_from_dataframe(
+    dataframe, directory=None, x_col=&#39;filename&#39;, y_col=&#39;class&#39;, weight_col=None,
+    target_size=(256, 256), color_mode=&#39;rgb&#39;, classes=None,
+    class_mode=&#39;categorical&#39;, batch_size=32, shuffle=True, seed=None,
+    save_to_dir=None, save_prefix=&#39;&#39;, save_format=&#39;png&#39;, subset=None,
+    interpolation=&#39;nearest&#39;, validate_filenames=True, **kwargs
+)
+</code></pre>
+<p>Takes the dataframe and the path to a directory
+ and generates batches of augmented/normalized data.</p>
+<p>**A simple tutorial can be found **<a href="http://bit.ly/keras_flow_from_dataframe">here</a>.</p>
+<h1 class="page-title" id="arguments_4">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">dataframe: Pandas dataframe containing the filepaths relative to
+    `directory` (or absolute paths if `directory` is None) of the
+    images in a string column. It should include other column/s
+    depending on the `class_mode`:
+
+    - if `class_mode` is `&#34;categorical&#34;` (default value) it must
+        include the `y_col` column with the class/es of each image.
+        Values in column can be string/list/tuple if a single class
+        or list/tuple if multiple classes.
+    - if `class_mode` is `&#34;binary&#34;` or `&#34;sparse&#34;` it must include
+        the given `y_col` column with class values as strings.
+    - if `class_mode` is `&#34;raw&#34;` or `&#34;multi_output&#34;` it should contain
+    the columns specified in `y_col`.
+    - if `class_mode` is `&#34;input&#34;` or `None` no extra column is needed.
+directory: string, path to the directory to read images from. If `None`,
+    data in `x_col` column should be absolute paths.
+x_col: string, column in `dataframe` that contains the filenames (or
+    absolute paths if `directory` is `None`).
+y_col: string or list, column/s in `dataframe` that has the target data.
+weight_col: string, column in `dataframe` that contains the sample
+    weights. Default: `None`.
+target_size: tuple of integers `(height, width)`, default: `(256, 256)`.
+    The dimensions to which all images found will be resized.
+color_mode: one of &#34;grayscale&#34;, &#34;rgb&#34;, &#34;rgba&#34;. Default: &#34;rgb&#34;.
+    Whether the images will be converted to have 1 or 3 color channels.
+classes: optional list of classes (e.g. `[&#39;dogs&#39;, &#39;cats&#39;]`).
+    Default: None. If not provided, the list of classes will be
+    automatically inferred from the `y_col`,
+    which will map to the label indices, will be alphanumeric).
+    The dictionary containing the mapping from class names to class
+    indices can be obtained via the attribute `class_indices`.
+class_mode: one of &#34;binary&#34;, &#34;categorical&#34;, &#34;input&#34;, &#34;multi_output&#34;,
+    &#34;raw&#34;, sparse&#34; or None. Default: &#34;categorical&#34;.
+    Mode for yielding the targets:
+    - `&#34;binary&#34;`: 1D numpy array of binary labels,
+    - `&#34;categorical&#34;`: 2D numpy array of one-hot encoded labels.
+        Supports multi-label output.
+    - `&#34;input&#34;`: images identical to input images (mainly used to
+        work with autoencoders),
+    - `&#34;multi_output&#34;`: list with the values of the different columns,
+    - `&#34;raw&#34;`: numpy array of values in `y_col` column(s),
+    - `&#34;sparse&#34;`: 1D numpy array of integer labels,
+    - `None`, no targets are returned (the generator will only yield
+        batches of image data, which is useful to use in
+        `model.predict_generator()`).
+batch_size: size of the batches of data (default: 32).
+shuffle: whether to shuffle the data (default: True)
+seed: optional random seed for shuffling and transformations.
+save_to_dir: None or str (default: None).
+    This allows you to optionally specify a directory
+    to which to save the augmented pictures being generated
+    (useful for visualizing what you are doing).
+save_prefix: str. Prefix to use for filenames of saved pictures
+    (only relevant if `save_to_dir` is set).
+save_format: one of &#34;png&#34;, &#34;jpeg&#34;
+    (only relevant if `save_to_dir` is set). Default: &#34;png&#34;.
+follow_links: whether to follow symlinks inside class subdirectories
+    (default: False).
+subset: Subset of data (`&#34;training&#34;` or `&#34;validation&#34;`) if
+    `validation_split` is set in `ImageDataGenerator`.
+interpolation: Interpolation method used to resample the image if the
+    target size is different from that of the loaded image.
+    Supported methods are `&#34;nearest&#34;`, `&#34;bilinear&#34;`, and `&#34;bicubic&#34;`.
+    If PIL version 1.1.3 or newer is installed, `&#34;lanczos&#34;` is also
+    supported. If PIL version 3.4.0 or newer is installed, `&#34;box&#34;` and
+    `&#34;hamming&#34;` are also supported. By default, `&#34;nearest&#34;` is used.
+validate_filenames: Boolean, whether to validate image filenames in
+    `x_col`. If `True`, invalid images will be ignored. Disabling this
+    option can lead to speed-up in the execution of this function.
+    Default: `True`.
+</code></pre>
+<h1 class="page-title" id="returns_3">Returns</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">A `DataFrameIterator` yielding tuples of `(x, y)`
+where `x` is a numpy array containing a batch
+of images with shape `(batch_size, *target_size, channels)`
+and `y` is a numpy array of corresponding labels.
+</code></pre>
+<h3 class="dash-method" id="flow_from_directory"><a class="dashingAutolink" name="autolink-2068"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.image.ImageDataGenerator.flow_from_directory"></a><code dir="ltr" translate="no">tf.keras.preprocessing.image.ImageDataGenerator.flow_from_directory</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">flow_from_directory(
+    directory, target_size=(256, 256), color_mode=&#39;rgb&#39;, classes=None,
+    class_mode=&#39;categorical&#39;, batch_size=32, shuffle=True, seed=None,
+    save_to_dir=None, save_prefix=&#39;&#39;, save_format=&#39;png&#39;, follow_links=False,
+    subset=None, interpolation=&#39;nearest&#39;
+)
+</code></pre>
+<p>Takes the path to a directory &amp; generates batches of augmented data.</p>
+<h1 class="page-title" id="arguments_5">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">directory: string, path to the target directory.
+    It should contain one subdirectory per class.
+    Any PNG, JPG, BMP, PPM or TIF images
+    inside each of the subdirectories directory tree
+    will be included in the generator.
+    See [this script](
+    https://gist.github.com/fchollet/0830affa1f7f19fd47b06d4cf89ed44d)
+    for more details.
+target_size: Tuple of integers `(height, width)`,
+    default: `(256, 256)`.
+    The dimensions to which all images found will be resized.
+color_mode: One of &#34;grayscale&#34;, &#34;rgb&#34;, &#34;rgba&#34;. Default: &#34;rgb&#34;.
+    Whether the images will be converted to
+    have 1, 3, or 4 channels.
+classes: Optional list of class subdirectories
+    (e.g. `[&#39;dogs&#39;, &#39;cats&#39;]`). Default: None.
+    If not provided, the list of classes will be automatically
+    inferred from the subdirectory names/structure
+    under `directory`, where each subdirectory will
+    be treated as a different class
+    (and the order of the classes, which will map to the label
+    indices, will be alphanumeric).
+    The dictionary containing the mapping from class names to class
+    indices can be obtained via the attribute `class_indices`.
+class_mode: One of &#34;categorical&#34;, &#34;binary&#34;, &#34;sparse&#34;,
+    &#34;input&#34;, or None. Default: &#34;categorical&#34;.
+    Determines the type of label arrays that are returned:
+
+    - &#34;categorical&#34; will be 2D one-hot encoded labels,
+    - &#34;binary&#34; will be 1D binary labels,
+        &#34;sparse&#34; will be 1D integer labels,
+    - &#34;input&#34; will be images identical
+        to input images (mainly used to work with autoencoders).
+    - If None, no labels are returned
+      (the generator will only yield batches of image data,
+      which is useful to use with `model.predict_generator()`).
+      Please note that in case of class_mode None,
+      the data still needs to reside in a subdirectory
+      of `directory` for it to work correctly.
+batch_size: Size of the batches of data (default: 32).
+shuffle: Whether to shuffle the data (default: True)
+    If set to False, sorts the data in alphanumeric order.
+seed: Optional random seed for shuffling and transformations.
+save_to_dir: None or str (default: None).
+    This allows you to optionally specify
+    a directory to which to save
+    the augmented pictures being generated
+    (useful for visualizing what you are doing).
+save_prefix: Str. Prefix to use for filenames of saved pictures
+    (only relevant if `save_to_dir` is set).
+save_format: One of &#34;png&#34;, &#34;jpeg&#34;
+    (only relevant if `save_to_dir` is set). Default: &#34;png&#34;.
+follow_links: Whether to follow symlinks inside
+    class subdirectories (default: False).
+subset: Subset of data (`&#34;training&#34;` or `&#34;validation&#34;`) if
+    `validation_split` is set in `ImageDataGenerator`.
+interpolation: Interpolation method used to
+    resample the image if the
+    target size is different from that of the loaded image.
+    Supported methods are `&#34;nearest&#34;`, `&#34;bilinear&#34;`,
+    and `&#34;bicubic&#34;`.
+    If PIL version 1.1.3 or newer is installed, `&#34;lanczos&#34;` is also
+    supported. If PIL version 3.4.0 or newer is installed,
+    `&#34;box&#34;` and `&#34;hamming&#34;` are also supported.
+    By default, `&#34;nearest&#34;` is used.
+</code></pre>
+<h1 class="page-title" id="returns_4">Returns</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">A `DirectoryIterator` yielding tuples of `(x, y)`
+    where `x` is a numpy array containing a batch
+    of images with shape `(batch_size, *target_size, channels)`
+    and `y` is a numpy array of corresponding labels.
+</code></pre>
+<h3 class="dash-method" id="get_random_transform"><a class="dashingAutolink" name="autolink-2069"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.image.ImageDataGenerator.get_random_transform"></a><code dir="ltr" translate="no">tf.keras.preprocessing.image.ImageDataGenerator.get_random_transform</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">get_random_transform(
+    img_shape, seed=None
+)
+</code></pre>
+<p>Generates random parameters for a transformation.</p>
+<h1 class="page-title" id="arguments_6">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">seed: Random seed.
+img_shape: Tuple of integers.
+    Shape of the image that is transformed.
+</code></pre>
+<h1 class="page-title" id="returns_5">Returns</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">A dictionary containing randomly chosen parameters describing the
+transformation.
+</code></pre>
+<h3 class="dash-method" id="random_transform"><a class="dashingAutolink" name="autolink-2070"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.image.ImageDataGenerator.random_transform"></a><code dir="ltr" translate="no">tf.keras.preprocessing.image.ImageDataGenerator.random_transform</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">random_transform(
+    x, seed=None
+)
+</code></pre>
+<p>Applies a random transformation to an image.</p>
+<h1 class="page-title" id="arguments_7">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">x: 3D tensor, single image.
+seed: Random seed.
+</code></pre>
+<h1 class="page-title" id="returns_6">Returns</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">A randomly transformed version of the input (same shape).
+</code></pre>
+<h3 class="dash-method" id="standardize"><a class="dashingAutolink" name="autolink-2071"></a><a class="dashAnchor" name="//apple_ref/cpp/Method/tf.keras.preprocessing.image.ImageDataGenerator.standardize"></a><code dir="ltr" translate="no">tf.keras.preprocessing.image.ImageDataGenerator.standardize</code></h3>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">standardize(
+    x
+)
+</code></pre>
+<p>Applies the normalization configuration in-place to a batch of inputs.</p>
+<p><code dir="ltr" translate="no">x</code> is changed in-place since the function is mainly used internally
+to standarize images and feed them to your network. If a copy of <code dir="ltr" translate="no">x</code>
+would be created instead it would have a significant performance cost.
+If you want to apply this method without changing the input in-place
+you can call the method creating a copy before:</p>
+<p>standarize(np.copy(x))</p>
+<h1 class="page-title" id="arguments_8">Arguments</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">x: Batch of inputs to be normalized.
+</code></pre>
+<h1 class="page-title" id="returns_7">Returns</h1>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">The inputs, normalized.
+</code></pre>
+</div>
+<devsite-page-rating hover-rating-star="0" position="footer" selected-rating="0">
+</devsite-page-rating>
+</article>
+</article>
+
+</devsite-content>
+</main>
+<devsite-footer-promos class="devsite-footer">
+</devsite-footer-promos>
+<devsite-footer-linkboxes class="devsite-footer">
+
+</devsite-footer-linkboxes>
+<devsite-footer-utility class="devsite-footer">
+<div class="devsite-footer-utility nocontent">
+
+</div>
+</devsite-footer-utility>
+</section></section>
+<devsite-sitemask></devsite-sitemask>
+<devsite-snackbar></devsite-snackbar> <devsite-tooltip></devsite-tooltip>
+<devsite-heading-link></devsite-heading-link>
+<devsite-analytics>
+
+
+</devsite-analytics>
+ 
+</body></html>

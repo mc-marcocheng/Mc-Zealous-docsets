@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.sql.functions.window — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-sql-functions-window">
+<h1>pyspark.sql.functions.window<a class="headerlink" href="#pyspark-sql-functions-window" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="pyspark.sql.functions.window"><a name="//apple_ref/cpp/Function/pyspark.sql.functions.window"></a>
+<code class="sig-prename descclassname">pyspark.sql.functions.</code><code class="sig-name descname">window</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timeColumn</span></em>, <em class="sig-param"><span class="n">windowDuration</span></em>, <em class="sig-param"><span class="n">slideDuration</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">startTime</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/sql/functions.html#window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.sql.functions.window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bucketize rows into one or more time windows given a timestamp specifying column. Window
+starts are inclusive but the window ends are exclusive, e.g. 12:05 will be in the window
+[12:05,12:10) but not in [12:00,12:05). Windows can support microsecond precision. Windows in
+the order of months are not supported.</p>
+<p>The time column must be of <a class="reference internal" href="pyspark.sql.types.TimestampType.html#pyspark.sql.types.TimestampType" title="pyspark.sql.types.TimestampType"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.types.TimestampType</span></code></a>.</p>
+<p>Durations are provided as strings, e.g. ‘1 second’, ‘1 day 12 hours’, ‘2 minutes’. Valid
+interval strings are ‘week’, ‘day’, ‘hour’, ‘minute’, ‘second’, ‘millisecond’, ‘microsecond’.
+If the <code class="docutils literal notranslate"><span class="pre">slideDuration</span></code> is not provided, the windows will be tumbling windows.</p>
+<p>The startTime is the offset with respect to 1970-01-01 00:00:00 UTC with which to start
+window intervals. For example, in order to have hourly tumbling windows that start 15 minutes
+past the hour, e.g. 12:15-13:15, 13:15-14:15… provide <cite>startTime</cite> as <cite>15 minutes</cite>.</p>
+<p>The output column will be a struct called ‘window’ by default with the nested columns ‘start’
+and ‘end’, where ‘start’ and ‘end’ will be of <a class="reference internal" href="pyspark.sql.types.TimestampType.html#pyspark.sql.types.TimestampType" title="pyspark.sql.types.TimestampType"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.types.TimestampType</span></code></a>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="s2">"2016-03-11 09:00:07"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">"date"</span><span class="p">,</span> <span class="s2">"val"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="n">window</span><span class="p">(</span><span class="s2">"date"</span><span class="p">,</span> <span class="s2">"5 seconds"</span><span class="p">))</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="s2">"val"</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"sum"</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">"string"</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"start"</span><span class="p">),</span>
+<span class="gp">... </span>         <span class="n">w</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">"string"</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"end"</span><span class="p">),</span> <span class="s2">"sum"</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="go">[Row(start='2016-03-11 09:00:05', end='2016-03-11 09:00:10', sum=1)]</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.</span></p>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

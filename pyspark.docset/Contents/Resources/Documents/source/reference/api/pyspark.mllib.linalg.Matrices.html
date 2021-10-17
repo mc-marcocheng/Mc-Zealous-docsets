@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Matrices — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="matrices">
+<h1>Matrices<a class="headerlink" href="#matrices" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.linalg.Matrices"><a name="//apple_ref/cpp/Class/pyspark.mllib.linalg.Matrices"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.linalg.</code><code class="sig-name descname">Matrices</code><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg.html#Matrices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.Matrices" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.Matrices.dense"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.Matrices.dense"></a>
+<em class="property">static </em><code class="sig-name descname">dense</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">numRows</span></em>, <em class="sig-param"><span class="n">numCols</span></em>, <em class="sig-param"><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg.html#Matrices.dense"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.Matrices.dense" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a DenseMatrix</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.Matrices.fromML"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.Matrices.fromML"></a>
+<em class="property">static </em><code class="sig-name descname">fromML</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mat</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg.html#Matrices.fromML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.Matrices.fromML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a matrix from the new mllib-local representation.
+This does NOT copy the data; it copies references.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mat</strong> – a <a class="reference internal" href="pyspark.ml.linalg.Matrix.html#pyspark.ml.linalg.Matrix" title="pyspark.ml.linalg.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.ml.linalg.Matrix</span></code></a></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a <a class="reference internal" href="pyspark.mllib.linalg.Matrix.html#pyspark.mllib.linalg.Matrix" title="pyspark.mllib.linalg.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.mllib.linalg.Matrix</span></code></a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.linalg.Matrices.sparse"><a name="//apple_ref/cpp/Method/pyspark.mllib.linalg.Matrices.sparse"></a>
+<em class="property">static </em><code class="sig-name descname">sparse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">numRows</span></em>, <em class="sig-param"><span class="n">numCols</span></em>, <em class="sig-param"><span class="n">colPtrs</span></em>, <em class="sig-param"><span class="n">rowIndices</span></em>, <em class="sig-param"><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/linalg.html#Matrices.sparse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.linalg.Matrices.sparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a SparseMatrix</p>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

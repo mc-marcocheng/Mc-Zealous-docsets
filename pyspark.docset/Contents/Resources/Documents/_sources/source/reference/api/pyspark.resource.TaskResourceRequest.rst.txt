@@ -1,0 +1,29 @@
+pyspark.resource.TaskResourceRequest
+====================================
+
+.. currentmodule:: pyspark.resource
+
+.. autoclass:: TaskResourceRequest
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TaskResourceRequest.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TaskResourceRequest.amount
+      ~TaskResourceRequest.resourceName
+   
+   

@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.sql.DataFrame.sampleBy — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-sql-dataframe-sampleby">
+<h1>pyspark.sql.DataFrame.sampleBy<a class="headerlink" href="#pyspark-sql-dataframe-sampleby" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.sql.DataFrame.sampleBy"><a name="//apple_ref/cpp/Method/pyspark.sql.DataFrame.sampleBy"></a>
+<code class="sig-prename descclassname">DataFrame.</code><code class="sig-name descname">sampleBy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">fractions</span></em>, <em class="sig-param"><span class="n">seed</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/sql/dataframe.html#DataFrame.sampleBy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.sql.DataFrame.sampleBy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a stratified sample without replacement based on the
+fraction given on each stratum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>col</strong> – column that defines strata</p></li>
+<li><p><strong>fractions</strong> – sampling fraction for each stratum. If a stratum is not
+specified, we treat its fraction as zero.</p></li>
+<li><p><strong>seed</strong> – random seed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a new <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></a> that represents the stratified sample</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">sqlContext</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">((</span><span class="n">col</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"key"</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sampled</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">sampleBy</span><span class="p">(</span><span class="s2">"key"</span><span class="p">,</span> <span class="n">fractions</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">},</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sampled</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s2">"key"</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s2">"key"</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">+---+-----+</span>
+<span class="go">|key|count|</span>
+<span class="go">+---+-----+</span>
+<span class="go">|  0|    3|</span>
+<span class="go">|  1|    6|</span>
+<span class="go">+---+-----+</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span><span class="o">.</span><span class="n">sampleBy</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"key"</span><span class="p">),</span> <span class="n">fractions</span><span class="o">=</span><span class="p">{</span><span class="mi">2</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">},</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="go">33</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0: </span>Added sampling by a column of <a class="reference internal" href="pyspark.sql.Column.html#pyspark.sql.Column" title="pyspark.sql.Column"><code class="xref py py-class docutils literal notranslate"><span class="pre">Column</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.</span></p>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

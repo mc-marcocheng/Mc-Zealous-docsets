@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>StandardScaler — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="standardscaler">
+<h1>StandardScaler<a class="headerlink" href="#standardscaler" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.feature.StandardScaler"><a name="//apple_ref/cpp/Class/pyspark.ml.feature.StandardScaler"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.feature.</code><code class="sig-name descname">StandardScaler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">withMean</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">withStd</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">inputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outputCol</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StandardScaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StandardScaler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Standardizes features by removing the mean and scaling to unit variance using column summary
+statistics on the samples in the training set.</p>
+<p>The “unit std” is computed using the <a class="reference external" href="https://en.wikipedia.org/wiki/Standard_deviation#Corrected_sample_standard_deviation">corrected sample standard deviation</a>,
+which is computed as the square root of the unbiased sample variance.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">0.0</span><span class="p">]),),</span> <span class="p">(</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">2.0</span><span class="p">]),)],</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">standardScaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">standardScaler</span><span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">"a"</span><span class="p">)</span>
+<span class="go">StandardScaler...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">standardScaler</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">"scaled"</span><span class="p">)</span>
+<span class="go">StandardScaler...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">standardScaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">getInputCol</span><span class="p">()</span>
+<span class="go">'a'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">"output"</span><span class="p">)</span>
+<span class="go">StandardScalerModel...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">mean</span>
+<span class="go">DenseVector([1.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">std</span>
+<span class="go">DenseVector([1.4142])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">output</span>
+<span class="go">DenseVector([1.4142])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">standardScalerPath</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/standard-scaler"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">standardScaler</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">standardScalerPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedStandardScaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">standardScalerPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedStandardScaler</span><span class="o">.</span><span class="n">getWithMean</span><span class="p">()</span> <span class="o">==</span> <span class="n">standardScaler</span><span class="o">.</span><span class="n">getWithMean</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedStandardScaler</span><span class="o">.</span><span class="n">getWithStd</span><span class="p">()</span> <span class="o">==</span> <span class="n">standardScaler</span><span class="o">.</span><span class="n">getWithStd</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">modelPath</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/standard-scaler-model"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">modelPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedModel</span> <span class="o">=</span> <span class="n">StandardScalerModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">modelPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedModel</span><span class="o">.</span><span class="n">std</span> <span class="o">==</span> <span class="n">model</span><span class="o">.</span><span class="n">std</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedModel</span><span class="o">.</span><span class="n">mean</span> <span class="o">==</span> <span class="n">model</span><span class="o">.</span><span class="n">mean</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.clear"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.clear"></a>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears a param from the param map if it has been explicitly set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.copy"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.copy"></a>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a copy of this instance with the same uid and some
+extra params. This implementation first calls Params.copy and
+then make a copy of the companion Java pipeline component with
+extra params. So both the Python wrapper and the Java pipeline
+component get copied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Copy of this instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.explainParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.explainParam"></a>
+<code class="sig-name descname">explainParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.explainParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explains a single param and returns its name, doc, and optional
+default value and user-supplied value in a string.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.explainParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.explainParams"></a>
+<code class="sig-name descname">explainParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.explainParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the documentation of all params with their optionally
+default values and user-supplied values.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.extractParamMap"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.extractParamMap"></a>
+<code class="sig-name descname">extractParamMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the embedded default param values and user-supplied
+values, and then merges them with extra values from input into
+a flat param map, where the latter value is used if there exist
+conflicts, i.e., with ordering: default param values &lt;
+user-supplied values &lt; extra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>merged param map</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.fit"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.fit"></a>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the input dataset with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded params. If a list/tuple of
+param maps is given, this calls fit on each param map and returns a list of
+models.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fitted model(s)</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.fitMultiple"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.fitMultiple"></a>
+<code class="sig-name descname">fitMultiple</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">paramMaps</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.fitMultiple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a>.</p></li>
+<li><p><strong>paramMaps</strong> – A Sequence of param maps.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A thread safe iterable which contains one model for each param map. Each
+call to <cite>next(modelIterator)</cite> will return <cite>(index, model)</cite> where model was fit
+using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequential.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.getInputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.getInputCol"></a>
+<code class="sig-name descname">getInputCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.getInputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of inputCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.getOrDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.getOrDefault"></a>
+<code class="sig-name descname">getOrDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a param in the user-supplied param map or its
+default value. Raises an error if neither is set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.getOutputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.getOutputCol"></a>
+<code class="sig-name descname">getOutputCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.getOutputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of outputCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.getParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.getParam"></a>
+<code class="sig-name descname">getParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.getParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a param by its name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.getWithMean"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.getWithMean"></a>
+<code class="sig-name descname">getWithMean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.getWithMean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of withMean or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.getWithStd"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.getWithStd"></a>
+<code class="sig-name descname">getWithStd</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.getWithStd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of withStd or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.hasDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.hasDefault"></a>
+<code class="sig-name descname">hasDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.hasDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param has a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.hasParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.hasParam"></a>
+<code class="sig-name descname">hasParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.hasParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether this instance contains a param with a given
+(string) name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.isDefined"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.isDefined"></a>
+<code class="sig-name descname">isDefined</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.isDefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user or has
+a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.isSet"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.isSet"></a>
+<code class="sig-name descname">isSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.isSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.load"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.load"></a>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.read"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.read"></a>
+<em class="property">classmethod </em><code class="sig-name descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLReader instance for this class.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.save"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.save"></a>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.set"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.set"></a>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.setInputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.setInputCol"></a>
+<code class="sig-name descname">setInputCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StandardScaler.setInputCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.setInputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.StandardScaler.inputCol" title="pyspark.ml.feature.StandardScaler.inputCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inputCol</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.setOutputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.setOutputCol"></a>
+<code class="sig-name descname">setOutputCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StandardScaler.setOutputCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.setOutputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.StandardScaler.outputCol" title="pyspark.ml.feature.StandardScaler.outputCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">outputCol</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.setParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.setParams"></a>
+<code class="sig-name descname">setParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">withMean</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">withStd</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">inputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outputCol</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StandardScaler.setParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets params for this StandardScaler.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.setWithMean"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.setWithMean"></a>
+<code class="sig-name descname">setWithMean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StandardScaler.setWithMean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.setWithMean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.StandardScaler.withMean" title="pyspark.ml.feature.StandardScaler.withMean"><code class="xref py py-attr docutils literal notranslate"><span class="pre">withMean</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.setWithStd"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.setWithStd"></a>
+<code class="sig-name descname">setWithStd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StandardScaler.setWithStd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.setWithStd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.StandardScaler.withStd" title="pyspark.ml.feature.StandardScaler.withStd"><code class="xref py py-attr docutils literal notranslate"><span class="pre">withStd</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StandardScaler.write"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StandardScaler.write"></a>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLWriter instance for this ML instance.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.StandardScaler.inputCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.StandardScaler.inputCol"></a>
+<code class="sig-name descname">inputCol</code><em class="property"> = Param(parent='undefined', name='inputCol', doc='input column name.')</em><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.inputCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.StandardScaler.outputCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.StandardScaler.outputCol"></a>
+<code class="sig-name descname">outputCol</code><em class="property"> = Param(parent='undefined', name='outputCol', doc='output column name.')</em><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.outputCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.StandardScaler.params"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.StandardScaler.params"></a>
+<code class="sig-name descname">params</code><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all params ordered by name. The default implementation
+uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.StandardScaler.withMean"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.StandardScaler.withMean"></a>
+<code class="sig-name descname">withMean</code><em class="property"> = Param(parent='undefined', name='withMean', doc='Center data with mean')</em><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.withMean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.StandardScaler.withStd"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.StandardScaler.withStd"></a>
+<code class="sig-name descname">withStd</code><em class="property"> = Param(parent='undefined', name='withStd', doc='Scale to unit standard deviation')</em><a class="headerlink" href="#pyspark.ml.feature.StandardScaler.withStd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

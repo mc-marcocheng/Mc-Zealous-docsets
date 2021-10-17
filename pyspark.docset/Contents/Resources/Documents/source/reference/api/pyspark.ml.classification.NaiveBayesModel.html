@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>NaiveBayesModel — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="naivebayesmodel">
+<h1>NaiveBayesModel<a class="headerlink" href="#naivebayesmodel" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.classification.NaiveBayesModel"><a name="//apple_ref/cpp/Class/pyspark.ml.classification.NaiveBayesModel"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.classification.</code><code class="sig-name descname">NaiveBayesModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">java_model</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/classification.html#NaiveBayesModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model fitted by NaiveBayes.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.clear"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.clear"></a>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears a param from the param map if it has been explicitly set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.copy"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.copy"></a>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a copy of this instance with the same uid and some
+extra params. This implementation first calls Params.copy and
+then make a copy of the companion Java pipeline component with
+extra params. So both the Python wrapper and the Java pipeline
+component get copied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Copy of this instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.explainParam"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.explainParam"></a>
+<code class="sig-name descname">explainParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.explainParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explains a single param and returns its name, doc, and optional
+default value and user-supplied value in a string.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.explainParams"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.explainParams"></a>
+<code class="sig-name descname">explainParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.explainParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the documentation of all params with their optionally
+default values and user-supplied values.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.extractParamMap"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.extractParamMap"></a>
+<code class="sig-name descname">extractParamMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the embedded default param values and user-supplied
+values, and then merges them with extra values from input into
+a flat param map, where the latter value is used if there exist
+conflicts, i.e., with ordering: default param values &lt;
+user-supplied values &lt; extra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>merged param map</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.getFeaturesCol"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.getFeaturesCol"></a>
+<code class="sig-name descname">getFeaturesCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.getFeaturesCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of featuresCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.getLabelCol"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.getLabelCol"></a>
+<code class="sig-name descname">getLabelCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.getLabelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of labelCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.getModelType"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.getModelType"></a>
+<code class="sig-name descname">getModelType</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.getModelType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of modelType or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.getOrDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.getOrDefault"></a>
+<code class="sig-name descname">getOrDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a param in the user-supplied param map or its
+default value. Raises an error if neither is set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.getParam"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.getParam"></a>
+<code class="sig-name descname">getParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.getParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a param by its name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.getPredictionCol"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.getPredictionCol"></a>
+<code class="sig-name descname">getPredictionCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.getPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of predictionCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.getProbabilityCol"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.getProbabilityCol"></a>
+<code class="sig-name descname">getProbabilityCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.getProbabilityCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of probabilityCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.getRawPredictionCol"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.getRawPredictionCol"></a>
+<code class="sig-name descname">getRawPredictionCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.getRawPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of rawPredictionCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.getSmoothing"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.getSmoothing"></a>
+<code class="sig-name descname">getSmoothing</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.getSmoothing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of smoothing or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.5.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.getThresholds"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.getThresholds"></a>
+<code class="sig-name descname">getThresholds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.getThresholds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of thresholds or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.getWeightCol"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.getWeightCol"></a>
+<code class="sig-name descname">getWeightCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.getWeightCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of weightCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.hasDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.hasDefault"></a>
+<code class="sig-name descname">hasDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.hasDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param has a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.hasParam"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.hasParam"></a>
+<code class="sig-name descname">hasParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.hasParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether this instance contains a param with a given
+(string) name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.isDefined"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.isDefined"></a>
+<code class="sig-name descname">isDefined</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.isDefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user or has
+a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.isSet"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.isSet"></a>
+<code class="sig-name descname">isSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.isSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.load"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.load"></a>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.predict"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.predict"></a>
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict label for the given features.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.predictProbability"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.predictProbability"></a>
+<code class="sig-name descname">predictProbability</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.predictProbability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict the probability of each class given the features.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.predictRaw"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.predictRaw"></a>
+<code class="sig-name descname">predictRaw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.predictRaw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raw prediction for each possible label.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.read"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.read"></a>
+<em class="property">classmethod </em><code class="sig-name descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLReader instance for this class.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.save"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.save"></a>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.set"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.set"></a>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.setFeaturesCol"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.setFeaturesCol"></a>
+<code class="sig-name descname">setFeaturesCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.setFeaturesCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.classification.NaiveBayesModel.featuresCol" title="pyspark.ml.classification.NaiveBayesModel.featuresCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">featuresCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.setPredictionCol"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.setPredictionCol"></a>
+<code class="sig-name descname">setPredictionCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.setPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.classification.NaiveBayesModel.predictionCol" title="pyspark.ml.classification.NaiveBayesModel.predictionCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">predictionCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.setProbabilityCol"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.setProbabilityCol"></a>
+<code class="sig-name descname">setProbabilityCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.setProbabilityCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.classification.NaiveBayesModel.probabilityCol" title="pyspark.ml.classification.NaiveBayesModel.probabilityCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">probabilityCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.setRawPredictionCol"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.setRawPredictionCol"></a>
+<code class="sig-name descname">setRawPredictionCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.setRawPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.classification.NaiveBayesModel.rawPredictionCol" title="pyspark.ml.classification.NaiveBayesModel.rawPredictionCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">rawPredictionCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.setThresholds"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.setThresholds"></a>
+<code class="sig-name descname">setThresholds</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.setThresholds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.classification.NaiveBayesModel.thresholds" title="pyspark.ml.classification.NaiveBayesModel.thresholds"><code class="xref py py-attr docutils literal notranslate"><span class="pre">thresholds</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.transform"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.transform"></a>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms the input dataset with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded params.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed dataset</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.classification.NaiveBayesModel.write"><a name="//apple_ref/cpp/Method/pyspark.ml.classification.NaiveBayesModel.write"></a>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLWriter instance for this ML instance.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.NaiveBayesModel.featuresCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.NaiveBayesModel.featuresCol"></a>
+<code class="sig-name descname">featuresCol</code><em class="property"> = Param(parent='undefined', name='featuresCol', doc='features column name.')</em><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.featuresCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.NaiveBayesModel.labelCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.NaiveBayesModel.labelCol"></a>
+<code class="sig-name descname">labelCol</code><em class="property"> = Param(parent='undefined', name='labelCol', doc='label column name.')</em><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.labelCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.NaiveBayesModel.modelType"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.NaiveBayesModel.modelType"></a>
+<code class="sig-name descname">modelType</code><em class="property"> = Param(parent='undefined', name='modelType', doc='The model type which is a string (case-sensitive). Supported options: multinomial (default), bernoulli and gaussian.')</em><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.modelType" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.NaiveBayesModel.numClasses"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.NaiveBayesModel.numClasses"></a>
+<code class="sig-name descname">numClasses</code><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.numClasses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of classes (values which the label can take).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.NaiveBayesModel.numFeatures"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.NaiveBayesModel.numFeatures"></a>
+<code class="sig-name descname">numFeatures</code><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.numFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of features the model was trained on. If unknown, returns -1</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.NaiveBayesModel.params"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.NaiveBayesModel.params"></a>
+<code class="sig-name descname">params</code><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all params ordered by name. The default implementation
+uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.NaiveBayesModel.pi"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.NaiveBayesModel.pi"></a>
+<code class="sig-name descname">pi</code><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.pi" title="Permalink to this definition">¶</a></dt>
+<dd><p>log of class priors.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.NaiveBayesModel.predictionCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.NaiveBayesModel.predictionCol"></a>
+<code class="sig-name descname">predictionCol</code><em class="property"> = Param(parent='undefined', name='predictionCol', doc='prediction column name.')</em><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.predictionCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.NaiveBayesModel.probabilityCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.NaiveBayesModel.probabilityCol"></a>
+<code class="sig-name descname">probabilityCol</code><em class="property"> = Param(parent='undefined', name='probabilityCol', doc='Column name for predicted class conditional probabilities. Note: Not all models output well-calibrated probability estimates! These probabilities should be treated as confidences, not precise probabilities.')</em><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.probabilityCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.NaiveBayesModel.rawPredictionCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.NaiveBayesModel.rawPredictionCol"></a>
+<code class="sig-name descname">rawPredictionCol</code><em class="property"> = Param(parent='undefined', name='rawPredictionCol', doc='raw prediction (a.k.a. confidence) column name.')</em><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.rawPredictionCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.NaiveBayesModel.sigma"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.NaiveBayesModel.sigma"></a>
+<code class="sig-name descname">sigma</code><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.sigma" title="Permalink to this definition">¶</a></dt>
+<dd><p>variance of each feature.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.NaiveBayesModel.smoothing"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.NaiveBayesModel.smoothing"></a>
+<code class="sig-name descname">smoothing</code><em class="property"> = Param(parent='undefined', name='smoothing', doc='The smoothing parameter, should be &gt;= 0, default is 1.0')</em><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.smoothing" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.NaiveBayesModel.theta"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.NaiveBayesModel.theta"></a>
+<code class="sig-name descname">theta</code><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.theta" title="Permalink to this definition">¶</a></dt>
+<dd><p>log of class conditional probabilities.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.NaiveBayesModel.thresholds"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.NaiveBayesModel.thresholds"></a>
+<code class="sig-name descname">thresholds</code><em class="property"> = Param(parent='undefined', name='thresholds', doc="Thresholds in multi-class classification to adjust the probability of predicting each class. Array must have length equal to the number of classes, with values &gt; 0, excepting that at most one value may be 0. The class with largest value p/t is predicted, where p is the original probability of that class and t is the class's threshold.")</em><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.thresholds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.classification.NaiveBayesModel.weightCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.classification.NaiveBayesModel.weightCol"></a>
+<code class="sig-name descname">weightCol</code><em class="property"> = Param(parent='undefined', name='weightCol', doc='weight column name. If this is not set or empty, we treat all instance weights as 1.0.')</em><a class="headerlink" href="#pyspark.ml.classification.NaiveBayesModel.weightCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

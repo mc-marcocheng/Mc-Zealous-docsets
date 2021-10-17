@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.sql.DataFrameReader.jdbc — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-sql-dataframereader-jdbc">
+<h1>pyspark.sql.DataFrameReader.jdbc<a class="headerlink" href="#pyspark-sql-dataframereader-jdbc" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.sql.DataFrameReader.jdbc"><a name="//apple_ref/cpp/Method/pyspark.sql.DataFrameReader.jdbc"></a>
+<code class="sig-prename descclassname">DataFrameReader.</code><code class="sig-name descname">jdbc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span></em>, <em class="sig-param"><span class="n">table</span></em>, <em class="sig-param"><span class="n">column</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lowerBound</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">upperBound</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">numPartitions</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">predicates</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">properties</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/sql/readwriter.html#DataFrameReader.jdbc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.sql.DataFrameReader.jdbc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></a> representing the database table named <code class="docutils literal notranslate"><span class="pre">table</span></code>
+accessible via JDBC URL <code class="docutils literal notranslate"><span class="pre">url</span></code> and connection <code class="docutils literal notranslate"><span class="pre">properties</span></code>.</p>
+<p>Partitions of the table will be retrieved in parallel if either <code class="docutils literal notranslate"><span class="pre">column</span></code> or
+<code class="docutils literal notranslate"><span class="pre">predicates</span></code> is specified. <code class="docutils literal notranslate"><span class="pre">lowerBound`,</span> <span class="pre">``upperBound</span></code> and <code class="docutils literal notranslate"><span class="pre">numPartitions</span></code>
+is needed when <code class="docutils literal notranslate"><span class="pre">column</span></code> is specified.</p>
+<p>If both <code class="docutils literal notranslate"><span class="pre">column</span></code> and <code class="docutils literal notranslate"><span class="pre">predicates</span></code> are specified, <code class="docutils literal notranslate"><span class="pre">column</span></code> will be used.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Don’t create too many partitions in parallel on a large cluster;
+otherwise Spark might crash your external database systems.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> – a JDBC URL of the form <code class="docutils literal notranslate"><span class="pre">jdbc:subprotocol:subname</span></code></p></li>
+<li><p><strong>table</strong> – the name of the table</p></li>
+<li><p><strong>column</strong> – the name of a column of numeric, date, or timestamp type
+that will be used for partitioning;
+if this parameter is specified, then <code class="docutils literal notranslate"><span class="pre">numPartitions</span></code>, <code class="docutils literal notranslate"><span class="pre">lowerBound</span></code>
+(inclusive), and <code class="docutils literal notranslate"><span class="pre">upperBound</span></code> (exclusive) will form partition strides
+for generated WHERE clause expressions used to split the column
+<code class="docutils literal notranslate"><span class="pre">column</span></code> evenly</p></li>
+<li><p><strong>lowerBound</strong> – the minimum value of <code class="docutils literal notranslate"><span class="pre">column</span></code> used to decide partition stride</p></li>
+<li><p><strong>upperBound</strong> – the maximum value of <code class="docutils literal notranslate"><span class="pre">column</span></code> used to decide partition stride</p></li>
+<li><p><strong>numPartitions</strong> – the number of partitions</p></li>
+<li><p><strong>predicates</strong> – a list of expressions suitable for inclusion in WHERE clauses;
+each one defines one partition of the <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></a></p></li>
+<li><p><strong>properties</strong> – a dictionary of JDBC database connection arguments. Normally at
+least properties “user” and “password” with their corresponding values.
+For example { ‘user’ : ‘SYSTEM’, ‘password’ : ‘mypassword’ }</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a DataFrame</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.</span></p>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

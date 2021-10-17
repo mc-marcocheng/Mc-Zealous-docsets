@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>DefaultParamsReader — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="defaultparamsreader">
+<h1>DefaultParamsReader<a class="headerlink" href="#defaultparamsreader" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.util.DefaultParamsReader"><a name="//apple_ref/cpp/Class/pyspark.ml.util.DefaultParamsReader"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.util.</code><code class="sig-name descname">DefaultParamsReader</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cls</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/util.html#DefaultParamsReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.util.DefaultParamsReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specialization of <a class="reference internal" href="pyspark.ml.util.MLReader.html#pyspark.ml.util.MLReader" title="pyspark.ml.util.MLReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLReader</span></code></a> for <code class="xref py py-class docutils literal notranslate"><span class="pre">Params</span></code> types</p>
+<p>Default <a class="reference internal" href="pyspark.ml.util.MLReader.html#pyspark.ml.util.MLReader" title="pyspark.ml.util.MLReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLReader</span></code></a> implementation for transformers and estimators that
+contain basic (json-serializable) params and no data. This will not handle
+more complex params or types with data (e.g., models with coefficients).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.util.DefaultParamsReader.getAndSetParams"><a name="//apple_ref/cpp/Method/pyspark.ml.util.DefaultParamsReader.getAndSetParams"></a>
+<em class="property">static </em><code class="sig-name descname">getAndSetParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">instance</span></em>, <em class="sig-param"><span class="n">metadata</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/util.html#DefaultParamsReader.getAndSetParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.util.DefaultParamsReader.getAndSetParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract Params from metadata, and set them in the instance.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.util.DefaultParamsReader.load"><a name="//apple_ref/cpp/Method/pyspark.ml.util.DefaultParamsReader.load"></a>
+<code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/util.html#DefaultParamsReader.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.util.DefaultParamsReader.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the ML instance from the input path.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.util.DefaultParamsReader.loadMetadata"><a name="//apple_ref/cpp/Method/pyspark.ml.util.DefaultParamsReader.loadMetadata"></a>
+<em class="property">static </em><code class="sig-name descname">loadMetadata</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">sc</span></em>, <em class="sig-param"><span class="n">expectedClassName</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/util.html#DefaultParamsReader.loadMetadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.util.DefaultParamsReader.loadMetadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load metadata saved using <a class="reference internal" href="pyspark.ml.util.DefaultParamsWriter.html#pyspark.ml.util.DefaultParamsWriter.saveMetadata" title="pyspark.ml.util.DefaultParamsWriter.saveMetadata"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DefaultParamsWriter.saveMetadata()</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>expectedClassName</strong> – If non empty, this is checked against the loaded metadata.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.util.DefaultParamsReader.loadParamsInstance"><a name="//apple_ref/cpp/Method/pyspark.ml.util.DefaultParamsReader.loadParamsInstance"></a>
+<em class="property">static </em><code class="sig-name descname">loadParamsInstance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">sc</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/util.html#DefaultParamsReader.loadParamsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.util.DefaultParamsReader.loadParamsInstance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a <code class="xref py py-class docutils literal notranslate"><span class="pre">Params</span></code> instance from the given path, and return it.
+This assumes the instance inherits from <a class="reference internal" href="pyspark.ml.util.MLReadable.html#pyspark.ml.util.MLReadable" title="pyspark.ml.util.MLReadable"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLReadable</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.util.DefaultParamsReader.session"><a name="//apple_ref/cpp/Method/pyspark.ml.util.DefaultParamsReader.session"></a>
+<code class="sig-name descname">session</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sparkSession</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.util.DefaultParamsReader.session" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the Spark Session to use for saving/loading.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.util.DefaultParamsReader.sc"><a name="//apple_ref/cpp/Attribute/pyspark.ml.util.DefaultParamsReader.sc"></a>
+<code class="sig-name descname">sc</code><a class="headerlink" href="#pyspark.ml.util.DefaultParamsReader.sc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the underlying <cite>SparkContext</cite>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.util.DefaultParamsReader.sparkSession"><a name="//apple_ref/cpp/Attribute/pyspark.ml.util.DefaultParamsReader.sparkSession"></a>
+<code class="sig-name descname">sparkSession</code><a class="headerlink" href="#pyspark.ml.util.DefaultParamsReader.sparkSession" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the user-specified Spark Session or the default.</p>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

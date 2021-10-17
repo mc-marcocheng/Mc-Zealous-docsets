@@ -1,0 +1,439 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>ChiSqSelector — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="chisqselector">
+<h1>ChiSqSelector<a class="headerlink" href="#chisqselector" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.feature.ChiSqSelector"><a name="//apple_ref/cpp/Class/pyspark.ml.feature.ChiSqSelector"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.feature.</code><code class="sig-name descname">ChiSqSelector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">numTopFeatures</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">featuresCol</span><span class="o">=</span><span class="default_value">'features'</span></em>, <em class="sig-param"><span class="n">outputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">labelCol</span><span class="o">=</span><span class="default_value">'label'</span></em>, <em class="sig-param"><span class="n">selectorType</span><span class="o">=</span><span class="default_value">'numTopFeatures'</span></em>, <em class="sig-param"><span class="n">percentile</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">fpr</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">fdr</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">fwe</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#ChiSqSelector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chi-Squared feature selection, which selects categorical features to use for predicting a
+categorical label.
+The selector supports different selection methods: <cite>numTopFeatures</cite>, <cite>percentile</cite>, <cite>fpr</cite>,
+<cite>fdr</cite>, <cite>fwe</cite>.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>numTopFeatures</cite> chooses a fixed number of top features according to a chi-squared test.</p></li>
+<li><p><cite>percentile</cite> is similar but chooses a fraction of all features
+instead of a fixed number.</p></li>
+<li><p><cite>fpr</cite> chooses all features whose p-values are below a threshold,
+thus controlling the false positive rate of selection.</p></li>
+<li><p><cite>fdr</cite> uses the <a class="reference external" href="https://en.wikipedia.org/wiki/False_discovery_rate#Benjamini.E2.80.93Hochberg_procedure">Benjamini-Hochberg procedure</a>
+to choose all features whose false discovery rate is below a threshold.</p></li>
+<li><p><cite>fwe</cite> chooses all features whose p-values are below a threshold. The threshold is scaled by
+1/numFeatures, thus controlling the family-wise error rate of selection.</p></li>
+</ul>
+</div></blockquote>
+<p>By default, the selection method is <cite>numTopFeatures</cite>, with the default number of top features
+set to 50.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">Vectors</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+<span class="gp">... </span>   <span class="p">[(</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">18.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span> <span class="mf">1.0</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="mf">0.0</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="n">Vectors</span><span class="o">.</span><span class="n">dense</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]),</span> <span class="mf">0.0</span><span class="p">)],</span>
+<span class="gp">... </span>   <span class="p">[</span><span class="s2">"features"</span><span class="p">,</span> <span class="s2">"label"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">selector</span> <span class="o">=</span> <span class="n">ChiSqSelector</span><span class="p">(</span><span class="n">numTopFeatures</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">"selectedFeatures"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">getFeaturesCol</span><span class="p">()</span>
+<span class="go">'features'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">setFeaturesCol</span><span class="p">(</span><span class="s2">"features"</span><span class="p">)</span>
+<span class="go">ChiSqSelectorModel...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">selectedFeatures</span>
+<span class="go">DenseVector([18.0])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">selectedFeatures</span>
+<span class="go">[2]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chiSqSelectorPath</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/chi-sq-selector"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">selector</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">chiSqSelectorPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedSelector</span> <span class="o">=</span> <span class="n">ChiSqSelector</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">chiSqSelectorPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedSelector</span><span class="o">.</span><span class="n">getNumTopFeatures</span><span class="p">()</span> <span class="o">==</span> <span class="n">selector</span><span class="o">.</span><span class="n">getNumTopFeatures</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">modelPath</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/chi-sq-selector-model"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">modelPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedModel</span> <span class="o">=</span> <span class="n">ChiSqSelectorModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">modelPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedModel</span><span class="o">.</span><span class="n">selectedFeatures</span> <span class="o">==</span> <span class="n">model</span><span class="o">.</span><span class="n">selectedFeatures</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.clear"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.clear"></a>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears a param from the param map if it has been explicitly set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.copy"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.copy"></a>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a copy of this instance with the same uid and some
+extra params. This implementation first calls Params.copy and
+then make a copy of the companion Java pipeline component with
+extra params. So both the Python wrapper and the Java pipeline
+component get copied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Copy of this instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.explainParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.explainParam"></a>
+<code class="sig-name descname">explainParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.explainParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explains a single param and returns its name, doc, and optional
+default value and user-supplied value in a string.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.explainParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.explainParams"></a>
+<code class="sig-name descname">explainParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.explainParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the documentation of all params with their optionally
+default values and user-supplied values.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.extractParamMap"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.extractParamMap"></a>
+<code class="sig-name descname">extractParamMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the embedded default param values and user-supplied
+values, and then merges them with extra values from input into
+a flat param map, where the latter value is used if there exist
+conflicts, i.e., with ordering: default param values &lt;
+user-supplied values &lt; extra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>merged param map</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.fit"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.fit"></a>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the input dataset with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded params. If a list/tuple of
+param maps is given, this calls fit on each param map and returns a list of
+models.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fitted model(s)</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.fitMultiple"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.fitMultiple"></a>
+<code class="sig-name descname">fitMultiple</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">paramMaps</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.fitMultiple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a>.</p></li>
+<li><p><strong>paramMaps</strong> – A Sequence of param maps.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A thread safe iterable which contains one model for each param map. Each
+call to <cite>next(modelIterator)</cite> will return <cite>(index, model)</cite> where model was fit
+using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequential.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.getFdr"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.getFdr"></a>
+<code class="sig-name descname">getFdr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.getFdr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of fdr or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.getFeaturesCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.getFeaturesCol"></a>
+<code class="sig-name descname">getFeaturesCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.getFeaturesCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of featuresCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.getFpr"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.getFpr"></a>
+<code class="sig-name descname">getFpr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.getFpr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of fpr or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.getFwe"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.getFwe"></a>
+<code class="sig-name descname">getFwe</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.getFwe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of fwe or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.getLabelCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.getLabelCol"></a>
+<code class="sig-name descname">getLabelCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.getLabelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of labelCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.getNumTopFeatures"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.getNumTopFeatures"></a>
+<code class="sig-name descname">getNumTopFeatures</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.getNumTopFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of numTopFeatures or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.getOrDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.getOrDefault"></a>
+<code class="sig-name descname">getOrDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a param in the user-supplied param map or its
+default value. Raises an error if neither is set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.getOutputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.getOutputCol"></a>
+<code class="sig-name descname">getOutputCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.getOutputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of outputCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.getParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.getParam"></a>
+<code class="sig-name descname">getParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.getParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a param by its name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.getPercentile"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.getPercentile"></a>
+<code class="sig-name descname">getPercentile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.getPercentile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of percentile or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.getSelectorType"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.getSelectorType"></a>
+<code class="sig-name descname">getSelectorType</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.getSelectorType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of selectorType or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.hasDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.hasDefault"></a>
+<code class="sig-name descname">hasDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.hasDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param has a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.hasParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.hasParam"></a>
+<code class="sig-name descname">hasParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.hasParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether this instance contains a param with a given
+(string) name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.isDefined"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.isDefined"></a>
+<code class="sig-name descname">isDefined</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.isDefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user or has
+a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.isSet"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.isSet"></a>
+<code class="sig-name descname">isSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.isSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.load"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.load"></a>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.read"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.read"></a>
+<em class="property">classmethod </em><code class="sig-name descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLReader instance for this class.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.save"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.save"></a>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.set"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.set"></a>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.setFdr"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.setFdr"></a>
+<code class="sig-name descname">setFdr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#ChiSqSelector.setFdr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.setFdr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.ChiSqSelector.fdr" title="pyspark.ml.feature.ChiSqSelector.fdr"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fdr</span></code></a>.
+Only applicable when selectorType = “fdr”.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.setFeaturesCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.setFeaturesCol"></a>
+<code class="sig-name descname">setFeaturesCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#ChiSqSelector.setFeaturesCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.setFeaturesCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.ChiSqSelector.featuresCol" title="pyspark.ml.feature.ChiSqSelector.featuresCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">featuresCol</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.setFpr"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.setFpr"></a>
+<code class="sig-name descname">setFpr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#ChiSqSelector.setFpr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.setFpr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.ChiSqSelector.fpr" title="pyspark.ml.feature.ChiSqSelector.fpr"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fpr</span></code></a>.
+Only applicable when selectorType = “fpr”.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.setFwe"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.setFwe"></a>
+<code class="sig-name descname">setFwe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#ChiSqSelector.setFwe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.setFwe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.ChiSqSelector.fwe" title="pyspark.ml.feature.ChiSqSelector.fwe"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fwe</span></code></a>.
+Only applicable when selectorType = “fwe”.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.2.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.setLabelCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.setLabelCol"></a>
+<code class="sig-name descname">setLabelCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#ChiSqSelector.setLabelCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.setLabelCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.ChiSqSelector.labelCol" title="pyspark.ml.feature.ChiSqSelector.labelCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">labelCol</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.setNumTopFeatures"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.setNumTopFeatures"></a>
+<code class="sig-name descname">setNumTopFeatures</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#ChiSqSelector.setNumTopFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.setNumTopFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.ChiSqSelector.numTopFeatures" title="pyspark.ml.feature.ChiSqSelector.numTopFeatures"><code class="xref py py-attr docutils literal notranslate"><span class="pre">numTopFeatures</span></code></a>.
+Only applicable when selectorType = “numTopFeatures”.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.setOutputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.setOutputCol"></a>
+<code class="sig-name descname">setOutputCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#ChiSqSelector.setOutputCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.setOutputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.ChiSqSelector.outputCol" title="pyspark.ml.feature.ChiSqSelector.outputCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">outputCol</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.setParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.setParams"></a>
+<code class="sig-name descname">setParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">numTopFeatures</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">featuresCol</span><span class="o">=</span><span class="default_value">'features'</span></em>, <em class="sig-param"><span class="n">outputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">labelCol</span><span class="o">=</span><span class="default_value">'labels'</span></em>, <em class="sig-param"><span class="n">selectorType</span><span class="o">=</span><span class="default_value">'numTopFeatures'</span></em>, <em class="sig-param"><span class="n">percentile</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">fpr</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">fdr</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">fwe</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#ChiSqSelector.setParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets params for this ChiSqSelector.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.setPercentile"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.setPercentile"></a>
+<code class="sig-name descname">setPercentile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#ChiSqSelector.setPercentile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.setPercentile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.ChiSqSelector.percentile" title="pyspark.ml.feature.ChiSqSelector.percentile"><code class="xref py py-attr docutils literal notranslate"><span class="pre">percentile</span></code></a>.
+Only applicable when selectorType = “percentile”.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.setSelectorType"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.setSelectorType"></a>
+<code class="sig-name descname">setSelectorType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#ChiSqSelector.setSelectorType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.setSelectorType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.ChiSqSelector.selectorType" title="pyspark.ml.feature.ChiSqSelector.selectorType"><code class="xref py py-attr docutils literal notranslate"><span class="pre">selectorType</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.1.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.ChiSqSelector.write"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.ChiSqSelector.write"></a>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLWriter instance for this ML instance.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.ChiSqSelector.fdr"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.ChiSqSelector.fdr"></a>
+<code class="sig-name descname">fdr</code><em class="property"> = Param(parent='undefined', name='fdr', doc='The upper bound of the expected false discovery rate.')</em><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.fdr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.ChiSqSelector.featuresCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.ChiSqSelector.featuresCol"></a>
+<code class="sig-name descname">featuresCol</code><em class="property"> = Param(parent='undefined', name='featuresCol', doc='features column name.')</em><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.featuresCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.ChiSqSelector.fpr"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.ChiSqSelector.fpr"></a>
+<code class="sig-name descname">fpr</code><em class="property"> = Param(parent='undefined', name='fpr', doc='The highest p-value for features to be kept.')</em><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.fpr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.ChiSqSelector.fwe"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.ChiSqSelector.fwe"></a>
+<code class="sig-name descname">fwe</code><em class="property"> = Param(parent='undefined', name='fwe', doc='The upper bound of the expected family-wise error rate.')</em><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.fwe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.ChiSqSelector.labelCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.ChiSqSelector.labelCol"></a>
+<code class="sig-name descname">labelCol</code><em class="property"> = Param(parent='undefined', name='labelCol', doc='label column name.')</em><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.labelCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.ChiSqSelector.numTopFeatures"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.ChiSqSelector.numTopFeatures"></a>
+<code class="sig-name descname">numTopFeatures</code><em class="property"> = Param(parent='undefined', name='numTopFeatures', doc='Number of features that selector will select, ordered by ascending p-value. If the number of features is &lt; numTopFeatures, then this will select all features.')</em><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.numTopFeatures" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.ChiSqSelector.outputCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.ChiSqSelector.outputCol"></a>
+<code class="sig-name descname">outputCol</code><em class="property"> = Param(parent='undefined', name='outputCol', doc='output column name.')</em><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.outputCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.ChiSqSelector.params"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.ChiSqSelector.params"></a>
+<code class="sig-name descname">params</code><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all params ordered by name. The default implementation
+uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.ChiSqSelector.percentile"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.ChiSqSelector.percentile"></a>
+<code class="sig-name descname">percentile</code><em class="property"> = Param(parent='undefined', name='percentile', doc='Percentile of features that selector will select, ordered by ascending p-value.')</em><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.percentile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.ChiSqSelector.selectorType"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.ChiSqSelector.selectorType"></a>
+<code class="sig-name descname">selectorType</code><em class="property"> = Param(parent='undefined', name='selectorType', doc='The selector type of the ChisqSelector. Supported options: numTopFeatures (default), percentile, fpr, fdr, fwe.')</em><a class="headerlink" href="#pyspark.ml.feature.ChiSqSelector.selectorType" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

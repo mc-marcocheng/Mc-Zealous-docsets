@@ -1,0 +1,344 @@
+<html><head><script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/ximgproc/doc/superpixels.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:20 GMT -->
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    
+    <title>Superpixels</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css">
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css">
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html">
+    <link rel="up" title="ximgproc. Extended Image Processing" href="ximgproc.html">
+    <link rel="next" title="xobjdetect. Extended object detection." href="../../xobjdetect/doc/xobjdetect.html">
+    <link rel="prev" title="Domain Transform filter" href="edge_aware_filters.html">
+    <link href="../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700" rel="stylesheet" type="text/css">
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <body><div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index" accesskey="I">index</a></li>
+        <li class="right">
+          <a href="../../xobjdetect/doc/xobjdetect.html" title="xobjdetect. Extended object detection." accesskey="N">next</a> |</li>
+        <li class="right">
+          <a href="edge_aware_filters.html" title="Domain Transform filter" accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> »</li>
+          <li><a href="../../refman.html">OpenCV API Reference</a> »</li>
+          <li><a href="ximgproc.html" accesskey="U">ximgproc. Extended Image Processing</a> »</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo">
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q">
+      <input type="submit" value="Go">
+      <input type="hidden" name="check_keywords" value="yes">
+      <input type="hidden" name="area" value="default">
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Superpixels</a><ul>
+<li><a class="reference internal" href="#superpixelseeds">SuperpixelSEEDS</a></li>
+<li><a class="reference internal" href="#superpixelseeds-createsuperpixelseeds">SuperpixelSEEDS::createSuperpixelSEEDS()</a></li>
+<li><a class="reference internal" href="#superpixelseeds-iterate">SuperpixelSEEDS::iterate()</a></li>
+<li><a class="reference internal" href="#superpixelseeds-getnumberofsuperpixels">SuperpixelSEEDS::getNumberOfSuperpixels()</a></li>
+<li><a class="reference internal" href="#superpixelseeds-getlabels">SuperpixelSEEDS::getLabels()</a></li>
+<li><a class="reference internal" href="#superpixelseeds-getlabelcontourmask">SuperpixelSEEDS::getLabelContourMask()</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="edge_aware_filters.html" title="previous chapter">Domain Transform filter</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../xobjdetect/doc/xobjdetect.html" title="next chapter">xobjdetect. Extended object detection.</a></p>
+        </div>
+      </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="superpixels">
+<h1>Superpixels<a class="headerlink" href="#superpixels" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="superpixelseeds">
+<h2>SuperpixelSEEDS<a class="headerlink" href="#superpixelseeds" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="SuperpixelSEEDS : public Algorithm">
+<em class="property">class </em><tt class="descname">SuperpixelSEEDS</tt> : <em class="property">public</em> <tt class="descname">Algorithm</tt><a class="headerlink" href="#SuperpixelSEEDS : public Algorithm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Class implementing the SEEDS (Superpixels Extracted via Energy-Driven Sampling) superpixels algorithm described in <a class="reference internal" href="#vbrv14" id="id1">[VBRV14]</a>. The algorithm uses an efficient hill-climbing algorithm to optimize the superpixels’ energy function that is based on color histograms and a boundary term, which is optional. The energy function encourages superpixels to be of the same color, and if the boundary term is activated, the superpixels have smooth boundaries and are of similar shape. In practice it starts from a regular grid of superpixels and moves the pixels or blocks of pixels at the boundaries to refine the solution. The algorithm runs in real-time using a single CPU.</p>
+<table class="docutils citation" frame="void" id="vbrv14" rules="none">
+<colgroup><col class="label"><col></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[VBRV14]</a></td><td>Michael Van den Bergh, Xavier Boix, Gemma Roig, Luc Van Gool: SEEDS: Superpixels Extracted via Energy-Driven Sampling. International Journal of Computer Vision (IJCV), 2014.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="superpixelseeds-createsuperpixelseeds">
+<h2>SuperpixelSEEDS::createSuperpixelSEEDS()<a class="headerlink" href="#superpixelseeds-createsuperpixelseeds" title="Permalink to this headline">¶</a></h2>
+<p>Initializes a SuperpixelSEEDS object.</p>
+<dl class="function">
+<dt id="SuperpixelSEEDS::createSuperpixelSEEDS(int image_width, int image_height, int image_channels, int num_superpixels, int num_levels, int use_prior , int histogram_bins, bool double_step)">
+<strong>C++:</strong><tt class="descname"> </tt> <tt class="descclassname">SuperpixelSEEDS::</tt><tt class="descname">createSuperpixelSEEDS</tt><big>(</big>int <strong>image_width</strong>, int <strong>image_height</strong>, int <strong>image_channels</strong>, int <strong>num_superpixels</strong>, int <strong>num_levels</strong>, int <strong>use_prior</strong>=2, int <strong>histogram_bins</strong>=5, bool <strong>double_step</strong>=false<big>)</big><a class="headerlink" href="#SuperpixelSEEDS::createSuperpixelSEEDS(int image_width, int image_height, int image_channels, int num_superpixels, int num_levels, int use_prior , int histogram_bins, bool double_step)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="pyfunction">
+<a class="dashAnchor" name="//apple_ref/Function/cv2%2ESuperpixelSEEDS%2EcreateSuperpixelSEEDS"></a><dt id="cv2.SuperpixelSEEDS.createSuperpixelSEEDS">
+<strong>Python:</strong><tt class="descname"> </tt><tt class="descclassname">cv2.SuperpixelSEEDS.</tt><tt class="descname">createSuperpixelSEEDS</tt><big>(</big>image_width, image_height, image_channels, num_superpixels, num_levels, use_prior = 2, histogram_bins=5, double_step = false<big>)</big> → &lt;SuperpixelSEEDS object&gt;<a class="headerlink" href="#cv2.SuperpixelSEEDS.createSuperpixelSEEDS" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image_width</strong> – Image width.</li>
+<li><strong>image_height</strong> – Image height.</li>
+<li><strong>image_channels</strong> – Number of channels of the image.</li>
+<li><strong>num_superpixels</strong> – Desired number of superpixels. Note that the actual number may be smaller due to restrictions (depending on the image size and num_levels). Use getNumberOfSuperpixels() to get the actual number.</li>
+<li><strong>num_levels</strong> – Number of block levels. The more levels, the more accurate is the segmentation, but needs more memory and CPU time.</li>
+<li><strong>prior</strong> – enable 3x3 shape smoothing term if &gt;0. A larger value leads to smoother shapes. prior must be in the range [0, 5].</li>
+<li><strong>histogram_bins</strong> – Number of histogram bins.</li>
+<li><strong>double_step</strong> – If true, iterate each block level twice for higher accuracy.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The function initializes a SuperpixelSEEDS object for the input <tt class="docutils literal"><span class="pre">image</span></tt>. It stores the parameters of the image: <tt class="docutils literal"><span class="pre">image_width</span></tt>, <tt class="docutils literal"><span class="pre">image_height</span></tt> and <tt class="docutils literal"><span class="pre">image_channels</span></tt>. It also sets the parameters of the SEEDS superpixel algorithm, which are: <tt class="docutils literal"><span class="pre">num_superpixels</span></tt>, <tt class="docutils literal"><span class="pre">num_levels</span></tt>, <tt class="docutils literal"><span class="pre">use_prior</span></tt>, <tt class="docutils literal"><span class="pre">histogram_bins</span></tt> and <tt class="docutils literal"><span class="pre">double_step</span></tt>.</p>
+<p>The number of levels in <tt class="docutils literal"><span class="pre">num_levels</span></tt> defines the amount of block levels that the algorithm use in the optimization. The initialization is a grid, in which the superpixels are equally distributed through the width and the height of the image. The larger blocks correspond to the superpixel size, and the levels with smaller blocks are formed by dividing the larger blocks into 2 x 2 blocks of pixels, recursively until the smaller block level. An example of initialization of 4 block levels is illustrated in the following figure.</p>
+<img alt="../../../_images/superpixels_blocks.png" src="../../../_images/superpixels_blocks.png">
+</div>
+<div class="section" id="superpixelseeds-iterate">
+<h2>SuperpixelSEEDS::iterate()<a class="headerlink" href="#superpixelseeds-iterate" title="Permalink to this headline">¶</a></h2>
+<p>Calculates the superpixel segmentation on a given image with the initialized parameters in the SuperpixelSEEDS object. This function can be called again for other images without the need of initializing the algorithm with createSuperpixelSEEDS(). This save the computational cost of allocating memory for all the structures of the algorithm.</p>
+<dl class="function">
+<dt id="void SuperpixelSEEDS::iterate(InputArray img, int num_iterations)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">SuperpixelSEEDS::</tt><tt class="descname">iterate</tt><big>(</big>InputArray <strong>img</strong>, int <strong>num_iterations</strong>=4<big>)</big><a class="headerlink" href="#void SuperpixelSEEDS::iterate(InputArray img, int num_iterations)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="pyfunction">
+<a class="dashAnchor" name="//apple_ref/Function/cv2%2ESuperpixelSEEDS%2Eiterate"></a><dt id="cv2.SuperpixelSEEDS.iterate">
+<strong>Python:</strong><tt class="descname"> </tt><tt class="descclassname">cv2.SuperpixelSEEDS.</tt><tt class="descname">iterate</tt><big>(</big>image, num_iterations<big>)</big><a class="headerlink" href="#cv2.SuperpixelSEEDS.iterate" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>img</strong> – Input image. Supported formats: CV_8U, CV_16U, CV_32F. Image size &amp; number of channels must match with the initialized image size &amp; channels with the function createSuperpixelSEEDS(). It should be in HSV or Lab color space. Lab is a bit better, but also slower.</li>
+<li><strong>num_iterations</strong> – Number of pixel level iterations. Higher number improves the result.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The function computes the superpixels segmentation of an image with the parameters initialized with the function createSuperpixelSEEDS(). The algorithms starts from a grid of superpixels and then refines the boundaries by proposing updates of blocks of pixels that lie at the boundaries from large to smaller size, finalizing with proposing pixel updates. An illustrative example can be seen below.</p>
+<img alt="../../../_images/superpixels_blocks2.png" src="../../../_images/superpixels_blocks2.png">
+</div>
+<div class="section" id="superpixelseeds-getnumberofsuperpixels">
+<h2>SuperpixelSEEDS::getNumberOfSuperpixels()<a class="headerlink" href="#superpixelseeds-getnumberofsuperpixels" title="Permalink to this headline">¶</a></h2>
+<p>Calculates the superpixel segmentation on a given image stored in SuperpixelSEEDS object.</p>
+<dl class="function">
+<dt id="void SuperpixelSEEDS::getNumberOfSuperpixels(InputArray img, int num_iterations)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">SuperpixelSEEDS::</tt><tt class="descname">getNumberOfSuperpixels</tt><big>(</big>InputArray <strong>img</strong>, int <strong>num_iterations</strong>=4<big>)</big><a class="headerlink" href="#void SuperpixelSEEDS::getNumberOfSuperpixels(InputArray img, int num_iterations)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="pyfunction">
+<a class="dashAnchor" name="//apple_ref/Function/cv2%2ESuperpixelSEEDS%2EgetNumberOfSuperpixels"></a><dt id="cv2.SuperpixelSEEDS.getNumberOfSuperpixels">
+<strong>Python:</strong><tt class="descname"> </tt><tt class="descclassname">cv2.SuperpixelSEEDS.</tt><tt class="descname">getNumberOfSuperpixels</tt><big>(</big>img, num_iterations=4<big>)</big><a class="headerlink" href="#cv2.SuperpixelSEEDS.getNumberOfSuperpixels" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>img</strong> – Input image. Supported formats: CV_8U, CV_16U, CV_32F image size &amp; number of channels must match with the initialized image size &amp; channels with the function createSuperpixelSEEDS().</li>
+<li><strong>num_iterations</strong> – Number of pixel level iterations. Higher number improves the result.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The function computes the superpixels segmentation of an image with the parameters initialized with the function createSuperpixelSEEDS().</p>
+</div>
+<div class="section" id="superpixelseeds-getlabels">
+<h2>SuperpixelSEEDS::getLabels()<a class="headerlink" href="#superpixelseeds-getlabels" title="Permalink to this headline">¶</a></h2>
+<p>Returns the segmentation labeling of the image. Each label represents a superpixel, and each pixel is assigned to one superpixel label.</p>
+<dl class="function">
+<dt id="void SuperpixelSEEDS::getLabels(OutputArray labels_out)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">SuperpixelSEEDS::</tt><tt class="descname">getLabels</tt><big>(</big>OutputArray <strong>labels_out</strong><big>)</big><a class="headerlink" href="#void SuperpixelSEEDS::getLabels(OutputArray labels_out)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="pyfunction">
+<a class="dashAnchor" name="//apple_ref/Function/cv2%2ESuperpixelSEEDS%2EgetLabels"></a><dt id="cv2.SuperpixelSEEDS.getLabels">
+<strong>Python:</strong><tt class="descname"> </tt><tt class="descclassname">cv2.SuperpixelSEEDS.</tt><tt class="descname">getLabels</tt><big>(</big>labels_out<big>)</big><a class="headerlink" href="#cv2.SuperpixelSEEDS.getLabels" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>labels_out</strong> – Return: A CV_32UC1 integer array containing the labels of the superpixel segmentation. The labels are in the range [0, getNumberOfSuperpixels()].</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The function returns an image with ssthe labels of the superpixel segmentation. The labels are in the range [0, getNumberOfSuperpixels()].</p>
+</div>
+<div class="section" id="superpixelseeds-getlabelcontourmask">
+<h2>SuperpixelSEEDS::getLabelContourMask()<a class="headerlink" href="#superpixelseeds-getlabelcontourmask" title="Permalink to this headline">¶</a></h2>
+<p>Returns the mask of the superpixel segmentation stored in SuperpixelSEEDS object.</p>
+<dl class="function">
+<dt id="void SuperpixelSEEDS::getLabelContourMask(OutputArray image, bool thick_line)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">SuperpixelSEEDS::</tt><tt class="descname">getLabelContourMask</tt><big>(</big>OutputArray <strong>image</strong>, bool <strong>thick_line</strong>=false<big>)</big><a class="headerlink" href="#void SuperpixelSEEDS::getLabelContourMask(OutputArray image, bool thick_line)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="pyfunction">
+<a class="dashAnchor" name="//apple_ref/Function/cv2%2ESuperpixelSEEDS%2EgetLabelContourMask"></a><dt id="cv2.SuperpixelSEEDS.getLabelContourMask">
+<strong>Python:</strong><tt class="descname"> </tt><tt class="descclassname">cv2.SuperpixelSEEDS.</tt><tt class="descname">getLabelContourMask</tt><big>(</big>image, thick_line = false<big>)</big><a class="headerlink" href="#cv2.SuperpixelSEEDS.getLabelContourMask" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> – Return: CV_8UC1 image mask where -1 indicates that the pixel is a superpixel border, and 0 otherwise.</li>
+<li><strong>thick_line</strong> – If false, the border is only one pixel wide, otherwise all pixels at the border are masked.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The function return the boundaries of the superpixel segmentation.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>(Python) A demo on how to generate superpixels in images from the webcam can be found at opencv_source_code/samples/python2/seeds.py</li>
+<li>(cpp) A demo on how to generate superpixels in images from the webcam can be found at opencv_source_code/modules/ximgproc/samples/seeds.cpp. By adding a file image as a command line argument, the static image will be used instead of the webcam.</li>
+<li>It will show a window with the video from the webcam with the superpixel boundaries marked in red (see below). Use Space to switch between different output modes. At the top of the window there are 4 sliders, from which the user can change on-the-fly the number of superpixels, the number of block levels, the strength of the boundary prior term to modify the shape, and the number of iterations at pixel level. This is useful to play with the parameters and set them to the user convenience. In the console the frame-rate of the algorithm is indicated.</li>
+</ul>
+</div>
+<img alt="../../../_images/superpixels_demo.png" src="../../../_images/superpixels_demo.png">
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&amp;A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index">index</a></li>
+        <li class="right">
+          <a href="../../xobjdetect/doc/xobjdetect.html" title="xobjdetect. Extended object detection.">next</a> |</li>
+        <li class="right">
+          <a href="edge_aware_filters.html" title="Domain Transform filter">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> »</li>
+          <li><a href="../../refman.html">OpenCV API Reference</a> »</li>
+          <li><a href="ximgproc.html">ximgproc. Extended Image Processing</a> »</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        © Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/ximgproc/doc/superpixels.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/ximgproc/doc/superpixels.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:20 GMT -->
+</body></html>

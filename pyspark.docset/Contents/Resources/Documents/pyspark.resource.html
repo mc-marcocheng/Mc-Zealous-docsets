@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.resource module — PySpark master documentation</title>
+<link href="_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+<script src="_static/jquery.js"></script>
+<script src="_static/underscore.js"></script>
+<script src="_static/doctools.js"></script>
+<script src="_static/language_data.js"></script>
+<script src="_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="_static/pyspark.js"></script>
+<link href="search.html" rel="search" title="Search"/>
+<link href="pyspark.mllib.html" rel="prev" title="pyspark.mllib package"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="right" style="margin-right: 10px">
+<a accesskey="P" href="pyspark.mllib.html" title="pyspark.mllib package">previous</a></li>
+<li class="nav-item nav-item-0"><a href="index.html">PySpark master documentation</a> »</li>
+<li class="nav-item nav-item-1"><a accesskey="U" href="pyspark.html">pyspark package</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-resource-module">
+<h1>pyspark.resource module<a class="headerlink" href="#pyspark-resource-module" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-pyspark.resource">
+<span id="module-contents"></span><h2><a name="//apple_ref/cpp/Module/pyspark.resource"></a>Module Contents<a class="headerlink" href="#module-pyspark.resource" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="pyspark.resource.ResourceInformation">
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.resource.</code><code class="sig-name descname">ResourceInformation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">addresses</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyspark/resource.html#ResourceInformation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.resource.ResourceInformation" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Evolving</p>
+</div>
+<p>Class to hold information about a type of Resource. A resource could be a GPU, FPGA, etc.
+The array of addresses are resource specific and its up to the user to interpret the address.</p>
+<p>One example is GPUs, where the addresses would be the indices of the GPUs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – the name of the resource</p></li>
+<li><p><strong>addresses</strong> – an array of strings describing the addresses of the resource</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+<dl class="py method">
+<dt id="pyspark.resource.ResourceInformation.addresses"><a name="//apple_ref/cpp/Method/pyspark.resource.ResourceInformation.addresses"></a>
+<em class="property">property </em><code class="sig-name descname">addresses</code><a class="headerlink" href="#pyspark.resource.ResourceInformation.addresses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py method">
+<dt id="pyspark.resource.ResourceInformation.name"><a name="//apple_ref/cpp/Method/pyspark.resource.ResourceInformation.name"></a>
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#pyspark.resource.ResourceInformation.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="right" style="margin-right: 10px">
+<a href="pyspark.mllib.html" title="pyspark.mllib package">previous</a></li>
+<li class="nav-item nav-item-0"><a href="index.html">PySpark master documentation</a> »</li>
+<li class="nav-item nav-item-1"><a href="pyspark.html">pyspark package</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.SparkContext — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-sparkcontext">
+<h1>pyspark.SparkContext<a class="headerlink" href="#pyspark-sparkcontext" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.SparkContext"><a name="//apple_ref/cpp/Class/pyspark.SparkContext"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.</code><code class="sig-name descname">SparkContext</code><span class="sig-paren">(</span><em class="sig-param">master=None</em>, <em class="sig-param">appName=None</em>, <em class="sig-param">sparkHome=None</em>, <em class="sig-param">pyFiles=None</em>, <em class="sig-param">environment=None</em>, <em class="sig-param">batchSize=0</em>, <em class="sig-param">serializer=PickleSerializer()</em>, <em class="sig-param">conf=None</em>, <em class="sig-param">gateway=None</em>, <em class="sig-param">jsc=None</em>, <em class="sig-param">profiler_cls=&lt;class 'pyspark.profiler.BasicProfiler'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/context.html#SparkContext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.SparkContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main entry point for Spark functionality. A SparkContext represents the
+connection to a Spark cluster, and can be used to create <a class="reference internal" href="pyspark.RDD.html#pyspark.RDD" title="pyspark.RDD"><code class="xref py py-class docutils literal notranslate"><span class="pre">RDD</span></code></a> and
+broadcast variables on that cluster.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only one <a class="reference internal" href="#pyspark.SparkContext" title="pyspark.SparkContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">SparkContext</span></code></a> should be active per JVM. You must <cite>stop()</cite>
+the active <a class="reference internal" href="#pyspark.SparkContext" title="pyspark.SparkContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">SparkContext</span></code></a> before creating a new one.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#pyspark.SparkContext" title="pyspark.SparkContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">SparkContext</span></code></a> instance is not supported to share across multiple
+processes out of the box, and PySpark does not guarantee multi-processing execution.
+Use threads instead for concurrent processing purpose.</p>
+</div>
+<dl class="py method">
+<dt id="pyspark.SparkContext.__init__"><a name="//apple_ref/cpp/Method/pyspark.SparkContext.__init__"></a>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">master=None</em>, <em class="sig-param">appName=None</em>, <em class="sig-param">sparkHome=None</em>, <em class="sig-param">pyFiles=None</em>, <em class="sig-param">environment=None</em>, <em class="sig-param">batchSize=0</em>, <em class="sig-param">serializer=PickleSerializer()</em>, <em class="sig-param">conf=None</em>, <em class="sig-param">gateway=None</em>, <em class="sig-param">jsc=None</em>, <em class="sig-param">profiler_cls=&lt;class 'pyspark.profiler.BasicProfiler'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/context.html#SparkContext.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.SparkContext.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new SparkContext. At least the master and app name should be set,
+either through the named parameters here or through <cite>conf</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>master</strong> – Cluster URL to connect to
+(e.g. mesos://host:port, spark://host:port, local[4]).</p></li>
+<li><p><strong>appName</strong> – A name for your job, to display on the cluster web UI.</p></li>
+<li><p><strong>sparkHome</strong> – Location where Spark is installed on cluster nodes.</p></li>
+<li><p><strong>pyFiles</strong> – Collection of .zip or .py files to send to the cluster
+and add to PYTHONPATH.  These can be paths on the local file
+system or HDFS, HTTP, HTTPS, or FTP URLs.</p></li>
+<li><p><strong>environment</strong> – A dictionary of environment variables to set on
+worker nodes.</p></li>
+<li><p><strong>batchSize</strong> – The number of Python objects represented as a single
+Java object. Set 1 to disable batching, 0 to automatically choose
+the batch size based on object sizes, or -1 to use an unlimited
+batch size</p></li>
+<li><p><strong>serializer</strong> – The serializer for RDDs.</p></li>
+<li><p><strong>conf</strong> – A <a class="reference internal" href="pyspark.SparkConf.html#pyspark.SparkConf" title="pyspark.SparkConf"><code class="xref py py-class docutils literal notranslate"><span class="pre">SparkConf</span></code></a> object setting Spark properties.</p></li>
+<li><p><strong>gateway</strong> – Use an existing gateway and JVM, otherwise a new JVM
+will be instantiated.</p></li>
+<li><p><strong>jsc</strong> – The JavaSparkContext instance (optional).</p></li>
+<li><p><strong>profiler_cls</strong> – A class of custom Profiler used to do profiling
+(default is pyspark.profiler.BasicProfiler).</p></li>
+</ul>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.context</span> <span class="kn">import</span> <span class="n">SparkContext</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sc</span> <span class="o">=</span> <span class="n">SparkContext</span><span class="p">(</span><span class="s1">'local'</span><span class="p">,</span> <span class="s1">'test'</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; sc2 = SparkContext('local', 'test2') 
+Traceback (most recent call last):
+    ...
+ValueError:...
+</pre></div>
+</div>
+</dd></dl>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

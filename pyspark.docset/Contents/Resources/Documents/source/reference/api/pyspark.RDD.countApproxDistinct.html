@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.RDD.countApproxDistinct — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-rdd-countapproxdistinct">
+<h1>pyspark.RDD.countApproxDistinct<a class="headerlink" href="#pyspark-rdd-countapproxdistinct" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.RDD.countApproxDistinct"><a name="//apple_ref/cpp/Method/pyspark.RDD.countApproxDistinct"></a>
+<code class="sig-prename descclassname">RDD.</code><code class="sig-name descname">countApproxDistinct</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">relativeSD</span><span class="o">=</span><span class="default_value">0.05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/rdd.html#RDD.countApproxDistinct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.RDD.countApproxDistinct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return approximate number of distinct elements in the RDD.</p>
+<p>The algorithm used is based on streamlib’s implementation of
+<a class="reference external" href="https://doi.org/10.1145/2452376.2452456">“HyperLogLog in Practice: Algorithmic Engineering of a State
+of The Art Cardinality Estimation Algorithm”, available here</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>relativeSD</strong> – Relative accuracy. Smaller values create
+counters that require more space.
+It must be greater than 0.000017.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">countApproxDistinct</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">900</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">1100</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="n">i</span> <span class="o">%</span> <span class="mi">20</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">)])</span><span class="o">.</span><span class="n">countApproxDistinct</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">16</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">24</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33108845-1']);
+  _gaq.push(['_setDomainName', 'opencv.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/line_descriptor/doc/LSDDetector.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:35 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Line Segments Detector</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/insertIframe.js"></script>
+    <link rel="top" title="OpenCV 3.0.0-dev documentation" href="../../../index.html" />
+    <link rel="up" title="Binary descriptors for lines extracted from an image" href="line_descriptor.html" />
+    <link rel="next" title="Matching with binary descriptors" href="matching.html" />
+    <link rel="prev" title="BinaryDescriptor Class" href="binary_descriptor.html" />
+    <link href='../../../../../fonts.googleapis.com/css8a7c.css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="matching.html" title="Matching with binary descriptors"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="binary_descriptor.html" title="BinaryDescriptor Class"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="line_descriptor.html" accesskey="U">Binary descriptors for lines extracted from an image</a> &raquo;</li> 
+      </ul>
+    </div>  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/opencv-logo2.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="http://docs.opencv.org/3.0-last-rst/search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Line Segments Detector</a><ul>
+<li><a class="reference internal" href="#lines-extraction-methodology">Lines extraction methodology</a></li>
+<li><a class="reference internal" href="#lsddetector-createlsddetector">LSDDetector::createLSDDetector</a></li>
+<li><a class="reference internal" href="#lsddetector-detect">LSDDetector::detect</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="binary_descriptor.html"
+                        title="previous chapter">BinaryDescriptor Class</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="matching.html"
+                        title="next chapter">Matching with binary descriptors</a></p>
+        </div>
+      </div>
+  <body>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="line-segments-detector">
+<span id="lsddetector"></span><h1>Line Segments Detector<a class="headerlink" href="#line-segments-detector" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="lines-extraction-methodology">
+<h2>Lines extraction methodology<a class="headerlink" href="#lines-extraction-methodology" title="Permalink to this headline">¶</a></h2>
+<p>The lines extraction methodology described in the following is mainly based on <a class="reference internal" href="#edln" id="id1">[EDLN]</a>.
+The extraction starts with a Gaussian pyramid generated from an original image, downsampled N-1 times, blurred N times, to obtain N layers (one for each octave), with layer 0 corresponding to input image. Then, from each layer (octave) in the pyramid, lines are extracted using LSD algorithm.</p>
+<p>Differently from EDLine lines extractor used in original article, LSD furnishes information only about lines extremes; thus, additional information regarding slope and equation of line are computed via analytic methods. The number of pixels is obtained using <em>LineIterator</em>. Extracted lines are returned in the form of KeyLine objects, but since extraction is based on a method different from the one used in <em>BinaryDescriptor</em> class, data associated to a line&#8217;s extremes in original image and in octave it was extracted from, coincide. KeyLine&#8217;s field <em>class_id</em> is used as an index to indicate the order of extraction of a line inside a single octave.</p>
+</div>
+<div class="section" id="lsddetector-createlsddetector">
+<h2>LSDDetector::createLSDDetector<a class="headerlink" href="#lsddetector-createlsddetector" title="Permalink to this headline">¶</a></h2>
+<p>Creates ad LSDDetector object, using smart pointers.</p>
+<dl class="function">
+<dt id="Ptr&lt;LSDDetector&gt; LSDDetector::createLSDDetector()">
+<strong>C++:</strong><tt class="descname"> </tt>Ptr&lt;LSDDetector&gt; <tt class="descclassname">LSDDetector::</tt><tt class="descname">createLSDDetector</tt><big>(</big><big>)</big><a class="headerlink" href="#Ptr<LSDDetector> LSDDetector::createLSDDetector()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="lsddetector-detect">
+<h2>LSDDetector::detect<a class="headerlink" href="#lsddetector-detect" title="Permalink to this headline">¶</a></h2>
+<p>Detect lines inside an image.</p>
+<dl class="function">
+<dt id="void LSDDetector::detect(const Mat&amp; image, std::vector&lt;KeyLine&gt;&amp; keylines, int scale, int numOctaves, const Mat&amp; mask)">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">LSDDetector::</tt><tt class="descname">detect</tt><big>(</big>const Mat&amp; <strong>image</strong>, std::vector&lt;KeyLine&gt;&amp; <strong>keylines</strong>, int <strong>scale</strong>, int <strong>numOctaves</strong>, const Mat&amp; <strong>mask</strong>=Mat()<big>)</big><a class="headerlink" href="#void LSDDetector::detect(const Mat& image, std::vector<KeyLine>& keylines, int scale, int numOctaves, const Mat& mask)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="void LSDDetector::detect(const std::vector&lt;Mat&gt;&amp; images, std::vector&lt;std::vector&lt;KeyLine&gt; &gt;&amp; keylines, int scale, int numOctaves, const std::vector&lt;Mat&gt;&amp; masks) const">
+<strong>C++:</strong><tt class="descname"> </tt>void <tt class="descclassname">LSDDetector::</tt><tt class="descname">detect</tt><big>(</big>const std::vector&lt;Mat&gt;&amp; <strong>images</strong>, std::vector&lt;std::vector&lt;KeyLine&gt;&gt;&amp; <strong>keylines</strong>, int <strong>scale</strong>, int <strong>numOctaves</strong>, const std::vector&lt;Mat&gt;&amp; <strong>masks</strong>=std::vector&lt;Mat&gt;() <big>)</big><tt class="descclassname"> const</tt><a class="headerlink" href="#void LSDDetector::detect(const std::vector<Mat>& images, std::vector<std::vector<KeyLine> >& keylines, int scale, int numOctaves, const std::vector<Mat>& masks) const" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> &#8211; input image</li>
+<li><strong>images</strong> &#8211; input images</li>
+<li><strong>keylines</strong> &#8211; vector or set of vectors that will store extracted lines for one or more images</li>
+<li><strong>mask</strong> &#8211; mask matrix to detect only KeyLines of interest</li>
+<li><strong>masks</strong> &#8211; vector of mask matrices to detect only KeyLines of interest from each input image</li>
+<li><strong>scale</strong> &#8211; scale factor used in pyramids generation</li>
+<li><strong>numOctaves</strong> &#8211; number of octaves inside pyramid</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<table class="docutils citation" frame="void" id="edln" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[EDLN]</a></td><td>Von Gioi, R. Grompone, et al. <em>LSD: A fast line segment detector with a false detection control</em>, IEEE Transactions on Pattern Analysis and Machine Intelligence 32.4 (2010): 722-732.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+          <div class="feedback">
+              <h2>Help and Feedback</h2>
+              You did not find what you were looking for?
+              <ul>
+                  
+                  
+                  
+                  <li>Ask a question on the <a href="http://answers.opencv.org/">Q&A forum</a>.</li>
+                  <li>If you think something is missing or wrong in the documentation,
+                  please file a <a href="http://code.opencv.org/">bug report</a>.</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="matching.html" title="Matching with binary descriptors"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="binary_descriptor.html" title="BinaryDescriptor Class"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">OpenCV 3.0.0-dev documentation</a> &raquo;</li>
+          <li><a href="../../refman.html" >OpenCV API Reference</a> &raquo;</li>
+          <li><a href="line_descriptor.html" >Binary descriptors for lines extracted from an image</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011-2014, opencv dev team.
+      Last updated on Dec 30, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      <a href="../../../_sources/modules/line_descriptor/doc/LSDDetector.txt" rel="nofollow">Show this page source.</a>
+    </div>
+  </body>
+
+<!-- Mirrored from docs.opencv.org/3.0-last-rst/modules/line_descriptor/doc/LSDDetector.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Dec 2015 06:59:35 GMT -->
+</html>

@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.BarrierTaskContext.allGather — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-barriertaskcontext-allgather">
+<h1>pyspark.BarrierTaskContext.allGather<a class="headerlink" href="#pyspark-barriertaskcontext-allgather" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.BarrierTaskContext.allGather"><a name="//apple_ref/cpp/Method/pyspark.BarrierTaskContext.allGather"></a>
+<code class="sig-prename descclassname">BarrierTaskContext.</code><code class="sig-name descname">allGather</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/taskcontext.html#BarrierTaskContext.allGather"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.BarrierTaskContext.allGather" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Experimental</p>
+</div>
+<p>This function blocks until all tasks in the same stage have reached this routine.
+Each task passes in a message and returns with a list of all the messages passed in
+by each of those tasks.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In a barrier stage, each task much have the same number of <cite>allGather()</cite>
+calls, in all possible code branches.
+Otherwise, you may get the job hanging or a SparkException after timeout.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

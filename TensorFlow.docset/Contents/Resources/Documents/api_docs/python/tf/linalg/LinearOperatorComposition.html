@@ -1,0 +1,983 @@
+<!DOCTYPE html><html dir="ltr" lang="en"><head>
+<meta content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com" name="google-signin-client-id"/>
+<meta content="profile email" name="google-signin-scope"/>
+<meta content="TensorFlow" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="#ff6f00" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link crossorigin="use-credentials" href="_pwa/tensorflow/manifest.json" rel="manifest"/>
+<link crossorigin="" href="/www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.googleapis.com" rel="preconnect"/>
+<link href="../../../../main.css" rel="stylesheet"/>
+
+<noscript>
+
+</noscript>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/favicon.png" rel="shortcut icon"/>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/apple-touch-icon-180x180.png" rel="apple-touch-icon"/><link href="https://www.tensorflow.org/api_docs/python/tf/linalg/LinearOperatorComposition" rel="canonical"/><link href="https://www.tensorflow.org/s/opensearch.xml" rel="search" title="TensorFlow" type="application/opensearchdescription+xml"/>
+<title>tf.linalg.LinearOperatorComposition &nbsp;|&nbsp; TensorFlow Core v2.1.0</title>
+<meta content="tf.linalg.LinearOperatorComposition &nbsp;|&nbsp; TensorFlow Core v2.1.0" property="og:title"/>
+<meta content="https://www.tensorflow.org/api_docs/python/tf/linalg/LinearOperatorComposition" property="og:url"/>
+<meta content="en" property="og:locale"/>
+
+</head>
+<body class="" layout="docs" pending="" theme="tensorflow-theme" type="reference">
+<devsite-progress id="app-progress" type="indeterminate"></devsite-progress>
+<section class="devsite-wrapper"> <devsite-book-nav scrollbars="">
+
+</devsite-book-nav>
+<section id="gc-wrapper">
+<main class="devsite-main-content" has-book-nav="" has-toc="" role="main">
+<devsite-toc class="devsite-nav"></devsite-toc>
+<devsite-content>
+<article class="devsite-article">
+<article class="devsite-article-inner"><style>
+        /* Styles inlined from /site-assets/css/style.css */
+/* override theme */
+table img {
+  max-width: 100%;
+}
+
+/* override var element to differentiate color from comment */
+var, var code, var span, .prettyprint var span {
+  color: #039be5;
+}
+
+/* .devsite-terminal virtualenv prompt */
+.tfo-terminal-venv::before {
+  content: "(venv) $ " !important;
+}
+
+/* .devsite-terminal root prompt */
+.tfo-terminal-root::before {
+  content: "# " !important;
+}
+
+/* .devsite-terminal Windows prompt */
+.tfo-terminal-windows::before {
+  content: "C:\\> " !important;
+}
+
+/* .devsite-terminal Windows prompt w/ virtualenv */
+.tfo-terminal-windows-venv::before {
+  content: "(venv) C:\\> " !important;
+}
+
+.tfo-diff-green-one-level + * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green + * > * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green-list + ul > li:first-of-type {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-red-one-level + * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red + * > * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red-list + ul > li:first-of-type {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+devsite-code .tfo-notebook-code-cell-output {
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(255, 247, 237, 1);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(255, 247, 237, .7);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output {
+  background: rgba(64, 78, 103, 1);  /* medium slate */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(64, 78, 103, .7);  /* medium slate */
+}
+
+/* override default table styles for notebook buttons */
+.devsite-table-wrapper .tfo-notebook-buttons {
+  display: inline-block;
+  margin-left: 3px;
+  width: auto;
+}
+
+.tfo-notebook-buttons td {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.tfo-notebook-buttons a,
+.tfo-notebook-buttons :link,
+.tfo-notebook-buttons :visited {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  color: #202124;
+  padding: 12px 24px;
+  transition: box-shadow 0.2s;
+}
+
+.tfo-notebook-buttons a:hover,
+.tfo-notebook-buttons a:focus {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.tfo-notebook-buttons tr {
+  background: 0;
+  border: 0;
+}
+
+/* on rendered notebook page,
+   remove link to webpage since we're already here */
+.tfo-notebook-buttons:not(.tfo-api) td:first-child {
+  display: none;
+}
+
+.tfo-notebook-buttons td > a {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tfo-notebook-buttons td > a > img {
+  margin-right: 8px;
+}
+
+/* landing pages */
+
+.tfo-landing-row-item-inset-white {
+  background-color: #fff;
+  padding: 32px;
+}
+
+.tfo-landing-row-item-inset-white ol,
+.tfo-landing-row-item-inset-white ul {
+  padding-left: 20px;
+}
+
+/* colab callout button */
+.colab-callout-row devsite-code {
+  border-radius: 8px 8px 0 0;
+  box-shadow: none;
+}
+
+.colab-callout-footer {
+  background: #e3e4e7;
+  border-radius: 0 0 8px 8px;
+  color: #37474f;
+  padding: 20px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer {
+  background: #3f4f66;
+}
+
+
+.colab-callout-footer > .button {
+  margin-top: 4px;
+  color: #ff5c00;
+}
+
+.colab-callout-footer > a > span {
+  padding-top: 10px;
+  vertical-align: middle;
+  color: #37474f;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer > a > span {
+  color: #fff;
+}
+
+a.colab-button {
+  background: rgba(255, 255, 255, .75);
+  border: solid 1px rgba(0, 0, 0, .08);
+  border-bottom-color: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  color: #aaa;
+  display: inline-block;
+  font-size: 11px !important;
+  font-weight: 300;
+  line-height: 16px;
+  padding: 4px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.colab-button:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, .2);
+  color: #666;
+}
+
+a.colab-button span {
+  background: url(/images/colab_logo_button.svg) no-repeat 1px 1px / 20px;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 24px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .tfo-notebook-buttons td {
+    display: block;
+  }
+}
+
+/* guide and tutorials landing page cards and sections */
+
+.tfo-landing-page-card {
+  padding: 16px;
+  box-shadow: 0 0 36px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+/* Page section headings */
+.tfo-landing-page-heading h2, h2.tfo-landing-page-heading {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+/* Item title headings */
+.tfo-landing-page-heading h3, h3.tfo-landing-page-heading,
+.tfo-landing-page-card h3, h3.tfo-landing-page-card {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* List of tutorials notebooks for subsites */
+.tfo-landing-page-resources-ul {
+  padding-left: 15px
+}
+
+.tfo-landing-page-resources-ul > li {
+  margin: 6px 0;
+}
+
+/* Temporary fix to hide product description in header on landing pages */
+devsite-header .devsite-product-description {
+  display: none;
+}
+
+        </style> <div class="devsite-banner devsite-banner-announcement">
+<div class="devsite-banner-message">
+<div class="devsite-banner-message-text">
+            Missed TensorFlow Dev Summit? Check out the video playlist. <a class="button button-primary button-tfo-announcement" href="https://goo.gle/TFDS20AllSessions">Watch recordings</a>
+</div>
+</div>
+</div>
+<div class="devsite-article-meta">
+<ul class="devsite-breadcrumb-list">
+<li class="devsite-breadcrumb-item">
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="1" href="">
+            TensorFlow
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="2" href="api">
+            API
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="3" href="api_docs">
+            TensorFlow Core v2.1.0
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="4" href="api_docs/python/tf">
+            Python
+      
+  </a>
+</li>
+</ul>
+<devsite-page-rating hover-rating-star="0" position="header" selected-rating="0">
+</devsite-page-rating>
+</div>
+<a class="dashingAutolink" name="autolink-2156"></a><a class="dashAnchor" name="//apple_ref/cpp/Function/tf.linalg.LinearOperatorComposition"></a><h1 class="dash-function">tf.linalg.LinearOperatorComposition</h1>
+<devsite-toc class="devsite-nav" devsite-toc-embedded="">
+</devsite-toc>
+<div class="devsite-article-body clearfix">
+<p></p>
+<!-- DO NOT EDIT! Automatically generated file. -->
+<div itemscope="" itemtype="http://developers.google.com/ReferenceObject">
+<meta content="tf.linalg.LinearOperatorComposition" itemprop="name"/>
+<meta content="Stable" itemprop="path"/>
+<meta content="__init__" itemprop="property"/>
+<meta content="add_to_tensor" itemprop="property"/>
+<meta content="adjoint" itemprop="property"/>
+<meta content="assert_non_singular" itemprop="property"/>
+<meta content="assert_positive_definite" itemprop="property"/>
+<meta content="assert_self_adjoint" itemprop="property"/>
+<meta content="batch_shape_tensor" itemprop="property"/>
+<meta content="cholesky" itemprop="property"/>
+<meta content="determinant" itemprop="property"/>
+<meta content="diag_part" itemprop="property"/>
+<meta content="domain_dimension_tensor" itemprop="property"/>
+<meta content="eigvals" itemprop="property"/>
+<meta content="inverse" itemprop="property"/>
+<meta content="log_abs_determinant" itemprop="property"/>
+<meta content="matmul" itemprop="property"/>
+<meta content="matvec" itemprop="property"/>
+<meta content="range_dimension_tensor" itemprop="property"/>
+<meta content="shape_tensor" itemprop="property"/>
+<meta content="solve" itemprop="property"/>
+<meta content="solvevec" itemprop="property"/>
+<meta content="tensor_rank_tensor" itemprop="property"/>
+<meta content="to_dense" itemprop="property"/>
+<meta content="trace" itemprop="property"/>
+</div>
+<p><devsite-nav-buttons name="version" param="reset">
+<button default="" value="stable">See Stable</button>
+<button value="nightly">See Nightly</button>
+</devsite-nav-buttons></p>
+<!-- Stable -->
+<table align="left" class="tfo-notebook-buttons tfo-api">
+<tbody><tr><td>
+<a href="versions/r1.15/api_docs/python/tf/linalg/LinearOperatorComposition" target="_blank">
+<img src="https://www.tensorflow.org/images/tf_logo_32px.png"/>
+  TensorFlow 1 version</a>
+</td>
+<td>
+<a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator_composition.py#L34-L279" target="_blank">
+<img src="https://www.tensorflow.org/images/GitHub-Mark-32px.png"/>
+    View source on GitHub
+  </a>
+</td></tr></tbody></table>
+<p>Composes one or more <code dir="ltr" translate="no">LinearOperators</code>.</p>
+<p>Inherits From: <a href="https://www.tensorflow.org/api_docs/python/tf/linalg/LinearOperator"><code dir="ltr" translate="no">LinearOperator</code></a></p>
+<section class="expandable">
+<h4 class="showalways">View aliases</h4>
+<p>
+<b>Compat aliases for migration</b>
+</p><p>See
+<a href="https://www.tensorflow.org/guide/migrate">Migration guide</a> for
+more details.</p>
+<p><a href="api_docs/python/tf/linalg/LinearOperatorComposition"><code dir="ltr" translate="no">tf.compat.v1.linalg.LinearOperatorComposition</code></a></p>
+</section>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">tf.linalg.LinearOperatorComposition(
+    operators, is_non_singular=None, is_self_adjoint=None,
+    is_positive_definite=None, is_square=None, name=None
+)
+</code></pre>
+<!-- Placeholder for "Used in" -->
+<p>This operator composes one or more linear operators <code dir="ltr" translate="no">[op1,...,opJ]</code>,
+building a new <code dir="ltr" translate="no">LinearOperator</code> with action defined by:</p>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">op_composed(x) := op1(op2(...(opJ(x)...))
+</code></pre>
+<p>If <code dir="ltr" translate="no">opj</code> acts like [batch] matrix <code dir="ltr" translate="no">Aj</code>, then <code dir="ltr" translate="no">op_composed</code> acts like the
+[batch] matrix formed with the multiplication <code dir="ltr" translate="no">A1 A2...AJ</code>.</p>
+<p>If <code dir="ltr" translate="no">opj</code> has shape <code dir="ltr" translate="no">batch_shape_j + [M_j, N_j]</code>, then we must have
+<code dir="ltr" translate="no">N_j = M_{j+1}</code>, in which case the composed operator has shape equal to
+<code dir="ltr" translate="no">broadcast_batch_shape + [M_1, N_J]</code>, where <code dir="ltr" translate="no">broadcast_batch_shape</code> is the
+mutual broadcast of <code dir="ltr" translate="no">batch_shape_j</code>, <code dir="ltr" translate="no">j = 1,...,J</code>, assuming the intermediate
+batch shapes broadcast.  Even if the composed shape is well defined, the
+composed operator&#39;s methods may fail due to lack of broadcasting ability in
+the defining operators&#39; methods.</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no"># Create a 2 x 2 linear operator composed of two 2 x 2 operators.
+operator_1 = LinearOperatorFullMatrix([[1., 2.], [3., 4.]])
+operator_2 = LinearOperatorFullMatrix([[1., 0.], [0., 1.]])
+operator = LinearOperatorComposition([operator_1, operator_2])
+
+operator.to_dense()
+==&gt; [[1., 2.]
+     [3., 4.]]
+
+operator.shape
+==&gt; [2, 2]
+
+operator.log_abs_determinant()
+==&gt; scalar Tensor
+
+x = ... Shape [2, 4] Tensor
+operator.matmul(x)
+==&gt; Shape [2, 4] Tensor
+
+# Create a [2, 3] batch of 4 x 5 linear operators.
+matrix_45 = tf.random.normal(shape=[2, 3, 4, 5])
+operator_45 = LinearOperatorFullMatrix(matrix)
+
+# Create a [2, 3] batch of 5 x 6 linear operators.
+matrix_56 = tf.random.normal(shape=[2, 3, 5, 6])
+operator_56 = LinearOperatorFullMatrix(matrix_56)
+
+# Compose to create a [2, 3] batch of 4 x 6 operators.
+operator_46 = LinearOperatorComposition([operator_45, operator_56])
+
+# Create a shape [2, 3, 6, 2] vector.
+x = tf.random.normal(shape=[2, 3, 6, 2])
+operator.matmul(x)
+==&gt; Shape [2, 3, 4, 2] Tensor
+</code></pre>
+<h4 id="performance_2">Performance</h4>
+<p>The performance of <code dir="ltr" translate="no">LinearOperatorComposition</code> on any operation is equal to
+the sum of the individual operators&#39; operations.</p>
+<h4 id="matrix_property_hints_2">Matrix property hints</h4>
+<p>This <code dir="ltr" translate="no">LinearOperator</code> is initialized with boolean flags of the form <code dir="ltr" translate="no">is_X</code>,
+for <code dir="ltr" translate="no">X = non_singular, self_adjoint, positive_definite, square</code>.
+These have the following meaning:</p>
+<ul>
+<li>If <code dir="ltr" translate="no">is_X == True</code>, callers should expect the operator to have the
+property <code dir="ltr" translate="no">X</code>.  This is a promise that should be fulfilled, but is <em>not</em> a
+runtime assert.  For example, finite floating point precision may result
+in these promises being violated.</li>
+<li>If <code dir="ltr" translate="no">is_X == False</code>, callers should expect the operator to not have <code dir="ltr" translate="no">X</code>.</li>
+<li>If <code dir="ltr" translate="no">is_X == None</code> (the default), callers should have no expectation either
+way.</li>
+</ul>
+<h4 id="args_24">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">operators</code></b>:  Iterable of <code dir="ltr" translate="no">LinearOperator</code> objects, each with
+the same <code dir="ltr" translate="no">dtype</code> and composable shape.</li>
+<li><b><code dir="ltr" translate="no">is_non_singular</code></b>:  Expect that this operator is non-singular.</li>
+<li><b><code dir="ltr" translate="no">is_self_adjoint</code></b>:  Expect that this operator is equal to its hermitian
+transpose.</li>
+<li><b><code dir="ltr" translate="no">is_positive_definite</code></b>:  Expect that this operator is positive definite,
+meaning the quadratic form <code dir="ltr" translate="no">x^H A x</code> has positive real part for all
+nonzero <code dir="ltr" translate="no">x</code>.  Note that we do not require the operator to be
+self-adjoint to be positive-definite.  See:
+https://en.wikipedia.org/wiki/Positive-definite_matrix#Extension_for_non-symmetric_matrices</li>
+<li><b><code dir="ltr" translate="no">is_square</code></b>:  Expect that this operator acts like square [batch] matrices.</li>
+<li><b><code dir="ltr" translate="no">name</code></b>: A name for this <code dir="ltr" translate="no">LinearOperator</code>.  Default is the individual
+operators names joined with <code dir="ltr" translate="no">_o_</code>.</li>
+</ul>
+<h4 id="attributes_2">Attributes:</h4>
+<ul>
+<li><p><b><code dir="ltr" translate="no">H</code></b>:   Returns the adjoint of the current <code dir="ltr" translate="no">LinearOperator</code>.</p>
+<p>Given <code dir="ltr" translate="no">A</code> representing this <code dir="ltr" translate="no">LinearOperator</code>, return <code dir="ltr" translate="no">A*</code>.
+Note that calling <code dir="ltr" translate="no">self.adjoint()</code> and <code dir="ltr" translate="no">self.H</code> are equivalent.</p></li>
+<li><p><b><code dir="ltr" translate="no">batch_shape</code></b>:   <code dir="ltr" translate="no">TensorShape</code> of batch dimensions of this <code dir="ltr" translate="no">LinearOperator</code>.</p>
+<p>If this operator acts like the batch matrix <code dir="ltr" translate="no">A</code> with
+<code dir="ltr" translate="no">A.shape = [B1,...,Bb, M, N]</code>, then this returns
+<code dir="ltr" translate="no">TensorShape([B1,...,Bb])</code>, equivalent to <code dir="ltr" translate="no">A.shape[:-2]</code></p></li>
+<li><p><b><code dir="ltr" translate="no">domain_dimension</code></b>:   Dimension (in the sense of vector spaces) of the domain of this operator.</p>
+<p>If this operator acts like the batch matrix <code dir="ltr" translate="no">A</code> with
+<code dir="ltr" translate="no">A.shape = [B1,...,Bb, M, N]</code>, then this returns <code dir="ltr" translate="no">N</code>.</p></li>
+<li><p><b><code dir="ltr" translate="no">dtype</code></b>:   The <code dir="ltr" translate="no">DType</code> of <code dir="ltr" translate="no">Tensor</code>s handled by this <code dir="ltr" translate="no">LinearOperator</code>.</p></li>
+<li><p><b><code dir="ltr" translate="no">graph_parents</code></b>:   List of graph dependencies of this <code dir="ltr" translate="no">LinearOperator</code>. (deprecated)</p>
+<aside class="warning"><strong>Warning:</strong><span> THIS FUNCTION IS DEPRECATED. It will be removed in a future version.
+Instructions for updating:
+Do not call <code dir="ltr" translate="no">graph_parents</code>.</span></aside></li>
+<li><p><b><code dir="ltr" translate="no">is_non_singular</code></b></p></li>
+<li><p><b><code dir="ltr" translate="no">is_positive_definite</code></b></p></li>
+<li><p><b><code dir="ltr" translate="no">is_self_adjoint</code></b></p></li>
+<li><p><b><code dir="ltr" translate="no">is_square</code></b>:   Return <code dir="ltr" translate="no">True/False</code> depending on if this operator is square.</p></li>
+<li><p><b><code dir="ltr" translate="no">operators</code></b></p></li>
+<li><p><b><code dir="ltr" translate="no">range_dimension</code></b>:   Dimension (in the sense of vector spaces) of the range of this operator.</p>
+<p>If this operator acts like the batch matrix <code dir="ltr" translate="no">A</code> with
+<code dir="ltr" translate="no">A.shape = [B1,...,Bb, M, N]</code>, then this returns <code dir="ltr" translate="no">M</code>.</p></li>
+<li><p><b><code dir="ltr" translate="no">shape</code></b>:   <code dir="ltr" translate="no">TensorShape</code> of this <code dir="ltr" translate="no">LinearOperator</code>.</p>
+<p>If this operator acts like the batch matrix <code dir="ltr" translate="no">A</code> with
+<code dir="ltr" translate="no">A.shape = [B1,...,Bb, M, N]</code>, then this returns
+<code dir="ltr" translate="no">TensorShape([B1,...,Bb, M, N])</code>, equivalent to <code dir="ltr" translate="no">A.shape</code>.</p></li>
+<li><p><b><code dir="ltr" translate="no">tensor_rank</code></b>:   Rank (in the sense of tensors) of matrix corresponding to this operator.</p>
+<p>If this operator acts like the batch matrix <code dir="ltr" translate="no">A</code> with
+<code dir="ltr" translate="no">A.shape = [B1,...,Bb, M, N]</code>, then this returns <code dir="ltr" translate="no">b + 2</code>.</p></li>
+</ul>
+<h4 id="raises_8">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">TypeError</code></b>:  If all operators do not have the same <code dir="ltr" translate="no">dtype</code>.</li>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>:  If <code dir="ltr" translate="no">operators</code> is empty.</li>
+</ul>
+<h2 id="methods_2">Methods</h2>
+<h3 id="add_to_tensor"><code dir="ltr" translate="no">add_to_tensor</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L1039-L1052" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">add_to_tensor(
+    x, name=&#39;add_to_tensor&#39;
+)
+</code></pre>
+<p>Add matrix represented by this operator to <code dir="ltr" translate="no">x</code>.  Equivalent to <code dir="ltr" translate="no">A + x</code>.</p>
+<h4 id="args_25">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">x</code></b>:  <code dir="ltr" translate="no">Tensor</code> with same <code dir="ltr" translate="no">dtype</code> and shape broadcastable to <code dir="ltr" translate="no">self.shape</code>.</li>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name to give this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_23">Returns:</h4>
+<p>A <code dir="ltr" translate="no">Tensor</code> with broadcast shape and same <code dir="ltr" translate="no">dtype</code> as <code dir="ltr" translate="no">self</code>.</p>
+<h3 id="adjoint"><code dir="ltr" translate="no">adjoint</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L895-L910" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">adjoint(
+    name=&#39;adjoint&#39;
+)
+</code></pre>
+<p>Returns the adjoint of the current <code dir="ltr" translate="no">LinearOperator</code>.</p>
+<p>Given <code dir="ltr" translate="no">A</code> representing this <code dir="ltr" translate="no">LinearOperator</code>, return <code dir="ltr" translate="no">A*</code>.
+Note that calling <code dir="ltr" translate="no">self.adjoint()</code> and <code dir="ltr" translate="no">self.H</code> are equivalent.</p>
+<h4 id="args_26">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name for this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_24">Returns:</h4>
+<p><code dir="ltr" translate="no">LinearOperator</code> which represents the adjoint of this <code dir="ltr" translate="no">LinearOperator</code>.</p>
+<h3 id="assert_non_singular"><code dir="ltr" translate="no">assert_non_singular</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L510-L528" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">assert_non_singular(
+    name=&#39;assert_non_singular&#39;
+)
+</code></pre>
+<p>Returns an <code dir="ltr" translate="no">Op</code> that asserts this operator is non singular.</p>
+<p>This operator is considered non-singular if</p>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">ConditionNumber &lt; max{100, range_dimension, domain_dimension} * eps,
+eps := np.finfo(self.dtype.as_numpy_dtype).eps
+</code></pre>
+<h4 id="args_27">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A string name to prepend to created ops.</li>
+</ul>
+<h4 id="returns_25">Returns:</h4>
+<p>An <code dir="ltr" translate="no">Assert</code> <code dir="ltr" translate="no">Op</code>, that, when run, will raise an <code dir="ltr" translate="no">InvalidArgumentError</code> if
+  the operator is singular.</p>
+<h3 id="assert_positive_definite"><code dir="ltr" translate="no">assert_positive_definite</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L546-L561" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">assert_positive_definite(
+    name=&#39;assert_positive_definite&#39;
+)
+</code></pre>
+<p>Returns an <code dir="ltr" translate="no">Op</code> that asserts this operator is positive definite.</p>
+<p>Here, positive definite means that the quadratic form <code dir="ltr" translate="no">x^H A x</code> has positive
+real part for all nonzero <code dir="ltr" translate="no">x</code>.  Note that we do not require the operator to
+be self-adjoint to be positive definite.</p>
+<h4 id="args_28">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name to give this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_26">Returns:</h4>
+<p>An <code dir="ltr" translate="no">Assert</code> <code dir="ltr" translate="no">Op</code>, that, when run, will raise an <code dir="ltr" translate="no">InvalidArgumentError</code> if
+  the operator is not positive definite.</p>
+<h3 id="assert_self_adjoint"><code dir="ltr" translate="no">assert_self_adjoint</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L573-L587" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">assert_self_adjoint(
+    name=&#39;assert_self_adjoint&#39;
+)
+</code></pre>
+<p>Returns an <code dir="ltr" translate="no">Op</code> that asserts this operator is self-adjoint.</p>
+<p>Here we check that this operator is <em>exactly</em> equal to its hermitian
+transpose.</p>
+<h4 id="args_29">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A string name to prepend to created ops.</li>
+</ul>
+<h4 id="returns_27">Returns:</h4>
+<p>An <code dir="ltr" translate="no">Assert</code> <code dir="ltr" translate="no">Op</code>, that, when run, will raise an <code dir="ltr" translate="no">InvalidArgumentError</code> if
+  the operator is not self-adjoint.</p>
+<h3 id="batch_shape_tensor"><code dir="ltr" translate="no">batch_shape_tensor</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L324-L339" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">batch_shape_tensor(
+    name=&#39;batch_shape_tensor&#39;
+)
+</code></pre>
+<p>Shape of batch dimensions of this operator, determined at runtime.</p>
+<p>If this operator acts like the batch matrix <code dir="ltr" translate="no">A</code> with
+<code dir="ltr" translate="no">A.shape = [B1,...,Bb, M, N]</code>, then this returns a <code dir="ltr" translate="no">Tensor</code> holding
+<code dir="ltr" translate="no">[B1,...,Bb]</code>.</p>
+<h4 id="args_30">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name for this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_28">Returns:</h4>
+<p><code dir="ltr" translate="no">int32</code> <code dir="ltr" translate="no">Tensor</code></p>
+<h3 id="cholesky"><code dir="ltr" translate="no">cholesky</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L940-L963" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">cholesky(
+    name=&#39;cholesky&#39;
+)
+</code></pre>
+<p>Returns a Cholesky factor as a <code dir="ltr" translate="no">LinearOperator</code>.</p>
+<p>Given <code dir="ltr" translate="no">A</code> representing this <code dir="ltr" translate="no">LinearOperator</code>, if <code dir="ltr" translate="no">A</code> is positive definite
+self-adjoint, return <code dir="ltr" translate="no">L</code>, where <code dir="ltr" translate="no">A = L L^T</code>, i.e. the cholesky
+decomposition.</p>
+<h4 id="args_31">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name for this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_29">Returns:</h4>
+<p><code dir="ltr" translate="no">LinearOperator</code> which represents the lower triangular matrix
+in the Cholesky decomposition.</p>
+<h4 id="raises_9">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>: When the <code dir="ltr" translate="no">LinearOperator</code> is not hinted to be positive
+definite and self adjoint.</li>
+</ul>
+<h3 id="determinant"><code dir="ltr" translate="no">determinant</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L703-L720" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">determinant(
+    name=&#39;det&#39;
+)
+</code></pre>
+<p>Determinant for every batch member.</p>
+<h4 id="args_32">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name for this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_30">Returns:</h4>
+<p><code dir="ltr" translate="no">Tensor</code> with shape <code dir="ltr" translate="no">self.batch_shape</code> and same <code dir="ltr" translate="no">dtype</code> as <code dir="ltr" translate="no">self</code>.</p>
+<h4 id="raises_10">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">NotImplementedError</code></b>:  If <code dir="ltr" translate="no">self.is_square</code> is <code dir="ltr" translate="no">False</code>.</li>
+</ul>
+<h3 id="diag_part"><code dir="ltr" translate="no">diag_part</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L990-L1016" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">diag_part(
+    name=&#39;diag_part&#39;
+)
+</code></pre>
+<p>Efficiently get the [batch] diagonal part of this operator.</p>
+<p>If this operator has shape <code dir="ltr" translate="no">[B1,...,Bb, M, N]</code>, this returns a
+<code dir="ltr" translate="no">Tensor</code> <code dir="ltr" translate="no">diagonal</code>, of shape <code dir="ltr" translate="no">[B1,...,Bb, min(M, N)]</code>, where
+<code dir="ltr" translate="no">diagonal[b1,...,bb, i] = self.to_dense()[b1,...,bb, i, i]</code>.</p>
+<pre class="prettyprint" dir="ltr" translate="no"><code dir="ltr" translate="no">my_operator = LinearOperatorDiag([1., 2.])
+
+# Efficiently get the diagonal
+my_operator.diag_part()
+==&gt; [1., 2.]
+
+# Equivalent, but inefficient method
+tf.linalg.diag_part(my_operator.to_dense())
+==&gt; [1., 2.]
+</code></pre>
+<h4 id="args_33">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name for this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_31">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">diag_part</code></b>:  A <code dir="ltr" translate="no">Tensor</code> of same <code dir="ltr" translate="no">dtype</code> as self.</li>
+</ul>
+<h3 id="domain_dimension_tensor"><code dir="ltr" translate="no">domain_dimension_tensor</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L409-L425" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">domain_dimension_tensor(
+    name=&#39;domain_dimension_tensor&#39;
+)
+</code></pre>
+<p>Dimension (in the sense of vector spaces) of the domain of this operator.</p>
+<p>Determined at runtime.</p>
+<p>If this operator acts like the batch matrix <code dir="ltr" translate="no">A</code> with
+<code dir="ltr" translate="no">A.shape = [B1,...,Bb, M, N]</code>, then this returns <code dir="ltr" translate="no">N</code>.</p>
+<h4 id="args_34">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name for this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_32">Returns:</h4>
+<p><code dir="ltr" translate="no">int32</code> <code dir="ltr" translate="no">Tensor</code></p>
+<h3 id="eigvals"><code dir="ltr" translate="no">eigvals</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L1057-L1074" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">eigvals(
+    name=&#39;eigvals&#39;
+)
+</code></pre>
+<p>Returns the eigenvalues of this linear operator.</p>
+<p>If the operator is marked as self-adjoint (via <code dir="ltr" translate="no">is_self_adjoint</code>)
+this computation can be more efficient.</p>
+<aside class="note"><strong>Note:</strong><span> This currently only supports self-adjoint operators.</span></aside>
+<h4 id="args_35">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name for this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_33">Returns:</h4>
+<p>Shape <code dir="ltr" translate="no">[B1,...,Bb, N]</code> <code dir="ltr" translate="no">Tensor</code> of same <code dir="ltr" translate="no">dtype</code> as <code dir="ltr" translate="no">self</code>.</p>
+<h3 id="inverse"><code dir="ltr" translate="no">inverse</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L915-L938" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">inverse(
+    name=&#39;inverse&#39;
+)
+</code></pre>
+<p>Returns the Inverse of this <code dir="ltr" translate="no">LinearOperator</code>.</p>
+<p>Given <code dir="ltr" translate="no">A</code> representing this <code dir="ltr" translate="no">LinearOperator</code>, return a <code dir="ltr" translate="no">LinearOperator</code>
+representing <code dir="ltr" translate="no">A^-1</code>.</p>
+<h4 id="args_36">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>: A name scope to use for ops added by this method.</li>
+</ul>
+<h4 id="returns_34">Returns:</h4>
+<p><code dir="ltr" translate="no">LinearOperator</code> representing inverse of this matrix.</p>
+<h4 id="raises_11">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>: When the <code dir="ltr" translate="no">LinearOperator</code> is not hinted to be <code dir="ltr" translate="no">non_singular</code>.</li>
+</ul>
+<h3 id="log_abs_determinant"><code dir="ltr" translate="no">log_abs_determinant</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L732-L749" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">log_abs_determinant(
+    name=&#39;log_abs_det&#39;
+)
+</code></pre>
+<p>Log absolute value of determinant for every batch member.</p>
+<h4 id="args_37">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name for this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_35">Returns:</h4>
+<p><code dir="ltr" translate="no">Tensor</code> with shape <code dir="ltr" translate="no">self.batch_shape</code> and same <code dir="ltr" translate="no">dtype</code> as <code dir="ltr" translate="no">self</code>.</p>
+<h4 id="raises_12">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">NotImplementedError</code></b>:  If <code dir="ltr" translate="no">self.is_square</code> is <code dir="ltr" translate="no">False</code>.</li>
+</ul>
+<h3 id="matmul"><code dir="ltr" translate="no">matmul</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L600-L653" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">matmul(
+    x, adjoint=False, adjoint_arg=False, name=&#39;matmul&#39;
+)
+</code></pre>
+<p>Transform [batch] matrix <code dir="ltr" translate="no">x</code> with left multiplication:  <code dir="ltr" translate="no">x --&gt; Ax</code>.</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no"># Make an operator acting like batch matrix A.  Assume A.shape = [..., M, N]
+operator = LinearOperator(...)
+operator.shape = [..., M, N]
+
+X = ... # shape [..., N, R], batch matrix, R &gt; 0.
+
+Y = operator.matmul(X)
+Y.shape
+==&gt; [..., M, R]
+
+Y[..., :, r] = sum_j A[..., :, j] X[j, r]
+</code></pre>
+<h4 id="args_38">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">x</code></b>: <code dir="ltr" translate="no">LinearOperator</code> or <code dir="ltr" translate="no">Tensor</code> with compatible shape and same <code dir="ltr" translate="no">dtype</code> as
+<code dir="ltr" translate="no">self</code>. See class docstring for definition of compatibility.</li>
+<li><b><code dir="ltr" translate="no">adjoint</code></b>: Python <code dir="ltr" translate="no">bool</code>.  If <code dir="ltr" translate="no">True</code>, left multiply by the adjoint: <code dir="ltr" translate="no">A^H x</code>.</li>
+<li><b><code dir="ltr" translate="no">adjoint_arg</code></b>:  Python <code dir="ltr" translate="no">bool</code>.  If <code dir="ltr" translate="no">True</code>, compute <code dir="ltr" translate="no">A x^H</code> where <code dir="ltr" translate="no">x^H</code> is
+the hermitian transpose (transposition and complex conjugation).</li>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name for this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_36">Returns:</h4>
+<p>A <code dir="ltr" translate="no">LinearOperator</code> or <code dir="ltr" translate="no">Tensor</code> with shape <code dir="ltr" translate="no">[..., M, R]</code> and same <code dir="ltr" translate="no">dtype</code>
+  as <code dir="ltr" translate="no">self</code>.</p>
+<h3 id="matvec"><code dir="ltr" translate="no">matvec</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L660-L693" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">matvec(
+    x, adjoint=False, name=&#39;matvec&#39;
+)
+</code></pre>
+<p>Transform [batch] vector <code dir="ltr" translate="no">x</code> with left multiplication:  <code dir="ltr" translate="no">x --&gt; Ax</code>.</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no"># Make an operator acting like batch matric A.  Assume A.shape = [..., M, N]
+operator = LinearOperator(...)
+
+X = ... # shape [..., N], batch vector
+
+Y = operator.matvec(X)
+Y.shape
+==&gt; [..., M]
+
+Y[..., :] = sum_j A[..., :, j] X[..., j]
+</code></pre>
+<h4 id="args_39">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">x</code></b>: <code dir="ltr" translate="no">Tensor</code> with compatible shape and same <code dir="ltr" translate="no">dtype</code> as <code dir="ltr" translate="no">self</code>.
+<code dir="ltr" translate="no">x</code> is treated as a [batch] vector meaning for every set of leading
+dimensions, the last dimension defines a vector.
+See class docstring for definition of compatibility.</li>
+<li><b><code dir="ltr" translate="no">adjoint</code></b>: Python <code dir="ltr" translate="no">bool</code>.  If <code dir="ltr" translate="no">True</code>, left multiply by the adjoint: <code dir="ltr" translate="no">A^H x</code>.</li>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name for this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_37">Returns:</h4>
+<p>A <code dir="ltr" translate="no">Tensor</code> with shape <code dir="ltr" translate="no">[..., M]</code> and same <code dir="ltr" translate="no">dtype</code> as <code dir="ltr" translate="no">self</code>.</p>
+<h3 id="range_dimension_tensor"><code dir="ltr" translate="no">range_dimension_tensor</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L453-L469" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">range_dimension_tensor(
+    name=&#39;range_dimension_tensor&#39;
+)
+</code></pre>
+<p>Dimension (in the sense of vector spaces) of the range of this operator.</p>
+<p>Determined at runtime.</p>
+<p>If this operator acts like the batch matrix <code dir="ltr" translate="no">A</code> with
+<code dir="ltr" translate="no">A.shape = [B1,...,Bb, M, N]</code>, then this returns <code dir="ltr" translate="no">M</code>.</p>
+<h4 id="args_40">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name for this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_38">Returns:</h4>
+<p><code dir="ltr" translate="no">int32</code> <code dir="ltr" translate="no">Tensor</code></p>
+<h3 id="shape_tensor"><code dir="ltr" translate="no">shape_tensor</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L290-L308" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">shape_tensor(
+    name=&#39;shape_tensor&#39;
+)
+</code></pre>
+<p>Shape of this <code dir="ltr" translate="no">LinearOperator</code>, determined at runtime.</p>
+<p>If this operator acts like the batch matrix <code dir="ltr" translate="no">A</code> with
+<code dir="ltr" translate="no">A.shape = [B1,...,Bb, M, N]</code>, then this returns a <code dir="ltr" translate="no">Tensor</code> holding
+<code dir="ltr" translate="no">[B1,...,Bb, M, N]</code>, equivalent to <a href="https://www.tensorflow.org/api_docs/python/tf/shape"><code dir="ltr" translate="no">tf.shape(A)</code></a>.</p>
+<h4 id="args_41">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name for this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_39">Returns:</h4>
+<p><code dir="ltr" translate="no">int32</code> <code dir="ltr" translate="no">Tensor</code></p>
+<h3 id="solve"><code dir="ltr" translate="no">solve</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L766-L839" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">solve(
+    rhs, adjoint=False, adjoint_arg=False, name=&#39;solve&#39;
+)
+</code></pre>
+<p>Solve (exact or approx) <code dir="ltr" translate="no">R</code> (batch) systems of equations: <code dir="ltr" translate="no">A X = rhs</code>.</p>
+<p>The returned <code dir="ltr" translate="no">Tensor</code> will be close to an exact solution if <code dir="ltr" translate="no">A</code> is well
+conditioned. Otherwise closeness will vary. See class docstring for details.</p>
+<h4 id="examples_3">Examples:</h4>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no"># Make an operator acting like batch matrix A.  Assume A.shape = [..., M, N]
+operator = LinearOperator(...)
+operator.shape = [..., M, N]
+
+# Solve R &gt; 0 linear systems for every member of the batch.
+RHS = ... # shape [..., M, R]
+
+X = operator.solve(RHS)
+# X[..., :, r] is the solution to the r&#39;th linear system
+# sum_j A[..., :, j] X[..., j, r] = RHS[..., :, r]
+
+operator.matmul(X)
+==&gt; RHS
+</code></pre>
+<h4 id="args_42">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">rhs</code></b>: <code dir="ltr" translate="no">Tensor</code> with same <code dir="ltr" translate="no">dtype</code> as this operator and compatible shape.
+<code dir="ltr" translate="no">rhs</code> is treated like a [batch] matrix meaning for every set of leading
+dimensions, the last two dimensions defines a matrix.
+See class docstring for definition of compatibility.</li>
+<li><b><code dir="ltr" translate="no">adjoint</code></b>: Python <code dir="ltr" translate="no">bool</code>.  If <code dir="ltr" translate="no">True</code>, solve the system involving the adjoint
+of this <code dir="ltr" translate="no">LinearOperator</code>:  <code dir="ltr" translate="no">A^H X = rhs</code>.</li>
+<li><b><code dir="ltr" translate="no">adjoint_arg</code></b>:  Python <code dir="ltr" translate="no">bool</code>.  If <code dir="ltr" translate="no">True</code>, solve <code dir="ltr" translate="no">A X = rhs^H</code> where <code dir="ltr" translate="no">rhs^H</code>
+is the hermitian transpose (transposition and complex conjugation).</li>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name scope to use for ops added by this method.</li>
+</ul>
+<h4 id="returns_40">Returns:</h4>
+<p><code dir="ltr" translate="no">Tensor</code> with shape <code dir="ltr" translate="no">[...,N, R]</code> and same <code dir="ltr" translate="no">dtype</code> as <code dir="ltr" translate="no">rhs</code>.</p>
+<h4 id="raises_13">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">NotImplementedError</code></b>:  If <code dir="ltr" translate="no">self.is_non_singular</code> or <code dir="ltr" translate="no">is_square</code> is False.</li>
+</ul>
+<h3 id="solvevec"><code dir="ltr" translate="no">solvevec</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L847-L893" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">solvevec(
+    rhs, adjoint=False, name=&#39;solve&#39;
+)
+</code></pre>
+<p>Solve single equation with best effort: <code dir="ltr" translate="no">A X = rhs</code>.</p>
+<p>The returned <code dir="ltr" translate="no">Tensor</code> will be close to an exact solution if <code dir="ltr" translate="no">A</code> is well
+conditioned. Otherwise closeness will vary. See class docstring for details.</p>
+<h4 id="examples_4">Examples:</h4>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no"># Make an operator acting like batch matrix A.  Assume A.shape = [..., M, N]
+operator = LinearOperator(...)
+operator.shape = [..., M, N]
+
+# Solve one linear system for every member of the batch.
+RHS = ... # shape [..., M]
+
+X = operator.solvevec(RHS)
+# X is the solution to the linear system
+# sum_j A[..., :, j] X[..., j] = RHS[..., :]
+
+operator.matvec(X)
+==&gt; RHS
+</code></pre>
+<h4 id="args_43">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">rhs</code></b>: <code dir="ltr" translate="no">Tensor</code> with same <code dir="ltr" translate="no">dtype</code> as this operator.
+<code dir="ltr" translate="no">rhs</code> is treated like a [batch] vector meaning for every set of leading
+dimensions, the last dimension defines a vector.  See class docstring
+for definition of compatibility regarding batch dimensions.</li>
+<li><b><code dir="ltr" translate="no">adjoint</code></b>: Python <code dir="ltr" translate="no">bool</code>.  If <code dir="ltr" translate="no">True</code>, solve the system involving the adjoint
+of this <code dir="ltr" translate="no">LinearOperator</code>:  <code dir="ltr" translate="no">A^H X = rhs</code>.</li>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name scope to use for ops added by this method.</li>
+</ul>
+<h4 id="returns_41">Returns:</h4>
+<p><code dir="ltr" translate="no">Tensor</code> with shape <code dir="ltr" translate="no">[...,N]</code> and same <code dir="ltr" translate="no">dtype</code> as <code dir="ltr" translate="no">rhs</code>.</p>
+<h4 id="raises_14">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">NotImplementedError</code></b>:  If <code dir="ltr" translate="no">self.is_non_singular</code> or <code dir="ltr" translate="no">is_square</code> is False.</li>
+</ul>
+<h3 id="tensor_rank_tensor"><code dir="ltr" translate="no">tensor_rank_tensor</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L368-L382" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">tensor_rank_tensor(
+    name=&#39;tensor_rank_tensor&#39;
+)
+</code></pre>
+<p>Rank (in the sense of tensors) of matrix corresponding to this operator.</p>
+<p>If this operator acts like the batch matrix <code dir="ltr" translate="no">A</code> with
+<code dir="ltr" translate="no">A.shape = [B1,...,Bb, M, N]</code>, then this returns <code dir="ltr" translate="no">b + 2</code>.</p>
+<h4 id="args_44">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name for this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_42">Returns:</h4>
+<p><code dir="ltr" translate="no">int32</code> <code dir="ltr" translate="no">Tensor</code>, determined at runtime.</p>
+<h3 id="to_dense"><code dir="ltr" translate="no">to_dense</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L981-L984" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">to_dense(
+    name=&#39;to_dense&#39;
+)
+</code></pre>
+<p>Return a dense (batch) matrix representing this operator.</p>
+<h3 id="trace"><code dir="ltr" translate="no">trace</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/ops/linalg/linear_operator.py#L1021-L1033" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">trace(
+    name=&#39;trace&#39;
+)
+</code></pre>
+<p>Trace of the linear operator, equal to sum of <code dir="ltr" translate="no">self.diag_part()</code>.</p>
+<p>If the operator is square, this is also the sum of the eigenvalues.</p>
+<h4 id="args_45">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">name</code></b>:  A name for this <code dir="ltr" translate="no">Op</code>.</li>
+</ul>
+<h4 id="returns_43">Returns:</h4>
+<p>Shape <code dir="ltr" translate="no">[B1,...,Bb]</code> <code dir="ltr" translate="no">Tensor</code> of same <code dir="ltr" translate="no">dtype</code> as <code dir="ltr" translate="no">self</code>.</p>
+</div>
+<devsite-page-rating hover-rating-star="0" position="footer" selected-rating="0">
+</devsite-page-rating>
+</article>
+</article>
+
+</devsite-content>
+</main>
+<devsite-footer-promos class="devsite-footer">
+</devsite-footer-promos>
+<devsite-footer-linkboxes class="devsite-footer">
+
+</devsite-footer-linkboxes>
+<devsite-footer-utility class="devsite-footer">
+<div class="devsite-footer-utility nocontent">
+
+</div>
+</devsite-footer-utility>
+</section></section>
+<devsite-sitemask></devsite-sitemask>
+<devsite-snackbar></devsite-snackbar> <devsite-tooltip></devsite-tooltip>
+<devsite-heading-link></devsite-heading-link>
+<devsite-analytics>
+
+
+</devsite-analytics>
+ 
+</body></html>

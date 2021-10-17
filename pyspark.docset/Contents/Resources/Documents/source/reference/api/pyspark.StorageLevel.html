@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.StorageLevel — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-storagelevel">
+<h1>pyspark.StorageLevel<a class="headerlink" href="#pyspark-storagelevel" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.StorageLevel"><a name="//apple_ref/cpp/Class/pyspark.StorageLevel"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.</code><code class="sig-name descname">StorageLevel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">useDisk</span></em>, <em class="sig-param"><span class="n">useMemory</span></em>, <em class="sig-param"><span class="n">useOffHeap</span></em>, <em class="sig-param"><span class="n">deserialized</span></em>, <em class="sig-param"><span class="n">replication</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/storagelevel.html#StorageLevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.StorageLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flags for controlling the storage of an RDD. Each StorageLevel records whether to use memory,
+whether to drop the RDD to disk if it falls out of memory, whether to keep the data in memory
+in a JAVA-specific serialized format, and whether to replicate the RDD partitions on multiple
+nodes. Also contains static constants for some commonly used storage levels, MEMORY_ONLY.
+Since the data is always serialized on the Python side, all the constants use the serialized
+formats.</p>
+<dl class="py method">
+<dt id="pyspark.StorageLevel.__init__"><a name="//apple_ref/cpp/Method/pyspark.StorageLevel.__init__"></a>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">useDisk</span></em>, <em class="sig-param"><span class="n">useMemory</span></em>, <em class="sig-param"><span class="n">useOffHeap</span></em>, <em class="sig-param"><span class="n">deserialized</span></em>, <em class="sig-param"><span class="n">replication</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/storagelevel.html#StorageLevel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.StorageLevel.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

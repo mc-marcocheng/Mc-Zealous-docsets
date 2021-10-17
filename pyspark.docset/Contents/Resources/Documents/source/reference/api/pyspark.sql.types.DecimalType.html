@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>DecimalType — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="decimaltype">
+<h1>DecimalType<a class="headerlink" href="#decimaltype" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.sql.types.DecimalType"><a name="//apple_ref/cpp/Class/pyspark.sql.types.DecimalType"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.sql.types.</code><code class="sig-name descname">DecimalType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">precision</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/sql/types.html#DecimalType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.sql.types.DecimalType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decimal (decimal.Decimal) data type.</p>
+<p>The DecimalType must have fixed precision (the maximum total number of digits)
+and scale (the number of digits on the right of dot). For example, (5, 2) can
+support the value from [-999.99 to 999.99].</p>
+<p>The precision can be up to 38, the scale must be less or equal to precision.</p>
+<p>When creating a DecimalType, the default precision and scale is (10, 0). When inferring
+schema from decimal.Decimal objects, it will be DecimalType(38, 18).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>precision</strong> – the maximum (i.e. total) number of digits (default: 10)</p></li>
+<li><p><strong>scale</strong> – the number of digits on right side of dot. (default: 0)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.sql.types.DecimalType.fromInternal"><a name="//apple_ref/cpp/Method/pyspark.sql.types.DecimalType.fromInternal"></a>
+<code class="sig-name descname">fromInternal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.sql.types.DecimalType.fromInternal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts an internal SQL object into a native Python object.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.sql.types.DecimalType.json"><a name="//apple_ref/cpp/Method/pyspark.sql.types.DecimalType.json"></a>
+<code class="sig-name descname">json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.sql.types.DecimalType.json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py method">
+<dt id="pyspark.sql.types.DecimalType.jsonValue"><a name="//apple_ref/cpp/Method/pyspark.sql.types.DecimalType.jsonValue"></a>
+<code class="sig-name descname">jsonValue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/sql/types.html#DecimalType.jsonValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.sql.types.DecimalType.jsonValue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py method">
+<dt id="pyspark.sql.types.DecimalType.needConversion"><a name="//apple_ref/cpp/Method/pyspark.sql.types.DecimalType.needConversion"></a>
+<code class="sig-name descname">needConversion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.sql.types.DecimalType.needConversion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does this type needs conversion between Python object and internal SQL object.</p>
+<p>This is used to avoid the unnecessary conversion for ArrayType/MapType/StructType.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.sql.types.DecimalType.simpleString"><a name="//apple_ref/cpp/Method/pyspark.sql.types.DecimalType.simpleString"></a>
+<code class="sig-name descname">simpleString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/sql/types.html#DecimalType.simpleString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.sql.types.DecimalType.simpleString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py method">
+<dt id="pyspark.sql.types.DecimalType.toInternal"><a name="//apple_ref/cpp/Method/pyspark.sql.types.DecimalType.toInternal"></a>
+<code class="sig-name descname">toInternal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.sql.types.DecimalType.toInternal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a Python object into an internal SQL object.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.sql.types.DecimalType.typeName"><a name="//apple_ref/cpp/Method/pyspark.sql.types.DecimalType.typeName"></a>
+<em class="property">classmethod </em><code class="sig-name descname">typeName</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.sql.types.DecimalType.typeName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

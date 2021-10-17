@@ -1,0 +1,1800 @@
+<!DOCTYPE html><html dir="ltr" lang="en"><head>
+<meta content="157101835696-ooapojlodmuabs2do2vuhhnf90bccmoi.apps.googleusercontent.com" name="google-signin-client-id"/>
+<meta content="profile email" name="google-signin-scope"/>
+<meta content="TensorFlow" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="#ff6f00" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="IE=Edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link crossorigin="use-credentials" href="_pwa/tensorflow/manifest.json" rel="manifest"/>
+<link crossorigin="" href="/www.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="/fonts.googleapis.com" rel="preconnect"/>
+<link href="../../../../../../../main.css" rel="stylesheet"/>
+
+<noscript>
+
+</noscript>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/favicon.png" rel="shortcut icon"/>
+<link href="https://www.gstatic.com/devrel-devsite/prod/v3e2dbdc40e7394635e5230ecc02cb28039ea55a5d72db9939d2fb9fc9e16d0ff/tensorflow/images/apple-touch-icon-180x180.png" rel="apple-touch-icon"/><link href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/data/experimental/CsvDataset" rel="canonical"/><link href="https://www.tensorflow.org/s/opensearch.xml" rel="search" title="TensorFlow" type="application/opensearchdescription+xml"/>
+<title>tf.compat.v1.data.experimental.CsvDataset &nbsp;|&nbsp; TensorFlow Core v2.1.0</title>
+<meta content="tf.compat.v1.data.experimental.CsvDataset &nbsp;|&nbsp; TensorFlow Core v2.1.0" property="og:title"/>
+<meta content="https://www.tensorflow.org/api_docs/python/tf/compat/v1/data/experimental/CsvDataset" property="og:url"/>
+<meta content="en" property="og:locale"/>
+
+</head>
+<body class="" layout="docs" pending="" theme="tensorflow-theme" type="reference">
+<devsite-progress id="app-progress" type="indeterminate"></devsite-progress>
+<section class="devsite-wrapper"> <devsite-book-nav scrollbars="">
+
+</devsite-book-nav>
+<section id="gc-wrapper">
+<main class="devsite-main-content" has-book-nav="" has-toc="" role="main">
+<devsite-toc class="devsite-nav"></devsite-toc>
+<devsite-content>
+<article class="devsite-article">
+<article class="devsite-article-inner"><style>
+        /* Styles inlined from /site-assets/css/style.css */
+/* override theme */
+table img {
+  max-width: 100%;
+}
+
+/* override var element to differentiate color from comment */
+var, var code, var span, .prettyprint var span {
+  color: #039be5;
+}
+
+/* .devsite-terminal virtualenv prompt */
+.tfo-terminal-venv::before {
+  content: "(venv) $ " !important;
+}
+
+/* .devsite-terminal root prompt */
+.tfo-terminal-root::before {
+  content: "# " !important;
+}
+
+/* .devsite-terminal Windows prompt */
+.tfo-terminal-windows::before {
+  content: "C:\\> " !important;
+}
+
+/* .devsite-terminal Windows prompt w/ virtualenv */
+.tfo-terminal-windows-venv::before {
+  content: "(venv) C:\\> " !important;
+}
+
+.tfo-diff-green-one-level + * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green + * > * {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-green-list + ul > li:first-of-type {
+  background: rgba(175, 245, 162, .6)  !important;
+}
+
+.tfo-diff-red-one-level + * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red + * > * {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+.tfo-diff-red-list + ul > li:first-of-type {
+  background: rgba(255, 230, 230, .6)  !important;
+  text-decoration: line-through  !important;
+}
+
+devsite-code .tfo-notebook-code-cell-output {
+  max-height: 300px;
+  overflow: auto;
+  background: rgba(255, 247, 237, 1);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(255, 247, 237, .7);  /* orange bg to distinguish from input code cells */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output {
+  background: rgba(64, 78, 103, 1);  /* medium slate */
+}
+
+devsite-code[dark-code] .tfo-notebook-code-cell-output + .devsite-code-buttons-container button {
+  background: rgba(64, 78, 103, .7);  /* medium slate */
+}
+
+/* override default table styles for notebook buttons */
+.devsite-table-wrapper .tfo-notebook-buttons {
+  display: inline-block;
+  margin-left: 3px;
+  width: auto;
+}
+
+.tfo-notebook-buttons td {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.tfo-notebook-buttons a,
+.tfo-notebook-buttons :link,
+.tfo-notebook-buttons :visited {
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  color: #202124;
+  padding: 12px 24px;
+  transition: box-shadow 0.2s;
+}
+
+.tfo-notebook-buttons a:hover,
+.tfo-notebook-buttons a:focus {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.tfo-notebook-buttons tr {
+  background: 0;
+  border: 0;
+}
+
+/* on rendered notebook page,
+   remove link to webpage since we're already here */
+.tfo-notebook-buttons:not(.tfo-api) td:first-child {
+  display: none;
+}
+
+.tfo-notebook-buttons td > a {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tfo-notebook-buttons td > a > img {
+  margin-right: 8px;
+}
+
+/* landing pages */
+
+.tfo-landing-row-item-inset-white {
+  background-color: #fff;
+  padding: 32px;
+}
+
+.tfo-landing-row-item-inset-white ol,
+.tfo-landing-row-item-inset-white ul {
+  padding-left: 20px;
+}
+
+/* colab callout button */
+.colab-callout-row devsite-code {
+  border-radius: 8px 8px 0 0;
+  box-shadow: none;
+}
+
+.colab-callout-footer {
+  background: #e3e4e7;
+  border-radius: 0 0 8px 8px;
+  color: #37474f;
+  padding: 20px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer {
+  background: #3f4f66;
+}
+
+
+.colab-callout-footer > .button {
+  margin-top: 4px;
+  color: #ff5c00;
+}
+
+.colab-callout-footer > a > span {
+  padding-top: 10px;
+  vertical-align: middle;
+  color: #37474f;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.colab-callout-row devsite-code[dark-code] + .colab-callout-footer > a > span {
+  color: #fff;
+}
+
+a.colab-button {
+  background: rgba(255, 255, 255, .75);
+  border: solid 1px rgba(0, 0, 0, .08);
+  border-bottom-color: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  color: #aaa;
+  display: inline-block;
+  font-size: 11px !important;
+  font-weight: 300;
+  line-height: 16px;
+  padding: 4px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.colab-button:hover {
+  background: white;
+  border-color: rgba(0, 0, 0, .2);
+  color: #666;
+}
+
+a.colab-button span {
+  background: url(/images/colab_logo_button.svg) no-repeat 1px 1px / 20px;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 24px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .tfo-notebook-buttons td {
+    display: block;
+  }
+}
+
+/* guide and tutorials landing page cards and sections */
+
+.tfo-landing-page-card {
+  padding: 16px;
+  box-shadow: 0 0 36px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+/* Page section headings */
+.tfo-landing-page-heading h2, h2.tfo-landing-page-heading {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+/* Item title headings */
+.tfo-landing-page-heading h3, h3.tfo-landing-page-heading,
+.tfo-landing-page-card h3, h3.tfo-landing-page-card {
+  font-family: "Google Sans", sans-serif;
+  color: #425066;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+/* List of tutorials notebooks for subsites */
+.tfo-landing-page-resources-ul {
+  padding-left: 15px
+}
+
+.tfo-landing-page-resources-ul > li {
+  margin: 6px 0;
+}
+
+/* Temporary fix to hide product description in header on landing pages */
+devsite-header .devsite-product-description {
+  display: none;
+}
+
+        </style> <div class="devsite-banner devsite-banner-announcement">
+<div class="devsite-banner-message">
+<div class="devsite-banner-message-text">
+            Missed TensorFlow Dev Summit? Check out the video playlist. <a class="button button-primary button-tfo-announcement" href="https://goo.gle/TFDS20AllSessions">Watch recordings</a>
+</div>
+</div>
+</div>
+<div class="devsite-article-meta">
+<ul class="devsite-breadcrumb-list">
+<li class="devsite-breadcrumb-item">
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="1" href="">
+            TensorFlow
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="2" href="api">
+            API
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="3" href="api_docs">
+            TensorFlow Core v2.1.0
+      
+  </a>
+</li>
+<li class="devsite-breadcrumb-item">
+<div aria-hidden="true" class="devsite-breadcrumb-guillemet material-icons"></div>
+<a class="devsite-breadcrumb-link gc-analytics-event" data-category="Site-Wide Custom Events" data-label="Breadcrumbs" data-value="4" href="api_docs/python/tf">
+            Python
+      
+  </a>
+</li>
+</ul>
+<devsite-page-rating hover-rating-star="0" position="header" selected-rating="0">
+</devsite-page-rating>
+</div>
+<a class="dashingAutolink" name="autolink-188"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/tf.compat.v1.data.experimental.CsvDataset"></a><h1 class="dash-class">tf.compat.v1.data.experimental.CsvDataset</h1>
+<devsite-toc class="devsite-nav" devsite-toc-embedded="">
+</devsite-toc>
+<div class="devsite-article-body clearfix">
+<p></p>
+<!-- DO NOT EDIT! Automatically generated file. -->
+<div itemscope="" itemtype="http://developers.google.com/ReferenceObject">
+<meta content="tf.compat.v1.data.experimental.CsvDataset" itemprop="name"/>
+<meta content="Stable" itemprop="path"/>
+<meta content="__init__" itemprop="property"/>
+<meta content="__iter__" itemprop="property"/>
+<meta content="apply" itemprop="property"/>
+<meta content="as_numpy_iterator" itemprop="property"/>
+<meta content="batch" itemprop="property"/>
+<meta content="cache" itemprop="property"/>
+<meta content="concatenate" itemprop="property"/>
+<meta content="enumerate" itemprop="property"/>
+<meta content="filter" itemprop="property"/>
+<meta content="filter_with_legacy_function" itemprop="property"/>
+<meta content="flat_map" itemprop="property"/>
+<meta content="from_generator" itemprop="property"/>
+<meta content="from_sparse_tensor_slices" itemprop="property"/>
+<meta content="from_tensor_slices" itemprop="property"/>
+<meta content="from_tensors" itemprop="property"/>
+<meta content="interleave" itemprop="property"/>
+<meta content="list_files" itemprop="property"/>
+<meta content="make_initializable_iterator" itemprop="property"/>
+<meta content="make_one_shot_iterator" itemprop="property"/>
+<meta content="map" itemprop="property"/>
+<meta content="map_with_legacy_function" itemprop="property"/>
+<meta content="options" itemprop="property"/>
+<meta content="padded_batch" itemprop="property"/>
+<meta content="prefetch" itemprop="property"/>
+<meta content="range" itemprop="property"/>
+<meta content="reduce" itemprop="property"/>
+<meta content="repeat" itemprop="property"/>
+<meta content="shard" itemprop="property"/>
+<meta content="shuffle" itemprop="property"/>
+<meta content="skip" itemprop="property"/>
+<meta content="take" itemprop="property"/>
+<meta content="unbatch" itemprop="property"/>
+<meta content="window" itemprop="property"/>
+<meta content="with_options" itemprop="property"/>
+<meta content="zip" itemprop="property"/>
+</div>
+<!-- Insert buttons and diff -->
+<table align="left" class="tfo-notebook-buttons tfo-api">
+<tbody><tr><td>
+<a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/experimental/ops/readers.py#L730-L747" target="_blank">
+<img src="https://www.tensorflow.org/images/GitHub-Mark-32px.png"/>
+    View source on GitHub
+  </a>
+</td></tr></tbody></table>
+<p>A Dataset comprising lines from one or more CSV files.</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">tf.compat.v1.data.experimental.CsvDataset(
+    filenames, record_defaults, compression_type=None, buffer_size=None,
+    header=False, field_delim=&#39;,&#39;, use_quote_delim=True, na_value=&#39;&#39;,
+    select_cols=None
+)
+</code></pre>
+<!-- Placeholder for "Used in" -->
+<h4 id="args">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">filenames</code></b>: A <a href="https://www.tensorflow.org/api_docs/python/tf#string"><code dir="ltr" translate="no">tf.string</code></a> tensor containing one or more filenames.</li>
+<li><b><code dir="ltr" translate="no">record_defaults</code></b>: A list of default values for the CSV fields. Each item in
+the list is either a valid CSV <code dir="ltr" translate="no">DType</code> (float32, float64, int32, int64,
+string), or a <code dir="ltr" translate="no">Tensor</code> object with one of the above types. One per
+column of CSV data, with either a scalar <code dir="ltr" translate="no">Tensor</code> default value for the
+column if it is optional, or <code dir="ltr" translate="no">DType</code> or empty <code dir="ltr" translate="no">Tensor</code> if required. If
+both this and <code dir="ltr" translate="no">select_columns</code> are specified, these must have the same
+lengths, and <code dir="ltr" translate="no">column_defaults</code> is assumed to be sorted in order of
+increasing column index.</li>
+<li><b><code dir="ltr" translate="no">compression_type</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#string"><code dir="ltr" translate="no">tf.string</code></a> scalar evaluating to one of
+<code dir="ltr" translate="no">&#34;&#34;</code> (no compression), <code dir="ltr" translate="no">&#34;ZLIB&#34;</code>, or <code dir="ltr" translate="no">&#34;GZIP&#34;</code>. Defaults to no
+compression.</li>
+<li><b><code dir="ltr" translate="no">buffer_size</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar denoting the number of bytes
+to buffer while reading files. Defaults to 4MB.</li>
+<li><b><code dir="ltr" translate="no">header</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#bool"><code dir="ltr" translate="no">tf.bool</code></a> scalar indicating whether the CSV file(s)
+have header line(s) that should be skipped when parsing. Defaults to
+<code dir="ltr" translate="no">False</code>.</li>
+<li><b><code dir="ltr" translate="no">field_delim</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#string"><code dir="ltr" translate="no">tf.string</code></a> scalar containing the delimiter
+character that separates fields in a record. Defaults to <code dir="ltr" translate="no">&#34;,&#34;</code>.</li>
+<li><b><code dir="ltr" translate="no">use_quote_delim</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#bool"><code dir="ltr" translate="no">tf.bool</code></a> scalar. If <code dir="ltr" translate="no">False</code>, treats
+double quotation marks as regular characters inside of string fields
+(ignoring RFC 4180, Section 2, Bullet 5). Defaults to <code dir="ltr" translate="no">True</code>.</li>
+<li><b><code dir="ltr" translate="no">na_value</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#string"><code dir="ltr" translate="no">tf.string</code></a> scalar indicating a value that will
+be treated as NA/NaN.</li>
+<li><b><code dir="ltr" translate="no">select_cols</code></b>: (Optional.) A sorted list of column indices to select from
+the input data. If specified, only this subset of columns will be
+parsed. Defaults to parsing all columns.</li>
+</ul>
+<h4 id="attributes">Attributes:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">element_spec</code></b>:   The type specification of an element of this dataset.</li>
+</ul>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no">  <code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices([1, 2, 3]).element_spec </code>
+  <code class="no-select nocode" dir="ltr" translate="no">  TensorSpec(shape=(), dtype=tf.int32, name=None) </code>
+  <code class="no-select nocode" dir="ltr" translate="no">   </code>
+</pre>
+<ul>
+<li><p><b><code dir="ltr" translate="no">output_classes</code></b>:   Returns the class of each component of an element of this dataset. (deprecated)</p>
+<aside class="warning"><strong>Warning:</strong><span> THIS FUNCTION IS DEPRECATED. It will be removed in a future version.
+Instructions for updating:
+Use <a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/data/get_output_classes"><code dir="ltr" translate="no">tf.compat.v1.data.get_output_classes(dataset)</code></a>.</span></aside></li>
+<li><p><b><code dir="ltr" translate="no">output_shapes</code></b>:   Returns the shape of each component of an element of this dataset. (deprecated)</p>
+<aside class="warning"><strong>Warning:</strong><span> THIS FUNCTION IS DEPRECATED. It will be removed in a future version.
+Instructions for updating:
+Use <a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/data/get_output_shapes"><code dir="ltr" translate="no">tf.compat.v1.data.get_output_shapes(dataset)</code></a>.</span></aside></li>
+<li><p><b><code dir="ltr" translate="no">output_types</code></b>:   Returns the type of each component of an element of this dataset. (deprecated)</p>
+<aside class="warning"><strong>Warning:</strong><span> THIS FUNCTION IS DEPRECATED. It will be removed in a future version.
+Instructions for updating:
+Use <a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/data/get_output_types"><code dir="ltr" translate="no">tf.compat.v1.data.get_output_types(dataset)</code></a>.</span></aside></li>
+</ul>
+<h2 id="methods">Methods</h2>
+<h3 id="__iter__"><code dir="ltr" translate="no">__iter__</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L2433-L2434" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">__iter__()
+</code></pre>
+<p>Creates an <code dir="ltr" translate="no">Iterator</code> for enumerating the elements of this dataset.</p>
+<p>The returned iterator implements the Python iterator protocol and therefore
+can only be used in eager mode.</p>
+<h4 id="returns">Returns:</h4>
+<p>An <code dir="ltr" translate="no">Iterator</code> over the elements of this dataset.</p>
+<h4 id="raises">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">RuntimeError</code></b>: If not inside of tf.function and not executing eagerly.</li>
+</ul>
+<h3 id="apply"><code dir="ltr" translate="no">apply</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1721-L1749" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">apply(
+    transformation_func
+)
+</code></pre>
+<p>Applies a transformation function to this dataset.</p>
+<p><code dir="ltr" translate="no">apply</code> enables chaining of custom <code dir="ltr" translate="no">Dataset</code> transformations, which are
+represented as functions that take one <code dir="ltr" translate="no">Dataset</code> argument and return a
+transformed <code dir="ltr" translate="no">Dataset</code>.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(100) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">def dataset_fn(ds): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  return ds.filter(lambda x: x &lt; 5) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.apply(dataset_fn) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[0, 1, 2, 3, 4] </code>
+</pre>
+<h4 id="args_2">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">transformation_func</code></b>: A function that takes one <code dir="ltr" translate="no">Dataset</code> argument and
+returns a <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h4 id="returns_2">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: The <code dir="ltr" translate="no">Dataset</code> returned by applying <code dir="ltr" translate="no">transformation_func</code> to this
+dataset.</li>
+</ul>
+<h3 id="as_numpy_iterator"><code dir="ltr" translate="no">as_numpy_iterator</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L444-L498" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">as_numpy_iterator()
+</code></pre>
+<p>Returns an iterator which converts all elements of the dataset to numpy.</p>
+<p>Use <code dir="ltr" translate="no">as_numpy_iterator</code> to inspect the content of your dataset. To see
+element shapes and types, print dataset elements directly instead of using
+<code dir="ltr" translate="no">as_numpy_iterator</code>.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices([1, 2, 3]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">for element in dataset: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  print(element) </code>
+<code class="no-select nocode" dir="ltr" translate="no">tf.Tensor(1, shape=(), dtype=int32) </code>
+<code class="no-select nocode" dir="ltr" translate="no">tf.Tensor(2, shape=(), dtype=int32) </code>
+<code class="no-select nocode" dir="ltr" translate="no">tf.Tensor(3, shape=(), dtype=int32) </code>
+</pre>
+<p>This method requires that you are running in eager mode and the dataset&#39;s
+element_spec contains only <code dir="ltr" translate="no">TensorSpec</code> components.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices([1, 2, 3]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">for element in dataset.as_numpy_iterator(): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  print(element) </code>
+<code class="no-select nocode" dir="ltr" translate="no">1 </code>
+<code class="no-select nocode" dir="ltr" translate="no">2 </code>
+<code class="no-select nocode" dir="ltr" translate="no">3 </code>
+</pre>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices([1, 2, 3]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">print(list(dataset.as_numpy_iterator())) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 2, 3] </code>
+</pre>
+<p><code dir="ltr" translate="no">as_numpy_iterator()</code> will preserve the nested structure of dataset
+elements.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices({&#39;a&#39;: ([1, 2], [3, 4]), </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">                                              &#39;b&#39;: [5, 6]}) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) == [{&#39;a&#39;: (1, 3), &#39;b&#39;: 5}, </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">                                      {&#39;a&#39;: (2, 4), &#39;b&#39;: 6}] </code>
+<code class="no-select nocode" dir="ltr" translate="no">True </code>
+</pre>
+<h4 id="returns_3">Returns:</h4>
+<p>An iterable over the elements of the dataset, with their tensors converted
+to numpy arrays.</p>
+<h4 id="raises_2">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">TypeError</code></b>: if an element contains a non-<code dir="ltr" translate="no">Tensor</code> value.</li>
+<li><b><code dir="ltr" translate="no">RuntimeError</code></b>: if eager execution is not enabled.</li>
+</ul>
+<h3 id="batch"><code dir="ltr" translate="no">batch</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1350-L1381" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">batch(
+    batch_size, drop_remainder=False
+)
+</code></pre>
+<p>Combines consecutive elements of this dataset into batches.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(8) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.batch(3) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[array([0, 1, 2]), array([3, 4, 5]), array([6, 7])] </code>
+</pre>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(8) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.batch(3, drop_remainder=True) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[array([0, 1, 2]), array([3, 4, 5])] </code>
+</pre>
+<p>The components of the resulting element will have an additional outer
+dimension, which will be <code dir="ltr" translate="no">batch_size</code> (or <code dir="ltr" translate="no">N % batch_size</code> for the last
+element if <code dir="ltr" translate="no">batch_size</code> does not divide the number of input elements <code dir="ltr" translate="no">N</code>
+evenly and <code dir="ltr" translate="no">drop_remainder</code> is <code dir="ltr" translate="no">False</code>). If your program depends on the
+batches having the same outer dimension, you should set the <code dir="ltr" translate="no">drop_remainder</code>
+argument to <code dir="ltr" translate="no">True</code> to prevent the smaller batch from being produced.</p>
+<h4 id="args_3">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">batch_size</code></b>: A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the number of
+consecutive elements of this dataset to combine in a single batch.</li>
+<li><b><code dir="ltr" translate="no">drop_remainder</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#bool"><code dir="ltr" translate="no">tf.bool</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing
+whether the last batch should be dropped in the case it has fewer than
+<code dir="ltr" translate="no">batch_size</code> elements; the default behavior is not to drop the smaller
+batch.</li>
+</ul>
+<h4 id="returns_4">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="cache"><code dir="ltr" translate="no">cache</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1195-L1243" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">cache(
+    filename=&#39;&#39;
+)
+</code></pre>
+<p>Caches the elements in this dataset.</p>
+<p>The first time the dataset is iterated over, its elements will be cached
+either in the specified file or in memory. Subsequent iterations will
+use the cached data.</p>
+<aside class="note"><strong>Note:</strong><span> For the cache to be finalized, the input dataset must be iterated
+through in its entirety. Otherwise, subsequent iterations will not use
+cached data.</span></aside>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(5) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.map(lambda x: x**2) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.cache() </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># The first time reading through the data will generate the data using </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># `range` and `map`. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[0, 1, 4, 9, 16] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Subsequent iterations read from the cache. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[0, 1, 4, 9, 16] </code>
+</pre>
+<p>When caching to a file, the cached data will persist across runs. Even the
+first iteration through the data will read from the cache file. Changing
+the input pipeline before the call to <code dir="ltr" translate="no">.cache()</code> will have no effect until
+the cache file is removed or the filename is changed.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(5) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.cache(&#34;/path/to/file)  # doctest: +SKIP </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator())  # doctest: +SKIP </code>
+<code class="no-select nocode" dir="ltr" translate="no">[0, 1, 2, 3, 4] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(10) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.cache(&#34;/path/to/file&#34;)  # Same file! # doctest: +SKIP </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator())  # doctest: +SKIP </code>
+<code class="no-select nocode" dir="ltr" translate="no">[0, 1, 2, 3, 4] </code>
+</pre>
+<aside class="note"><strong>Note:</strong><span> <code dir="ltr" translate="no">cache</code> will produce exactly the same elements during each iteration
+through the dataset. If you wish to randomize the iteration order, make sure
+to call <code dir="ltr" translate="no">shuffle</code> <em>after</em> calling <code dir="ltr" translate="no">cache</code>.</span></aside>
+<h4 id="args_4">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">filename</code></b>: A <a href="https://www.tensorflow.org/api_docs/python/tf#string"><code dir="ltr" translate="no">tf.string</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the name of a
+directory on the filesystem to use for caching elements in this Dataset.
+If a filename is not provided, the dataset will be cached in memory.</li>
+</ul>
+<h4 id="returns_5">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="concatenate"><code dir="ltr" translate="no">concatenate</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L958-L985" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">concatenate(
+    dataset
+)
+</code></pre>
+<p>Creates a <code dir="ltr" translate="no">Dataset</code> by concatenating the given dataset with this dataset.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">a = tf.data.Dataset.range(1, 4)  # ==&gt; [ 1, 2, 3 ] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">b = tf.data.Dataset.range(4, 8)  # ==&gt; [ 4, 5, 6, 7 ] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">ds = a.concatenate(b) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(ds.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 2, 3, 4, 5, 6, 7] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># The input dataset and dataset to be concatenated should have the same </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># nested structures and output types. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">c = tf.data.Dataset.zip((a, b)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">a.concatenate(c) </code>
+<code class="no-select nocode" dir="ltr" translate="no">Traceback (most recent call last): </code>
+<code class="no-select nocode" dir="ltr" translate="no">TypeError: Two datasets to concatenate have different types </code>
+<code class="no-select nocode" dir="ltr" translate="no">&lt;dtype: &#39;int64&#39;&gt; and (tf.int64, tf.int64) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">d = tf.data.Dataset.from_tensor_slices([&#34;a&#34;, &#34;b&#34;, &#34;c&#34;]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">a.concatenate(d) </code>
+<code class="no-select nocode" dir="ltr" translate="no">Traceback (most recent call last): </code>
+<code class="no-select nocode" dir="ltr" translate="no">TypeError: Two datasets to concatenate have different types </code>
+<code class="no-select nocode" dir="ltr" translate="no">&lt;dtype: &#39;int64&#39;&gt; and &lt;dtype: &#39;string&#39;&gt; </code>
+</pre>
+<h4 id="args_5">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">dataset</code></b>: <code dir="ltr" translate="no">Dataset</code> to be concatenated.</li>
+</ul>
+<h4 id="returns_6">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="enumerate"><code dir="ltr" translate="no">enumerate</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1102-L1133" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">enumerate(
+    start=0
+)
+</code></pre>
+<p>Enumerates the elements of this dataset.</p>
+<p>It is similar to python&#39;s <code dir="ltr" translate="no">enumerate</code>.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices([1, 2, 3]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.enumerate(start=5) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">for element in dataset.as_numpy_iterator(): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  print(element) </code>
+<code class="no-select nocode" dir="ltr" translate="no">(5, 1) </code>
+<code class="no-select nocode" dir="ltr" translate="no">(6, 2) </code>
+<code class="no-select nocode" dir="ltr" translate="no">(7, 3) </code>
+</pre>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># The nested structure of the input dataset determines the structure of </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># elements in the resulting dataset. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices([(7, 8), (9, 10)]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.enumerate() </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">for element in dataset.as_numpy_iterator(): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  print(element) </code>
+<code class="no-select nocode" dir="ltr" translate="no">(0, array([7, 8], dtype=int32)) </code>
+<code class="no-select nocode" dir="ltr" translate="no">(1, array([ 9, 10], dtype=int32)) </code>
+</pre>
+<h4 id="args_6">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">start</code></b>: A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the start value for
+enumeration.</li>
+</ul>
+<h4 id="returns_7">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="filter"><code dir="ltr" translate="no">filter</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1698-L1719" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">filter(
+    predicate
+)
+</code></pre>
+<p>Filters this dataset according to <code dir="ltr" translate="no">predicate</code>.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices([1, 2, 3]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.filter(lambda x: x &lt; 3) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 2] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># `tf.math.equal(x, y)` is required for equality comparison </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">def filter_fn(x): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  return tf.math.equal(x, 1) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.filter(filter_fn) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1] </code>
+</pre>
+<h4 id="args_7">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">predicate</code></b>: A function mapping a dataset element to a boolean.</li>
+</ul>
+<h4 id="returns_8">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: The <code dir="ltr" translate="no">Dataset</code> containing the elements of this dataset for which
+<code dir="ltr" translate="no">predicate</code> is <code dir="ltr" translate="no">True</code>.</li>
+</ul>
+<h3 id="filter_with_legacy_function"><code dir="ltr" translate="no">filter_with_legacy_function</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L2364-L2381" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">filter_with_legacy_function(
+    predicate
+)
+</code></pre>
+<p>Filters this dataset according to <code dir="ltr" translate="no">predicate</code>. (deprecated)</p>
+<aside class="warning"><strong>Warning:</strong><span> THIS FUNCTION IS DEPRECATED. It will be removed in a future version.
+Instructions for updating:
+Use `tf.data.Dataset.filter()</span></aside>
+<p>NOTE: This is an escape hatch for existing uses of <code dir="ltr" translate="no">filter</code> that do not work
+with V2 functions. New uses are strongly discouraged and existing uses
+should migrate to <code dir="ltr" translate="no">filter</code> as this method will be removed in V2.</p>
+<h4 id="args_8">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">predicate</code></b>: A function mapping a nested structure of tensors (having shapes
+and types defined by <code dir="ltr" translate="no">self.output_shapes</code> and <code dir="ltr" translate="no">self.output_types</code>) to a
+scalar <a href="https://www.tensorflow.org/api_docs/python/tf#bool"><code dir="ltr" translate="no">tf.bool</code></a> tensor.</li>
+</ul>
+<h4 id="returns_9">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: The <code dir="ltr" translate="no">Dataset</code> containing the elements of this dataset for which
+<code dir="ltr" translate="no">predicate</code> is <code dir="ltr" translate="no">True</code>.</li>
+</ul>
+<h3 id="flat_map"><code dir="ltr" translate="no">flat_map</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1593-L1615" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">flat_map(
+    map_func
+)
+</code></pre>
+<p>Maps <code dir="ltr" translate="no">map_func</code> across this dataset and flattens the result.</p>
+<p>Use <code dir="ltr" translate="no">flat_map</code> if you want to make sure that the order of your dataset
+stays the same. For example, to flatten a dataset of batches into a
+dataset of their elements:</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = Dataset.from_tensor_slices([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.flat_map(lambda x: Dataset.from_tensor_slices(x)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 2, 3, 4, 5, 6, 7, 8, 9] </code>
+</pre>
+<p><a href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset#interleave"><code dir="ltr" translate="no">tf.data.Dataset.interleave()</code></a> is a generalization of <code dir="ltr" translate="no">flat_map</code>, since
+<code dir="ltr" translate="no">flat_map</code> produces the same output as
+<a href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset#interleave"><code dir="ltr" translate="no">tf.data.Dataset.interleave(cycle_length=1)</code></a></p>
+<h4 id="args_9">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">map_func</code></b>: A function mapping a dataset element to a dataset.</li>
+</ul>
+<h4 id="returns_10">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="from_generator"><code dir="ltr" translate="no">from_generator</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L682-L880" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">@staticmethod
+from_generator(
+    generator, output_types, output_shapes=None, args=None
+)
+</code></pre>
+<p>Creates a <code dir="ltr" translate="no">Dataset</code> whose elements are generated by <code dir="ltr" translate="no">generator</code>.</p>
+<p>The <code dir="ltr" translate="no">generator</code> argument must be a callable object that returns
+an object that supports the <code dir="ltr" translate="no">iter()</code> protocol (e.g. a generator function).
+The elements generated by <code dir="ltr" translate="no">generator</code> must be compatible with the given
+<code dir="ltr" translate="no">output_types</code> and (optional) <code dir="ltr" translate="no">output_shapes</code> arguments.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">import itertools </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"> </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">def gen(): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  for i in itertools.count(1): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    yield (i, [1] * i) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"> </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_generator( </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">     gen, </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">     (tf.int64, tf.int64), </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">     (tf.TensorShape([]), tf.TensorShape([None]))) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"> </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.take(3).as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[(1, array([1])), (2, array([1, 1])), (3, array([1, 1, 1]))] </code>
+</pre>
+<p>NOTE: The current implementation of <a href="api_docs/python/tf/data/Dataset#from_generator"><code dir="ltr" translate="no">Dataset.from_generator()</code></a> uses
+<a href="https://www.tensorflow.org/api_docs/python/tf/numpy_function"><code dir="ltr" translate="no">tf.numpy_function</code></a> and inherits the same constraints. In particular, it
+requires the <code dir="ltr" translate="no">Dataset</code>- and <code dir="ltr" translate="no">Iterator</code>-related operations to be placed
+on a device in the same process as the Python program that called
+<a href="api_docs/python/tf/data/Dataset#from_generator"><code dir="ltr" translate="no">Dataset.from_generator()</code></a>. The body of <code dir="ltr" translate="no">generator</code> will not be
+serialized in a <code dir="ltr" translate="no">GraphDef</code>, and you should not use this method if you
+need to serialize your model and restore it in a different environment.</p>
+<p>NOTE: If <code dir="ltr" translate="no">generator</code> depends on mutable global variables or other external
+state, be aware that the runtime may invoke <code dir="ltr" translate="no">generator</code> multiple times
+(in order to support repeating the <code dir="ltr" translate="no">Dataset</code>) and at any time
+between the call to <a href="api_docs/python/tf/data/Dataset#from_generator"><code dir="ltr" translate="no">Dataset.from_generator()</code></a> and the production of the
+first element from the generator. Mutating global variables or external
+state can cause undefined behavior, and we recommend that you explicitly
+cache any external state in <code dir="ltr" translate="no">generator</code> before calling
+<a href="api_docs/python/tf/data/Dataset#from_generator"><code dir="ltr" translate="no">Dataset.from_generator()</code></a>.</p>
+<h4 id="args_10">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">generator</code></b>: A callable object that returns an object that supports the
+<code dir="ltr" translate="no">iter()</code> protocol. If <code dir="ltr" translate="no">args</code> is not specified, <code dir="ltr" translate="no">generator</code> must take no
+arguments; otherwise it must take as many arguments as there are values
+in <code dir="ltr" translate="no">args</code>.</li>
+<li><b><code dir="ltr" translate="no">output_types</code></b>: A nested structure of <a href="https://www.tensorflow.org/api_docs/python/tf/dtypes/DType"><code dir="ltr" translate="no">tf.DType</code></a> objects corresponding to
+each component of an element yielded by <code dir="ltr" translate="no">generator</code>.</li>
+<li><b><code dir="ltr" translate="no">output_shapes</code></b>: (Optional.) A nested structure of <a href="https://www.tensorflow.org/api_docs/python/tf/TensorShape"><code dir="ltr" translate="no">tf.TensorShape</code></a> objects
+corresponding to each component of an element yielded by <code dir="ltr" translate="no">generator</code>.</li>
+<li><b><code dir="ltr" translate="no">args</code></b>: (Optional.) A tuple of <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a> objects that will be evaluated
+and passed to <code dir="ltr" translate="no">generator</code> as NumPy-array arguments.</li>
+</ul>
+<h4 id="returns_11">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="from_sparse_tensor_slices"><code dir="ltr" translate="no">from_sparse_tensor_slices</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L2219-L2230" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">@staticmethod
+from_sparse_tensor_slices(
+    sparse_tensor
+)
+</code></pre>
+<p>Splits each rank-N <a href="https://www.tensorflow.org/api_docs/python/tf/sparse/SparseTensor"><code dir="ltr" translate="no">tf.SparseTensor</code></a> in this dataset row-wise. (deprecated)</p>
+<aside class="warning"><strong>Warning:</strong><span> THIS FUNCTION IS DEPRECATED. It will be removed in a future version.
+Instructions for updating:
+Use <a href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset#from_tensor_slices"><code dir="ltr" translate="no">tf.data.Dataset.from_tensor_slices()</code></a>.</span></aside>
+<h4 id="args_11">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">sparse_tensor</code></b>: A <a href="https://www.tensorflow.org/api_docs/python/tf/sparse/SparseTensor"><code dir="ltr" translate="no">tf.SparseTensor</code></a>.</li>
+</ul>
+<h4 id="returns_12">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code> of rank-(N-1) sparse tensors.</li>
+</ul>
+<h3 id="from_tensor_slices"><code dir="ltr" translate="no">from_tensor_slices</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L568-L644" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">@staticmethod
+from_tensor_slices(
+    tensors
+)
+</code></pre>
+<p>Creates a <code dir="ltr" translate="no">Dataset</code> whose elements are slices of the given tensors.</p>
+<p>The given tensors are sliced along their first dimension. This operation
+preserves the structure of the input tensors, removing the first dimension
+of each tensor and using it as the dataset dimension. All input tensors
+must have the same size in their first dimensions.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Slicing a 1D tensor produces scalar tensor elements. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices([1, 2, 3]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 2, 3] </code>
+</pre>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Slicing a 2D tensor produces 1D tensor elements. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices([[1, 2], [3, 4]]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[array([1, 2], dtype=int32), array([3, 4], dtype=int32)] </code>
+</pre>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Slicing a tuple of 1D tensors produces tuple elements containing </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># scalar tensors. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices(([1, 2], [3, 4], [5, 6])) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[(1, 3, 5), (2, 4, 6)] </code>
+</pre>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Dictionary structure is also preserved. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices({&#34;a&#34;: [1, 2], &#34;b&#34;: [3, 4]}) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) == [{&#39;a&#39;: 1, &#39;b&#39;: 3}, </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">                                      {&#39;a&#39;: 2, &#39;b&#39;: 4}] </code>
+<code class="no-select nocode" dir="ltr" translate="no">True </code>
+</pre>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Two tensors can be combined into one Dataset object. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">features = tf.constant([[1, 3], [2, 1], [3, 3]]) # ==&gt; 3x2 tensor </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">labels = tf.constant([&#39;A&#39;, &#39;B&#39;, &#39;A&#39;]) # ==&gt; 3x1 tensor </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = Dataset.from_tensor_slices((features, labels)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Both the features and the labels tensors can be converted </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># to a Dataset object separately and combined after. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">features_dataset = Dataset.from_tensor_slices(features) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">labels_dataset = Dataset.from_tensor_slices(labels) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = Dataset.zip((features_dataset, labels_dataset)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># A batched feature and label set can be converted to a Dataset </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># in similar fashion. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">batched_features = tf.constant([[[1, 3], [2, 3]], </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">                                [[2, 1], [1, 2]], </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">                                [[3, 3], [3, 2]]], shape=(3, 2, 2)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">batched_labels = tf.constant([[&#39;A&#39;, &#39;A&#39;], </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">                              [&#39;B&#39;, &#39;B&#39;], </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">                              [&#39;A&#39;, &#39;B&#39;]], shape=(3, 2, 1)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = Dataset.from_tensor_slices((batched_features, batched_labels)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">for element in dataset.as_numpy_iterator(): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  print(element) </code>
+<code class="no-select nocode" dir="ltr" translate="no">(array([[1, 3], </code>
+<code class="no-select nocode" dir="ltr" translate="no">       [2, 3]], dtype=int32), array([[b&#39;A&#39;], </code>
+<code class="no-select nocode" dir="ltr" translate="no">       [b&#39;A&#39;]], dtype=object)) </code>
+<code class="no-select nocode" dir="ltr" translate="no">(array([[2, 1], </code>
+<code class="no-select nocode" dir="ltr" translate="no">       [1, 2]], dtype=int32), array([[b&#39;B&#39;], </code>
+<code class="no-select nocode" dir="ltr" translate="no">       [b&#39;B&#39;]], dtype=object)) </code>
+<code class="no-select nocode" dir="ltr" translate="no">(array([[3, 3], </code>
+<code class="no-select nocode" dir="ltr" translate="no">       [3, 2]], dtype=int32), array([[b&#39;A&#39;], </code>
+<code class="no-select nocode" dir="ltr" translate="no">       [b&#39;B&#39;]], dtype=object)) </code>
+</pre>
+<p>Note that if <code dir="ltr" translate="no">tensors</code> contains a NumPy array, and eager execution is not
+enabled, the values will be embedded in the graph as one or more
+<a href="https://www.tensorflow.org/api_docs/python/tf/constant"><code dir="ltr" translate="no">tf.constant</code></a> operations. For large datasets (&gt; 1 GB), this can waste
+memory and run into byte limits of graph serialization. If <code dir="ltr" translate="no">tensors</code>
+contains one or more large NumPy arrays, consider the alternative described
+in <a href="https://tensorflow.org/guide/data#consuming_numpy_arrays">this guide</a>.</p>
+<h4 id="args_12">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">tensors</code></b>: A dataset element, with each component having the same size in
+the first dimension.</li>
+</ul>
+<h4 id="returns_13">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="from_tensors"><code dir="ltr" translate="no">from_tensors</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L541-L566" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">@staticmethod
+from_tensors(
+    tensors
+)
+</code></pre>
+<p>Creates a <code dir="ltr" translate="no">Dataset</code> with a single element, comprising the given tensors.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensors([1, 2, 3]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[array([1, 2, 3], dtype=int32)] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensors(([1, 2, 3], &#39;A&#39;)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[(array([1, 2, 3], dtype=int32), b&#39;A&#39;)] </code>
+</pre>
+<p>Note that if <code dir="ltr" translate="no">tensors</code> contains a NumPy array, and eager execution is not
+enabled, the values will be embedded in the graph as one or more
+<a href="https://www.tensorflow.org/api_docs/python/tf/constant"><code dir="ltr" translate="no">tf.constant</code></a> operations. For large datasets (&gt; 1 GB), this can waste
+memory and run into byte limits of graph serialization. If <code dir="ltr" translate="no">tensors</code>
+contains one or more large NumPy arrays, consider the alternative described
+in <a href="https://tensorflow.org/guide/data#consuming_numpy_arrays">this
+guide</a>.</p>
+<h4 id="args_13">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">tensors</code></b>: A dataset element.</li>
+</ul>
+<h4 id="returns_14">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="interleave"><code dir="ltr" translate="no">interleave</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1617-L1696" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">interleave(
+    map_func, cycle_length=-1, block_length=1, num_parallel_calls=None
+)
+</code></pre>
+<p>Maps <code dir="ltr" translate="no">map_func</code> across this dataset, and interleaves the results.</p>
+<p>For example, you can use <a href="api_docs/python/tf/data/Dataset#interleave"><code dir="ltr" translate="no">Dataset.interleave()</code></a> to process many input files
+concurrently:</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Preprocess 4 files concurrently, and interleave blocks of 16 records </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># from each file. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">filenames = [&#34;/var/data/file1.txt&#34;, &#34;/var/data/file2.txt&#34;, </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">             &#34;/var/data/file3.txt&#34;, &#34;/var/data/file4.txt&#34;] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices(filenames) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">def parse_fn(filename): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  return tf.data.Dataset.range(10) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.interleave(lambda x: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    tf.data.TextLineDataset(x).map(parse_fn, num_parallel_calls=1), </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    cycle_length=4, block_length=16) </code>
+</pre>
+<p>The <code dir="ltr" translate="no">cycle_length</code> and <code dir="ltr" translate="no">block_length</code> arguments control the order in which
+elements are produced. <code dir="ltr" translate="no">cycle_length</code> controls the number of input elements
+that are processed concurrently. If you set <code dir="ltr" translate="no">cycle_length</code> to 1, this
+transformation will handle one input element at a time, and will produce
+identical results to <a href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset#flat_map"><code dir="ltr" translate="no">tf.data.Dataset.flat_map</code></a>. In general,
+this transformation will apply <code dir="ltr" translate="no">map_func</code> to <code dir="ltr" translate="no">cycle_length</code> input elements,
+open iterators on the returned <code dir="ltr" translate="no">Dataset</code> objects, and cycle through them
+producing <code dir="ltr" translate="no">block_length</code> consecutive elements from each iterator, and
+consuming the next input element each time it reaches the end of an
+iterator.</p>
+<h4 id="for_example">For example:</h4>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = Dataset.range(1, 6)  # ==&gt; [ 1, 2, 3, 4, 5 ] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># NOTE: New lines indicate &#34;block&#34; boundaries. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.interleave( </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    lambda x: Dataset.from_tensors(x).repeat(6), </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    cycle_length=2, block_length=4) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 1, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 4, 4, 5, 5, 5, 5, 5, 5] </code>
+</pre>
+<p>NOTE: The order of elements yielded by this transformation is
+deterministic, as long as <code dir="ltr" translate="no">map_func</code> is a pure function. If
+<code dir="ltr" translate="no">map_func</code> contains any stateful operations, the order in which
+that state is accessed is undefined.</p>
+<h4 id="args_14">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">map_func</code></b>: A function mapping a dataset element to a dataset.</li>
+<li><b><code dir="ltr" translate="no">cycle_length</code></b>: (Optional.) The number of input elements that will be
+processed concurrently. If not specified, the value will be derived from
+the number of available CPU cores. If the <code dir="ltr" translate="no">num_parallel_calls</code> argument
+is set to <a href="https://www.tensorflow.org/api_docs/python/tf/data/experimental#AUTOTUNE"><code dir="ltr" translate="no">tf.data.experimental.AUTOTUNE</code></a>, the <code dir="ltr" translate="no">cycle_length</code> argument
+also identifies the maximum degree of parallelism.</li>
+<li><b><code dir="ltr" translate="no">block_length</code></b>: (Optional.) The number of consecutive elements to produce
+from each input element before cycling to another input element.</li>
+<li><b><code dir="ltr" translate="no">num_parallel_calls</code></b>: (Optional.) If specified, the implementation creates a
+threadpool, which is used to fetch inputs from cycle elements
+asynchronously and in parallel. The default behavior is to fetch inputs
+from cycle elements synchronously with no parallelism. If the value
+<a href="https://www.tensorflow.org/api_docs/python/tf/data/experimental#AUTOTUNE"><code dir="ltr" translate="no">tf.data.experimental.AUTOTUNE</code></a> is used, then the number of parallel
+calls is set dynamically based on available CPU.</li>
+</ul>
+<h4 id="returns_15">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="list_files"><code dir="ltr" translate="no">list_files</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1015-L1079" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">@staticmethod
+list_files(
+    file_pattern, shuffle=None, seed=None
+)
+</code></pre>
+<p>A dataset of all files matching one or more glob patterns.</p>
+<p>The <code dir="ltr" translate="no">file_pattern</code> argument should be a small number of glob patterns.
+If your filenames have already been globbed, use
+<a href="api_docs/python/tf/data/Dataset#from_tensor_slices"><code dir="ltr" translate="no">Dataset.from_tensor_slices(filenames)</code></a> instead, as re-globbing every
+filename with <code dir="ltr" translate="no">list_files</code> may result in poor performance with remote
+storage systems.</p>
+<p>NOTE: The default behavior of this method is to return filenames in
+a non-deterministic random shuffled order. Pass a <code dir="ltr" translate="no">seed</code> or <code dir="ltr" translate="no">shuffle=False</code>
+to get results in a deterministic order.</p>
+<h4 id="example">Example:</h4>
+<p>If we had the following files on our filesystem:</p>
+<ul>
+<li>/path/to/dir/a.txt</li>
+<li>/path/to/dir/b.py</li>
+<li>/path/to/dir/c.py
+If we pass &#34;/path/to/dir/*.py&#34; as the directory, the dataset
+would produce:</li>
+<li>/path/to/dir/b.py</li>
+<li>/path/to/dir/c.py</li>
+</ul>
+<h4 id="args_15">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">file_pattern</code></b>: A string, a list of strings, or a <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a> of string type
+(scalar or vector), representing the filename glob (i.e. shell wildcard)
+pattern(s) that will be matched.</li>
+<li><b><code dir="ltr" translate="no">shuffle</code></b>: (Optional.) If <code dir="ltr" translate="no">True</code>, the file names will be shuffled randomly.
+Defaults to <code dir="ltr" translate="no">True</code>.</li>
+<li><b><code dir="ltr" translate="no">seed</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the random
+seed that will be used to create the distribution. See
+<a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/set_random_seed"><code dir="ltr" translate="no">tf.compat.v1.set_random_seed</code></a> for behavior.</li>
+</ul>
+<h4 id="returns_16">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code> of strings corresponding to file names.</li>
+</ul>
+<h3 id="make_initializable_iterator"><code dir="ltr" translate="no">make_initializable_iterator</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L2108-L2138" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">make_initializable_iterator(
+    shared_name=None
+)
+</code></pre>
+<p>Creates an <code dir="ltr" translate="no">Iterator</code> for enumerating the elements of this dataset. (deprecated)</p>
+<aside class="warning"><strong>Warning:</strong><span> THIS FUNCTION IS DEPRECATED. It will be removed in a future version.
+Instructions for updating:
+Use <code dir="ltr" translate="no">for ... in dataset:</code> to iterate over a dataset. If using <code dir="ltr" translate="no">tf.estimator</code>, return the <code dir="ltr" translate="no">Dataset</code> object directly from your input function. As a last resort, you can use <code dir="ltr" translate="no">tf.compat.v1.data.make_initializable_iterator(dataset)</code>.</span></aside><aside class="note"><strong>Note:</strong><span> The returned iterator will be in an uninitialized state,
+and you must run the <code dir="ltr" translate="no">iterator.initializer</code> operation before using it:</span></aside><pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">dataset = ...
+iterator = dataset.make_initializable_iterator()
+# ...
+sess.run(iterator.initializer)
+</code></pre>
+<h4 id="args_16">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">shared_name</code></b>: (Optional.) If non-empty, the returned iterator will be
+shared under the given name across multiple sessions that share the same
+devices (e.g. when using a remote server).</li>
+</ul>
+<h4 id="returns_17">Returns:</h4>
+<p>An <code dir="ltr" translate="no">Iterator</code> over the elements of this dataset.</p>
+<h4 id="raises_3">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">RuntimeError</code></b>: If eager execution is enabled.</li>
+</ul>
+<h3 id="make_one_shot_iterator"><code dir="ltr" translate="no">make_one_shot_iterator</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L2041-L2055" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">make_one_shot_iterator()
+</code></pre>
+<p>Creates an <code dir="ltr" translate="no">Iterator</code> for enumerating the elements of this dataset. (deprecated)</p>
+<aside class="warning"><strong>Warning:</strong><span> THIS FUNCTION IS DEPRECATED. It will be removed in a future version.
+Instructions for updating:
+Use <code dir="ltr" translate="no">for ... in dataset:</code> to iterate over a dataset. If using <code dir="ltr" translate="no">tf.estimator</code>, return the <code dir="ltr" translate="no">Dataset</code> object directly from your input function. As a last resort, you can use <code dir="ltr" translate="no">tf.compat.v1.data.make_one_shot_iterator(dataset)</code>.</span></aside><aside class="note"><strong>Note:</strong><span> The returned iterator will be initialized automatically.
+A &#34;one-shot&#34; iterator does not currently support re-initialization.</span></aside>
+<h4 id="returns_18">Returns:</h4>
+<p>An <code dir="ltr" translate="no">Iterator</code> over the elements of this dataset.</p>
+<h3 id="map"><code dir="ltr" translate="no">map</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1483-L1591" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">map(
+    map_func, num_parallel_calls=None
+)
+</code></pre>
+<p>Maps <code dir="ltr" translate="no">map_func</code> across the elements of this dataset.</p>
+<p>This transformation applies <code dir="ltr" translate="no">map_func</code> to each element of this dataset, and
+returns a new dataset containing the transformed elements, in the same
+order as they appeared in the input. <code dir="ltr" translate="no">map_func</code> can be used to change both
+the values and the structure of a dataset&#39;s elements. For example, adding 1
+to each element, or projecting a subset of element components.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = Dataset.range(1, 6)  # ==&gt; [ 1, 2, 3, 4, 5 ] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.map(lambda x: x + 1) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[2, 3, 4, 5, 6] </code>
+</pre>
+<p>The input signature of <code dir="ltr" translate="no">map_func</code> is determined by the structure of each
+element in this dataset.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = Dataset.range(5) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># `map_func` takes a single argument of type `tf.Tensor` with the same </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># shape and dtype. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">result = dataset.map(lambda x: x + 1) </code>
+</pre>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Each element is a tuple containing two `tf.Tensor` objects. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">elements = [(1, &#34;foo&#34;), (2, &#34;bar&#34;), (3, &#34;baz)&#34;)] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_generator( </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    lambda: elements, (tf.int32, tf.string)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># `map_func` takes two arguments of type `tf.Tensor`. This function </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># projects out just the first component. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">result = dataset.map(lambda x_int, y_str: x_int) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(result.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 2, 3] </code>
+</pre>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Each element is a dictionary mapping strings to `tf.Tensor` objects. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">elements =  ([{&#34;a&#34;: 1, &#34;b&#34;: &#34;foo&#34;}, </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">              {&#34;a&#34;: 2, &#34;b&#34;: &#34;bar&#34;}, </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">              {&#34;a&#34;: 3, &#34;b&#34;: &#34;baz&#34;}]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_generator( </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    lambda: elements, {&#34;a&#34;: tf.int32, &#34;b&#34;: tf.string}) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># `map_func` takes a single argument of type `dict` with the same keys </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># as the elements. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">result = dataset.map(lambda d: str(d[&#34;a&#34;]) + d[&#34;b&#34;]) </code>
+</pre>
+<p>The value or values returned by <code dir="ltr" translate="no">map_func</code> determine the structure of each
+element in the returned dataset.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(3) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># `map_func` returns two `tf.Tensor` objects. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">def g(x): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  return tf.constant(37.0), tf.constant([&#34;Foo&#34;, &#34;Bar&#34;, &#34;Baz&#34;]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">result = dataset.map(g) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">result.element_spec </code>
+<code class="no-select nocode" dir="ltr" translate="no">(TensorSpec(shape=(), dtype=tf.float32, name=None), TensorSpec(shape=(3,), dtype=tf.string, name=None)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Python primitives, lists, and NumPy arrays are implicitly converted to </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># `tf.Tensor`. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">def h(x): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  return 37.0, [&#34;Foo&#34;, &#34;Bar&#34;], np.array([1.0, 2.0], dtype=np.float64) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">result = dataset.map(h) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">result.element_spec </code>
+<code class="no-select nocode" dir="ltr" translate="no">(TensorSpec(shape=(), dtype=tf.float32, name=None), TensorSpec(shape=(2,), dtype=tf.string, name=None), TensorSpec(shape=(2,), dtype=tf.float64, name=None)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># `map_func` can return nested structures. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">def i(x): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  return (37.0, [42, 16]), &#34;foo&#34; </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">result = dataset.map(i) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">result.element_spec </code>
+<code class="no-select nocode" dir="ltr" translate="no">((TensorSpec(shape=(), dtype=tf.float32, name=None), </code>
+<code class="no-select nocode" dir="ltr" translate="no">  TensorSpec(shape=(2,), dtype=tf.int32, name=None)), </code>
+<code class="no-select nocode" dir="ltr" translate="no"> TensorSpec(shape=(), dtype=tf.string, name=None)) </code>
+</pre>
+<p><code dir="ltr" translate="no">map_func</code> can accept as arguments and return any type of dataset element.</p>
+<p>Note that irrespective of the context in which <code dir="ltr" translate="no">map_func</code> is defined (eager
+vs. graph), tf.data traces the function and executes it as a graph. To use
+Python code inside of the function you have two options:</p>
+<p>1) Rely on AutoGraph to convert Python code into an equivalent graph
+computation. The downside of this approach is that AutoGraph can convert
+some but not all Python code.</p>
+<p>2) Use <a href="https://www.tensorflow.org/api_docs/python/tf/py_function"><code dir="ltr" translate="no">tf.py_function</code></a>, which allows you to write arbitrary Python code but
+will generally result in worse performance than 1). For example:</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">d = tf.data.Dataset.from_tensor_slices([&#39;hello&#39;, &#39;world&#39;]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># transform a string tensor to upper case string using a Python function </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">def upper_case_fn(t: tf.Tensor): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  return t.numpy().decode(&#39;utf-8&#39;).upper() </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">d = d.map(lambda x: tf.py_function(func=upper_case_fn, </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">          inp=[x], Tout=tf.string)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(d.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[b&#39;HELLO&#39;, b&#39;WORLD&#39;] </code>
+</pre>
+<h4 id="args_17">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">map_func</code></b>: A function mapping a dataset element to another dataset element.</li>
+<li><b><code dir="ltr" translate="no">num_parallel_calls</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#int32"><code dir="ltr" translate="no">tf.int32</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>,
+representing the number elements to process asynchronously in parallel.
+If not specified, elements will be processed sequentially. If the value
+<a href="https://www.tensorflow.org/api_docs/python/tf/data/experimental#AUTOTUNE"><code dir="ltr" translate="no">tf.data.experimental.AUTOTUNE</code></a> is used, then the number of parallel
+calls is set dynamically based on available CPU.</li>
+</ul>
+<h4 id="returns_19">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="map_with_legacy_function"><code dir="ltr" translate="no">map_with_legacy_function</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L2310-L2345" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">map_with_legacy_function(
+    map_func, num_parallel_calls=None
+)
+</code></pre>
+<p>Maps <code dir="ltr" translate="no">map_func</code> across the elements of this dataset. (deprecated)</p>
+<aside class="warning"><strong>Warning:</strong><span> THIS FUNCTION IS DEPRECATED. It will be removed in a future version.
+Instructions for updating:
+Use `tf.data.Dataset.map()</span></aside>
+<p>NOTE: This is an escape hatch for existing uses of <code dir="ltr" translate="no">map</code> that do not work
+with V2 functions. New uses are strongly discouraged and existing uses
+should migrate to <code dir="ltr" translate="no">map</code> as this method will be removed in V2.</p>
+<h4 id="args_18">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">map_func</code></b>: A function mapping a nested structure of tensors (having shapes
+and types defined by <code dir="ltr" translate="no">self.output_shapes</code> and <code dir="ltr" translate="no">self.output_types</code>) to
+another nested structure of tensors.</li>
+<li><b><code dir="ltr" translate="no">num_parallel_calls</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#int32"><code dir="ltr" translate="no">tf.int32</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>,
+representing the number elements to process asynchronously in parallel.
+If not specified, elements will be processed sequentially. If the value
+<a href="https://www.tensorflow.org/api_docs/python/tf/data/experimental#AUTOTUNE"><code dir="ltr" translate="no">tf.data.experimental.AUTOTUNE</code></a> is used, then the number of parallel
+calls is set dynamically based on available CPU.</li>
+</ul>
+<h4 id="returns_20">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="options"><code dir="ltr" translate="no">options</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L2426-L2427" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">options()
+</code></pre>
+<p>Returns the options for this dataset and its inputs.</p>
+<h4 id="returns_21">Returns:</h4>
+<p>A <a href="https://www.tensorflow.org/api_docs/python/tf/data/Options"><code dir="ltr" translate="no">tf.data.Options</code></a> object representing the dataset options.</p>
+<h3 id="padded_batch"><code dir="ltr" translate="no">padded_batch</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1383-L1481" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">padded_batch(
+    batch_size, padded_shapes, padding_values=None, drop_remainder=False
+)
+</code></pre>
+<p>Combines consecutive elements of this dataset into padded batches.</p>
+<p>This transformation combines multiple consecutive elements of the input
+dataset into a single element.</p>
+<p>Like <a href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset#batch"><code dir="ltr" translate="no">tf.data.Dataset.batch</code></a>, the components of the resulting element will
+have an additional outer dimension, which will be <code dir="ltr" translate="no">batch_size</code> (or
+<code dir="ltr" translate="no">N % batch_size</code> for the last element if <code dir="ltr" translate="no">batch_size</code> does not divide the
+number of input elements <code dir="ltr" translate="no">N</code> evenly and <code dir="ltr" translate="no">drop_remainder</code> is <code dir="ltr" translate="no">False</code>). If
+your program depends on the batches having the same outer dimension, you
+should set the <code dir="ltr" translate="no">drop_remainder</code> argument to <code dir="ltr" translate="no">True</code> to prevent the smaller
+batch from being produced.</p>
+<p>Unlike <a href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset#batch"><code dir="ltr" translate="no">tf.data.Dataset.batch</code></a>, the input elements to be batched may have
+different shapes, and this transformation will pad each component to the
+respective shape in <code dir="ltr" translate="no">padding_shapes</code>. The <code dir="ltr" translate="no">padding_shapes</code> argument
+determines the resulting shape for each dimension of each component in an
+output element:</p>
+<ul>
+<li>If the dimension is a constant (e.g. <a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/Dimension"><code dir="ltr" translate="no">tf.compat.v1.Dimension(37)</code></a>), the
+component will be padded out to that length in that dimension.</li>
+<li>If the dimension is unknown (e.g. <a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/Dimension"><code dir="ltr" translate="no">tf.compat.v1.Dimension(None)</code></a>), the
+component will be padded out to the maximum length of all elements in that
+dimension.</li>
+</ul>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">elements = [[1, 2], </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">            [3, 4, 5], </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">            [6, 7], </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">            [8]] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">A = tf.data.Dataset.from_generator(lambda: iter(elements), tf.int32) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Pad to the smallest per-batch size that fits all elements. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">B = A.padded_batch(2, padded_shapes=[None]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">for element in B.as_numpy_iterator(): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  print(element) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[[1 2 0] </code>
+<code class="no-select nocode" dir="ltr" translate="no"> [3 4 5]] </code>
+<code class="no-select nocode" dir="ltr" translate="no">[[6 7] </code>
+<code class="no-select nocode" dir="ltr" translate="no"> [8 0]] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Pad to a fixed size. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">C = A.padded_batch(2, padded_shapes=3) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">for element in C.as_numpy_iterator(): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  print(element) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[[1 2 0] </code>
+<code class="no-select nocode" dir="ltr" translate="no"> [3 4 5]] </code>
+<code class="no-select nocode" dir="ltr" translate="no">[[6 7 0] </code>
+<code class="no-select nocode" dir="ltr" translate="no"> [8 0 0]] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Pad with a custom value. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">D = A.padded_batch(2, padded_shapes=3, padding_values=-1) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">for element in D.as_numpy_iterator(): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  print(element) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[[ 1  2 -1] </code>
+<code class="no-select nocode" dir="ltr" translate="no"> [ 3  4  5]] </code>
+<code class="no-select nocode" dir="ltr" translate="no">[[ 6  7 -1] </code>
+<code class="no-select nocode" dir="ltr" translate="no"> [ 8 -1 -1]] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Components of nested elements can be padded independently. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">elements = [([1, 2, 3], [10]), </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">            ([4, 5], [11, 12])] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_generator( </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    lambda: iter(elements), (tf.int32, tf.int32)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># Pad the first component of the tuple to length 4, and the second </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># component to the smallest size that fits. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.padded_batch(2, </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    padded_shapes=([4], [None]), </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    padding_values=(-1, 100)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[(array([[ 1,  2,  3, -1], [ 4,  5, -1, -1]], dtype=int32), </code>
+<code class="no-select nocode" dir="ltr" translate="no">  array([[ 10, 100], [ 11,  12]], dtype=int32))] </code>
+</pre>
+<p>See also <a href="https://www.tensorflow.org/api_docs/python/tf/data/experimental/dense_to_sparse_batch"><code dir="ltr" translate="no">tf.data.experimental.dense_to_sparse_batch</code></a>, which combines
+elements that may have different shapes into a <a href="https://www.tensorflow.org/api_docs/python/tf/sparse/SparseTensor"><code dir="ltr" translate="no">tf.SparseTensor</code></a>.</p>
+<h4 id="args_19">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">batch_size</code></b>: A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the number of
+consecutive elements of this dataset to combine in a single batch.</li>
+<li><b><code dir="ltr" translate="no">padded_shapes</code></b>: A nested structure of <a href="https://www.tensorflow.org/api_docs/python/tf/TensorShape"><code dir="ltr" translate="no">tf.TensorShape</code></a> or <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> vector
+tensor-like objects representing the shape to which the respective
+component of each input element should be padded prior to batching. Any
+unknown dimensions (e.g. <a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/Dimension"><code dir="ltr" translate="no">tf.compat.v1.Dimension(None)</code></a> in a
+<a href="https://www.tensorflow.org/api_docs/python/tf/TensorShape"><code dir="ltr" translate="no">tf.TensorShape</code></a> or <code dir="ltr" translate="no">-1</code> in a tensor-like object) will be padded to the
+maximum size of that dimension in each batch.</li>
+<li><b><code dir="ltr" translate="no">padding_values</code></b>: (Optional.) A nested structure of scalar-shaped
+<a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the padding values to use for the respective
+components.  Defaults are <code dir="ltr" translate="no">0</code> for numeric types and the empty string for
+string types.</li>
+<li><b><code dir="ltr" translate="no">drop_remainder</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#bool"><code dir="ltr" translate="no">tf.bool</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing
+whether the last batch should be dropped in the case it has fewer than
+<code dir="ltr" translate="no">batch_size</code> elements; the default behavior is not to drop the smaller
+batch.</li>
+</ul>
+<h4 id="returns_22">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="prefetch"><code dir="ltr" translate="no">prefetch</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L987-L1013" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">prefetch(
+    buffer_size
+)
+</code></pre>
+<p>Creates a <code dir="ltr" translate="no">Dataset</code> that prefetches elements from this dataset.</p>
+<p>Most dataset input pipelines should end with a call to <code dir="ltr" translate="no">prefetch</code>. This
+allows later elements to be prepared while the current element is being
+processed. This often improves latency and throughput, at the cost of
+using additional memory to store prefetched elements.</p>
+<aside class="note"><strong>Note:</strong><span> Like other <code dir="ltr" translate="no">Dataset</code> methods, prefetch operates on the
+elements of the input dataset. It has no concept of examples vs. batches.
+<code dir="ltr" translate="no">examples.prefetch(2)</code> will prefetch two elements (2 examples),
+while <code dir="ltr" translate="no">examples.batch(20).prefetch(2)</code> will prefetch 2 elements
+(2 batches, of 20 examples each).</span></aside>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(3) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.prefetch(2) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[0, 1, 2] </code>
+</pre>
+<h4 id="args_20">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">buffer_size</code></b>: A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the maximum
+number of elements that will be buffered when prefetching.</li>
+</ul>
+<h4 id="returns_23">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="range"><code dir="ltr" translate="no">range</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L882-L911" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">@staticmethod
+range(
+    *args
+)
+</code></pre>
+<p>Creates a <code dir="ltr" translate="no">Dataset</code> of a step-separated range of values.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(Dataset.range(5).as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[0, 1, 2, 3, 4] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(Dataset.range(2, 5).as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[2, 3, 4] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(Dataset.range(1, 5, 2).as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 3] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(Dataset.range(1, 5, -2).as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(Dataset.range(5, 1).as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(Dataset.range(5, 1, -2).as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[5, 3] </code>
+</pre>
+<h4 id="args_21">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">*args</code></b>: follows the same semantics as python&#39;s xrange.
+len(args) == 1 -&gt; start = 0, stop = args[0], step = 1
+len(args) == 2 -&gt; start = args[0], stop = args[1], step = 1
+len(args) == 3 -&gt; start = args[0], stop = args[1, stop = args[2]</li>
+</ul>
+<h4 id="returns_24">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">RangeDataset</code>.</li>
+</ul>
+<h4 id="raises_4">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>: if len(args) == 0.</li>
+</ul>
+<h3 id="reduce"><code dir="ltr" translate="no">reduce</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1823-L1934" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">reduce(
+    initial_state, reduce_func
+)
+</code></pre>
+<p>Reduces the input dataset to a single element.</p>
+<p>The transformation calls <code dir="ltr" translate="no">reduce_func</code> successively on every element of
+the input dataset until the dataset is exhausted, aggregating information in
+its internal state. The <code dir="ltr" translate="no">initial_state</code> argument is used for the initial
+state and the final state is returned as the result.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">tf.data.Dataset.range(5).reduce(np.int64(0), lambda x, _: x + 1).numpy() </code>
+<code class="no-select nocode" dir="ltr" translate="no">5 </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">tf.data.Dataset.range(5).reduce(np.int64(0), lambda x, y: x + y).numpy() </code>
+<code class="no-select nocode" dir="ltr" translate="no">10 </code>
+</pre>
+<h4 id="args_22">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">initial_state</code></b>: An element representing the initial state of the
+transformation.</li>
+<li><b><code dir="ltr" translate="no">reduce_func</code></b>: A function that maps <code dir="ltr" translate="no">(old_state, input_element)</code> to
+<code dir="ltr" translate="no">new_state</code>. It must take two arguments and return a new element
+The structure of <code dir="ltr" translate="no">new_state</code> must match the structure of
+<code dir="ltr" translate="no">initial_state</code>.</li>
+</ul>
+<h4 id="returns_25">Returns:</h4>
+<p>A dataset element corresponding to the final state of the transformation.</p>
+<h3 id="repeat"><code dir="ltr" translate="no">repeat</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1081-L1100" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">repeat(
+    count=None
+)
+</code></pre>
+<p>Repeats this dataset so each original value is seen <code dir="ltr" translate="no">count</code> times.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices([1, 2, 3]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.repeat(3) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 2, 3, 1, 2, 3, 1, 2, 3] </code>
+</pre>
+<p>NOTE: If this dataset is a function of global state (e.g. a random number
+generator), then different repetitions may produce different elements.</p>
+<h4 id="args_23">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">count</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the
+number of times the dataset should be repeated. The default behavior (if
+<code dir="ltr" translate="no">count</code> is <code dir="ltr" translate="no">None</code> or <code dir="ltr" translate="no">-1</code>) is for the dataset be repeated indefinitely.</li>
+</ul>
+<h4 id="returns_26">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="shard"><code dir="ltr" translate="no">shard</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1283-L1348" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">shard(
+    num_shards, index
+)
+</code></pre>
+<p>Creates a <code dir="ltr" translate="no">Dataset</code> that includes only 1/<code dir="ltr" translate="no">num_shards</code> of this dataset.</p>
+<p><code dir="ltr" translate="no">shard</code> is deterministic. The Dataset produced by <code dir="ltr" translate="no">A.shard(n, i)</code> will
+contain all elements of A whose index mod n = i.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">A = tf.data.Dataset.range(10) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">B = A.shard(num_shards=3, index=0) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(B.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[0, 3, 6, 9] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">C = A.shard(num_shards=3, index=1) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(C.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 4, 7] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">D = A.shard(num_shards=3, index=2) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(D.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[2, 5, 8] </code>
+</pre>
+<p>This dataset operator is very useful when running distributed training, as
+it allows each worker to read a unique subset.</p>
+<p>When reading a single input file, you can shard elements as follows:</p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">d = tf.data.TFRecordDataset(input_file)
+d = d.shard(num_workers, worker_index)
+d = d.repeat(num_epochs)
+d = d.shuffle(shuffle_buffer_size)
+d = d.map(parser_fn, num_parallel_calls=num_map_threads)
+</code></pre>
+<h4 id="important_caveats">Important caveats:</h4>
+<ul>
+<li>Be sure to shard before you use any randomizing operator (such as
+shuffle).</li>
+<li>Generally it is best if the shard operator is used early in the dataset
+pipeline. For example, when reading from a set of TFRecord files, shard
+before converting the dataset to input samples. This avoids reading every
+file on every worker. The following is an example of an efficient
+sharding strategy within a complete pipeline:</li>
+</ul>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">d = Dataset.list_files(pattern)
+d = d.shard(num_workers, worker_index)
+d = d.repeat(num_epochs)
+d = d.shuffle(shuffle_buffer_size)
+d = d.interleave(tf.data.TFRecordDataset,
+                 cycle_length=num_readers, block_length=1)
+d = d.map(parser_fn, num_parallel_calls=num_map_threads)
+</code></pre>
+<h4 id="args_24">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">num_shards</code></b>: A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the number of
+shards operating in parallel.</li>
+<li><b><code dir="ltr" translate="no">index</code></b>: A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the worker index.</li>
+</ul>
+<h4 id="returns_27">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h4 id="raises_5">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">InvalidArgumentError</code></b>: if <code dir="ltr" translate="no">num_shards</code> or <code dir="ltr" translate="no">index</code> are illegal values.
+Note: error checking is done on a best-effort basis, and errors aren&#39;t
+guaranteed to be caught upon dataset creation. (e.g. providing in a
+placeholder tensor bypasses the early checking, and will instead result
+in an error during a session.run call.)</li>
+</ul>
+<h3 id="shuffle"><code dir="ltr" translate="no">shuffle</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1135-L1193" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">shuffle(
+    buffer_size, seed=None, reshuffle_each_iteration=None
+)
+</code></pre>
+<p>Randomly shuffles the elements of this dataset.</p>
+<p>This dataset fills a buffer with <code dir="ltr" translate="no">buffer_size</code> elements, then randomly
+samples elements from this buffer, replacing the selected elements with new
+elements. For perfect shuffling, a buffer size greater than or equal to the
+full size of the dataset is required.</p>
+<p>For instance, if your dataset contains 10,000 elements but <code dir="ltr" translate="no">buffer_size</code> is
+set to 1,000, then <code dir="ltr" translate="no">shuffle</code> will initially select a random element from
+only the first 1,000 elements in the buffer. Once an element is selected,
+its space in the buffer is replaced by the next (i.e. 1,001-st) element,
+maintaining the 1,000 element buffer.</p>
+<p><code dir="ltr" translate="no">reshuffle_each_iteration</code> controls whether the shuffle order should be
+different for each epoch. In TF 1.X, the idiomatic way to create epochs
+was through the <code dir="ltr" translate="no">repeat</code> transformation:</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(3) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.shuffle(3, reshuffle_each_iteration=True) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.repeat(2)  # doctest: +SKIP </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 0, 2, 1, 2, 0] </code>
+</pre>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(3) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.shuffle(3, reshuffle_each_iteration=False) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.repeat(2)  # doctest: +SKIP </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 0, 2, 1, 0, 2] </code>
+</pre>
+<p>In TF 2.0, <a href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset"><code dir="ltr" translate="no">tf.data.Dataset</code></a> objects are Python iterables which makes it
+possible to also create epochs through Python iteration:</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(3) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.shuffle(3, reshuffle_each_iteration=True) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator())  # doctest: +SKIP </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 0, 2] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator())  # doctest: +SKIP </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 2, 0] </code>
+</pre>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(3) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.shuffle(3, reshuffle_each_iteration=False) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator())  # doctest: +SKIP </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 0, 2] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator())  # doctest: +SKIP </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 0, 2] </code>
+</pre>
+<h4 id="args_25">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">buffer_size</code></b>: A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the number of
+elements from this dataset from which the new dataset will sample.</li>
+<li><b><code dir="ltr" translate="no">seed</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the random
+seed that will be used to create the distribution. See
+<a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/set_random_seed"><code dir="ltr" translate="no">tf.compat.v1.set_random_seed</code></a> for behavior.</li>
+<li><b><code dir="ltr" translate="no">reshuffle_each_iteration</code></b>: (Optional.) A boolean, which if true indicates
+that the dataset should be pseudorandomly reshuffled each time it is
+iterated over. (Defaults to <code dir="ltr" translate="no">True</code>.)</li>
+</ul>
+<h4 id="returns_28">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="skip"><code dir="ltr" translate="no">skip</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1264-L1281" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">skip(
+    count
+)
+</code></pre>
+<p>Creates a <code dir="ltr" translate="no">Dataset</code> that skips <code dir="ltr" translate="no">count</code> elements from this dataset.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(10) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.skip(7) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[7, 8, 9] </code>
+</pre>
+<h4 id="args_26">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">count</code></b>: A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the number of
+elements of this dataset that should be skipped to form the new dataset.
+If <code dir="ltr" translate="no">count</code> is greater than the size of this dataset, the new dataset
+will contain no elements.  If <code dir="ltr" translate="no">count</code> is -1, skips the entire dataset.</li>
+</ul>
+<h4 id="returns_29">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="take"><code dir="ltr" translate="no">take</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1245-L1262" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">take(
+    count
+)
+</code></pre>
+<p>Creates a <code dir="ltr" translate="no">Dataset</code> with at most <code dir="ltr" translate="no">count</code> elements from this dataset.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(10) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.take(3) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[0, 1, 2] </code>
+</pre>
+<h4 id="args_27">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">count</code></b>: A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the number of
+elements of this dataset that should be taken to form the new dataset.
+If <code dir="ltr" translate="no">count</code> is -1, or if <code dir="ltr" translate="no">count</code> is greater than the size of this
+dataset, the new dataset will contain all elements of this dataset.</li>
+</ul>
+<h4 id="returns_30">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+<h3 id="unbatch"><code dir="ltr" translate="no">unbatch</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1936-L1976" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">unbatch()
+</code></pre>
+<p>Splits elements of a dataset into multiple elements.</p>
+<p>For example, if elements of the dataset are shaped <code dir="ltr" translate="no">[B, a0, a1, ...]</code>,
+where <code dir="ltr" translate="no">B</code> may vary for each input element, then for each element in the
+dataset, the unbatched dataset will contain <code dir="ltr" translate="no">B</code> consecutive elements
+of shape <code dir="ltr" translate="no">[a0, a1, ...]</code>.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">elements = [ [1, 2, 3], [1, 2], [1, 2, 3, 4] ] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_generator(lambda: elements, tf.int64) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.unbatch() </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(dataset.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 2, 3, 1, 2, 1, 2, 3, 4] </code>
+</pre>
+<h4 id="returns_31">Returns:</h4>
+<p>A <code dir="ltr" translate="no">Dataset</code> transformation function, which can be passed to
+<a href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset#apply"><code dir="ltr" translate="no">tf.data.Dataset.apply</code></a>.</p>
+<h3 id="window"><code dir="ltr" translate="no">window</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1751-L1821" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">window(
+    size, shift=None, stride=1, drop_remainder=False
+)
+</code></pre>
+<p>Combines (nests of) input elements into a dataset of (nests of) windows.</p>
+<p>A &#34;window&#34; is a finite dataset of flat elements of size <code dir="ltr" translate="no">size</code> (or possibly
+fewer if there are not enough input elements to fill the window and
+<code dir="ltr" translate="no">drop_remainder</code> evaluates to false).</p>
+<p>The <code dir="ltr" translate="no">stride</code> argument determines the stride of the input elements, and the
+<code dir="ltr" translate="no">shift</code> argument determines the shift of the window.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(7).window(2) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">for window in dataset: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  print(list(window.as_numpy_iterator())) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[0, 1] </code>
+<code class="no-select nocode" dir="ltr" translate="no">[2, 3] </code>
+<code class="no-select nocode" dir="ltr" translate="no">[4, 5] </code>
+<code class="no-select nocode" dir="ltr" translate="no">[6] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(7).window(3, 2, 1, True) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">for window in dataset: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  print(list(window.as_numpy_iterator())) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[0, 1, 2] </code>
+<code class="no-select nocode" dir="ltr" translate="no">[2, 3, 4] </code>
+<code class="no-select nocode" dir="ltr" translate="no">[4, 5, 6] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.range(7).window(3, 1, 2, True) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">for window in dataset: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  print(list(window.as_numpy_iterator())) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[0, 2, 4] </code>
+<code class="no-select nocode" dir="ltr" translate="no">[1, 3, 5] </code>
+<code class="no-select nocode" dir="ltr" translate="no">[2, 4, 6] </code>
+</pre>
+<p>Note that when the <code dir="ltr" translate="no">window</code> transformation is applied to a dataset of
+nested elements, it produces a dataset of nested windows.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">nested = ([1, 2, 3, 4], [5, 6, 7, 8]) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices(nested).window(2) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">for window in dataset: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  def to_numpy(ds): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    return list(ds.as_numpy_iterator()) </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  print(tuple(to_numpy(component) for component in window)) </code>
+<code class="no-select nocode" dir="ltr" translate="no">([1, 2], [5, 6]) </code>
+<code class="no-select nocode" dir="ltr" translate="no">([3, 4], [7, 8]) </code>
+</pre>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = tf.data.Dataset.from_tensor_slices({&#39;a&#39;: [1, 2, 3, 4]}) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">dataset = dataset.window(2) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">for window in dataset: </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  def to_numpy(ds): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">    return list(ds.as_numpy_iterator()) </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  print({&#39;a&#39;: to_numpy(window[&#39;a&#39;])}) </code>
+<code class="no-select nocode" dir="ltr" translate="no">{&#39;a&#39;: [1, 2]} </code>
+<code class="no-select nocode" dir="ltr" translate="no">{&#39;a&#39;: [3, 4]} </code>
+</pre>
+<h4 id="args_28">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">size</code></b>: A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the number of elements
+of the input dataset to combine into a window.</li>
+<li><b><code dir="ltr" translate="no">shift</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the
+forward shift of the sliding window in each iteration. Defaults to
+<code dir="ltr" translate="no">size</code>.</li>
+<li><b><code dir="ltr" translate="no">stride</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#int64"><code dir="ltr" translate="no">tf.int64</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing the
+stride of the input elements in the sliding window.</li>
+<li><b><code dir="ltr" translate="no">drop_remainder</code></b>: (Optional.) A <a href="https://www.tensorflow.org/api_docs/python/tf#bool"><code dir="ltr" translate="no">tf.bool</code></a> scalar <a href="https://www.tensorflow.org/api_docs/python/tf/Tensor"><code dir="ltr" translate="no">tf.Tensor</code></a>, representing
+whether a window should be dropped in case its size is smaller than
+<code dir="ltr" translate="no">window_size</code>.</li>
+</ul>
+<h4 id="returns_32">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code> of (nests of) windows -- a finite datasets of flat
+elements created from the (nests of) input elements.</li>
+</ul>
+<h3 id="with_options"><code dir="ltr" translate="no">with_options</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L1978-L2003" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">with_options(
+    options
+)
+</code></pre>
+<p>Returns a new <a href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset"><code dir="ltr" translate="no">tf.data.Dataset</code></a> with the given options set.</p>
+<p>The options are &#34;global&#34; in the sense they apply to the entire dataset.
+If options are set multiple times, they are merged as long as different
+options do not use different non-default values.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">ds = tf.data.Dataset.range(5) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">ds = ds.interleave(lambda x: tf.data.Dataset.range(5), </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">                   cycle_length=3, </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">                   num_parallel_calls=3) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">options = tf.data.Options() </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># This will make the interleave order non-deterministic. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">options.experimental_deterministic = False </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">ds = ds.with_options(options) </code>
+</pre>
+<h4 id="args_29">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">options</code></b>: A <a href="https://www.tensorflow.org/api_docs/python/tf/data/Options"><code dir="ltr" translate="no">tf.data.Options</code></a> that identifies the options the use.</li>
+</ul>
+<h4 id="returns_33">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code> with the given options.</li>
+</ul>
+<h4 id="raises_6">Raises:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">ValueError</code></b>: when an option is set more than once to a non-default value</li>
+</ul>
+<h3 id="zip"><code dir="ltr" translate="no">zip</code></h3>
+<p><a href="https://github.com/tensorflow/tensorflow/blob/v2.1.0/tensorflow/python/data/ops/dataset_ops.py#L913-L956" target="_blank">View source</a></p>
+<pre class="prettyprint lang-python" dir="ltr" translate="no"><code dir="ltr" translate="no">@staticmethod
+zip(
+    datasets
+)
+</code></pre>
+<p>Creates a <code dir="ltr" translate="no">Dataset</code> by zipping together the given datasets.</p>
+<p>This method has similar semantics to the built-in <code dir="ltr" translate="no">zip()</code> function
+in Python, with the main difference being that the <code dir="ltr" translate="no">datasets</code>
+argument can be an arbitrary nested structure of <code dir="ltr" translate="no">Dataset</code> objects.</p>
+<pre class="devsite-click-to-copy prettyprint lang-py" dir="ltr" translate="no"><code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># The nested structure of the `datasets` argument determines the </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># structure of elements in the resulting dataset. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">a = tf.data.Dataset.range(1, 4)  # ==&gt; [ 1, 2, 3 ] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">b = tf.data.Dataset.range(4, 7)  # ==&gt; [ 4, 5, 6 ] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">ds = tf.data.Dataset.zip((a, b)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(ds.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[(1, 4), (2, 5), (3, 6)] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">ds = tf.data.Dataset.zip((b, a)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(ds.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[(4, 1), (5, 2), (6, 3)] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"> </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># The `datasets` argument may contain an arbitrary number of datasets. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">c = tf.data.Dataset.range(7, 13).batch(2)  # ==&gt; [ [7, 8], </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">                                           #       [9, 10], </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">                                           #       [11, 12] ] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">ds = tf.data.Dataset.zip((a, b, c)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">for element in ds.as_numpy_iterator(): </code>
+<code class="devsite-terminal" data-terminal-prefix="..." dir="ltr" translate="no">  print(element) </code>
+<code class="no-select nocode" dir="ltr" translate="no">(1, 4, array([7, 8])) </code>
+<code class="no-select nocode" dir="ltr" translate="no">(2, 5, array([ 9, 10])) </code>
+<code class="no-select nocode" dir="ltr" translate="no">(3, 6, array([11, 12])) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"> </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># The number of elements in the resulting dataset is the same as </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no"># the size of the smallest dataset in `datasets`. </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">d = tf.data.Dataset.range(13, 15)  # ==&gt; [ 13, 14 ] </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">ds = tf.data.Dataset.zip((a, d)) </code>
+<code class="devsite-terminal" data-terminal-prefix="&gt;&gt;&gt;" dir="ltr" translate="no">list(ds.as_numpy_iterator()) </code>
+<code class="no-select nocode" dir="ltr" translate="no">[(1, 13), (2, 14)] </code>
+</pre>
+<h4 id="args_30">Args:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">datasets</code></b>: A nested structure of datasets.</li>
+</ul>
+<h4 id="returns_34">Returns:</h4>
+<ul>
+<li><b><code dir="ltr" translate="no">Dataset</code></b>: A <code dir="ltr" translate="no">Dataset</code>.</li>
+</ul>
+</div>
+<devsite-page-rating hover-rating-star="0" position="footer" selected-rating="0">
+</devsite-page-rating>
+</article>
+</article>
+
+</devsite-content>
+</main>
+<devsite-footer-promos class="devsite-footer">
+</devsite-footer-promos>
+<devsite-footer-linkboxes class="devsite-footer">
+
+</devsite-footer-linkboxes>
+<devsite-footer-utility class="devsite-footer">
+<div class="devsite-footer-utility nocontent">
+
+</div>
+</devsite-footer-utility>
+</section></section>
+<devsite-sitemask></devsite-sitemask>
+<devsite-snackbar></devsite-snackbar> <devsite-tooltip></devsite-tooltip>
+<devsite-heading-link></devsite-heading-link>
+<devsite-analytics>
+
+
+</devsite-analytics>
+ 
+</body></html>

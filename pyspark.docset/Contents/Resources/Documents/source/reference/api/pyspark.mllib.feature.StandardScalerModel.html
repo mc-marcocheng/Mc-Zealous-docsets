@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>StandardScalerModel — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="standardscalermodel">
+<h1>StandardScalerModel<a class="headerlink" href="#standardscalermodel" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.feature.StandardScalerModel"><a name="//apple_ref/cpp/Class/pyspark.mllib.feature.StandardScalerModel"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.feature.</code><code class="sig-name descname">StandardScalerModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">java_model</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#StandardScalerModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.StandardScalerModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a StandardScaler model that can transform vectors.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.StandardScalerModel.call"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.StandardScalerModel.call"></a>
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">a</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.feature.StandardScalerModel.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call method of java_model</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.StandardScalerModel.setWithMean"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.StandardScalerModel.setWithMean"></a>
+<code class="sig-name descname">setWithMean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">withMean</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#StandardScalerModel.setWithMean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.StandardScalerModel.setWithMean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setter of the boolean which decides
+whether it uses mean or not</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.StandardScalerModel.setWithStd"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.StandardScalerModel.setWithStd"></a>
+<code class="sig-name descname">setWithStd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">withStd</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#StandardScalerModel.setWithStd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.StandardScalerModel.setWithStd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setter of the boolean which decides
+whether it uses std or not</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.feature.StandardScalerModel.transform"><a name="//apple_ref/cpp/Method/pyspark.mllib.feature.StandardScalerModel.transform"></a>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vector</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/feature.html#StandardScalerModel.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.feature.StandardScalerModel.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies standardization transformation on a vector.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In Python, transform cannot currently be used within
+an RDD transformation or action.
+Call transform directly on the RDD instead.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vector</strong> – Vector or RDD of Vector to be standardized.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Standardized vector. If the variance of a column is
+zero, it will return default <cite>0.0</cite> for the column with
+zero variance.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.0.</span></p>
+</div>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.mllib.feature.StandardScalerModel.mean"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.feature.StandardScalerModel.mean"></a>
+<code class="sig-name descname">mean</code><a class="headerlink" href="#pyspark.mllib.feature.StandardScalerModel.mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the column mean values.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.feature.StandardScalerModel.std"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.feature.StandardScalerModel.std"></a>
+<code class="sig-name descname">std</code><a class="headerlink" href="#pyspark.mllib.feature.StandardScalerModel.std" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the column standard deviation values.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.feature.StandardScalerModel.withMean"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.feature.StandardScalerModel.withMean"></a>
+<code class="sig-name descname">withMean</code><a class="headerlink" href="#pyspark.mllib.feature.StandardScalerModel.withMean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if the model centers the data before scaling.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.feature.StandardScalerModel.withStd"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.feature.StandardScalerModel.withStd"></a>
+<code class="sig-name descname">withStd</code><a class="headerlink" href="#pyspark.mllib.feature.StandardScalerModel.withStd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if the model scales the data to unit standard deviation.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

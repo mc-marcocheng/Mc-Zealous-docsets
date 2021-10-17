@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>BisectingKMeansModel — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="bisectingkmeansmodel">
+<h1>BisectingKMeansModel<a class="headerlink" href="#bisectingkmeansmodel" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.clustering.BisectingKMeansModel"><a name="//apple_ref/cpp/Class/pyspark.mllib.clustering.BisectingKMeansModel"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.clustering.</code><code class="sig-name descname">BisectingKMeansModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">java_model</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/clustering.html#BisectingKMeansModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.clustering.BisectingKMeansModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>A clustering model derived from the bisecting k-means method.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span><span class="mf">9.0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bskm</span> <span class="o">=</span> <span class="n">BisectingKMeans</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">bskm</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">k</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">computeCost</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">0.0</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.clustering.BisectingKMeansModel.call"><a name="//apple_ref/cpp/Method/pyspark.mllib.clustering.BisectingKMeansModel.call"></a>
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">a</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.clustering.BisectingKMeansModel.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call method of java_model</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.clustering.BisectingKMeansModel.computeCost"><a name="//apple_ref/cpp/Method/pyspark.mllib.clustering.BisectingKMeansModel.computeCost"></a>
+<code class="sig-name descname">computeCost</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/clustering.html#BisectingKMeansModel.computeCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.clustering.BisectingKMeansModel.computeCost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Bisecting K-means cost (sum of squared distances of
+points to their nearest center) for this model on the given
+data. If provided with an RDD of points returns the sum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>point</strong> – A data point (or RDD of points) to compute the cost(s).</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.clustering.BisectingKMeansModel.predict"><a name="//apple_ref/cpp/Method/pyspark.mllib.clustering.BisectingKMeansModel.predict"></a>
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/clustering.html#BisectingKMeansModel.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.clustering.BisectingKMeansModel.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the cluster that each of the points belongs to in this
+model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> – A data point (or RDD of points) to determine cluster index.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Predicted cluster index or an RDD of predicted cluster indices
+if the input is an RDD.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.mllib.clustering.BisectingKMeansModel.clusterCenters"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.clustering.BisectingKMeansModel.clusterCenters"></a>
+<code class="sig-name descname">clusterCenters</code><a class="headerlink" href="#pyspark.mllib.clustering.BisectingKMeansModel.clusterCenters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the cluster centers, represented as a list of NumPy
+arrays.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.clustering.BisectingKMeansModel.k"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.clustering.BisectingKMeansModel.k"></a>
+<code class="sig-name descname">k</code><a class="headerlink" href="#pyspark.mllib.clustering.BisectingKMeansModel.k" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of clusters</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>PrefixSpan — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="prefixspan">
+<h1>PrefixSpan<a class="headerlink" href="#prefixspan" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.fpm.PrefixSpan"><a name="//apple_ref/cpp/Class/pyspark.ml.fpm.PrefixSpan"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.fpm.</code><code class="sig-name descname">PrefixSpan</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">minSupport</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">maxPatternLength</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">maxLocalProjDBSize</span><span class="o">=</span><span class="default_value">32000000</span></em>, <em class="sig-param"><span class="n">sequenceCol</span><span class="o">=</span><span class="default_value">'sequence'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/fpm.html#PrefixSpan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan" title="Permalink to this definition">¶</a></dt>
+<dd><p>A parallel PrefixSpan algorithm to mine frequent sequential patterns.
+The PrefixSpan algorithm is described in J. Pei, et al., PrefixSpan: Mining Sequential Patterns
+Efficiently by Prefix-Projected Pattern Growth
+(see &lt;a href=”<a class="reference external" href="https://doi.org/10.1109/ICDE.2001.914830">https://doi.org/10.1109/ICDE.2001.914830</a>”&gt;here&lt;/a&gt;).
+This class is not yet an Estimator/Transformer, use <a class="reference internal" href="#pyspark.ml.fpm.PrefixSpan.findFrequentSequentialPatterns" title="pyspark.ml.fpm.PrefixSpan.findFrequentSequentialPatterns"><code class="xref py py-func docutils literal notranslate"><span class="pre">findFrequentSequentialPatterns()</span></code></a>
+method to run the PrefixSpan algorithm.</p>
+<p>@see &lt;a href=”<a class="reference external" href="https://en.wikipedia.org/wiki/Sequential_Pattern_Mining">https://en.wikipedia.org/wiki/Sequential_Pattern_Mining</a>”&gt;Sequential Pattern Mining
+(Wikipedia)&lt;/a&gt;</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml.fpm</span> <span class="kn">import</span> <span class="n">PrefixSpan</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">Row</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="n">Row</span><span class="p">(</span><span class="n">sequence</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">]]),</span>
+<span class="gp">... </span>                     <span class="n">Row</span><span class="p">(</span><span class="n">sequence</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]),</span>
+<span class="gp">... </span>                     <span class="n">Row</span><span class="p">(</span><span class="n">sequence</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">]]),</span>
+<span class="gp">... </span>                     <span class="n">Row</span><span class="p">(</span><span class="n">sequence</span><span class="o">=</span><span class="p">[[</span><span class="mi">6</span><span class="p">]])])</span><span class="o">.</span><span class="n">toDF</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prefixSpan</span> <span class="o">=</span> <span class="n">PrefixSpan</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prefixSpan</span><span class="o">.</span><span class="n">getMaxLocalProjDBSize</span><span class="p">()</span>
+<span class="go">32000000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prefixSpan</span><span class="o">.</span><span class="n">getSequenceCol</span><span class="p">()</span>
+<span class="go">'sequence'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prefixSpan</span><span class="o">.</span><span class="n">setMinSupport</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="go">PrefixSpan...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prefixSpan</span><span class="o">.</span><span class="n">setMaxPatternLength</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">PrefixSpan...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prefixSpan</span><span class="o">.</span><span class="n">findFrequentSequentialPatterns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s2">"sequence"</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+----------+----+</span>
+<span class="go">|sequence  |freq|</span>
+<span class="go">+----------+----+</span>
+<span class="go">|[[1]]     |3   |</span>
+<span class="go">|[[1], [3]]|2   |</span>
+<span class="go">|[[2]]     |3   |</span>
+<span class="go">|[[2, 1]]  |3   |</span>
+<span class="go">|[[3]]     |2   |</span>
+<span class="go">+----------+----+</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.clear"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.clear"></a>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears a param from the param map if it has been explicitly set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.copy"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.copy"></a>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a copy of this instance with the same uid and some
+extra params. This implementation first calls Params.copy and
+then make a copy of the companion Java pipeline component with
+extra params. So both the Python wrapper and the Java pipeline
+component get copied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Copy of this instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.explainParam"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.explainParam"></a>
+<code class="sig-name descname">explainParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.explainParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explains a single param and returns its name, doc, and optional
+default value and user-supplied value in a string.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.explainParams"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.explainParams"></a>
+<code class="sig-name descname">explainParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.explainParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the documentation of all params with their optionally
+default values and user-supplied values.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.extractParamMap"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.extractParamMap"></a>
+<code class="sig-name descname">extractParamMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the embedded default param values and user-supplied
+values, and then merges them with extra values from input into
+a flat param map, where the latter value is used if there exist
+conflicts, i.e., with ordering: default param values &lt;
+user-supplied values &lt; extra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>merged param map</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.findFrequentSequentialPatterns"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.findFrequentSequentialPatterns"></a>
+<code class="sig-name descname">findFrequentSequentialPatterns</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/fpm.html#PrefixSpan.findFrequentSequentialPatterns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.findFrequentSequentialPatterns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the complete set of frequent sequential patterns in the input sequences of itemsets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataset</strong> – A dataframe containing a sequence column which is
+<cite>ArrayType(ArrayType(T))</cite> type, T is the item type for the input dataset.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DataFrame</cite> that contains columns of sequence and corresponding frequency.
+The schema of it will be:
+- <cite>sequence: ArrayType(ArrayType(T))</cite> (T is the item type)
+- <cite>freq: Long</cite></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.getMaxLocalProjDBSize"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.getMaxLocalProjDBSize"></a>
+<code class="sig-name descname">getMaxLocalProjDBSize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/fpm.html#PrefixSpan.getMaxLocalProjDBSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.getMaxLocalProjDBSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of maxLocalProjDBSize or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.getMaxPatternLength"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.getMaxPatternLength"></a>
+<code class="sig-name descname">getMaxPatternLength</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/fpm.html#PrefixSpan.getMaxPatternLength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.getMaxPatternLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of maxPatternLength or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.getMinSupport"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.getMinSupport"></a>
+<code class="sig-name descname">getMinSupport</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/fpm.html#PrefixSpan.getMinSupport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.getMinSupport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of minSupport or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.getOrDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.getOrDefault"></a>
+<code class="sig-name descname">getOrDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a param in the user-supplied param map or its
+default value. Raises an error if neither is set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.getParam"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.getParam"></a>
+<code class="sig-name descname">getParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.getParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a param by its name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.getSequenceCol"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.getSequenceCol"></a>
+<code class="sig-name descname">getSequenceCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/fpm.html#PrefixSpan.getSequenceCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.getSequenceCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of sequenceCol or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.hasDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.hasDefault"></a>
+<code class="sig-name descname">hasDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.hasDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param has a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.hasParam"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.hasParam"></a>
+<code class="sig-name descname">hasParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.hasParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether this instance contains a param with a given
+(string) name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.isDefined"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.isDefined"></a>
+<code class="sig-name descname">isDefined</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.isDefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user or has
+a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.isSet"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.isSet"></a>
+<code class="sig-name descname">isSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.isSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.set"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.set"></a>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.setMaxLocalProjDBSize"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.setMaxLocalProjDBSize"></a>
+<code class="sig-name descname">setMaxLocalProjDBSize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/fpm.html#PrefixSpan.setMaxLocalProjDBSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.setMaxLocalProjDBSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.fpm.PrefixSpan.maxLocalProjDBSize" title="pyspark.ml.fpm.PrefixSpan.maxLocalProjDBSize"><code class="xref py py-attr docutils literal notranslate"><span class="pre">maxLocalProjDBSize</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.setMaxPatternLength"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.setMaxPatternLength"></a>
+<code class="sig-name descname">setMaxPatternLength</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/fpm.html#PrefixSpan.setMaxPatternLength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.setMaxPatternLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.fpm.PrefixSpan.maxPatternLength" title="pyspark.ml.fpm.PrefixSpan.maxPatternLength"><code class="xref py py-attr docutils literal notranslate"><span class="pre">maxPatternLength</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.setMinSupport"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.setMinSupport"></a>
+<code class="sig-name descname">setMinSupport</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/fpm.html#PrefixSpan.setMinSupport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.setMinSupport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.fpm.PrefixSpan.minSupport" title="pyspark.ml.fpm.PrefixSpan.minSupport"><code class="xref py py-attr docutils literal notranslate"><span class="pre">minSupport</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.setParams"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.setParams"></a>
+<code class="sig-name descname">setParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">minSupport</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">maxPatternLength</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">maxLocalProjDBSize</span><span class="o">=</span><span class="default_value">32000000</span></em>, <em class="sig-param"><span class="n">sequenceCol</span><span class="o">=</span><span class="default_value">'sequence'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/fpm.html#PrefixSpan.setParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.fpm.PrefixSpan.setSequenceCol"><a name="//apple_ref/cpp/Method/pyspark.ml.fpm.PrefixSpan.setSequenceCol"></a>
+<code class="sig-name descname">setSequenceCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/fpm.html#PrefixSpan.setSequenceCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.setSequenceCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.fpm.PrefixSpan.sequenceCol" title="pyspark.ml.fpm.PrefixSpan.sequenceCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sequenceCol</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.fpm.PrefixSpan.maxLocalProjDBSize"><a name="//apple_ref/cpp/Attribute/pyspark.ml.fpm.PrefixSpan.maxLocalProjDBSize"></a>
+<code class="sig-name descname">maxLocalProjDBSize</code><em class="property"> = Param(parent='undefined', name='maxLocalProjDBSize', doc='The maximum number of items (including delimiters used in the internal storage format) allowed in a projected database before local processing. If a projected database exceeds this size, another iteration of distributed prefix growth is run. Must be &gt; 0.')</em><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.maxLocalProjDBSize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.fpm.PrefixSpan.maxPatternLength"><a name="//apple_ref/cpp/Attribute/pyspark.ml.fpm.PrefixSpan.maxPatternLength"></a>
+<code class="sig-name descname">maxPatternLength</code><em class="property"> = Param(parent='undefined', name='maxPatternLength', doc='The maximal length of the sequential pattern. Must be &gt; 0.')</em><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.maxPatternLength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.fpm.PrefixSpan.minSupport"><a name="//apple_ref/cpp/Attribute/pyspark.ml.fpm.PrefixSpan.minSupport"></a>
+<code class="sig-name descname">minSupport</code><em class="property"> = Param(parent='undefined', name='minSupport', doc='The minimal support level of the sequential pattern. Sequential pattern that appears more than (minSupport * size-of-the-dataset) times will be output. Must be &gt;= 0.')</em><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.minSupport" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.fpm.PrefixSpan.params"><a name="//apple_ref/cpp/Attribute/pyspark.ml.fpm.PrefixSpan.params"></a>
+<code class="sig-name descname">params</code><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all params ordered by name. The default implementation
+uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.fpm.PrefixSpan.sequenceCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.fpm.PrefixSpan.sequenceCol"></a>
+<code class="sig-name descname">sequenceCol</code><em class="property"> = Param(parent='undefined', name='sequenceCol', doc='The name of the sequence column in dataset, rows with nulls in this column are ignored.')</em><a class="headerlink" href="#pyspark.ml.fpm.PrefixSpan.sequenceCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

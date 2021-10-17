@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Rating — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="rating">
+<h1>Rating<a class="headerlink" href="#rating" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.recommendation.Rating"><a name="//apple_ref/cpp/Class/pyspark.mllib.recommendation.Rating"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.recommendation.</code><code class="sig-name descname">Rating</code><a class="reference internal" href="../../../_modules/pyspark/mllib/recommendation.html#Rating"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.recommendation.Rating" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a (user, product, rating) tuple.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">Rating</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">product</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">rating</span><span class="p">)</span>
+<span class="go">(1, 2, 5.0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="go">(1, 2, 5.0)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.2.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.recommendation.Rating.count"><a name="//apple_ref/cpp/Method/pyspark.mllib.recommendation.Rating.count"></a>
+<code class="sig-name descname">count</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span> → integer – return number of occurrences of value<a class="headerlink" href="#pyspark.mllib.recommendation.Rating.count" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.recommendation.Rating.index"><a name="//apple_ref/cpp/Method/pyspark.mllib.recommendation.Rating.index"></a>
+<code class="sig-name descname">index</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="optional">[</span>, <em class="sig-param">start</em><span class="optional">[</span>, <em class="sig-param">stop</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> → integer – return first index of value.<a class="headerlink" href="#pyspark.mllib.recommendation.Rating.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raises ValueError if the value is not present.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.mllib.recommendation.Rating.product"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.recommendation.Rating.product"></a>
+<code class="sig-name descname">product</code><a class="headerlink" href="#pyspark.mllib.recommendation.Rating.product" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.recommendation.Rating.rating"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.recommendation.Rating.rating"></a>
+<code class="sig-name descname">rating</code><a class="headerlink" href="#pyspark.mllib.recommendation.Rating.rating" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.recommendation.Rating.user"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.recommendation.Rating.user"></a>
+<code class="sig-name descname">user</code><a class="headerlink" href="#pyspark.mllib.recommendation.Rating.user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

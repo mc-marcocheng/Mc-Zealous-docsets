@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>MulticlassMetrics — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="multiclassmetrics">
+<h1>MulticlassMetrics<a class="headerlink" href="#multiclassmetrics" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.mllib.evaluation.MulticlassMetrics"><a name="//apple_ref/cpp/Class/pyspark.mllib.evaluation.MulticlassMetrics"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.mllib.evaluation.</code><code class="sig-name descname">MulticlassMetrics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predictionAndLabels</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/evaluation.html#MulticlassMetrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.evaluation.MulticlassMetrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluator for multiclass classification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>predictionAndLabels</strong> – an RDD of prediction, label, optional weight
+and optional probability.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">predictionAndLabels</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span> <span class="o">=</span> <span class="n">MulticlassMetrics</span><span class="p">(</span><span class="n">predictionAndLabels</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">confusionMatrix</span><span class="p">()</span><span class="o">.</span><span class="n">toArray</span><span class="p">()</span>
+<span class="go">array([[ 2.,  1.,  1.],</span>
+<span class="go">       [ 1.,  3.,  0.],</span>
+<span class="go">       [ 0.,  0.,  1.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">falsePositiveRate</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="go">0.2...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">precision</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="go">0.75...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">recall</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="go">1.0...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">fMeasure</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+<span class="go">0.52...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy</span>
+<span class="go">0.66...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">weightedFalsePositiveRate</span>
+<span class="go">0.19...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">weightedPrecision</span>
+<span class="go">0.68...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">weightedRecall</span>
+<span class="go">0.66...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">weightedFMeasure</span><span class="p">()</span>
+<span class="go">0.66...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">weightedFMeasure</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="go">0.65...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">predAndLabelsWithOptWeight</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+<span class="gp">... </span>     <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+<span class="gp">... </span>     <span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span> <span class="o">=</span> <span class="n">MulticlassMetrics</span><span class="p">(</span><span class="n">predAndLabelsWithOptWeight</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">confusionMatrix</span><span class="p">()</span><span class="o">.</span><span class="n">toArray</span><span class="p">()</span>
+<span class="go">array([[ 2.,  1.,  1.],</span>
+<span class="go">       [ 1.,  3.,  0.],</span>
+<span class="go">       [ 0.,  0.,  1.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">falsePositiveRate</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="go">0.2...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">precision</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="go">0.75...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">recall</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="go">1.0...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">fMeasure</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span>
+<span class="go">0.52...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy</span>
+<span class="go">0.66...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">weightedFalsePositiveRate</span>
+<span class="go">0.19...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">weightedPrecision</span>
+<span class="go">0.68...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">weightedRecall</span>
+<span class="go">0.66...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">weightedFMeasure</span><span class="p">()</span>
+<span class="go">0.66...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">weightedFMeasure</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="go">0.65...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">predictionAndLabelsWithProbabilities</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span>
+<span class="gp">... </span>     <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]),</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">]),</span>
+<span class="gp">... </span>     <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.65</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">])])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span> <span class="o">=</span> <span class="n">MulticlassMetrics</span><span class="p">(</span><span class="n">predictionAndLabelsWithProbabilities</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metrics</span><span class="o">.</span><span class="n">logLoss</span><span class="p">()</span>
+<span class="go">0.9682...</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.mllib.evaluation.MulticlassMetrics.call"><a name="//apple_ref/cpp/Method/pyspark.mllib.evaluation.MulticlassMetrics.call"></a>
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">a</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.mllib.evaluation.MulticlassMetrics.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call method of java_model</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.evaluation.MulticlassMetrics.confusionMatrix"><a name="//apple_ref/cpp/Method/pyspark.mllib.evaluation.MulticlassMetrics.confusionMatrix"></a>
+<code class="sig-name descname">confusionMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/evaluation.html#MulticlassMetrics.confusionMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.evaluation.MulticlassMetrics.confusionMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns confusion matrix: predicted classes are in columns,
+they are ordered by class label ascending, as in “labels”.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.evaluation.MulticlassMetrics.fMeasure"><a name="//apple_ref/cpp/Method/pyspark.mllib.evaluation.MulticlassMetrics.fMeasure"></a>
+<code class="sig-name descname">fMeasure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span></em>, <em class="sig-param"><span class="n">beta</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/evaluation.html#MulticlassMetrics.fMeasure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.evaluation.MulticlassMetrics.fMeasure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns f-measure.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.evaluation.MulticlassMetrics.falsePositiveRate"><a name="//apple_ref/cpp/Method/pyspark.mllib.evaluation.MulticlassMetrics.falsePositiveRate"></a>
+<code class="sig-name descname">falsePositiveRate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/evaluation.html#MulticlassMetrics.falsePositiveRate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.evaluation.MulticlassMetrics.falsePositiveRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns false positive rate for a given label (category).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.evaluation.MulticlassMetrics.logLoss"><a name="//apple_ref/cpp/Method/pyspark.mllib.evaluation.MulticlassMetrics.logLoss"></a>
+<code class="sig-name descname">logLoss</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">eps</span><span class="o">=</span><span class="default_value">1e-15</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/evaluation.html#MulticlassMetrics.logLoss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.evaluation.MulticlassMetrics.logLoss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted logLoss.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.evaluation.MulticlassMetrics.precision"><a name="//apple_ref/cpp/Method/pyspark.mllib.evaluation.MulticlassMetrics.precision"></a>
+<code class="sig-name descname">precision</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/evaluation.html#MulticlassMetrics.precision"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.evaluation.MulticlassMetrics.precision" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns precision.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.evaluation.MulticlassMetrics.recall"><a name="//apple_ref/cpp/Method/pyspark.mllib.evaluation.MulticlassMetrics.recall"></a>
+<code class="sig-name descname">recall</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/evaluation.html#MulticlassMetrics.recall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.evaluation.MulticlassMetrics.recall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns recall.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.evaluation.MulticlassMetrics.truePositiveRate"><a name="//apple_ref/cpp/Method/pyspark.mllib.evaluation.MulticlassMetrics.truePositiveRate"></a>
+<code class="sig-name descname">truePositiveRate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/evaluation.html#MulticlassMetrics.truePositiveRate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.evaluation.MulticlassMetrics.truePositiveRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true positive rate for a given label (category).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.mllib.evaluation.MulticlassMetrics.weightedFMeasure"><a name="//apple_ref/cpp/Method/pyspark.mllib.evaluation.MulticlassMetrics.weightedFMeasure"></a>
+<code class="sig-name descname">weightedFMeasure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">beta</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/mllib/evaluation.html#MulticlassMetrics.weightedFMeasure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.mllib.evaluation.MulticlassMetrics.weightedFMeasure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted averaged f-measure.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.mllib.evaluation.MulticlassMetrics.accuracy"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.evaluation.MulticlassMetrics.accuracy"></a>
+<code class="sig-name descname">accuracy</code><a class="headerlink" href="#pyspark.mllib.evaluation.MulticlassMetrics.accuracy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns accuracy (equals to the total number of correctly classified instances
+out of the total number of instances).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.evaluation.MulticlassMetrics.weightedFalsePositiveRate"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.evaluation.MulticlassMetrics.weightedFalsePositiveRate"></a>
+<code class="sig-name descname">weightedFalsePositiveRate</code><a class="headerlink" href="#pyspark.mllib.evaluation.MulticlassMetrics.weightedFalsePositiveRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted false positive rate.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.evaluation.MulticlassMetrics.weightedPrecision"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.evaluation.MulticlassMetrics.weightedPrecision"></a>
+<code class="sig-name descname">weightedPrecision</code><a class="headerlink" href="#pyspark.mllib.evaluation.MulticlassMetrics.weightedPrecision" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted averaged precision.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.evaluation.MulticlassMetrics.weightedRecall"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.evaluation.MulticlassMetrics.weightedRecall"></a>
+<code class="sig-name descname">weightedRecall</code><a class="headerlink" href="#pyspark.mllib.evaluation.MulticlassMetrics.weightedRecall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted averaged recall.
+(equals to precision, recall and f-measure)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.mllib.evaluation.MulticlassMetrics.weightedTruePositiveRate"><a name="//apple_ref/cpp/Attribute/pyspark.mllib.evaluation.MulticlassMetrics.weightedTruePositiveRate"></a>
+<code class="sig-name descname">weightedTruePositiveRate</code><a class="headerlink" href="#pyspark.mllib.evaluation.MulticlassMetrics.weightedTruePositiveRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns weighted true positive rate.
+(equals to precision, recall and f-measure)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.4.0.</span></p>
+</div>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

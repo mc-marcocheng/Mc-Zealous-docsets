@@ -1,0 +1,370 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>StopWordsRemover — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="stopwordsremover">
+<h1>StopWordsRemover<a class="headerlink" href="#stopwordsremover" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pyspark.ml.feature.StopWordsRemover"><a name="//apple_ref/cpp/Class/pyspark.ml.feature.StopWordsRemover"></a>
+<em class="property">class </em><code class="sig-prename descclassname">pyspark.ml.feature.</code><code class="sig-name descname">StopWordsRemover</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stopWords</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">caseSensitive</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">locale</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">inputCols</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outputCols</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StopWordsRemover"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover" title="Permalink to this definition">¶</a></dt>
+<dd><p>A feature transformer that filters out stop words from input.
+Since 3.0.0, <a class="reference internal" href="#pyspark.ml.feature.StopWordsRemover" title="pyspark.ml.feature.StopWordsRemover"><code class="xref py py-class docutils literal notranslate"><span class="pre">StopWordsRemover</span></code></a> can filter out multiple columns at once by setting
+the <a class="reference internal" href="#pyspark.ml.feature.StopWordsRemover.inputCols" title="pyspark.ml.feature.StopWordsRemover.inputCols"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inputCols</span></code></a> parameter. Note that when both the <a class="reference internal" href="#pyspark.ml.feature.StopWordsRemover.inputCol" title="pyspark.ml.feature.StopWordsRemover.inputCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inputCol</span></code></a> and
+<a class="reference internal" href="#pyspark.ml.feature.StopWordsRemover.inputCols" title="pyspark.ml.feature.StopWordsRemover.inputCols"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inputCols</span></code></a> parameters are set, an Exception will be thrown.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>null values from input array are preserved unless adding null to stopWords explicitly.</p>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([([</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"c"</span><span class="p">],)],</span> <span class="p">[</span><span class="s2">"text"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remover</span> <span class="o">=</span> <span class="n">StopWordsRemover</span><span class="p">(</span><span class="n">stopWords</span><span class="o">=</span><span class="p">[</span><span class="s2">"b"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remover</span><span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">"text"</span><span class="p">)</span>
+<span class="go">StopWordsRemover...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remover</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">"words"</span><span class="p">)</span>
+<span class="go">StopWordsRemover...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remover</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">words</span> <span class="o">==</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">]</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stopWordsRemoverPath</span> <span class="o">=</span> <span class="n">temp_path</span> <span class="o">+</span> <span class="s2">"/stopwords-remover"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remover</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">stopWordsRemoverPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedRemover</span> <span class="o">=</span> <span class="n">StopWordsRemover</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">stopWordsRemoverPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedRemover</span><span class="o">.</span><span class="n">getStopWords</span><span class="p">()</span> <span class="o">==</span> <span class="n">remover</span><span class="o">.</span><span class="n">getStopWords</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loadedRemover</span><span class="o">.</span><span class="n">getCaseSensitive</span><span class="p">()</span> <span class="o">==</span> <span class="n">remover</span><span class="o">.</span><span class="n">getCaseSensitive</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df2</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([([</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"c"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">])],</span> <span class="p">[</span><span class="s2">"text1"</span><span class="p">,</span> <span class="s2">"text2"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remover2</span> <span class="o">=</span> <span class="n">StopWordsRemover</span><span class="p">(</span><span class="n">stopWords</span><span class="o">=</span><span class="p">[</span><span class="s2">"b"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remover2</span><span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">"text1"</span><span class="p">,</span> <span class="s2">"text2"</span><span class="p">])</span><span class="o">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s2">"words1"</span><span class="p">,</span> <span class="s2">"words2"</span><span class="p">])</span>
+<span class="go">StopWordsRemover...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remover2</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">+---------+------+------+------+</span>
+<span class="go">|    text1| text2|words1|words2|</span>
+<span class="go">+---------+------+------+------+</span>
+<span class="go">|[a, b, c]|[a, b]|[a, c]|   [a]|</span>
+<span class="go">+---------+------+------+------+</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+<p class="rubric">Methods</p>
+<p class="rubric">Attributes</p>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.clear"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.clear"></a>
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears a param from the param map if it has been explicitly set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.copy"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.copy"></a>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a copy of this instance with the same uid and some
+extra params. This implementation first calls Params.copy and
+then make a copy of the companion Java pipeline component with
+extra params. So both the Python wrapper and the Java pipeline
+component get copied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – Extra parameters to copy to the new instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Copy of this instance</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.explainParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.explainParam"></a>
+<code class="sig-name descname">explainParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.explainParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explains a single param and returns its name, doc, and optional
+default value and user-supplied value in a string.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.explainParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.explainParams"></a>
+<code class="sig-name descname">explainParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.explainParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the documentation of all params with their optionally
+default values and user-supplied values.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.extractParamMap"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.extractParamMap"></a>
+<code class="sig-name descname">extractParamMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.extractParamMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the embedded default param values and user-supplied
+values, and then merges them with extra values from input into
+a flat param map, where the latter value is used if there exist
+conflicts, i.e., with ordering: default param values &lt;
+user-supplied values &lt; extra.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>extra</strong> – extra param values</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>merged param map</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.getCaseSensitive"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.getCaseSensitive"></a>
+<code class="sig-name descname">getCaseSensitive</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StopWordsRemover.getCaseSensitive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.getCaseSensitive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of <a class="reference internal" href="#pyspark.ml.feature.StopWordsRemover.caseSensitive" title="pyspark.ml.feature.StopWordsRemover.caseSensitive"><code class="xref py py-attr docutils literal notranslate"><span class="pre">caseSensitive</span></code></a> or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.getInputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.getInputCol"></a>
+<code class="sig-name descname">getInputCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.getInputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of inputCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.getInputCols"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.getInputCols"></a>
+<code class="sig-name descname">getInputCols</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.getInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of inputCols or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.getLocale"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.getLocale"></a>
+<code class="sig-name descname">getLocale</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StopWordsRemover.getLocale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.getLocale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of <a class="reference internal" href="#pyspark.ml.feature.StopWordsRemover.locale" title="pyspark.ml.feature.StopWordsRemover.locale"><code class="xref py py-attr docutils literal notranslate"><span class="pre">locale</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.getOrDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.getOrDefault"></a>
+<code class="sig-name descname">getOrDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.getOrDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a param in the user-supplied param map or its
+default value. Raises an error if neither is set.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.getOutputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.getOutputCol"></a>
+<code class="sig-name descname">getOutputCol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.getOutputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of outputCol or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.getOutputCols"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.getOutputCols"></a>
+<code class="sig-name descname">getOutputCols</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.getOutputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of outputCols or its default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.getParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.getParam"></a>
+<code class="sig-name descname">getParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.getParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a param by its name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.getStopWords"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.getStopWords"></a>
+<code class="sig-name descname">getStopWords</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StopWordsRemover.getStopWords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.getStopWords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of <a class="reference internal" href="#pyspark.ml.feature.StopWordsRemover.stopWords" title="pyspark.ml.feature.StopWordsRemover.stopWords"><code class="xref py py-attr docutils literal notranslate"><span class="pre">stopWords</span></code></a> or its default value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.hasDefault"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.hasDefault"></a>
+<code class="sig-name descname">hasDefault</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.hasDefault" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param has a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.hasParam"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.hasParam"></a>
+<code class="sig-name descname">hasParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">paramName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.hasParam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether this instance contains a param with a given
+(string) name.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.isDefined"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.isDefined"></a>
+<code class="sig-name descname">isDefined</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.isDefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user or has
+a default value.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.isSet"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.isSet"></a>
+<code class="sig-name descname">isSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.isSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a param is explicitly set by user.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.load"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.load"></a>
+<em class="property">classmethod </em><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.loadDefaultStopWords"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.loadDefaultStopWords"></a>
+<em class="property">static </em><code class="sig-name descname">loadDefaultStopWords</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">language</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StopWordsRemover.loadDefaultStopWords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.loadDefaultStopWords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads the default stop words for the given language.
+Supported languages: danish, dutch, english, finnish, french, german, hungarian,
+italian, norwegian, portuguese, russian, spanish, swedish, turkish</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.read"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.read"></a>
+<em class="property">classmethod </em><code class="sig-name descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLReader instance for this class.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.save"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.save"></a>
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.set"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.set"></a>
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">param</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.setCaseSensitive"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.setCaseSensitive"></a>
+<code class="sig-name descname">setCaseSensitive</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StopWordsRemover.setCaseSensitive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.setCaseSensitive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.StopWordsRemover.caseSensitive" title="pyspark.ml.feature.StopWordsRemover.caseSensitive"><code class="xref py py-attr docutils literal notranslate"><span class="pre">caseSensitive</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.setInputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.setInputCol"></a>
+<code class="sig-name descname">setInputCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StopWordsRemover.setInputCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.setInputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.StopWordsRemover.inputCol" title="pyspark.ml.feature.StopWordsRemover.inputCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inputCol</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.setInputCols"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.setInputCols"></a>
+<code class="sig-name descname">setInputCols</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StopWordsRemover.setInputCols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.setInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.StopWordsRemover.inputCols" title="pyspark.ml.feature.StopWordsRemover.inputCols"><code class="xref py py-attr docutils literal notranslate"><span class="pre">inputCols</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.setLocale"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.setLocale"></a>
+<code class="sig-name descname">setLocale</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StopWordsRemover.setLocale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.setLocale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.StopWordsRemover.locale" title="pyspark.ml.feature.StopWordsRemover.locale"><code class="xref py py-attr docutils literal notranslate"><span class="pre">locale</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.setOutputCol"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.setOutputCol"></a>
+<code class="sig-name descname">setOutputCol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StopWordsRemover.setOutputCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.setOutputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.StopWordsRemover.outputCol" title="pyspark.ml.feature.StopWordsRemover.outputCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">outputCol</span></code></a>.</p>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.setOutputCols"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.setOutputCols"></a>
+<code class="sig-name descname">setOutputCols</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StopWordsRemover.setOutputCols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.setOutputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.StopWordsRemover.outputCols" title="pyspark.ml.feature.StopWordsRemover.outputCols"><code class="xref py py-attr docutils literal notranslate"><span class="pre">outputCols</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.setParams"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.setParams"></a>
+<code class="sig-name descname">setParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">inputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outputCol</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stopWords</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">caseSensitive</span><span class="o">=</span><span class="default_value">false</span></em>, <em class="sig-param"><span class="n">locale</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">inputCols</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outputCols</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StopWordsRemover.setParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets params for this StopWordRemover.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.setStopWords"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.setStopWords"></a>
+<code class="sig-name descname">setStopWords</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/ml/feature.html#StopWordsRemover.setStopWords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.setStopWords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of <a class="reference internal" href="#pyspark.ml.feature.StopWordsRemover.stopWords" title="pyspark.ml.feature.StopWordsRemover.stopWords"><code class="xref py py-attr docutils literal notranslate"><span class="pre">stopWords</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.transform"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.transform"></a>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms the input dataset with optional parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> – input dataset, which is an instance of <a class="reference internal" href="pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="pyspark.sql.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></p></li>
+<li><p><strong>params</strong> – an optional param map that overrides embedded params.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>transformed dataset</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="pyspark.ml.feature.StopWordsRemover.write"><a name="//apple_ref/cpp/Method/pyspark.ml.feature.StopWordsRemover.write"></a>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an MLWriter instance for this ML instance.</p>
+</dd></dl>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.StopWordsRemover.caseSensitive"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.StopWordsRemover.caseSensitive"></a>
+<code class="sig-name descname">caseSensitive</code><em class="property"> = Param(parent='undefined', name='caseSensitive', doc='whether to do a case sensitive comparison over the stop words')</em><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.caseSensitive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.StopWordsRemover.inputCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.StopWordsRemover.inputCol"></a>
+<code class="sig-name descname">inputCol</code><em class="property"> = Param(parent='undefined', name='inputCol', doc='input column name.')</em><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.inputCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.StopWordsRemover.inputCols"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.StopWordsRemover.inputCols"></a>
+<code class="sig-name descname">inputCols</code><em class="property"> = Param(parent='undefined', name='inputCols', doc='input column names.')</em><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.inputCols" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.StopWordsRemover.locale"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.StopWordsRemover.locale"></a>
+<code class="sig-name descname">locale</code><em class="property"> = Param(parent='undefined', name='locale', doc='locale of the input. ignored when case sensitive is true')</em><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.locale" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.StopWordsRemover.outputCol"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.StopWordsRemover.outputCol"></a>
+<code class="sig-name descname">outputCol</code><em class="property"> = Param(parent='undefined', name='outputCol', doc='output column name.')</em><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.outputCol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.StopWordsRemover.outputCols"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.StopWordsRemover.outputCols"></a>
+<code class="sig-name descname">outputCols</code><em class="property"> = Param(parent='undefined', name='outputCols', doc='output column names.')</em><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.outputCols" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.StopWordsRemover.params"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.StopWordsRemover.params"></a>
+<code class="sig-name descname">params</code><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all params ordered by name. The default implementation
+uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="pyspark.ml.feature.StopWordsRemover.stopWords"><a name="//apple_ref/cpp/Attribute/pyspark.ml.feature.StopWordsRemover.stopWords"></a>
+<code class="sig-name descname">stopWords</code><em class="property"> = Param(parent='undefined', name='stopWords', doc='The words to be filtered out')</em><a class="headerlink" href="#pyspark.ml.feature.StopWordsRemover.stopWords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>

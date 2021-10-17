@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>pyspark.RDD.barrier — PySpark master documentation</title>
+<link href="../../../_static/nature.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pyspark.css" rel="stylesheet" type="text/css"/>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/language_data.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="../../../_static/pyspark.js"></script>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head><body>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="body" role="main">
+<div class="section" id="pyspark-rdd-barrier">
+<h1>pyspark.RDD.barrier<a class="headerlink" href="#pyspark-rdd-barrier" title="Permalink to this headline">¶</a></h1>
+<dl class="py method">
+<dt id="pyspark.RDD.barrier"><a name="//apple_ref/cpp/Method/pyspark.RDD.barrier"></a>
+<code class="sig-prename descclassname">RDD.</code><code class="sig-name descname">barrier</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pyspark/rdd.html#RDD.barrier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyspark.RDD.barrier" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Experimental</p>
+</div>
+<p>Marks the current stage as a barrier stage, where Spark must launch all tasks together.
+In case of a task failure, instead of only restarting the failed task, Spark will abort the
+entire stage and relaunch all tasks for this stage.
+The barrier execution mode feature is experimental and it only handles limited scenarios.
+Please read the linked SPIP and design docs to understand the limitations and future plans.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>an <a class="reference internal" href="pyspark.RDDBarrier.html#pyspark.RDDBarrier" title="pyspark.RDDBarrier"><code class="xref py py-class docutils literal notranslate"><span class="pre">RDDBarrier</span></code></a> instance that provides actions within a barrier stage.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pyspark.BarrierTaskContext.html#pyspark.BarrierTaskContext" title="pyspark.BarrierTaskContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">BarrierTaskContext</span></code></a></p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="http://jira.apache.org/jira/browse/SPARK-24374">SPIP: Barrier Execution Mode</a></p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://jira.apache.org/jira/browse/SPARK-24582">Design Doc</a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 2.4.0.</span></p>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div aria-label="related navigation" class="related" role="navigation">
+<h3>Navigation</h3>
+<ul>
+<li class="nav-item nav-item-0"><a href="../../../index.html">PySpark master documentation</a> »</li>
+</ul>
+</div>
+<div class="footer" role="contentinfo">
+        © Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.4.
+    </div>
+</body>
+</html>
